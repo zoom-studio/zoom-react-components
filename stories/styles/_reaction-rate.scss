@@ -1,0 +1,20 @@
+@import '../../source/styles/functions';
+
+.sb-reaction-rate-component {
+  background-color: color(layer, 2);
+  padding: 10px;
+  max-width: 600px;
+  border-radius: 10px;
+  border-color: color(border, 1);
+
+  > h4 {
+    color: color(text, 3);
+    text-align: left;
+    margin: 0 0 10px;
+  }
+
+  > label {
+    color: color(text, 2);
+    cursor: pointer;
+  }
+}

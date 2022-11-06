@@ -1,0 +1,147 @@
+@use "sass:map";
+
+// @__IMPORTANT: Never use "font-face-mixin" & "font-size-mixin" mixins directly. use "text" mixing instead
+
+// $size: small | normal | large | h1 to h6
+@mixin font-size-mixin($size: normal) {
+  font-size: var(--zoomlang-size-#{$size});
+}
+
+// $face: thin | extra-light | light | regular | medium | semi-bold | bold | extra-bold | black
+@mixin font-face-mixin($face: regular) {
+  font-weight: var(--zoomlang-face-#{$face});
+}
+
+/**
+ * $type: common | heading | bold | light | underlined | strikethrough
+ * $size: small | normal | large (for none header) or 1 to 6 (for heading)
+**/
+@mixin text($type: 'common', $size: 'normal') {
+  $type: $type + '';
+  $is-heading-type: $type == 'heading';
+  $is-heading-size: $size == 1 or $size == 2 or $size == 3 or $size == 4 or
+    $size == 5 or $size == 6;
+
+  @if $is-heading-type and not $is-heading-size {
+    @warn "Size changed to h4. NEVER use #{$type} with #{$size}";
+
+    $size: 4;
+  } @else if not $is-heading-type and $is-heading-size {
+    @warn "Size changed to normal. NEVER use #{$type} with #{$size}";
+
+    $size: 'normal';
+  }
+
+  @if $type == 'heading' {
+    @if $size == 1 {
+      @include font-face-mixin('extra-bold');
+      @include font-size-mixin('h1');
+    } @else if $size == 2 {
+      @include font-face-mixin('bold');
+      @include font-size-mixin('h2');
+    } @else if $size == 3 {
+      @include font-face-mixin('semi-bold');
+      @include font-size-mixin('h3');
+    } @else if $size == 4 {
+      @include font-face-mixin('medium');
+      @include font-size-mixin('h4');
+    } @else if $size == 5 {
+      @include font-face-mixin('regular');
+      @include font-size-mixin('h5');
+    } @else if $size == 6 {
+      @include font-face-mixin('regular');
+      @include font-size-mixin('h6');
+    } @else {
+      @include font-face-mixin('medium');
+      @include font-size-mixin('h4');
+    }
+  } @else if $type == 'common' {
+    @include font-face-mixin('regular');
+    @include font-size-mixin($size);
+  } @else if $type == 'bold' {
+    @include font-face-mixin('bold');
+    @include font-size-mixin($size);
+  } @else if $type == 'light' {
+    @include font-face-mixin('extra-light');
+    @include font-size-mixin($size);
+  } @else if $type == 'underlined' {
+    @include font-face-mixin('regular');
+    @include font-size-mixin($size);
+
+    text-decoration: underline;
+  } @else if $type == 'strikethrough' {
+    @include font-face-mixin('regular');
+    @include font-size-mixin($size);
+
+    text-decoration: line-through;
+  } @else {
+    @include font-face-mixin('regular');
+    @include font-size-mixin($size);
+  }
+}
+
+/**
+ * $infix?: max | min
+ * $breakpoint: sm-phone | phone | lg-phone | tablet | desktop | lg-desktop
+                xs       | sm    | md       | lg     | xl      | xxl
+                0        | 576   | 768      | 992    | 1200    | 1400
+**/
+@mixin respect($breakpoint, $infix: max) {
+  $breakpoint: translate-breakpoint-name($breakpoint);
+  $point: map.get($breakpoints, #{$breakpoint});
+
+  @if $infix == 'max' {
+    $point: $point - 0.02;
+  }
+
+  @media screen and (#{$infix}-width: #{$point}px) {
+    @content;
+  }
+}
+
+// $breakpoint: same as the 'respect' mixin first arg ($breakpoint)
+@mixin respect-only($breakpoint) {
+  $breakpoint: translate-breakpoint-name($breakpoint);
+  $min: min-breakpoint($breakpoint);
+  $next: next-breakpoint($breakpoint);
+  $max: max-breakpoint($next);
+
+  @if $min != null and $max != null {
+    @media (min-width: ($min + 'px')) and (max-width: ($max + 'px')) {
+      @content;
+    }
+  } @else if $max == null {
+    @include respect($breakpoint, min) {
+      @content;
+    }
+  } @else if $min == null {
+    @include respect($next, max) {
+      @content;
+    }
+  }
+}
+
+/**
+ * $lower: same as the 'respect' mixin first arg ($breakpoint)
+ * $upper: same as the 'respect' mixin first arg ($breakpoint)
+**/
+@mixin respect-between($lower, $upper) {
+  $lower: translate-breakpoint-name($lower);
+  $upper: translate-breakpoint-name($upper);
+  $min: min-breakpoint($lower);
+  $max: max-breakpoint($upper);
+
+  @if $min != null and $max != null {
+    @media (min-width: ($min + 'px')) and (max-width: ($max + 'px')) {
+      @content;
+    }
+  } @else if $max == null {
+    @include respect($lower, min) {
+      @content;
+    }
+  } @else if $min == null {
+    @include respect($upper, max) {
+      @content;
+    }
+  }
+}

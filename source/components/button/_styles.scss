@@ -1,0 +1,59 @@
+@import 'variables';
+@import 'functions';
+@import 'mixins';
+
+button[class^='zoomlang-button-'] {
+  cursor: pointer;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 2px;
+  display: inline-flex;
+  user-select: none;
+  padding: 0;
+
+  &,
+  & * {
+    transition: all 150ms linear, color 20ms linear;
+  }
+
+  &:disabled {
+    cursor: default;
+    pointer-events: none;
+
+    span[class^='zoomlang-spin-'] > svg > path {
+      fill: color(text, 3);
+    }
+  }
+}
+
+.zoomlang-button {
+  &-full {
+    width: 100%;
+  }
+
+  @each $size in $button-sizes {
+    &-#{$size} {
+      @include generate-size($size);
+    }
+  }
+
+  &-primary {
+    @include generate-primary-variants;
+  }
+
+  &-secondary {
+    @include generate-secondary-variants;
+  }
+
+  &-dashed {
+    @include generate-dashed-variants;
+  }
+
+  &-link {
+    @include generate-link-variants;
+  }
+
+  &-text {
+    @include generate-text-variants;
+  }
+}

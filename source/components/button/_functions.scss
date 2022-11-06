@@ -1,0 +1,37 @@
+@function translate-variant($variant) {
+  @return if($variant == 'inherit', 'accent', $variant);
+}
+
+@function variant-border($variant) {
+  $color: translate-variant($variant);
+
+  @return if(
+    $variant == 'inherit',
+    color(accent, 2, glassy, 5),
+    color($color, glassy, 5)
+  );
+}
+
+@function variant-color($variant) {
+  @return if($variant == 'inherit', color(accent, 2), color($variant));
+}
+
+@function variant-shadow($variant) {
+  $color: translate-variant($variant);
+
+  @return 0 0 0 4px #{if(
+      $variant == 'inherit',
+      color(accent, 1, glassy, 1),
+      color(#{$color}, glassy, 1)
+    )};
+}
+
+@function variant-background($variant) {
+  $color: translate-variant($variant);
+
+  @return if(
+    $variant == 'inherit',
+    color(accent, 1, lighter, 2),
+    color(#{$color}, lighter, 2)
+  );
+}

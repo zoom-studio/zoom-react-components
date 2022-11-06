@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "declaration": true,
+    "strictNullChecks": true,
+    "target": "es2017",
+    "outDir": "./dist",
+    "module": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "lib": ["es2015", "dom", "es2017"],
+    // "rootDir": "source",
+    "esModuleInterop": true,
+    "strict": true,
+    "allowJs": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "downlevelIteration": true,
+    "incremental": true
+  },
+  "include": ["source", "stories"],
+  "exclude": ["node_modules", "dist"]
+}

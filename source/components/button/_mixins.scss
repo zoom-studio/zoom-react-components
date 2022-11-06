@@ -1,0 +1,210 @@
+@mixin var($variant) {
+  &-#{$variant} {
+    @content;
+  }
+}
+
+@mixin hover-and-active {
+  &:hover:not(:disabled),
+  &.active,
+  &.active:disabled {
+    @content;
+  }
+}
+
+@mixin active {
+  &:active:not(:disabled) {
+    @content;
+  }
+}
+
+@mixin disabled {
+  &:disabled {
+    @content;
+  }
+}
+
+@mixin generate-primary-variants {
+  @each $variant in $button-variants {
+    $color-name: translate-variant($variant);
+    $text-color: if($variant == 'warning', 'black', 'white');
+
+    @include var($variant) {
+      background-color: color(#{$color-name});
+      border-color: color(#{$color-name});
+      color: #{$text-color};
+
+      @include hover-and-active {
+        background-color: variant-background($variant);
+      }
+
+      @include active {
+        box-shadow: variant-shadow($variant);
+      }
+
+      @include disabled {
+        background-color: color(layer, 3);
+        color: color(text, 3);
+        border-color: transparent;
+      }
+    }
+  }
+}
+
+@mixin generate-secondary-variants {
+  @each $variant in $button-variants {
+    $color-name: translate-variant($variant);
+
+    @include var($variant) {
+      background-color: color(layer, 2);
+      border-color: color(border, 1);
+      color: color(text, 1);
+
+      @include hover-and-active {
+        border-color: variant-border($variant);
+        color: variant-color($variant);
+      }
+
+      @include active {
+        box-shadow: variant-shadow($variant);
+      }
+
+      @include disabled {
+        background-color: color(layer, 2);
+        color: color(text, 3);
+        border-color: color(border, 3);
+      }
+    }
+  }
+}
+
+@mixin generate-dashed-variants {
+  @each $variant in $button-variants {
+    $color-name: translate-variant($variant);
+
+    @include var($variant) {
+      background-color: color(layer, 2);
+      border-color: color(border, 1);
+      color: color(text, 1);
+      border-style: dashed !important;
+
+      @include hover-and-active {
+        border-color: variant-border($variant);
+        color: variant-color($variant);
+      }
+
+      @include active {
+        box-shadow: variant-shadow($variant);
+      }
+
+      @include disabled {
+        background-color: color(layer, 2);
+        color: color(text, 3);
+        border-color: color(border, 3);
+      }
+    }
+  }
+}
+
+@mixin generate-link-variants {
+  @each $variant in $button-variants {
+    $color-name: translate-variant($variant);
+
+    @include var($variant) {
+      background-color: transparent;
+      border-color: transparent;
+      color: variant-color($variant);
+
+      @include hover-and-active {
+        color: if(
+          $variant == 'inherit',
+          color(accent, 2, lighter, 2),
+          color($variant, lighter, 2)
+        );
+      }
+
+      @include active {
+        box-shadow: variant-shadow($variant);
+      }
+
+      @include disabled {
+        color: color(text, 3);
+      }
+    }
+  }
+}
+
+@mixin generate-text-variants {
+  @each $variant in $button-variants {
+    $color-name: translate-variant($variant);
+
+    @include var($variant) {
+      background-color: transparent;
+      border-color: transparent;
+      color: color(text, 1);
+
+      @include hover-and-active {
+        color: color(text, 2);
+      }
+
+      @include active {
+        box-shadow: variant-shadow($variant);
+      }
+
+      @include disabled {
+        color: color(text, 3);
+      }
+    }
+  }
+}
+
+@mixin generate-size($size) {
+  $padding: 4px 10px;
+  $spin-width: 20px;
+  $emoji-width: 20px;
+
+  @include text(common, $size);
+
+  @if $size == 'normal' {
+    $padding: 6px 20px;
+    $spin-width: 22px;
+    $emoji-width: 22px;
+  } @else if $size == 'large' {
+    $padding: 10px 24px;
+    $spin-width: 24px;
+    $emoji-width: 26px;
+  }
+
+  > &-inner-child {
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: #{$padding};
+
+    > .zoomlang-spin-#{$size} > svg {
+      width: #{$spin-width};
+    }
+
+    .zoomlang-emoji {
+      width: #{$emoji-width};
+    }
+
+    .zoomlang-button {
+      &-prefix {
+        &.zoomlang-button-icon-with-margin {
+          margin-left: 4px;
+        }
+      }
+
+      &-suffix {
+        &.zoomlang-button-icon-with-margin {
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+}

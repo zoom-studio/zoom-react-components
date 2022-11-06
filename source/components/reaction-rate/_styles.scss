@@ -1,0 +1,44 @@
+div[class^='zoomlang-reaction-'] {
+  display: inline-flex;
+
+  > button[class^='zoomlang-button-'] {
+    width: 46px;
+    height: 46px;
+    margin: 0 2px;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    > span[class^='zoomlang-button'] {
+      padding: 4px;
+    }
+
+    .zoomlang-emoji {
+      width: 100%;
+    }
+
+    > .zoomlang-button-small-inner-child {
+      height: 100%;
+
+      > .zoomlang-spin-small {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        > svg {
+          margin: 0;
+          width: 100%;
+
+          > path {
+            fill: color(accent, 2, glassy, 5);
+          }
+        }
+      }
+    }
+  }
+}

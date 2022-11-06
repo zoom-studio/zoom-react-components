@@ -1,0 +1,12 @@
+node_modules
+dist/types
+dist/hooks/
+dist/components
+dist/index.d.ts
+dist/index.es.js
+dist/index.js
+yarn-debug.log*
+yarn-error.log*
+yarn.lock
+.rollup.cache
+tsconfig.tsbuildinfo

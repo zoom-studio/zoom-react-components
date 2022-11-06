@@ -1,0 +1,54 @@
+// $type: same as "text" mixin
+@mixin generate-none-heading-variants($type) {
+  &-small {
+    @include text(#{$type}, small);
+
+    direction: rtl;
+  }
+
+  &-normal {
+    @include text(#{$type}, normal);
+
+    direction: rtl;
+  }
+
+  &-large {
+    @include text(#{$type}, large);
+
+    direction: rtl;
+  }
+}
+
+.zoomlang {
+  &-title {
+    @for $i from 1 to 7 {
+      &-#{$i} {
+        @include text('heading', $i);
+
+        direction: rtl;
+      }
+    }
+  }
+
+  &-text {
+    &-common {
+      @include generate-none-heading-variants('common');
+    }
+
+    &-bold {
+      @include generate-none-heading-variants('bold');
+    }
+
+    &-light {
+      @include generate-none-heading-variants('light');
+    }
+
+    &-underlined {
+      @include generate-none-heading-variants('underlined');
+    }
+
+    &-strikethrough {
+      @include generate-none-heading-variants('strikethrough');
+    }
+  }
+}

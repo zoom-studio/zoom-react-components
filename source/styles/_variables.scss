@@ -1,0 +1,35 @@
+$base-font-sizes: (
+  small: 22px,
+  normal: 20px,
+  large: 18px,
+);
+$font-sizes: (
+  small: 16px,
+  normal: 18px,
+  large: 20px,
+  h1: 30px,
+  h2: 28px,
+  h3: 26px,
+  h4: 24px,
+  h5: 22px,
+  h6: 20px,
+);
+$font-faces: (
+  thin: 100,
+  extra-light: 200,
+  light: 300,
+  regular: 400,
+  medium: 500,
+  semi-bold: 600,
+  bold: 700,
+  extra-bold: 800,
+  black: 900,
+);
+$breakpoints: (
+  xs: 0,
+  sm: 576,
+  md: 768,
+  lg: 992,
+  xl: 1200,
+  xxl: 1400,
+);

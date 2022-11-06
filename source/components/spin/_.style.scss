@@ -1,0 +1,36 @@
+span[class^='zoomlang-spin-'] {
+  display: flex;
+  align-items: center;
+
+  > svg {
+    margin-left: 4px;
+
+    > .outer-path {
+      fill: color(text, 1);
+      opacity: 0.2;
+    }
+
+    > .inner-path {
+      fill: color(text, 2);
+    }
+  }
+
+  > p[class^='zoomlang-text-'] {
+    color: color(text, 2);
+    margin: 0;
+  }
+}
+
+.zoomlang-spin {
+  &-small > svg {
+    width: to-rem(34px, small);
+  }
+
+  &-normal > svg {
+    width: to-rem(36px, normal);
+  }
+
+  &-large > svg {
+    width: to-rem(38px, large);
+  }
+}

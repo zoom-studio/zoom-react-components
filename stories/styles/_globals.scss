@@ -1,0 +1,15 @@
+@keyframes startup {
+  from {
+    transform: translateY(15px);
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.zoomlang-story-wrapper {
+  animation: startup 150ms ease-in;
+}

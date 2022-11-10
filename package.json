@@ -50,7 +50,7 @@
   "scripts": {
     "start": "start-storybook -p 9999",
     "build": "yarn clean && rollup -c --bundleConfigAsCjs",
-    "publish": "npm publish --access public",
+    "pub": "npm publish --access public",
     "build:sb": "build-storybook",
     "clean": "rimraf dist tsconfig.tsbuildinfo storybook-static .rollup.cache",
     "lint:scss": "npx stylelint ./source/**/*.scss",

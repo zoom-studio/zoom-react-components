@@ -1,7 +1,7 @@
 {
-  "name": "zoomlang",
+  "name": "zoom-react-components",
   "version": "0.0.0",
-  "description": "The design language of Motori",
+  "description": "The design language of Zoom",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "files": [
@@ -9,21 +9,20 @@
     "README.md"
   ],
   "license": "MIT",
-  "private": true,
+  "private": false,
   "repository": {
-    "url": "https://gitlab.com/gavaznu/zoomlang.git",
+    "url": "https://github.com/zoom-studio/zoom-react-components.git",
     "type": "git"
   },
   "author": {
-    "name": "Motori",
+    "name": "zoom-studio",
     "url": "https://domain.com"
   },
   "keywords": [
     "react",
     "react-component-lib",
     "storybook-react",
-    "motori",
-    "zoomlang"
+    "zoom-studio"
   ],
   "browserslist": {
     "production": [
@@ -51,6 +50,7 @@
   "scripts": {
     "start": "start-storybook -p 9999",
     "build": "yarn clean && rollup -c --bundleConfigAsCjs",
+    "publish": "npm publish --access public",
     "build:sb": "build-storybook",
     "clean": "rimraf dist tsconfig.tsbuildinfo storybook-static .rollup.cache",
     "lint:scss": "npx stylelint ./source/**/*.scss",

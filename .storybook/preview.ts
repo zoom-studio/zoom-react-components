@@ -5,7 +5,7 @@ import { withPerformance } from 'storybook-addon-performance'
 import { WrapperDecorator } from './decorators/wrapper'
 import { ThemeProviderDecorator } from './decorators/theme-provider'
 import { ReactRouterDecorator } from './decorators/react-router'
-import '../source/styles/_development-index.scss'
+import '../source/styles/index.scss'
 
 addDecorator(withPerformance)
 addDecorator(WrapperDecorator)
@@ -24,7 +24,7 @@ export const parameters = {
     theme: themes.dark,
   },
   theme: {
-    selector: '#zoomlang-story-theme-provider',
+    selector: '#zoomrc-story-theme-provider',
     dataAttr: 'data-theme',
   },
 }

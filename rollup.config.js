@@ -1,15 +1,15 @@
-import babel from 'rollup-plugin-babel'
-import external from 'rollup-plugin-peer-deps-external'
 import resolve from '@rollup/plugin-node-resolve'
-import scss from 'rollup-plugin-scss'
 import typescript from '@rollup/plugin-typescript'
-import copy from 'rollup-plugin-copy'
+import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
+import copy from 'rollup-plugin-copy'
+import external from 'rollup-plugin-peer-deps-external'
+import scss from 'rollup-plugin-scss'
 import { terser } from 'rollup-plugin-terser'
 
 export default [
   {
-    input: './index.ts',
+    input: './source/index.ts',
     output: [
       {
         file: 'dist/index.js',
@@ -38,12 +38,13 @@ export default [
         targets: [
           { src: 'source/styles/fonts', dest: 'dist' },
           {
-            src: 'source/styles/*.scss',
-            dest: 'dist/scss',
-            ignore: [
-              'source/styles/_components.scss',
-              'source/styles/_development-index.scss',
+            src: [
+              'source/styles/_palette.scss',
+              'source/styles/_variables.scss',
+              'source/styles/_functions.scss',
+              'source/styles/_mixins.scss',
             ],
+            dest: 'dist/scss',
           },
         ],
       }),

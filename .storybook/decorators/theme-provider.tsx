@@ -7,7 +7,7 @@ export const ThemeProviderDecorator = (
   Story: PartialStoryFn<ReactFramework, Args>,
   _Context: StoryContext<ReactFramework, Args>,
 ) => (
-  <div id="zoomlang-story-theme-provider" data-theme="dark">
+  <div id="zoomrc-story-theme-provider" data-theme="dark">
     <Story />
   </div>
 )

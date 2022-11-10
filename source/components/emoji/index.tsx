@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react'
 
-import motils from 'motils'
+import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
 import { useFindEmoji } from './hooks'
 import {
@@ -30,7 +30,7 @@ export namespace EmojiNS {
 
 export const Emoji: FC<EmojiNS.Props> = ({ name, className, ...rest }) => {
   const emoji = useFindEmoji(name)
-  const classes = motils.classNames('zoomlang-emoji', {
+  const classes = classNames('zoomrc-emoji', {
     [className ?? '']: true,
   })
 

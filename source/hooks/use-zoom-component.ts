@@ -1,6 +1,6 @@
-import motils from 'motils'
+import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-export namespace UsezoomlangComponentNS {
+export namespace UseZoomComponentNS {
   export type CreateClassNameFN = (
     userClassNames?: string,
     staticClassNameSuffix?: string,
@@ -14,16 +14,16 @@ export namespace UsezoomlangComponentNS {
   }
 }
 
-export const usezoomlangComponent = (
+export const useZoomComponent = (
   componentName: string,
-): UsezoomlangComponentNS.ReturnType => {
-  const createClassName: UsezoomlangComponentNS.CreateClassNameFN = (
+): UseZoomComponentNS.ReturnType => {
+  const createClassName: UseZoomComponentNS.CreateClassNameFN = (
     userClassNames,
     staticClassNamesSuffix,
     dynamicClassNames,
   ): string =>
-    motils.classNames(
-      `zoomlang-${componentName}${
+    classNames(
+      `zoomrc-${componentName}${
         staticClassNamesSuffix ? `-${staticClassNamesSuffix}` : ''
       }`,
       {

@@ -2,7 +2,7 @@
 @import 'functions';
 @import 'mixins';
 
-button[class^='zoomlang-button-'] {
+button[class^='zoomrc-button-'] {
   cursor: pointer;
   border-width: 2px;
   border-style: solid;
@@ -20,13 +20,13 @@ button[class^='zoomlang-button-'] {
     cursor: default;
     pointer-events: none;
 
-    span[class^='zoomlang-spin-'] > svg > path {
+    span[class^='zoomrc-spin-'] > svg > path {
       fill: color(text, 3);
     }
   }
 }
 
-.zoomlang-button {
+.zoomrc-button {
   &-full {
     width: 100%;
   }

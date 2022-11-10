@@ -3,7 +3,7 @@ import React, { FC, HTMLAttributes, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { AccountBookFilled } from '@ant-design/icons'
 
-import { usezoomlangComponent } from '../../hooks/use-molang-component'
+import { useZoomComponent } from '../../hooks/use-zoom-component'
 import { Spin, EmojiNS, Emoji } from '..'
 
 export namespace ButtonNS {
@@ -54,7 +54,7 @@ export const Button: FC<ButtonNS.Props> = ({
   suffixIcon,
   ...rest
 }) => {
-  const { createClassName } = usezoomlangComponent('button')
+  const { createClassName } = useZoomComponent('button')
 
   const classNames = createClassName(className, `${type}-${variant}`, {
     [`${createClassName(undefined, size)}`]: true,

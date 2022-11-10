@@ -4,12 +4,12 @@
 
 // $size: small | normal | large | h1 to h6
 @mixin font-size-mixin($size: normal) {
-  font-size: var(--zoomlang-size-#{$size});
+  font-size: var(--zoomrc-size-#{$size});
 }
 
 // $face: thin | extra-light | light | regular | medium | semi-bold | bold | extra-bold | black
 @mixin font-face-mixin($face: regular) {
-  font-weight: var(--zoomlang-face-#{$face});
+  font-weight: var(--zoomrc-face-#{$face});
 }
 
 /**

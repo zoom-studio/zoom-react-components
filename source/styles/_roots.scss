@@ -5,10 +5,10 @@
   @each $theme-name, $palette in $palettes {
     [data-theme='#{$theme-name}'] {
       @each $color-name, $color in $palette {
-        --zoomlang-color-#{$color-name}: #{$color};
+        --zoomrc-color-#{$color-name}: #{$color};
 
         @for $i from 1 through 9 {
-          --zoomlang-color-#{$color-name}-lighter-#{$i}: #{color.mix(
+          --zoomrc-color-#{$color-name}-lighter-#{$i}: #{color.mix(
               white,
               $color,
               $i * 10
@@ -16,7 +16,7 @@
         }
 
         @for $i from 1 through 9 {
-          --zoomlang-color-#{$color-name}-darker-#{$i}: #{color.mix(
+          --zoomrc-color-#{$color-name}-darker-#{$i}: #{color.mix(
               black,
               $color,
               $i * 10
@@ -24,7 +24,7 @@
         }
 
         @for $i from 1 through 9 {
-          --zoomlang-color-#{$color-name}-glassy-#{$i}: #{rgba(
+          --zoomrc-color-#{$color-name}-glassy-#{$i}: #{rgba(
               $color,
               math.div($i, 10)
             )};
@@ -35,27 +35,27 @@
 
   @include respect(lg-phone, max) {
     @each $size-name, $size in $font-sizes {
-      --zoomlang-size-#{$size-name}: #{to-rem($size, small)};
+      --zoomrc-size-#{$size-name}: #{to-rem($size, small)};
     }
   }
 
   @include respect-between(lg-phone, lg-desktop) {
     @each $size-name, $size in $font-sizes {
-      --zoomlang-size-#{$size-name}: #{to-rem($size, normal)};
+      --zoomrc-size-#{$size-name}: #{to-rem($size, normal)};
     }
   }
 
   @include respect(lg-desktop, min) {
     @each $size-name, $size in $font-sizes {
-      --zoomlang-size-#{$size-name}: #{to-rem($size, large)};
+      --zoomrc-size-#{$size-name}: #{to-rem($size, large)};
     }
   }
 
   @each $face-name, $face in $font-faces {
-    --zoomlang-face-#{"" + $face-name}: #{$face};
+    --zoomrc-face-#{"" + $face-name}: #{$face};
   }
 
   @each $breakpoint, $point in $breakpoints {
-    --zoomlang-breakpoint-#{$breakpoint}: #{$point};
+    --zoomrc-breakpoint-#{$breakpoint}: #{$point};
   }
 }

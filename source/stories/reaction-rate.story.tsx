@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
-import { sleep } from 'motils'
+import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 
 import {
   ReactionRate as ReactionRateComponent,

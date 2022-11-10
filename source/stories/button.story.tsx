@@ -3,11 +3,7 @@ import React, { FC } from 'react'
 import { ComponentMeta } from '@storybook/react'
 import { CreditCardOutlined, BookFilled } from '@ant-design/icons'
 
-import {
-  Button as ButtonComponent,
-  Title,
-  ButtonNS,
-} from '../source/components'
+import { Button as ButtonComponent, Title, ButtonNS } from '../components'
 import './styles/_button.scss'
 
 export default {

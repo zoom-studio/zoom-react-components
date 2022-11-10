@@ -49,10 +49,11 @@
   },
   "scripts": {
     "start": "start-storybook -p 9999",
-    "build": "yarn clean && rollup -c --bundleConfigAsCjs",
+    "build": "yarn clean && rollup -c --bundleConfigAsCjs && yarn clean:storybook",
     "pub": "npm publish --access public",
     "build:sb": "build-storybook",
     "clean": "rimraf dist tsconfig.tsbuildinfo storybook-static .rollup.cache",
+    "clean:storybook": "rimraf dist/stories",
     "lint:scss": "npx stylelint ./source/**/*.scss",
     "lint:ts": "eslint ./source --ext .ts,.tsx --fix --quiet",
     "lint:staged": "./node_modules/.bin/lint-staged",
@@ -62,6 +63,16 @@
     "test": "jest --silent=true",
     "test:watch": "jest --watch --silent=false",
     "test:ci": "jest --ci"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@zoom-studio/zoom-js-ts-utils": "file:../zoom-web-utils/dist",
+    "lodash": "^4.17.21",
+    "react-router-dom": "^6.4.2"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
@@ -101,7 +112,6 @@
     "jest": "^29.1.2",
     "jest-environment-jsdom": "^29.2.0",
     "lint-staged": "^13.0.3",
-    "motils": "file:../motils/dist",
     "postcss": "^8.4.18",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -124,14 +134,5 @@
     "stylelint-config-standard-scss": "^5.0.0",
     "ts-jest": "^29.0.3",
     "typescript": "^4.8.4"
-  },
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "dependencies": {
-    "@ant-design/icons": "^4.7.0",
-    "lodash": "^4.17.21",
-    "react-router-dom": "^6.4.2"
   }
 }

@@ -1,7 +1,7 @@
-div[class^='zoomlang-reaction-'] {
+div[class^='zoomrc-reaction-'] {
   display: inline-flex;
 
-  > button[class^='zoomlang-button-'] {
+  > button[class^='zoomrc-button-'] {
     width: 46px;
     height: 46px;
     margin: 0 2px;
@@ -14,18 +14,18 @@ div[class^='zoomlang-reaction-'] {
       margin-right: 0;
     }
 
-    > span[class^='zoomlang-button'] {
+    > span[class^='zoomrc-button'] {
       padding: 4px;
     }
 
-    .zoomlang-emoji {
+    .zoomrc-emoji {
       width: 100%;
     }
 
-    > .zoomlang-button-small-inner-child {
+    > .zoomrc-button-small-inner-child {
       height: 100%;
 
-      > .zoomlang-spin-small {
+      > .zoomrc-spin-small {
         display: flex;
         align-items: center;
         justify-content: center;

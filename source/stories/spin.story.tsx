@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Spin as SpinComponent, SpinNS } from '../source/components'
+import { Spin as SpinComponent, SpinNS } from '../components'
 import './styles/_spin.scss'
 
 export default {

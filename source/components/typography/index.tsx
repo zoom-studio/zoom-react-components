@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react'
 
-import motils from 'motils'
+import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Range } from '../../types/enumerable'
 
@@ -76,7 +76,7 @@ export const Text: FC<TypographyNS.TextNS.Props> = ({
     ? 'large'
     : 'normal'
 
-  const classes = motils.classNames(`zoomlang-text-${type}-${size}`, {
+  const classes = classNames(`zoomrc-text-${type}-${size}`, {
     [className ?? '']: true,
   })
 
@@ -112,7 +112,7 @@ export const Title: FC<TypographyNS.TitleNS.Props> = ({
     ? 6
     : 4
 
-  const classes = motils.classNames(`zoomlang-title-${size}`, {
+  const classes = classNames(`zoomrc-title-${size}`, {
     [className ?? '']: true,
   })
 

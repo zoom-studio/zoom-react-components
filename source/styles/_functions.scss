@@ -30,16 +30,16 @@
     }
 
     @if string.length($mode) > 0 {
-      @return var(--zoomlang-color-#{$source}-#{$mode}-#{$weight});
+      @return var(--zoomrc-color-#{$source}-#{$mode}-#{$weight});
     } @else {
-      @return var(--zoomlang-color-#{$source});
+      @return var(--zoomrc-color-#{$source});
     }
   }
 
   @if string.length($mode) > 0 {
-    @return var(--zoomlang-color-#{$source}-#{$tone}-#{$mode}-#{$weight});
+    @return var(--zoomrc-color-#{$source}-#{$tone}-#{$mode}-#{$weight});
   } @else {
-    @return var(--zoomlang-color-#{$source}#{$source-suffix});
+    @return var(--zoomrc-color-#{$source}#{$source-suffix});
   }
 }
 

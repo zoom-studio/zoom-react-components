@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react'
 
-import { usezoomlangComponent } from '../../hooks/use-molang-component'
+import { useZoomComponent } from '../../hooks/use-zoom-component'
 import { SelectGroup, SelectOption } from '.'
 import { strictRender } from '../../utils/strict-renders'
 
@@ -13,7 +13,7 @@ export const Select: FC<SelectNS.Props> = ({
   className,
   ...rest
 }) => {
-  const { createClassName } = usezoomlangComponent('select')
+  const { createClassName } = useZoomComponent('select')
 
   const classes = createClassName(className)
 

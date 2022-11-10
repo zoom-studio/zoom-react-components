@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Emoji as EmojiComponent, EmojiNS, Text } from '../source/components'
+import { Emoji as EmojiComponent, EmojiNS, Text } from '../components'
 import './styles/_emoji.scss'
 
 export default {

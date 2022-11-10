@@ -1,7 +1,7 @@
 import React, { FC, HTMLAttributes, MouseEvent } from 'react'
 
 import { Button, Emoji, EmojiNS } from '..'
-import { usezoomlangComponent } from '../../hooks/use-molang-component'
+import { useZoomComponent } from '../../hooks/use-zoom-component'
 import { Range } from '../../types/enumerable'
 
 export namespace ReactionRateNS {
@@ -43,7 +43,7 @@ export const ReactionRate: FC<ReactionRateNS.Props> = ({
   disabled,
   ...rest
 }) => {
-  const { createClassName } = usezoomlangComponent('reaction-rate')
+  const { createClassName } = useZoomComponent('reaction-rate')
 
   const classes = createClassName(className, type, {
     [`${createClassName(undefined, size)}`]: true,

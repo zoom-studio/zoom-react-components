@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Text as TextComponent, Title } from '../source/components'
+import { Text as TextComponent, Title } from '../components'
 import './styles/_typography.scss'
 
 export default {

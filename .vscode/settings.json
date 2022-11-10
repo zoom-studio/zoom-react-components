@@ -2,5 +2,13 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": false
   },
-  "cSpell.words": ["zoomlang", "motils", "strikethrough", "framename"]
+  "cSpell.words": [
+    "zoomrc",
+    "strikethrough",
+    "framename",
+    "stylelint",
+    "tsbuildinfo",
+    "storysource",
+    "pluginutils"
+  ]
 }

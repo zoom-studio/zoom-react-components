@@ -1,4 +1,4 @@
-span[class^='zoomlang-spin-'] {
+span[class^='zoomrc-spin-'] {
   display: flex;
   align-items: center;
 
@@ -15,13 +15,13 @@ span[class^='zoomlang-spin-'] {
     }
   }
 
-  > p[class^='zoomlang-text-'] {
+  > p[class^='zoomrc-text-'] {
     color: color(text, 2);
     margin: 0;
   }
 }
 
-.zoomlang-spin {
+.zoomrc-spin {
   &-small > svg {
     width: to-rem(34px, small);
   }

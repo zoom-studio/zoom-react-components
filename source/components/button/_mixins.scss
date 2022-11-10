@@ -185,23 +185,23 @@
     align-items: center;
     padding: #{$padding};
 
-    > .zoomlang-spin-#{$size} > svg {
+    > .zoomrc-spin-#{$size} > svg {
       width: #{$spin-width};
     }
 
-    .zoomlang-emoji {
+    .zoomrc-emoji {
       width: #{$emoji-width};
     }
 
-    .zoomlang-button {
+    .zoomrc-button {
       &-prefix {
-        &.zoomlang-button-icon-with-margin {
+        &.zoomrc-button-icon-with-margin {
           margin-left: 4px;
         }
       }
 
       &-suffix {
-        &.zoomlang-button-icon-with-margin {
+        &.zoomrc-button-icon-with-margin {
           margin-right: 4px;
         }
       }

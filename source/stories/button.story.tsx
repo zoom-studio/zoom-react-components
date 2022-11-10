@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
-import { CreditCardOutlined, BookFilled } from '@ant-design/icons'
 
 import { Button as ButtonComponent, Title, ButtonNS } from '../components'
 import './styles/_button.scss'
@@ -31,8 +30,10 @@ interface ButtonGroups {
     disabled?: boolean
     loading?: boolean
     variant?: ButtonNS.Variants
-    suffix?: ButtonNS.Icon
-    prefix?: ButtonNS.Icon
+    suffixMaterial?: ButtonNS.MaterialIcon
+    suffixEmoji?: ButtonNS.EmojiIcon
+    prefixMaterial?: ButtonNS.MaterialIcon
+    prefixEmoji?: ButtonNS.EmojiIcon
   }>
 }
 
@@ -87,10 +88,22 @@ export const Button: FC<ButtonNS.Props> = props => {
     {
       title: 'With icon',
       groups: [
-        { title: 'Icon on prefix', size: 'normal', prefix: CreditCardOutlined },
-        { title: 'Emoji on prefix', size: 'normal', prefix: 'mechanical arm' },
-        { title: 'Icon on suffix', size: 'normal', suffix: BookFilled },
-        { title: 'Emoji on suffix', size: 'normal', suffix: 'balloon' },
+        {
+          title: 'Icon on prefix',
+          size: 'normal',
+          prefixMaterial: 'favorite_border',
+        },
+        {
+          title: 'Emoji on prefix',
+          size: 'normal',
+          prefixEmoji: 'mechanical arm',
+        },
+        {
+          title: 'Icon on suffix',
+          size: 'normal',
+          suffixMaterial: 'account_balance_wallet',
+        },
+        { title: 'Emoji on suffix', size: 'normal', suffixEmoji: 'balloon' },
       ],
     },
   ]
@@ -118,8 +131,10 @@ export const Button: FC<ButtonNS.Props> = props => {
                   disabled={group.disabled}
                   loading={group.loading}
                   variant={group.variant}
-                  suffixIcon={group.suffix}
-                  prefixIcon={group.prefix}
+                  suffixMaterialIcon={group.suffixMaterial}
+                  suffixEmojiIcon={group.suffixEmoji}
+                  prefixMaterialIcon={group.prefixMaterial}
+                  prefixEmojiIcon={group.prefixEmoji}
                 />
               ))}
             </div>

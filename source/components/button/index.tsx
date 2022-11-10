@@ -1,10 +1,9 @@
 import React, { FC, HTMLAttributes, ReactNode } from 'react'
 
 import { Link } from 'react-router-dom'
-import { AccountBookFilled } from '@ant-design/icons'
 
 import { useZoomComponent } from '../../hooks/use-zoom-component'
-import { Spin, EmojiNS, Emoji } from '..'
+import { Spin, EmojiNS, Emoji, IconNS, Icon } from '..'
 
 export namespace ButtonNS {
   export type Types = 'primary' | 'secondary' | 'dashed' | 'link' | 'text'
@@ -12,7 +11,8 @@ export namespace ButtonNS {
   export type Size = 'small' | 'normal' | 'large'
   export type HtmlTypes = '_self' | '_blank' | '_parent' | '_top'
   export type Variants = 'inherit' | 'success' | 'info' | 'warning' | 'error'
-  export type Icon = typeof AccountBookFilled | EmojiNS.Emojis.Names
+  export type MaterialIcon = IconNS.Names
+  export type EmojiIcon = EmojiNS.Emojis.Names
 
   export interface Props
     extends Omit<HTMLAttributes<HTMLButtonElement>, 'type'> {
@@ -29,8 +29,10 @@ export namespace ButtonNS {
     full?: boolean
     active?: boolean
     variant?: Variants
-    prefixIcon?: Icon
-    suffixIcon?: Icon
+    prefixMaterialIcon?: MaterialIcon
+    prefixEmojiIcon?: EmojiIcon
+    suffixMaterialIcon?: MaterialIcon
+    suffixEmojiIcon?: EmojiIcon
   }
 }
 
@@ -50,8 +52,10 @@ export const Button: FC<ButtonNS.Props> = ({
   innerClassName,
   suffixClassName,
   prefixClassName,
-  prefixIcon,
-  suffixIcon,
+  prefixEmojiIcon,
+  prefixMaterialIcon,
+  suffixEmojiIcon,
+  suffixMaterialIcon,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('button')
@@ -69,7 +73,8 @@ export const Button: FC<ButtonNS.Props> = ({
 
   const createIcon = (
     type: 'suffix' | 'prefix',
-    Icon?: ButtonNS.Icon,
+    materialIcon?: ButtonNS.MaterialIcon,
+    emojiIcon?: ButtonNS.EmojiIcon,
   ): ReactNode => {
     if (!Icon) {
       return null
@@ -80,22 +85,25 @@ export const Button: FC<ButtonNS.Props> = ({
       {
         [`${createClassName(undefined, 'icon-with-margin')}`]:
           !!children ||
-          (type === 'suffix' && !!prefixIcon) ||
-          (type === 'prefix' && !!suffixIcon),
+          (type === 'suffix' && (!!prefixMaterialIcon || !!prefixEmojiIcon)) ||
+          (type === 'prefix' && (!!suffixMaterialIcon || !!suffixEmojiIcon)),
       },
     )
-    if (typeof Icon === 'string') {
-      return <Emoji name={Icon} className={classNames} />
+    if (materialIcon) {
+      return <Icon name={materialIcon} className={classNames} />
+    } else if (emojiIcon) {
+      return <Emoji name={emojiIcon} className={classNames} />
+    } else {
+      return <></>
     }
-    return <Icon className={classNames} />
   }
 
   const createChildren = (): ReactNode => {
     const child = (
       <>
-        {createIcon('suffix', suffixIcon)}
+        {createIcon('suffix', suffixMaterialIcon, suffixEmojiIcon)}
         {children}
-        {createIcon('prefix', prefixIcon)}
+        {createIcon('prefix', prefixMaterialIcon, prefixEmojiIcon)}
       </>
     )
 

@@ -4,8 +4,9 @@ import { ICON_NAMES } from './constants/icon-names'
 import { useZoomComponent } from '../../hooks/use-zoom-component'
 
 export namespace IconNS {
+  export type Names = typeof ICON_NAMES[number]
   export interface Props extends HTMLAttributes<HTMLSpanElement> {
-    name: typeof ICON_NAMES[number]
+    name: Names
   }
 }
 

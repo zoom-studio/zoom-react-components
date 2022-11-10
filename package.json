@@ -1,5 +1,5 @@
 {
-  "name": "zoom-react-components",
+  "name": "@zoom-studio/zoom-react-components",
   "version": "0.0.0",
   "description": "The design language of Zoom",
   "main": "dist/index.js",

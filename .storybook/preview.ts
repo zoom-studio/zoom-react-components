@@ -5,7 +5,7 @@ import { withPerformance } from 'storybook-addon-performance'
 import { WrapperDecorator } from './decorators/wrapper'
 import { ThemeProviderDecorator } from './decorators/theme-provider'
 import { ReactRouterDecorator } from './decorators/react-router'
-import '../source/styles/index.scss'
+import '../source/styles/_development-index.scss'
 
 addDecorator(withPerformance)
 addDecorator(WrapperDecorator)

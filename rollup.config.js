@@ -35,7 +35,17 @@ export default [
         include: 'node_modules/**',
       }),
       copy({
-        targets: [{ src: 'source/styles/fonts', dest: 'dist' }],
+        targets: [
+          { src: 'source/styles/fonts', dest: 'dist' },
+          {
+            src: 'source/styles/*.scss',
+            dest: 'dist/scss',
+            ignore: [
+              'source/styles/_components.scss',
+              'source/styles/_development-index.scss',
+            ],
+          },
+        ],
       }),
       external(),
       resolve(),

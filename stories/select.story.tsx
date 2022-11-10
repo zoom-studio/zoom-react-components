@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Select as SelectComponent, SelectGroup, SelectOption } from '../source'
+import { Select as SelectComponent, SelectGroup, SelectOption } from '..'
 
 export default {
   title: 'Select',

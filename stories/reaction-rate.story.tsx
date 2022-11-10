@@ -7,7 +7,7 @@ import {
   ReactionRate as ReactionRateComponent,
   ReactionRateNS,
   Title,
-} from '../source'
+} from '..'
 import './styles/_reaction-rate.scss'
 
 export default {

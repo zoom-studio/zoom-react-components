@@ -9,7 +9,7 @@ import { terser } from 'rollup-plugin-terser'
 
 export default [
   {
-    input: './source/index.ts',
+    input: './index.ts',
     output: [
       {
         file: 'dist/index.js',

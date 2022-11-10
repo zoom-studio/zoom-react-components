@@ -25,6 +25,6 @@
     "downlevelIteration": true,
     "incremental": true
   },
-  "include": ["source", "stories"],
+  "include": ["source", "stories", "index.ts"],
   "exclude": ["node_modules", "dist"]
 }

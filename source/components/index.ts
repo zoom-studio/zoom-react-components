@@ -1,6 +1,5 @@
 export * from './button'
 export * from './emoji'
-export * from './license-plate'
 export * from './reaction-rate'
 export * from './select'
 export * from './spin'

@@ -70,8 +70,34 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/material-icons.woff2') format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
 *[class^='zoomrc-'],
 *[class^='zoomrc-'] * {
-  font-family: 'Vazirmatn FD';
   box-sizing: border-box;
+}
+
+*[class^='zoomrc-']:not(.material-icons),
+*[class^='zoomrc-'] *:not(.material-icons) {
+  font-family: 'Vazirmatn FD';
 }

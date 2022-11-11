@@ -8,18 +8,19 @@ export namespace ZoomProviderNS {
     | 'light-high-contrast'
 
   export interface Props {
-    defaultTheme?: Themes
+    theme?: Themes
     children?: ReactNode
   }
 }
 
 export const ZoomProvider: FC<ZoomProviderNS.Props> = ({
-  defaultTheme = 'light',
+  theme = 'light',
   children,
 }) => {
   useEffect(() => {
-    document.body?.setAttribute('data-theme', defaultTheme)
-  }, [])
+    document.body?.setAttribute('data-theme', theme)
+    localStorage.setItem('zoomrc-theme', theme)
+  }, [theme])
 
   return <>{children}</>
 }

@@ -13,3 +13,9 @@
 .zoomrc-story-wrapper {
   animation: startup 150ms ease-in;
 }
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}

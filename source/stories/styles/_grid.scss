@@ -1,0 +1,23 @@
+@import '../../styles/functions';
+
+.grid-col-story {
+  background-color: color(layer, 2);
+  max-width: 1000px;
+
+  > div {
+    > div {
+      height: 50px;
+
+      > div {
+        height: 100%;
+        background-color: color(accent);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        user-select: none;
+      }
+    }
+  }
+}

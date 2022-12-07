@@ -92,6 +92,6 @@
 * $value: any units except 'rem' itself
 * $base-font-size:  small | normal | large
 **/
-@function to-rem($value, $base-font-size) {
+@function to-rem($value, $base-font-size: large) {
   @return math.div($value, map.get($base-font-sizes, $base-font-size)) * 1rem;
 }

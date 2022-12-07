@@ -1,0 +1,42 @@
+@use 'sass:math';
+
+$columns-count: 24;
+$gutter: 10px;
+$padding: #{math.div($gutter, 2)};
+
+@function row() {
+  @return '.zoomrc-row';
+}
+
+@function col($breakpoint: null, $count: null) {
+  @if $breakpoint and $count {
+    @return '.zoomrc-col-#{$breakpoint}-#{$count}';
+  }
+  @return '.zoomrc-col';
+}
+
+#{col()} {
+  flex: 1;
+  padding: $padding;
+}
+
+@each $breakpoint, $size in $breakpoints {
+  @for $count from 1 through $columns-count {
+    @include respect($breakpoint, min) {
+      #{col($breakpoint, $count)} {
+        flex: 0 0 #{math.div(100, math.div($columns-count, $count)) + '%'};
+        padding: $padding;
+      }
+    }
+  }
+}
+
+#{row()} {
+  display: flex;
+  flex-wrap: wrap;
+
+  &.with-width-fixer {
+    width: calc(100% + $gutter);
+    margin: 0 -#{math.div($gutter, 2)};
+  }
+}

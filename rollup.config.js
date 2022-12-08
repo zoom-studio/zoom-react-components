@@ -37,6 +37,7 @@ export default [
       copy({
         targets: [
           { src: 'source/styles/fonts', dest: 'dist' },
+          { src: 'dist/index.es.css', dest: 'dist', rename: 'index.css' },
           {
             src: [
               'source/styles/_palette.scss',

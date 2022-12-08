@@ -72,7 +72,7 @@
 
 @font-face {
   font-family: Vazirmatn;
-  src: url('./fonts/latin-digits/Vazirmatn-Thin.ttf') format('ttf');
+  src: url('./fonts/latin-digits/Vazirmatn-Thin.ttf');
   font-weight: 100;
   font-style: normal;
   font-display: swap;
@@ -80,7 +80,7 @@
 
 @font-face {
   font-family: Vazirmatn;
-  src: url('./fonts/latin-digits/Vazirmatn-ExtraLight.ttf') format('ttf');
+  src: url('./fonts/latin-digits/Vazirmatn-ExtraLight.ttf');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
@@ -88,7 +88,7 @@
 
 @font-face {
   font-family: Vazirmatn;
-  src: url('./fonts/latin-digits/Vazirmatn-Light.ttf') format('ttf');
+  src: url('./fonts/latin-digits/Vazirmatn-Light.ttf');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -96,7 +96,7 @@
 
 @font-face {
   font-family: Vazirmatn;
-  src: url('./fonts/latin-digits/Vazirmatn-Regular.ttf') format('ttf');
+  src: url('./fonts/latin-digits/Vazirmatn-Regular.ttf');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -104,7 +104,7 @@
 
 @font-face {
   font-family: Vazirmatn;
-  src: url('./fonts/latin-digits/Vazirmatn-Medium.ttf') format('ttf');
+  src: url('./fonts/latin-digits/Vazirmatn-Medium.ttf');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -112,7 +112,7 @@
 
 @font-face {
   font-family: Vazirmatn;
-  src: url('./fonts/latin-digits/Vazirmatn-SemiBold.ttf') format('ttf');
+  src: url('./fonts/latin-digits/Vazirmatn-SemiBold.ttf');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -120,7 +120,7 @@
 
 @font-face {
   font-family: Vazirmatn;
-  src: url('./fonts/latin-digits/Vazirmatn-Bold.ttf') format('ttf');
+  src: url('./fonts/latin-digits/Vazirmatn-Bold.ttf');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -128,7 +128,7 @@
 
 @font-face {
   font-family: Vazirmatn;
-  src: url('./fonts/latin-digits/Vazirmatn-ExtraBold.ttf') format('ttf');
+  src: url('./fonts/latin-digits/Vazirmatn-ExtraBold.ttf');
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -136,7 +136,7 @@
 
 @font-face {
   font-family: Vazirmatn;
-  src: url('./fonts/latin-digits/Vazirmatn-Black.ttf') format('ttf');
+  src: url('./fonts/latin-digits/Vazirmatn-Black.ttf');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -169,7 +169,10 @@
   box-sizing: border-box;
 }
 
-*[class^='zoomrc-']:not(.material-icons),
-*[class^='zoomrc-'] *:not(.material-icons) {
-  font-family: $font-family;
+[data-digits='farsi'] {
+  @include set-font-families($font-family-farsi-digits);
+}
+
+[data-digits='latin'] {
+  @include set-font-families($font-family-latin-digits);
 }

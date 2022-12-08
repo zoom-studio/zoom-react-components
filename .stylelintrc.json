@@ -6,7 +6,8 @@
   "rules": {
     "font-family-no-missing-generic-family-keyword": null,
     "no-descending-specificity": null,
-    "property-no-vendor-prefix": null
+    "property-no-vendor-prefix": null,
+    "value-keyword-case": null
   },
   "ignoreFiles": ["dist"]
 }

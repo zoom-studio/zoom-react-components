@@ -49,7 +49,8 @@
   },
   "scripts": {
     "start": "start-storybook -p 9999",
-    "build": "yarn clean && rollup -c --bundleConfigAsCjs && yarn clean:storybook",
+    "build": "yarn clean && rollup -c --bundleConfigAsCjs && yarn clean:storybook && yarn fix-sass-dist-file",
+    "fix-sass-dist-file": "node ./source/scripts/rename-files-in-dist.js index.es.css index.css",
     "pub": "npm publish --access public",
     "build:sb": "build-storybook",
     "clean": "rimraf dist tsconfig.tsbuildinfo storybook-static .rollup.cache",

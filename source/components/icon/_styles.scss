@@ -1,0 +1,15 @@
+[data-layout='ltr'] {
+  .material-icons {
+    &.flip-on-ltr-layout {
+      transform: scaleX(-1);
+    }
+  }
+}
+
+[data-layout='rtl'] {
+  .material-icons {
+    &.flip-on-rtl-layout {
+      transform: scaleX(-1);
+    }
+  }
+}

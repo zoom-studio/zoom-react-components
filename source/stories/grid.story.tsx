@@ -13,11 +13,17 @@ export default {
 const Template: FC<ColNS.Props> = () => (
   <div className="grid-col-story">
     <Row>
-      {Array.from(Array(24)).map((_, index) => (
-        <Col key={index} xs={6} sm={4} md={2} lg={1}>
+      {Array.from(Array(4)).map((_, index) => (
+        <Col key={index} lg={6} md={12} sm={24} xs={24}>
           <div>{(index + 1).toString().padStart(2, '0')}</div>
         </Col>
       ))}
+
+      {/* {Array.from(Array(24)).map((_, index) => (
+        <Col key={index} xs={6} sm={4} md={2} lg={1}>
+          <div>{(index + 1).toString().padStart(2, '0')}</div>
+        </Col>
+      ))} */}
     </Row>
   </div>
 )

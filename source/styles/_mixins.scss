@@ -12,6 +12,12 @@
   font-weight: var(--zoomrc-face-#{$face}) !important;
 }
 
+@mixin set-font-families($families) {
+  *:not(.material-icons) {
+    font-family: $families !important;
+  }
+}
+
 /**
  * $type: common | heading | bold | light | underlined | strikethrough
  * $size: small | normal | large (for none header) or 1 to 6 (for heading)

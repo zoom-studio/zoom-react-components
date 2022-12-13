@@ -1,0 +1,29 @@
+button.zoomrc-menu {
+  position: relative;
+
+  > span,
+  > a {
+    border-radius: inherit;
+
+    > .menu-button {
+      position: absolute;
+      border-radius: inherit;
+      left: -2px;
+      right: 0;
+      bottom: 0;
+      top: -2px;
+      width: calc(100% + 4px);
+      height: calc(100% + 4px);
+      padding: 0;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+    }
+  }
+}
+
+div.menu-list-inspector {
+  > .zoomrc-menu-dropdown {
+    padding: 20px 10px !important;
+  }
+}

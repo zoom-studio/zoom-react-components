@@ -20,7 +20,7 @@ rules:
     '@typescript-eslint/comma-dangle': 0,
     '@typescript-eslint/no-namespace': 0,
     '@typescript-eslint/strict-boolean-expressions': 0,
-    '@typescript-eslint/explicit-function-return-type': 1,
+    '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/consistent-type-assertions': 0,
     '@typescript-eslint/indent': 0,
     '@typescript-eslint/prefer-nullish-coalescing': 0,

@@ -1,8 +1,9 @@
-import { MenuItem } from '../components/menu'
+import { MenuNS } from '../components'
 
-export const faMenuItems: MenuItem[] = [
+export const faMenuItems: MenuNS.Item[] = [
   {
     title: 'سطح اول اول',
+    isActive: true,
     children: [
       { title: 'سطح دوم اول' },
       {
@@ -87,26 +88,28 @@ export const faMenuItems: MenuItem[] = [
       },
       {
         title: 'سطح دوم سوم',
-        accelerator: { ctrlOrCmd: 'command', otherKeys: 'X+Y+Z' },
+        accelerator: { ctrlOrCmd: true, otherKeys: ['X', 'Y', 'Z'] },
       },
       {
         title: 'سطح دوم چهارم',
-        accelerator: { ctrlOrCmd: 'control', otherKeys: 'Shift+Alt+Z' },
+        accelerator: { ctrlOrCmd: true, otherKeys: ['Shift', 'Alt', 'Z'] },
       },
       {
         title: 'سطح دوم پنجم',
-        accelerator: { ctrlOrCmd: 'command', otherKeys: 'Aly+F2+Z' },
+        accelerator: { ctrlOrCmd: true, otherKeys: ['Alt', 'F2', 'Z'] },
       },
     ],
   },
   {
     title: 'سطح اول دوم',
     link: '/',
-    accelerator: { ctrlOrCmd: 'command', otherKeys: 'X+Y+Z' },
+    accelerator: { ctrlOrCmd: true, otherKeys: ['X', 'Y', 'Z'] },
   },
+  { isSeparator: true },
   {
     title: 'سطح اول سوم',
     onClick: () => {},
-    accelerator: { ctrlOrCmd: 'control', otherKeys: 'Shift+Alt+Z' },
+    isActive: true,
+    accelerator: { otherKeys: ['Shift', 'Alt', 'Z'] },
   },
 ]

@@ -11,14 +11,14 @@ import React, {
 
 import { useZoomComponent } from '../../hooks'
 
-import { Menu, MenuItem, MenuNS } from '..'
+import { Menu, MenuNS } from '..'
 
 export namespace ContextMenuNS {
   export type Menu = FunctionComponentElement<MenuNS.Props> | null
 
   export interface Props extends HTMLAttributes<HTMLDivElement> {
     children?: ReactNode
-    items: MenuItem[]
+    items: MenuNS.Item[]
     menuProps?: Omit<MenuNS.Props, 'items'>
   }
 }

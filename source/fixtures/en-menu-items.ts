@@ -1,6 +1,6 @@
-import { MenuItem } from '../components/menu'
+import { MenuNS } from '../components'
 
-export const enMenuItems: MenuItem[] = [
+export const enMenuItems: MenuNS.Item[] = [
   {
     title: 'Level first first',
     children: [
@@ -87,26 +87,26 @@ export const enMenuItems: MenuItem[] = [
       },
       {
         title: 'Level second third',
-        accelerator: { ctrlOrCmd: 'command', otherKeys: 'X+Y+Z' },
+        accelerator: { ctrlOrCmd: true, otherKeys: ['X', 'Y', 'Z'] },
       },
       {
         title: 'Level second fourth',
-        accelerator: { ctrlOrCmd: 'control', otherKeys: 'Shift+Alt+Z' },
+        accelerator: { ctrlOrCmd: true, otherKeys: ['Shift', 'Alt', 'Z'] },
       },
       {
         title: 'Level second fifth',
-        accelerator: { ctrlOrCmd: 'command', otherKeys: 'Aly+F2+Z' },
+        accelerator: { ctrlOrCmd: true, otherKeys: ['Alt', 'F2', 'Z'] },
       },
     ],
   },
   {
     title: 'Level first second',
     link: '/',
-    accelerator: { ctrlOrCmd: 'command', otherKeys: 'X+Y+Z' },
+    accelerator: { ctrlOrCmd: true, otherKeys: ['X', 'Y', 'Z'] },
   },
   {
     title: 'Level first third',
     onClick: () => {},
-    accelerator: { ctrlOrCmd: 'control', otherKeys: 'Shift+Alt+Z' },
+    accelerator: { otherKeys: ['Shift', 'Alt', 'Z'] },
   },
 ]

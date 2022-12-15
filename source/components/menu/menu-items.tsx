@@ -7,13 +7,23 @@ import { MenuItem, MenuItemNS } from './menu-item'
 import { useZoomComponent } from '../../hooks'
 
 export namespace ItemsNS {
-  export interface Props extends Pick<MenuItemNS.Props, 'linkComponent'> {
+  export interface Props
+    extends Pick<
+      MenuItemNS.Props,
+      'linkComponent' | 'isDarwinOS' | 'closeOnItemClick'
+    > {
     items: MenuItemNS.Item[]
     isRTL?: boolean
   }
 }
 
-export const Items: FC<ItemsNS.Props> = ({ items, isRTL, linkComponent }) => {
+export const Items: FC<ItemsNS.Props> = ({
+  items,
+  isRTL,
+  linkComponent,
+  isDarwinOS,
+  closeOnItemClick,
+}) => {
   const { createClassName } = useZoomComponent('menu-item')
 
   const containerClasses = createClassName('with-subitems', '', {
@@ -43,6 +53,8 @@ export const Items: FC<ItemsNS.Props> = ({ items, isRTL, linkComponent }) => {
                     items={item.children}
                     key={index}
                     linkComponent={linkComponent}
+                    isDarwinOS={isDarwinOS}
+                    closeOnItemClick={closeOnItemClick}
                   />
                 </MenuList>
               </Dropdown>
@@ -54,8 +66,10 @@ export const Items: FC<ItemsNS.Props> = ({ items, isRTL, linkComponent }) => {
           <MenuItem
             {...item}
             key={index}
+            isDarwinOS={isDarwinOS}
             linkComponent={linkComponent}
             isRTL={isRTL}
+            closeOnItemClick={closeOnItemClick}
           />
         )
       })}

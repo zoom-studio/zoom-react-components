@@ -10,7 +10,7 @@ import { Icon } from '../icon'
 
 export namespace SubMenuItemNS {
   export interface Props extends Omit<SubMenuItemProps, 'menu' | 'children'> {
-    title: string
+    title?: string
     children?: ReactNode
     isRTL?: boolean
   }

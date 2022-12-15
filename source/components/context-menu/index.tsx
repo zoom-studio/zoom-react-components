@@ -62,7 +62,7 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
     items,
     onClose: () => setMenuComponent(null),
     containerRef: menuButtonRef,
-    style: { visibility: 'hidden' },
+    style: { visibility: 'hidden', position: 'fixed' },
   }
 
   return (

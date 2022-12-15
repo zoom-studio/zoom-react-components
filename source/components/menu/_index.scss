@@ -13,7 +13,7 @@ $items-padding: 4px 10px;
 }
 
 button.zoomrc-menu {
-  position: fixed;
+  position: relative;
 
   > span,
   > a {

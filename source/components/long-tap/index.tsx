@@ -11,12 +11,12 @@ import { useZoomComponent } from '../../hooks'
 export namespace LongTapNS {
   export interface Props extends HTMLAttributes<HTMLDivElement> {
     timeout?: number
-    callback?: () => void
+    callback?: (evt: MouseDownEvent) => void
     children?: ReactNode
   }
 
   export type MouseDownEvent =
-    | MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+    | MouseEvent<HTMLDivElement>
     | TouchEvent<HTMLDivElement>
 }
 
@@ -40,7 +40,7 @@ export const LongTap: FC<LongTapNS.Props> = ({
       const possibleTargets = [parentElement, firstChild, currentTarget]
 
       if (possibleTargets.includes(activeElement)) {
-        callback()
+        callback(evt)
       }
     }, timeout)
   }

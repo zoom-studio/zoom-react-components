@@ -52,7 +52,7 @@ export const MenuItem: FC<MenuItemNS.Props> = ({
   })
 
   const handleOnClick = (evt: MouseEvent<HTMLSpanElement>) => {
-    if (closeOnItemClick) {
+    if (!closeOnItemClick) {
       evt.stopPropagation()
     }
     onClick?.()

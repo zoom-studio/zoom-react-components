@@ -1,7 +1,7 @@
 import React, { FC, HTMLAttributes } from 'react'
 
-import { useZoomComponent } from '../../hooks/use-zoom-component'
-import { Range } from '../../types/enumerable'
+import { useZoomComponent } from '../../hooks'
+import { Range } from '../../types'
 
 export namespace ColNS {
   export type ColumnsRange = Range<1, 25>

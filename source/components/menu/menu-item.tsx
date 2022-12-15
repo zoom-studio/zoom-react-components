@@ -1,18 +1,17 @@
 import React, { FC } from 'react'
 
 import { MenuItem as MenuItemComponent, MenuItemProps } from 'react-menu-list'
-import { Link as RouterLink } from 'react-router-dom'
 
-import { useZoomComponent } from '../../hooks/use-zoom-component'
-import { CustomLink, CustomLinkNS } from '../custom-link'
 import { Icon } from '..'
+import { useZoomComponent } from '../../hooks'
+import { ConditionalWrapper } from '../conditional-wrapper'
+import { CustomLink, CustomLinkNS } from '../custom-link'
 
 export namespace MenuItemNS {
   export interface Item extends Omit<MenuItemProps, 'children'> {
     title: string
     onClick?: () => void
     link?: string
-    linkComponent?: CustomLinkNS.Props['UserLink']
     isActive?: boolean
     children?: Props[]
     accelerator?: {
@@ -21,7 +20,10 @@ export namespace MenuItemNS {
     }
   }
 
-  export interface Props extends Item {}
+  export interface Props extends Item {
+    linkComponent?: CustomLinkNS.Props['userLink']
+    isRTL?: boolean
+  }
 }
 
 export const MenuItem: FC<MenuItemNS.Props> = ({
@@ -31,43 +33,51 @@ export const MenuItem: FC<MenuItemNS.Props> = ({
   isActive,
   accelerator,
   className,
-  linkComponent: LinkComponent = RouterLink,
+  linkComponent,
+  isRTL,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('menu-item')
 
   const containerClasses = createClassName(className, '', {
-    active: !!isActive,
+    'active': !!isActive,
+    'rtl-layout': !!isRTL,
   })
 
   return (
     <MenuItemComponent {...rest} className={containerClasses}>
-      <CustomLink
-        UserLink={LinkComponent}
-        onClick={onClick}
-        href={link}
-        className="menu-item-child"
+      <ConditionalWrapper
+        condition={!!onClick}
+        trueWrapper={children => (
+          <span className="menu-item-child">{children}</span>
+        )}
+        falseWrapper={children => (
+          <CustomLink
+            userLink={linkComponent}
+            onClick={onClick}
+            href={link}
+            className="menu-item-child"
+          >
+            {children}
+          </CustomLink>
+        )}
       >
         <span className="menu-item-title">{title}</span>
 
         {accelerator && (
           <span className="menu-item-accelerator">
-            {accelerator.ctrlOrCmd && (
-              <>
-                {accelerator.ctrlOrCmd === 'command' ? (
-                  <span className="command">
-                    <Icon name="keyboard_command_key" />
-                  </span>
-                ) : (
-                  <span className="control">Ctrl</span>
-                )}
-                +
-              </>
-            )}
-            <span className="other-keys">{accelerator.otherKeys}</span>
+            {accelerator.ctrlOrCmd &&
+              (accelerator.ctrlOrCmd === 'command' ? (
+                <span className="command">
+                  <Icon name="keyboard_command_key" />
+                </span>
+              ) : (
+                <span className="control">Ctrl</span>
+              ))}
+            <span className="other-keys">{'+' + accelerator.otherKeys}</span>
           </span>
         )}
-      </CustomLink>
+      </ConditionalWrapper>
     </MenuItemComponent>
   )
 }

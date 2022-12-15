@@ -2,7 +2,7 @@ import React, { FC, HTMLAttributes, ReactNode } from 'react'
 
 import { Link } from 'react-router-dom'
 
-import { useZoomComponent } from '../../hooks/use-zoom-component'
+import { useZoomComponent } from '../../hooks'
 import { Spin, EmojiNS, Emoji, IconNS, Icon } from '..'
 
 export namespace ButtonNS {

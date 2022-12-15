@@ -1,0 +1,12 @@
+@import '../../styles/functions';
+
+.menu-story {
+  background-color: color(layer, 1);
+  padding: 10px;
+  min-height: calc(100vh - 32px);
+
+  > .menu-buttons {
+    display: flex;
+    justify-content: flex-start;
+  }
+}

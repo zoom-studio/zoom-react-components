@@ -6,12 +6,12 @@ import { HTMLLink, HTMLLinkNS } from './html-link'
 
 export namespace CustomLinkNS {
   export interface Props extends Omit<LinkProps, 'to'>, HTMLLinkNS.Props {
-    UserLink?: FC<any> | 'htmlLink'
+    userLink?: FC<any> | 'htmlLink'
   }
 }
 
 export const CustomLink: FC<CustomLinkNS.Props> = ({
-  UserLink,
+  userLink: UserLink,
   children,
   href,
   ...rest

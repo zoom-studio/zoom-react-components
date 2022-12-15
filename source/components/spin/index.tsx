@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react'
 
-import { useZoomComponent } from '../../hooks/use-zoom-component'
+import { useZoomComponent } from '../../hooks'
 import { Text, TypographyNS } from '..'
 
 export namespace SpinNS {

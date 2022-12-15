@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react'
 
-import { useZoomComponent } from '../../hooks/use-zoom-component'
+import { useZoomComponent } from '../../hooks'
 
 export namespace SelectOptionNS {
   export interface Props extends HTMLAttributes<HTMLSpanElement> {}

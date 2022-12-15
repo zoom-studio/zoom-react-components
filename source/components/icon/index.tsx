@@ -1,7 +1,7 @@
 import React, { FC, HTMLAttributes } from 'react'
 
 import { ICON_NAMES } from './constants/icon-names'
-import { useZoomComponent } from '../../hooks/use-zoom-component'
+import { useZoomComponent } from '../../hooks'
 
 export namespace IconNS {
   export type Names = typeof ICON_NAMES[number]

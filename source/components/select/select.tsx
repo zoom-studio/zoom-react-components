@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react'
 
-import { useZoomComponent } from '../../hooks/use-zoom-component'
+import { useZoomComponent } from '../../hooks'
 import { SelectGroup, SelectOption } from '.'
 import { strictRender } from '../../utils/strict-renders'
 

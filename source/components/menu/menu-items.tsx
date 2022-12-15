@@ -1,21 +1,24 @@
 import React, { FC } from 'react'
 
-import { MenuList, Dropdown } from 'react-menu-list'
+import { Dropdown, MenuList } from 'react-menu-list'
 
 import { SubMenuItem } from './sub-item'
 import { MenuItem, MenuItemNS } from './menu-item'
-import { useZoomComponent } from '../../hooks/use-zoom-component'
+import { useZoomComponent } from '../../hooks'
 
 export namespace ItemsNS {
-  export interface Props {
+  export interface Props extends Pick<MenuItemNS.Props, 'linkComponent'> {
     items: MenuItemNS.Item[]
+    isRTL?: boolean
   }
 }
 
-export const Items: FC<ItemsNS.Props> = ({ items }) => {
-  const { createClassName } = useZoomComponent('menu-items')
+export const Items: FC<ItemsNS.Props> = ({ items, isRTL, linkComponent }) => {
+  const { createClassName } = useZoomComponent('menu-item')
 
-  const containerClasses = createClassName()
+  const containerClasses = createClassName('with-subitems', '', {
+    'rtl-layout': !!isRTL,
+  })
 
   return (
     <>
@@ -24,19 +27,37 @@ export const Items: FC<ItemsNS.Props> = ({ items }) => {
           return (
             <SubMenuItem
               className={containerClasses}
+              isRTL={isRTL}
               key={index}
               title={item.title}
+              positionOptions={{
+                position: isRTL ? 'left' : 'right',
+                vAlign: 'top',
+                hAlign: isRTL ? 'right' : 'left',
+              }}
             >
               <Dropdown>
                 <MenuList>
-                  <Items items={item.children} key={index} />
+                  <Items
+                    isRTL={isRTL}
+                    items={item.children}
+                    key={index}
+                    linkComponent={linkComponent}
+                  />
                 </MenuList>
               </Dropdown>
             </SubMenuItem>
           )
         }
 
-        return <MenuItem {...item} key={index} />
+        return (
+          <MenuItem
+            {...item}
+            key={index}
+            linkComponent={linkComponent}
+            isRTL={isRTL}
+          />
+        )
       })}
     </>
   )

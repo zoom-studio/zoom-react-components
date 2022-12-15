@@ -2,7 +2,7 @@ import React, { FC, HTMLAttributes } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Range } from '../../types/enumerable'
+import { Range } from '../../types'
 
 export namespace TypographyNS {
   export namespace TextNS {

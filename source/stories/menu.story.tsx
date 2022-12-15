@@ -1,12 +1,12 @@
-import React, { FC, ReactNode, useEffect } from 'react'
+import React, { FC, ReactNode } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Menu as MenuComponent, MenuNS } from '../components'
 import { enMenuItems, faMenuItems } from '../fixtures'
-import { addThemeToBody } from '../utils'
 
+import { useAddDataAttrs } from './hooks'
 import './styles/_menu.scss'
 
 export default {
@@ -23,16 +23,7 @@ namespace MenuStoryNS {
 
 const MenuStory: FC<MenuStoryNS.Props> = ({ children, layout }) => {
   const isRTL = layout === 'rtl'
-
-  useEffect(() => {
-    const htmlElement = document.querySelector('html')
-
-    if (htmlElement) {
-      htmlElement.setAttribute('dir', layout)
-      htmlElement.setAttribute('data-digits', isRTL ? 'farsi' : 'latin')
-    }
-    addThemeToBody()
-  }, [])
+  useAddDataAttrs(layout)
 
   const containerClasses = classNames('menu-story', {
     'rtl-layout': isRTL,
@@ -53,7 +44,7 @@ export const LTRLayout: FC<MenuNS.Props> = () => (
 
 export const RTLLayout: FC<MenuNS.Props> = () => (
   <MenuStory layout="rtl">
-    <MenuComponent items={faMenuItems} isRtl>
+    <MenuComponent items={faMenuItems} isRTL>
       RTL Layout
     </MenuComponent>
   </MenuStory>

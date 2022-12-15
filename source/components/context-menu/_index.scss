@@ -1,0 +1,11 @@
+.zoomrc-context-menu {
+  > .zoomrc-context-menu-button {
+    &,
+    & * {
+      padding: 0;
+      width: 0;
+      height: 0;
+      transition: none;
+    }
+  }
+}

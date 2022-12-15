@@ -44,8 +44,12 @@ export const MenuItem: FC<MenuItemNS.Props> = ({
     'rtl-layout': !!isRTL,
   })
 
+  const x = {
+    'aria-expanded': true,
+  }
+
   return (
-    <MenuItemComponent {...rest} className={containerClasses}>
+    <MenuItemComponent {...rest} {...x} className={containerClasses}>
       <ConditionalWrapper
         condition={!!onClick}
         trueWrapper={children => (

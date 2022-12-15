@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, ReactNode } from 'react'
+import React, { FC, HTMLAttributes, ReactNode, RefObject } from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -19,6 +19,7 @@ export namespace ButtonNS {
     type?: Types
     htmlType?: HtmlType
     size?: Size
+    containerRef?: RefObject<HTMLButtonElement>
     href?: string
     target?: HtmlTypes
     innerClassName?: string
@@ -56,6 +57,7 @@ export const Button: FC<ButtonNS.Props> = ({
   prefixMaterialIcon,
   suffixEmojiIcon,
   suffixMaterialIcon,
+  containerRef,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('button')
@@ -116,6 +118,7 @@ export const Button: FC<ButtonNS.Props> = ({
       type={htmlType}
       className={classNames}
       disabled={disabled || loading}
+      ref={containerRef}
     >
       {href ? (
         <Link to={href} target={target} className={innerChildClassnames}>

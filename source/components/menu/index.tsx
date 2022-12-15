@@ -14,7 +14,8 @@ export namespace MenuNS {
     extends Omit<ButtonNS.Props, 'href'>,
       Pick<MenuItemNS.Props, 'linkComponent'> {
     items: MenuItem[]
-    isRtl?: true
+    isRTL?: boolean
+    onClose?: () => void
   }
 }
 
@@ -22,14 +23,15 @@ export const Menu: FC<MenuNS.Props> = ({
   items,
   className,
   children,
-  isRtl,
+  isRTL,
   linkComponent,
+  onClose,
   ...buttonProps
 }) => {
   const { createClassName } = useZoomComponent('menu')
 
   const containerClasses = createClassName(className, '', {
-    'rtl-layout': !!isRtl,
+    'rtl-layout': !!isRTL,
   })
 
   return (
@@ -37,17 +39,18 @@ export const Menu: FC<MenuNS.Props> = ({
       {children}
       <MenuButton
         className="menu-button"
+        onWillClose={onClose}
         positionOptions={{
           position: 'bottom',
           vAlign: 'bottom',
-          hAlign: isRtl ? 'right' : 'left',
+          hAlign: isRTL ? 'right' : 'left',
         }}
         menu={
           <Dropdown className={`${containerClasses}-dropdown`}>
             <MenuList>
               <Items
                 items={items}
-                isRTL={isRtl}
+                isRTL={isRTL}
                 linkComponent={linkComponent}
               />
             </MenuList>

@@ -44,8 +44,7 @@ div.menu-list-inspector {
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0 0 0 / 6%), 0 4px 4px rgba(0 0 0 / 12%) !important;
 
-  > .zoomrc-menu-dropdown,
-  > .zoomrc-menu.rtl-layout-dropdown,
+  > .zoomrc-menu.dropdown,
   > div > div:not([role='menu']) {
     background-color: transparent !important;
     padding: 4px 0 !important;

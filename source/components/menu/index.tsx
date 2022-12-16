@@ -52,7 +52,7 @@ export const Menu: FC<MenuNS.Props> = ({
           hAlign: isRTL ? 'right' : 'left',
         }}
         menu={
-          <Dropdown className={`${containerClasses}-dropdown`}>
+          <Dropdown className={`${containerClasses} dropdown`}>
             <MenuList>
               <Items
                 isDarwinOS={isDarwinOS}

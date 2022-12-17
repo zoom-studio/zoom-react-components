@@ -5,6 +5,7 @@ import React, {
   HTMLAttributes,
   MouseEvent,
   ReactNode,
+  RefObject,
   useRef,
   useState,
 } from 'react'
@@ -20,14 +21,18 @@ export namespace ContextMenuNS {
     children?: ReactNode
     items: MenuNS.Item[]
     menuProps?: Omit<MenuNS.Props, 'items'>
+    containerRef?:
+      | RefObject<HTMLDivElement>
+      | ((element: HTMLDivElement | null) => void)
   }
 }
 
 export const ContextMenu: FC<ContextMenuNS.Props> = ({
+  menuProps: userMenuProps,
   children,
   items,
   className,
-  menuProps: userMenuProps,
+  containerRef,
   ...rest
 }) => {
   const [menuComponent, setMenuComponent] = useState<ContextMenuNS.Menu>(null)
@@ -70,6 +75,7 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
       {...rest}
       className={containerClasses}
       onContextMenu={handleOnContextMenu}
+      ref={containerRef}
     >
       {menuComponent}
       {children}

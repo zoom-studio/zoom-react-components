@@ -5,21 +5,21 @@
 }
 
 @mixin hover-and-active {
-  &:hover:not(:disabled),
+  &:hover:not(#{disabled-selector()}),
   &.active,
-  &.active:disabled {
+  &.active#{disabled-selector()} {
     @content;
   }
 }
 
 @mixin active {
-  &:active:not(:disabled) {
+  &:active:not(#{disabled-selector()}) {
     @content;
   }
 }
 
 @mixin disabled {
-  &:disabled {
+  #{disabled-selector(true)} {
     @content;
   }
 }

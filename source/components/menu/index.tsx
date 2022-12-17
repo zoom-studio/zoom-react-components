@@ -41,7 +41,7 @@ export const Menu: FC<MenuNS.Props> = ({
   })
 
   return (
-    <Button {...buttonProps} className={containerClasses}>
+    <Button {...buttonProps} className={containerClasses} useSpan>
       {children}
       <MenuButton
         className="menu-button"

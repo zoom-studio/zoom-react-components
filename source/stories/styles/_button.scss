@@ -27,7 +27,8 @@
       user-select: none;
     }
 
-    > button {
+    > button,
+    > span {
       margin: 0 10px;
 
       &:nth-child(2) {

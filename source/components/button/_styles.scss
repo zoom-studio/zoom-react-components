@@ -2,7 +2,8 @@
 @import 'functions';
 @import 'mixins';
 
-button[class^='zoomrc-button-'] {
+button[class^='zoomrc-button-'],
+span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child) {
   cursor: pointer;
   border-width: 2px;
   border-style: solid;
@@ -16,7 +17,7 @@ button[class^='zoomrc-button-'] {
     transition: all 150ms linear, color 20ms linear;
   }
 
-  &:disabled {
+  #{disabled-selector(true)} {
     cursor: default;
     pointer-events: none;
 

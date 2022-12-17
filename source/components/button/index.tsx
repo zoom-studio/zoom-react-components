@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { useZoomComponent } from '../../hooks'
 import { Spin, EmojiNS, Emoji, IconNS, Icon } from '..'
+import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace ButtonNS {
   export type Types = 'primary' | 'secondary' | 'dashed' | 'link' | 'text'
@@ -34,6 +35,7 @@ export namespace ButtonNS {
     prefixEmojiIcon?: EmojiIcon
     suffixMaterialIcon?: MaterialIcon
     suffixEmojiIcon?: EmojiIcon
+    useSpan?: boolean
   }
 }
 
@@ -58,6 +60,7 @@ export const Button: FC<ButtonNS.Props> = ({
   suffixEmojiIcon,
   suffixMaterialIcon,
   containerRef,
+  useSpan,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('button')
@@ -70,7 +73,7 @@ export const Button: FC<ButtonNS.Props> = ({
 
   const innerChildClassnames = createClassName(
     innerClassName,
-    `${size}-inner-child`,
+    `${size}-inner-child zoomrc-button-inner-child`,
   )
 
   const createIcon = (
@@ -113,12 +116,29 @@ export const Button: FC<ButtonNS.Props> = ({
   }
 
   return (
-    <button
-      {...rest}
-      type={htmlType}
-      className={classNames}
-      disabled={disabled || loading}
-      ref={containerRef}
+    <ConditionalWrapper
+      condition={useSpan}
+      trueWrapper={children => (
+        <span
+          {...rest}
+          className={classNames}
+          aria-disabled={disabled || loading}
+          ref={containerRef}
+        >
+          {children}
+        </span>
+      )}
+      falseWrapper={children => (
+        <button
+          {...rest}
+          type={htmlType}
+          className={classNames}
+          disabled={disabled || loading}
+          ref={containerRef}
+        >
+          {children}
+        </button>
+      )}
     >
       {href ? (
         <Link to={href} target={target} className={innerChildClassnames}>
@@ -127,6 +147,6 @@ export const Button: FC<ButtonNS.Props> = ({
       ) : (
         <span className={innerChildClassnames}>{createChildren()}</span>
       )}
-    </button>
+    </ConditionalWrapper>
   )
 }

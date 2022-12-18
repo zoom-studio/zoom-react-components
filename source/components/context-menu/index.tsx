@@ -33,6 +33,7 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
   items,
   className,
   containerRef,
+  onClick,
   ...rest
 }) => {
   const [menuComponent, setMenuComponent] = useState<ContextMenuNS.Menu>(null)
@@ -52,13 +53,26 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
     menuButton.querySelector<HTMLDivElement>('button.menu-button')?.click()
   }
 
-  const handleOnContextMenu = (evt: MouseEvent<HTMLDivElement>) => {
-    evt.preventDefault()
-
+  const handleContextMenu = (evt: MouseEvent<HTMLDivElement>) => {
     if (!menuComponent) {
       const menu = createElement(Menu, menuProps)
       setMenuComponent(menu)
       setTimeout(openMenu(evt), 100)
+    }
+  }
+
+  const handleClick = (evt: MouseEvent<HTMLDivElement>) => {
+    onClick?.(evt)
+  }
+
+  const handleOnClicks = (evt: MouseEvent<HTMLDivElement>) => {
+    evt.preventDefault()
+    evt.stopPropagation()
+
+    if (evt.type === 'click' || evt.nativeEvent.which === 1) {
+      handleClick(evt)
+    } else if (evt.type === 'contextmenu' || evt.nativeEvent.which === 3) {
+      handleContextMenu(evt)
     }
   }
 
@@ -74,7 +88,8 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
     <div
       {...rest}
       className={containerClasses}
-      onContextMenu={handleOnContextMenu}
+      onContextMenu={handleOnClicks}
+      onClick={handleOnClicks}
       ref={containerRef}
     >
       {menuComponent}

@@ -26,9 +26,15 @@ export const Items: FC<ItemsNS.Props> = ({
 }) => {
   const { createClassName } = useZoomComponent('menu-item')
 
-  const containerClasses = createClassName('with-subitems', '', {
-    'rtl-layout': !!isRTL,
-  })
+  const containerClasses = (
+    children: MenuItemNS.Item[],
+    selfDisabled: boolean,
+  ) => {
+    return createClassName('with-subitems', '', {
+      'rtl-layout': !!isRTL,
+      'disabled': !children.some(child => !child.isDisabled) || selfDisabled,
+    })
+  }
 
   return (
     <>
@@ -36,7 +42,7 @@ export const Items: FC<ItemsNS.Props> = ({
         if (item.children) {
           return (
             <SubMenuItem
-              className={containerClasses}
+              className={containerClasses(item.children, !!item.isDisabled)}
               isRTL={isRTL}
               key={index}
               title={item.title}

@@ -104,9 +104,27 @@ export const enMenuItems: MenuNS.Item[] = [
     link: '/',
     accelerator: { ctrlOrCmd: true, otherKeys: ['X', 'Y', 'Z'] },
   },
+  { isSeparator: true },
   {
     title: 'Level first third',
     onClick: () => {},
+    isActive: true,
     accelerator: { otherKeys: ['Shift', 'Alt', 'Z'] },
+  },
+  {
+    title: 'Disabled without submenus',
+    accelerator: { otherKeys: ['Shift', 'Alt', 'Z'] },
+    isDisabled: true,
+  },
+  {
+    title: 'Disabled without submenus and active',
+    isActive: true,
+    accelerator: { otherKeys: ['Shift', 'Alt', 'Z'] },
+    isDisabled: true,
+  },
+  {
+    title: 'Disabled with submenus',
+    isDisabled: true,
+    children: [{ title: 'Submenu of disabled' }],
   },
 ]

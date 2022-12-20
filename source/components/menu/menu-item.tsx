@@ -16,6 +16,7 @@ export namespace MenuItemNS {
     isActive?: boolean
     children?: Props[]
     isSeparator?: boolean
+    isDisabled?: boolean
     accelerator?: {
       ctrlOrCmd?: boolean
       otherKeys: string[]
@@ -42,6 +43,7 @@ export const MenuItem: FC<MenuItemNS.Props> = ({
   isRTL,
   isDarwinOS,
   isSeparator,
+  isDisabled,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('menu-item')
@@ -49,6 +51,7 @@ export const MenuItem: FC<MenuItemNS.Props> = ({
   const containerClasses = createClassName(className, '', {
     'active': !!isActive,
     'rtl-layout': !!isRTL,
+    'disabled': !!isDisabled,
   })
 
   const handleOnClick = (evt: MouseEvent<HTMLSpanElement>) => {

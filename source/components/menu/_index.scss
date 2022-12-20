@@ -64,6 +64,12 @@ div.menu-list-inspector {
           @include items-active-and-hover;
         }
 
+        &.disabled {
+          pointer-events: none;
+          opacity: 0.5;
+          filter: grayscale(1);
+        }
+
         &.with-subitems {
           #{opened-and-hovered-selector()} {
             @include items-active-and-hover;
@@ -79,6 +85,8 @@ div.menu-list-inspector {
           }
 
           > .chevron-icon {
+            user-select: none;
+
             &.ltr-layout {
               transform: scale(-1);
             }

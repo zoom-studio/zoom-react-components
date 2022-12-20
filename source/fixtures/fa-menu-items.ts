@@ -3,7 +3,6 @@ import { MenuNS } from '../components'
 export const faMenuItems: MenuNS.Item[] = [
   {
     title: 'سطح اول اول',
-    isActive: true,
     children: [
       { title: 'سطح دوم اول' },
       {
@@ -111,5 +110,21 @@ export const faMenuItems: MenuNS.Item[] = [
     onClick: () => {},
     isActive: true,
     accelerator: { otherKeys: ['Shift', 'Alt', 'Z'] },
+  },
+  {
+    title: 'غیرفعال بدون زیر منو',
+    accelerator: { otherKeys: ['Shift', 'Alt', 'Z'] },
+    isDisabled: true,
+  },
+  {
+    title: 'غیرفعال بدون زیر منو و اکتیو',
+    isActive: true,
+    accelerator: { otherKeys: ['Shift', 'Alt', 'Z'] },
+    isDisabled: true,
+  },
+  {
+    title: 'غیر فعال با زیر منو',
+    isDisabled: true,
+    children: [{ title: 'زیر منوی غیرفعال' }],
   },
 ]

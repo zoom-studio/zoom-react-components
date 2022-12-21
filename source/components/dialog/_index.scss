@@ -1,0 +1,166 @@
+$zoomrc-dialog-header-title-left-padding: 20px;
+
+@function zoomrc-dialog-animation($animation-name) {
+  @return $animation-name + ' ' + 150ms ease-in;
+}
+
+@keyframes open-zoomrc-dialog-backdrop-animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes open-zoomrc-dialog-animation {
+  from {
+    transform: scale(1.01);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+.zoomrc-dialog-backdrop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: color(backdrop);
+  animation: zoomrc-dialog-animation(open-zoomrc-dialog-backdrop-animation);
+  z-index: 18;
+}
+
+.zoomrc-dialog {
+  z-index: 20;
+  position: fixed;
+  animation: zoomrc-dialog-animation(open-zoomrc-dialog-animation);
+  background-color: color(layer, 1);
+  left: 0;
+  right: 0;
+  top: 20px;
+  margin: auto;
+  height: auto;
+  max-height: calc(100vh - 100px);
+  border: 1px solid color(border, 2);
+  border-radius: 4px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-width: 98%;
+
+  &-small {
+    width: 400px;
+  }
+
+  &-normal {
+    width: 600px;
+  }
+
+  &-large {
+    width: 800px;
+  }
+
+  &.fullscreen {
+    border-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+  }
+
+  > .zoomrc-dialog-header {
+    width: 100%;
+    background-color: color(layer, 2);
+    display: flex;
+    color: color(text, 1);
+    user-select: none;
+    height: 32px;
+    align-items: center;
+    padding: 0 6px;
+
+    > .draggable-area {
+      cursor: move;
+    }
+
+    > .title {
+      @include truncate;
+
+      flex: 1;
+      margin: 0;
+      height: 100%;
+      padding-top: 4px;
+      padding-left: $zoomrc-dialog-header-title-left-padding;
+    }
+
+    > .actions {
+      height: 100%;
+
+      > .header-action-button {
+        border: none;
+        width: 32px;
+        height: 100%;
+
+        &.zoomrc-dialog-close-button {
+          color: color(error);
+        }
+
+        &.zoomrc-dialog-fullscreen-button {
+          color: color(text, 2);
+        }
+
+        > .zoomrc-button-inner-child {
+          padding: 0;
+          font-size: to-rem(28px);
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  > .zoomrc-dialog-body {
+    @include hover-scrollbar;
+
+    flex: 1;
+    overflow: auto;
+    padding: 10px;
+    height: auto;
+  }
+
+  > .zoomrc-dialog-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 4px;
+
+    > .actions {
+      > .zoomrc-dialog-action-button {
+        margin: 0 2px;
+      }
+    }
+  }
+}
+
+@include ltr {
+  .zoomrc-dialog {
+    > .zoomrc-dialog-header {
+      > .title {
+        padding-left: 0;
+        padding-right: $zoomrc-dialog-header-title-left-padding;
+      }
+    }
+  }
+}

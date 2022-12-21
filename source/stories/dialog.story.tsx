@@ -4,6 +4,9 @@ import { ComponentMeta } from '@storybook/react'
 
 import { Dialog, Button, DialogNS } from '../components'
 import { lorem } from '../fixtures'
+import { useAddDataAttrs } from './hooks'
+
+import './styles/_dialog.scss'
 
 export default {
   title: 'Dialog',
@@ -11,6 +14,7 @@ export default {
 } as ComponentMeta<typeof Dialog>
 
 export const _Dialog = () => {
+  const { layout, setLayout } = useAddDataAttrs('rtl')
   const dialogRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [dialogSize, setDialogSize] = useState<DialogNS.Size>('normal')
@@ -87,6 +91,17 @@ export const _Dialog = () => {
         dialogRef={dialogRef}
         backdropRef={undefined}
       >
+        <Button
+          size="small"
+          type="dashed"
+          variant="info"
+          onClick={() =>
+            setLayout(layout => (layout === 'ltr' ? 'rtl' : 'ltr'))
+          }
+        >
+          Switch to {layout === 'ltr' ? 'RTL' : 'LTR'} layout
+        </Button>
+
         {lorem(10)}
       </Dialog>
     </div>

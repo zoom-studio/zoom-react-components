@@ -1,0 +1,13 @@
+.dialog-story {
+  > .buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    > button {
+      display: inline-block;
+      width: auto;
+      margin: 6px 0;
+    }
+  }
+}

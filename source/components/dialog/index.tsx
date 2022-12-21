@@ -186,18 +186,11 @@ export const Dialog: FC<DialogNS.Props> = ({
 
           <div {...rest} className={dialogClasses} ref={dialogRef}>
             <div {...headerProps} className={headerClasses}>
-              <div className="actions">
-                {closable && (
-                  <Button
-                    type="text"
-                    onClick={close}
-                    {...closeButtonProps}
-                    className={closeButtonClasses}
-                  >
-                    <Icon name="close" />
-                  </Button>
-                )}
+              <Title h6 className="title draggable-area">
+                {title}
+              </Title>
 
+              <div className="actions">
                 {withFullscreenButton && (
                   <Button
                     type="text"
@@ -208,11 +201,18 @@ export const Dialog: FC<DialogNS.Props> = ({
                     <Icon name={isFullscreen ? 'crop' : 'crop_free'} />
                   </Button>
                 )}
-              </div>
 
-              <Title h6 className="title draggable-area">
-                {title}
-              </Title>
+                {closable && (
+                  <Button
+                    type="text"
+                    onClick={close}
+                    {...closeButtonProps}
+                    className={closeButtonClasses}
+                  >
+                    <Icon name="close" />
+                  </Button>
+                )}
+              </div>
             </div>
 
             <div {...bodyProps} className={bodyClasses}>
@@ -220,16 +220,6 @@ export const Dialog: FC<DialogNS.Props> = ({
             </div>
 
             <div {...footerProps} className={footerClasses}>
-              <div className="actions">
-                {actions?.map((action, index) => (
-                  <Button
-                    {...action}
-                    className={actionButtonClasses(action.className)}
-                    key={index}
-                  />
-                ))}
-              </div>
-
               <div className="actions secondary">
                 {cancelButton && closable && (
                   <Button
@@ -243,6 +233,16 @@ export const Dialog: FC<DialogNS.Props> = ({
                   </Button>
                 )}
                 {secondaryActions?.map((action, index) => (
+                  <Button
+                    {...action}
+                    className={actionButtonClasses(action.className)}
+                    key={index}
+                  />
+                ))}
+              </div>
+
+              <div className="actions">
+                {actions?.map((action, index) => (
                   <Button
                     {...action}
                     className={actionButtonClasses(action.className)}

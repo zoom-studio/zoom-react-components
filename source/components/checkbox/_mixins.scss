@@ -1,0 +1,54 @@
+@mixin generate-checkbox-variants($variant) {
+  $is-neutral: $variant == neutral;
+  $color: if($is-neutral, color(text, 1), color($variant));
+  $border-color: if($is-neutral, color(border, 2), color($variant, glassy, 4));
+  $shadow-color: if(
+    $is-neutral,
+    color(border, 2, glassy, 5),
+    color($variant, glassy, 2)
+  );
+
+  &-#{$variant} {
+    color: $color;
+
+    > .zoomrc-checkbox-label {
+      > .custom-checkbox {
+        border-color: $border-color;
+      }
+    }
+
+    &:hover {
+      > .zoomrc-checkbox-label {
+        > .custom-checkbox {
+          box-shadow: 0 0 0 4px $shadow-color;
+        }
+      }
+    }
+  }
+}
+
+@mixin generate-checkbox-sizes($size) {
+  $box-size: if($size == small, 20px, if($size == normal, 24px, 32px));
+  $check-icon-font-size: $box-size;
+  $spin-size: $box-size - 6px;
+
+  &-#{$size} {
+    > .zoomrc-checkbox-label {
+      > .custom-checkbox {
+        width: $box-size;
+        height: $box-size;
+
+        > .checked-icon {
+          font-size: to-rem($check-icon-font-size);
+        }
+
+        > .zoomrc-spin-small {
+          > svg {
+            width: $spin-size;
+            height: $spin-size;
+          }
+        }
+      }
+    }
+  }
+}

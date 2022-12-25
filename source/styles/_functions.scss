@@ -4,7 +4,7 @@
 @use "sass:list";
 
 /**
- * $source: layer | text | border | accent | success | info | warning | error | backdrop
+ * $source: layer | text | border | accent | success | info | warning | error | backdrop | placeholder
  * $tone: 1 to 3 (( DO NOT pass unless $source is one of [layer | text | border | accent]  ))
  * $mode: lighter | darker | glassy
  * $weight: 1 to 9
@@ -16,7 +16,7 @@
   $weight: '' + $weight;
   $source-suffix: '-' + $tone;
   $is-from-base: $source == success or $source == info or $source == warning or
-    $source ==error or $source == backdrop;
+    $source ==error or $source == backdrop or $source == placeholder;
 
   @if $is-from-base {
     $weight: $mode;

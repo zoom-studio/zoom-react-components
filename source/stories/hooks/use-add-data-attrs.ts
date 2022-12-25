@@ -10,6 +10,12 @@ export const useAddDataAttrs = (layout: UseAddDataAttrsNS.Layout = 'rtl') => {
   const [currentLayout, setCurrentLayout] =
     useState<UseAddDataAttrsNS.Layout>(layout)
 
+  const nextLayout = currentLayout === 'ltr' ? 'RTL' : 'LTR'
+
+  const toggleLayout = () => {
+    setCurrentLayout(layout => (layout === 'ltr' ? 'rtl' : 'ltr'))
+  }
+
   useEffect(() => {
     const htmlElement = document.querySelector('html')
 
@@ -23,5 +29,10 @@ export const useAddDataAttrs = (layout: UseAddDataAttrsNS.Layout = 'rtl') => {
     addThemeToBody()
   }, [currentLayout])
 
-  return { layout: currentLayout, setLayout: setCurrentLayout }
+  return {
+    layout: currentLayout,
+    setLayout: setCurrentLayout,
+    toggleLayout,
+    nextLayout,
+  }
 }

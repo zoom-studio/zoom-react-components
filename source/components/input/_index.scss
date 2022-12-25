@@ -26,6 +26,7 @@ div.zoomrc-input-container {
   > .zoomrc-input-state-message {
     color: inherit;
     margin-top: 4px;
+    direction: rtl;
     text-align: right;
   }
 
@@ -50,6 +51,7 @@ div.zoomrc-input-container {
       > p[class^='zoomrc-text-'] {
         margin: 0;
         color: inherit;
+        direction: rtl;
       }
     }
 
@@ -65,6 +67,23 @@ div.zoomrc-input-container {
         color: color(placeholder);
         user-select: none;
       }
+    }
+  }
+}
+
+@include ltr {
+  div.zoomrc-input-container {
+    > .zoomrc-input-label-container {
+      > .zoomrc-input-label {
+        > p[class^='zoomrc-text-'] {
+          direction: ltr;
+        }
+      }
+    }
+
+    > .zoomrc-input-state-message {
+      direction: ltr;
+      text-align: left;
     }
   }
 }

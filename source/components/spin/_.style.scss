@@ -1,9 +1,11 @@
+$zoomrc-spin-left-margin: 4px;
+
 span[class^='zoomrc-spin-'] {
   display: flex;
   align-items: center;
 
   > svg {
-    margin-left: 4px;
+    margin-left: $zoomrc-spin-left-margin;
 
     > .outer-path {
       opacity: 0.2;
@@ -13,6 +15,15 @@ span[class^='zoomrc-spin-'] {
   > p[class^='zoomrc-text-'] {
     color: color(text, 2);
     margin: 0;
+  }
+}
+
+@include ltr {
+  span[class^='zoomrc-spin-'] {
+    > svg {
+      margin-left: 0;
+      margin-right: $zoomrc-spin-left-margin;
+    }
   }
 }
 

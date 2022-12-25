@@ -2,22 +2,22 @@ import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Select as SelectComponent, SelectGroup, SelectOption } from '..'
+import { Select, Title } from '..'
+
+import './styles/_form.scss'
 
 export default {
   title: 'Select',
-  component: SelectComponent,
-} as ComponentMeta<typeof SelectComponent>
+  component: Select,
+} as ComponentMeta<typeof Select>
 
-export const Select: FC = () => {
+export const _Select: FC = () => {
   return (
     <>
-      ssssssssssssss
-      <SelectComponent>
-        <div>other</div>
-        <SelectOption>option</SelectOption>
-        <SelectGroup>group</SelectGroup>
-      </SelectComponent>
+      <div className="form-components-story">
+        <Title h1>Playground</Title>
+        <Select />
+      </div>
     </>
   )
 }

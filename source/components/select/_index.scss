@@ -1,0 +1,211 @@
+@import 'variables';
+@import 'mixins';
+
+$zoomrc-select-label-left-padding: 6px;
+
+div.zoomrc-select {
+  width: 100%;
+  height: auto;
+  position: relative;
+
+  @each $variant in $select-variants {
+    @include generate-select-variants($variant);
+  }
+
+  @each $size in $select-sizes {
+    @include generate-select-sizes($size);
+  }
+
+  > .info-container {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    user-select: none;
+    cursor: pointer;
+    background-color: color(layer, 2);
+    transition: box-shadow 150ms linear;
+
+    > .select-label,
+    > .zoomrc-select-value,
+    > .zoomrc-select-placeholder {
+      @include truncate;
+
+      margin: 0;
+      padding-left: $zoomrc-select-label-left-padding;
+      direction: rtl;
+      text-align: right;
+      color: inherit;
+    }
+
+    > .zoomrc-select-value,
+    > .zoomrc-select-placeholder {
+      flex: 1;
+    }
+
+    > .zoomrc-select-placeholder {
+      color: color(placeholder);
+    }
+
+    > .zoomrc-select-value {
+      color: color(text, 1);
+    }
+
+    > .expand-icon {
+      font-size: to-rem(24px);
+    }
+  }
+
+  > .zoomrc-select-state-message {
+    color: inherit;
+    margin-top: 4px;
+    direction: rtl;
+    text-align: right;
+  }
+
+  > .zoomrc-select-dropdown {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    background-color: color(layer, 2);
+    border: 1px solid color(border, 2);
+    margin-top: 4px;
+    border-radius: 4px;
+
+    > .search-box {
+      padding: 6px;
+
+      .search-input-container {
+        background-color: color(layer, 1);
+      }
+    }
+
+    > .options-list {
+      @include hover-scrollbar;
+
+      padding: 6px;
+      overflow: auto;
+
+      > .zoomrc-select-group {
+        display: flex;
+        user-select: none;
+        flex-direction: column;
+
+        &:not(:first-child) {
+          border-top: 1px solid color(border, 2, lighter, 1);
+          margin-top: 4px;
+        }
+
+        > .group-info {
+          display: flex;
+          align-items: center;
+          height: 34px;
+          padding: 0 6px;
+
+          > .label {
+            @include truncate;
+
+            margin: 0;
+            color: color(text, 3);
+            flex: 1;
+            text-align: right;
+            direction: ltr;
+          }
+        }
+
+        > .options {
+          padding-right: 20px;
+        }
+      }
+
+      .zoomrc-select-option {
+        display: flex;
+        color: color(text, 2);
+        user-select: none;
+        height: 34px;
+        align-items: center;
+        border-radius: 4px;
+        padding: 0 6px;
+        cursor: pointer;
+        transition: all 75ms linear;
+
+        &.disabled {
+          pointer-events: none;
+          opacity: 0.5;
+        }
+
+        &.selected {
+          background-color: color(accent, 1, glassy, 2);
+        }
+
+        &:hover {
+          background-color: color(placeholder, glassy, 1);
+
+          &.selected {
+            background-color: color(accent, 1, glassy, 3);
+          }
+        }
+
+        > .label {
+          @include truncate;
+
+          margin: 0;
+          color: inherit;
+          flex: 1;
+          text-align: right;
+          direction: ltr;
+        }
+
+        > .selected-icon {
+          color: inherit;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          width: 34px;
+        }
+      }
+    }
+  }
+}
+
+@include ltr {
+  div.zoomrc-select {
+    > .info-container {
+      > .select-label {
+        direction: ltr;
+        text-align: left;
+        padding-left: 0;
+        padding-right: $zoomrc-select-label-left-padding;
+      }
+    }
+
+    > .zoomrc-select-state-message {
+      direction: ltr;
+      text-align: left;
+    }
+
+    > .zoomrc-select-dropdown {
+      > .options-list {
+        > .zoomrc-select-group {
+          > .group-info {
+            > .label {
+              direction: ltr;
+              text-align: left;
+            }
+          }
+        }
+
+        .zoomrc-select-option {
+          > .label {
+            direction: ltr;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}

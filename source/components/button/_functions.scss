@@ -10,11 +10,7 @@
 @function variant-border($variant) {
   $color: translate-variant($variant);
 
-  @return if(
-    $variant == 'inherit',
-    color(accent, 2, glassy, 5),
-    color($color, glassy, 5)
-  );
+  @return if($variant == 'inherit', color(accent, 2, glassy, 5), color($color, glassy, 5));
 }
 
 @function variant-color($variant) {
@@ -34,9 +30,5 @@
 @function variant-background($variant) {
   $color: translate-variant($variant);
 
-  @return if(
-    $variant == 'inherit',
-    color(accent, 1, lighter, 2),
-    color(#{$color}, lighter, 2)
-  );
+  @return if($variant == 'inherit', color(accent, 1, lighter, 2), color(#{$color}, lighter, 2));
 }

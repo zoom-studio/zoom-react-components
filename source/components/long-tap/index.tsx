@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  HTMLAttributes,
-  MouseEvent,
-  ReactNode,
-  TouchEvent,
-  useRef,
-} from 'react'
+import React, { FC, HTMLAttributes, MouseEvent, ReactNode, TouchEvent, useRef } from 'react'
 import { useZoomComponent } from '../../hooks'
 
 export namespace LongTapNS {
@@ -15,9 +8,7 @@ export namespace LongTapNS {
     children?: ReactNode
   }
 
-  export type MouseDownEvent =
-    | MouseEvent<HTMLDivElement>
-    | TouchEvent<HTMLDivElement>
+  export type MouseDownEvent = MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
 }
 
 export const LongTap: FC<LongTapNS.Props> = ({

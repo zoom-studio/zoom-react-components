@@ -6,12 +6,7 @@ import { Range } from '../../types'
 
 export namespace TypographyNS {
   export namespace TextNS {
-    export type Types =
-      | 'common'
-      | 'bold'
-      | 'light'
-      | 'underlined'
-      | 'strikethrough'
+    export type Types = 'common' | 'bold' | 'light' | 'underlined' | 'strikethrough'
 
     export type Sizes = 'small' | 'normal' | 'large'
 
@@ -98,19 +93,7 @@ export const Title: FC<TypographyNS.TitleNS.Props> = ({
   children,
   ...rest
 }) => {
-  const size: TypographyNS.TitleNS.Sizes = h1
-    ? 1
-    : h2
-    ? 2
-    : h3
-    ? 3
-    : h4
-    ? 4
-    : h5
-    ? 5
-    : h6
-    ? 6
-    : 4
+  const size: TypographyNS.TitleNS.Sizes = h1 ? 1 : h2 ? 2 : h3 ? 3 : h4 ? 4 : h5 ? 5 : h6 ? 6 : 4
 
   const classes = classNames(`zoomrc-title-${size}`, {
     [className ?? '']: true,

@@ -1,7 +1,5 @@
 export const addThemeToBody = () => {
-  const themeKeeper = <HTMLDivElement | null>(
-    document.getElementById('zoomrc-story-theme-provider')
-  )
+  const themeKeeper = <HTMLDivElement | null>document.getElementById('zoomrc-story-theme-provider')
 
   if (!themeKeeper) {
     return null

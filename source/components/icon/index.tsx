@@ -11,12 +11,7 @@ export namespace IconNS {
   }
 }
 
-export const Icon: FC<IconNS.Props> = ({
-  name,
-  className,
-  flipOn,
-  ...rest
-}) => {
+export const Icon: FC<IconNS.Props> = ({ name, className, flipOn, ...rest }) => {
   const { createClassName } = useZoomComponent('icon')
 
   const classNames = createClassName(className, undefined, {

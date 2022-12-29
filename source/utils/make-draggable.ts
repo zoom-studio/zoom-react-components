@@ -49,8 +49,7 @@ export const makeElementDraggable = ({
 
   const setRestrictedPositions = () => {
     const areaSensitiveTarget =
-      areaSensitive &&
-      <HTMLDivElement>document.querySelector(areaSensitive.target)
+      areaSensitive && <HTMLDivElement>document.querySelector(areaSensitive.target)
 
     const areaWidth = areaSensitiveTarget?.clientWidth || 0
     const areaHeight = areaSensitiveTarget?.clientHeight || 0

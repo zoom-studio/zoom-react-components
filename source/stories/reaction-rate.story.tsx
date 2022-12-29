@@ -3,11 +3,7 @@ import React, { FC, useState } from 'react'
 import { ComponentMeta } from '@storybook/react'
 import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 
-import {
-  ReactionRate as ReactionRateComponent,
-  ReactionRateNS,
-  Title,
-} from '..'
+import { ReactionRate as ReactionRateComponent, ReactionRateNS, Title } from '..'
 import './styles/_reaction-rate.scss'
 
 export default {
@@ -21,12 +17,9 @@ export default {
 const Template: FC<ReactionRateNS.Props> = props => {
   const [loading, setLoading] = useState(false)
   const [failToDispatch, setFailToDispatch] = useState(false)
-  const [rate, setRate] =
-    useState<ReactionRateNS.SelectedRange | undefined>(undefined)
+  const [rate, setRate] = useState<ReactionRateNS.SelectedRange | undefined>(undefined)
 
-  const dispatchRate = async (
-    rate: ReactionRateNS.SelectedRange,
-  ): Promise<void> => {
+  const dispatchRate = async (rate: ReactionRateNS.SelectedRange): Promise<void> => {
     let currentValue: ReactionRateNS.SelectedRange | undefined
     setLoading(true)
     setRate(currentRate => {
@@ -92,32 +85,17 @@ const Template: FC<ReactionRateNS.Props> = props => {
       <br />
 
       <Title>دوتایی با ری‌اکشن‌های کاستوم:</Title>
-      <ReactionRateComponent
-        {...props}
-        type="couple"
-        emojis={['rock', 'ghost']}
-      />
+      <ReactionRateComponent {...props} type="couple" emojis={['rock', 'ghost']} />
 
       <br />
 
       <Title>دارای دیفالت و غیر فعال:</Title>
-      <ReactionRateComponent
-        {...props}
-        type="quintuple"
-        selectedReaction={3}
-        disabled
-      />
+      <ReactionRateComponent {...props} type="quintuple" selectedReaction={3} disabled />
 
       <br />
 
       <Title>لودینگ (درحال ثبت ری‌اکشن):</Title>
-      <ReactionRateComponent
-        {...props}
-        type="quintuple"
-        selectedReaction={3}
-        disabled
-        loading
-      />
+      <ReactionRateComponent {...props} type="quintuple" selectedReaction={3} disabled loading />
     </div>
   )
 }

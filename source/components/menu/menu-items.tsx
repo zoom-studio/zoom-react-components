@@ -8,10 +8,7 @@ import { useZoomComponent } from '../../hooks'
 
 export namespace ItemsNS {
   export interface Props
-    extends Pick<
-      MenuItemNS.Props,
-      'linkComponent' | 'isDarwinOS' | 'closeOnItemClick'
-    > {
+    extends Pick<MenuItemNS.Props, 'linkComponent' | 'isDarwinOS' | 'closeOnItemClick'> {
     items: MenuItemNS.Item[]
     isRTL?: boolean
   }
@@ -26,10 +23,7 @@ export const Items: FC<ItemsNS.Props> = ({
 }) => {
   const { createClassName } = useZoomComponent('menu-item')
 
-  const containerClasses = (
-    children: MenuItemNS.Item[],
-    selfDisabled: boolean,
-  ) => {
+  const containerClasses = (children: MenuItemNS.Item[], selfDisabled: boolean) => {
     return createClassName('with-subitems', '', {
       'rtl-layout': !!isRTL,
       'disabled': !children.some(child => !child.isDisabled) || selfDisabled,

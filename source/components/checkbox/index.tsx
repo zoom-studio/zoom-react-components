@@ -7,8 +7,7 @@ import { Icon, InputNS, Text, TypographyNS, Spin } from '..'
 export namespace CheckboxNS {
   export type Size = 'small' | 'normal' | 'large'
 
-  export interface Props
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
+  export interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
     containerProps?: HTMLAttributes<HTMLDivElement>
     stateMessageProps?: TypographyNS.TextNS.Props
     size?: Size
@@ -46,10 +45,7 @@ export const Checkbox: FC<CheckboxNS.Props> = ({
     [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
   })
 
-  const stateMessageClasses = createClassName(
-    stateMessageProps?.className,
-    'state-message',
-  )
+  const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
 
   const textSizeProps: InputNS.TextSize = {
     small: size === 'small',
@@ -60,19 +56,10 @@ export const Checkbox: FC<CheckboxNS.Props> = ({
   return (
     <div {...containerProps} className={containerClasses}>
       <label {...labelProps} className={labelClasses}>
-        <input
-          {...rest}
-          type="checkbox"
-          className="native-checkbox"
-          disabled={isDisabled}
-        />
+        <input {...rest} type="checkbox" className="native-checkbox" disabled={isDisabled} />
 
         <span className="custom-checkbox">
-          {loading ? (
-            <Spin size="small" />
-          ) : (
-            <Icon name="done" className="checked-icon" />
-          )}
+          {loading ? <Spin size="small" /> : <Icon name="done" className="checked-icon" />}
         </span>
 
         {label && (
@@ -83,11 +70,7 @@ export const Checkbox: FC<CheckboxNS.Props> = ({
       </label>
 
       {state[1] && (
-        <Text
-          {...textSizeProps}
-          {...stateMessageProps}
-          className={stateMessageClasses}
-        >
+        <Text {...textSizeProps} {...stateMessageProps} className={stateMessageClasses}>
           {state[1]}
         </Text>
       )}

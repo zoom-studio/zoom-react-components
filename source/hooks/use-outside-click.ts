@@ -5,9 +5,7 @@ export const useOutsideClick = (
   ...references: Array<RefObject<HTMLElement>>
 ) => {
   const handleOnClick = (evt: globalThis.MouseEvent) => {
-    const isOutside = !references.some(({ current }) =>
-      current?.contains(<Node>evt.target),
-    )
+    const isOutside = !references.some(({ current }) => current?.contains(<Node>evt.target))
 
     if (isOutside) {
       callback()

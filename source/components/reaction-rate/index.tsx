@@ -9,20 +9,14 @@ export namespace ReactionRateNS {
   export type SelectedRange = Range<1, 6>
   export type Sizes = 'small' | 'normal' | 'large'
 
-  export interface Props
-    extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+  export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
     type?: 'quintuple' | 'couple'
     selectedReaction?: SelectedRange
     loading?: boolean
     disabled?: boolean
     size?: Sizes
-    onSelect?: (
-      rate: SelectedRange,
-      evt?: MouseEvent<HTMLButtonElement>,
-    ) => void
-    emojis?:
-      | [EmojiName, EmojiName]
-      | [EmojiName, EmojiName, EmojiName, EmojiName, EmojiName]
+    onSelect?: (rate: SelectedRange, evt?: MouseEvent<HTMLButtonElement>) => void
+    emojis?: [EmojiName, EmojiName] | [EmojiName, EmojiName, EmojiName, EmojiName, EmojiName]
   }
 }
 
@@ -51,11 +45,9 @@ export const ReactionRate: FC<ReactionRateNS.Props> = ({
 
   const reactions = type === 'quintuple' ? emojis : [emojis[0], emojis[1]]
 
-  const isSelected = (index: number): boolean | undefined =>
-    index + 1 === selectedReaction
+  const isSelected = (index: number): boolean | undefined => index + 1 === selectedReaction
 
-  const isLoading = (index: number): boolean | undefined =>
-    isSelected(index) && loading
+  const isLoading = (index: number): boolean | undefined => isSelected(index) && loading
 
   return (
     <div className={classes} {...rest}>
@@ -67,9 +59,7 @@ export const ReactionRate: FC<ReactionRateNS.Props> = ({
           active={isSelected(index)}
           loading={isLoading(index)}
           disabled={disabled || isSelected(index) || loading}
-          onClick={evt =>
-            onSelect?.((index + 1) as ReactionRateNS.SelectedRange, evt)
-          }
+          onClick={evt => onSelect?.((index + 1) as ReactionRateNS.SelectedRange, evt)}
         >
           {!isLoading(index) && <Emoji name={reaction} />}
         </Button>

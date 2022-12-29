@@ -116,11 +116,7 @@
       color: variant-color($variant);
 
       @include hover-and-active {
-        color: if(
-          $variant == 'inherit',
-          color(accent, 2, lighter, 2),
-          color($variant, lighter, 2)
-        );
+        color: if($variant == 'inherit', color(accent, 2, lighter, 2), color($variant, lighter, 2));
       }
 
       @include active {

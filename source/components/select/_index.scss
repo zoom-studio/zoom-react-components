@@ -1,7 +1,25 @@
+@use 'sass:math';
 @import 'variables';
 @import 'mixins';
 
 $zoomrc-select-label-left-padding: 6px;
+$zoomrc-select-group-right-padding: 26px;
+$zoomrc-select-guide-line-color: color(border, 2, lighter, 1);
+$zoomrc-select-guide-line-transition: all 100ms linear;
+$zoomrc-select-guide-line-color-hover: color(border, 2, lighter, 2);
+$zoomrc-select-option-height: 34px;
+
+@keyframes zoomrc-select-open-dropdown-animation {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
 
 div.zoomrc-select {
   width: 100%;
@@ -14,6 +32,15 @@ div.zoomrc-select {
 
   @each $size in $select-sizes {
     @include generate-select-sizes($size);
+  }
+
+  &-open {
+    z-index: 1;
+  }
+
+  &-disabled {
+    pointer-events: none;
+    opacity: 0.5;
   }
 
   > .info-container {
@@ -52,6 +79,15 @@ div.zoomrc-select {
 
     > .zoomrc-select-value {
       color: color(text, 1);
+
+      > .label {
+        display: inline-block;
+        padding: 0 4px;
+        margin: 0 2px;
+        background-color: color(accent);
+        border-radius: 4px;
+        color: white;
+      }
     }
 
     > .expand-icon {
@@ -72,8 +108,8 @@ div.zoomrc-select {
     height: auto;
     background-color: color(layer, 2);
     border: 1px solid color(border, 2);
-    margin-top: 4px;
     border-radius: 4px;
+    animation: zoomrc-select-open-dropdown-animation 70ms linear;
 
     > .search-box {
       padding: 6px;
@@ -95,21 +131,37 @@ div.zoomrc-select {
         flex-direction: column;
 
         &:not(:first-child) {
-          border-top: 1px solid color(border, 2, lighter, 1);
+          border-top: 1px solid $zoomrc-select-guide-line-color;
           margin-top: 4px;
+        }
+
+        &:hover {
+          > .options {
+            &::before {
+              background-color: $zoomrc-select-guide-line-color-hover;
+            }
+
+            > .zoomrc-select-option {
+              &.group-option {
+                &::before {
+                  background-color: $zoomrc-select-guide-line-color-hover;
+                }
+              }
+            }
+          }
         }
 
         > .group-info {
           display: flex;
           align-items: center;
-          height: 34px;
+          height: $zoomrc-select-option-height;
           padding: 0 6px;
 
           > .label {
             @include truncate;
 
             margin: 0;
-            color: color(text, 3);
+            color: color(text, 1, glassy, 8);
             flex: 1;
             text-align: right;
             direction: ltr;
@@ -117,7 +169,19 @@ div.zoomrc-select {
         }
 
         > .options {
-          padding-right: 20px;
+          padding-right: $zoomrc-select-group-right-padding;
+          position: relative;
+
+          &::before {
+            content: '';
+            position: absolute;
+            background-color: $zoomrc-select-guide-line-color;
+            transition: $zoomrc-select-guide-line-transition;
+            width: 1px;
+            top: 0;
+            right: math.div($zoomrc-select-group-right-padding, 2);
+            height: calc(100% - (math.div($zoomrc-select-option-height, 2) - 2px));
+          }
         }
       }
 
@@ -125,12 +189,27 @@ div.zoomrc-select {
         display: flex;
         color: color(text, 2);
         user-select: none;
-        height: 34px;
+        height: $zoomrc-select-option-height;
         align-items: center;
-        border-radius: 4px;
         padding: 0 6px;
         cursor: pointer;
         transition: all 75ms linear;
+        position: relative;
+
+        &.group-option {
+          &::before {
+            content: '';
+            position: absolute;
+            right: math.div($zoomrc-select-group-right-padding, 2) * -1;
+            top: 0;
+            bottom: 0;
+            width: math.div($zoomrc-select-group-right-padding, 2);
+            height: 1px;
+            background-color: $zoomrc-select-guide-line-color;
+            transition: $zoomrc-select-guide-line-transition;
+            margin: auto;
+          }
+        }
 
         &.disabled {
           pointer-events: none;
@@ -165,8 +244,27 @@ div.zoomrc-select {
           align-items: center;
           justify-content: center;
           height: 100%;
-          width: 34px;
+          width: $zoomrc-select-option-height;
         }
+      }
+    }
+
+    > .empty-list {
+      display: flex;
+      color: color(text, 2);
+      flex-direction: column;
+      justify-content: center;
+      animation: zoomrc-select-open-dropdown-animation 70ms linear;
+      align-items: center;
+
+      > .empty-list-icon {
+        margin: 10px 0 0;
+      }
+
+      > .empty-list-message {
+        color: inherit;
+        margin: 10px 0 0;
+        user-select: none;
       }
     }
   }

@@ -3,37 +3,48 @@ import React, {
   FC,
   FormEvent,
   HTMLAttributes,
-  ReactNode,
   RefObject,
+  useEffect,
   useRef,
+  useState,
 } from 'react'
 
-import { Icon, Input, InputNS, Spin, Text, TypographyNS } from '..'
-import {
-  useDependedState,
-  useOutsideClick,
-  useZoomComponent,
-} from '../../hooks'
+import { sleep } from '@zoom-studio/zoom-js-ts-utils'
+
+import { Icon, Input, InputNS, Spin, SVGIcon, Text, TypographyNS } from '..'
+import { BREAKPOINTS } from '../../constants'
+import { useOutsideClick, useZoomComponent } from '../../hooks'
 import { color } from '../../utils'
 import { SelectGroup, SelectGroupNS } from './group'
 import { SelectOption, SelectOptionNS } from './option'
+import { SelectValue } from './value'
+import { defaultEmpty, focusSearchBox, groupOptions, scrollToTop } from './utils'
 
 export namespace SelectNS {
+  export type EmptyState = 'nothing-found' | 'empty-list' | false
   export type Size = 'small' | 'normal' | 'large'
   export type Option = SelectGroupNS.Props & SelectOptionNS.Props
-  export type SingleOption = Array<
-    Pick<SelectOptionNS.Props, 'value' | 'label'>
-  >
+  export type SingleOption = Array<Pick<SelectOptionNS.Props, 'value' | 'label'>>
+  export type SelectedOption = SelectOptionNS.Value | SelectGroupNS.GroupedSelectedOptions
+  export type SingleSelectedOption = [SelectOptionNS.Value, SelectOptionNS.Value?]
+  export type SelectValue = Pick<Option, 'label' | 'value'>
+  export type SelectOptions = (
+    currentOptions: SelectNS.GroupedOptions,
+    selectedOptions: SelectNS.SelectedOption,
+  ) => SelectNS.GroupedOptions
 
-  export interface Props
-    extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
+  export interface GroupedOptions {
+    [value: SelectOptionNS.Value]: SelectGroupNS.GroupedProps
+  }
+
+  export interface Props {
     options?: Option[]
     multiSelect?: boolean
-    label: string
+    label?: string
     placeholder?: string
-    value?: SelectOptionNS.Value
     stateMessageProps?: TypographyNS.TextNS.Props
     dropdownProps?: HTMLAttributes<HTMLDivElement>
+    containerProps?: Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'>
     size?: Size
     state?: InputNS.State
     disabled?: boolean
@@ -44,10 +55,16 @@ export namespace SelectNS {
     showSearch?: boolean
     childRef?: RefObject<HTMLDivElement>
     dropdownRef?: RefObject<HTMLDivElement>
+    containerRef?: RefObject<HTMLDivElement>
     defaultIsOpen?: boolean
     searchInputProps?: InputNS.Props
+    searchInputRef?: RefObject<HTMLInputElement>
     selectAllText?: string
     deselectAllText?: string
+    searchQuery?: string
+    nothingFoundText?: string
+    emptyListText?: string
+    scrollOnOpen?: boolean
     onChange?: (options: SingleOption[]) => void
     onWillOpen?: () => void
     onWillClose?: () => void
@@ -55,9 +72,7 @@ export namespace SelectNS {
 }
 
 export const Select: FC<SelectNS.Props> = ({
-  childRef: customChildRef,
-  dropdownRef: customDropdownRef,
-  options: providedOptions = [],
+  options: providedOptions,
   labelColon = true,
   disabledOnLoading = true,
   showSearch = true,
@@ -66,265 +81,226 @@ export const Select: FC<SelectNS.Props> = ({
   optionsPerScroll = 6,
   selectAllText = 'انتخاب همه',
   deselectAllText = 'غیرفعال کردن همه',
-  defaultIsOpen,
-  className,
-  searchInputProps,
-  dropdownProps,
-  multiSelect,
-  label,
-  stateMessageProps,
-  placeholder,
-  onChange,
-  disabled,
-  loading,
-  value,
-  onWillClose,
-  onWillOpen,
-  ...rest
+  nothingFoundText = 'موردی مطابق با جستجو پیدا نشد',
+  emptyListText = 'موردی وجود ندارد',
+  scrollOnOpen = window.innerWidth <= BREAKPOINTS.md,
+  ...props
 }) => {
-  const childRef = customChildRef ?? useRef<HTMLDivElement>(null)
-  const dropdownRef = customDropdownRef ?? useRef<HTMLDivElement>(null)
-  const [isOpen, setIsOpen] = useDependedState(defaultIsOpen)
-  const [options, setOptions] = useDependedState(providedOptions)
   const { createClassName } = useZoomComponent('select')
-  const isDisabled = disabledOnLoading ? loading || disabled : disabled
 
-  const classes = createClassName(className, '', {
-    [createClassName('', size)]: true,
-    [createClassName('', state[0])]: true,
-    [createClassName('', loading ? 'loading' : '')]: !!loading,
-    [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
-  })
+  const dropdownRef = props.dropdownRef ?? useRef<HTMLDivElement>(null)
+  const inputRef = props.searchInputRef ?? useRef<HTMLInputElement>(null)
+  const containerRef = props.containerRef ?? useRef<HTMLInputElement>(null)
+  const optionsListRef = useRef<HTMLDivElement>(null)
+  const childRef = props.childRef ?? useRef<HTMLDivElement>(null)
+  const selectedOptionRef = useRef<SelectNS.SingleSelectedOption | null>(null)
 
-  const valueAndPlaceholderClasses = createClassName(
-    '',
-    value ? 'value' : 'placeholder',
-  )
+  const [searchQuery, setSearchQuery] = useState(props.searchQuery || '')
+  const [isOpen, setIsOpen] = useState(props.defaultIsOpen)
+  const [emptyState, setEmptyState] = useState<SelectNS.EmptyState>(defaultEmpty(providedOptions))
+  const [options, setOptions] = useState<SelectNS.GroupedOptions>(groupOptions(providedOptions))
 
-  const dropdownClasses = createClassName(dropdownProps?.className, 'dropdown')
-
-  const stateMessageClasses = createClassName(
-    stateMessageProps?.className,
-    'state-message',
-  )
-
+  const isDisabled = disabledOnLoading ? props.loading || props.disabled : props.disabled
+  const spinColor = state[0] === 'neutral' ? undefined : color({ source: state[0] })
   const textSizeProps: InputNS.TextSize = {
     small: size === 'small',
     normal: size === 'normal',
     large: size === 'large',
   }
+  const listStyles: CSSProperties = {
+    maxHeight: optionsPerScroll * 34 + 12,
+  }
 
-  const spinColor =
-    state[0] === 'neutral' ? undefined : color({ source: state[0] })
+  const dropdownClasses = createClassName(props.dropdownProps?.className, 'dropdown')
+  const stateMessageClasses = createClassName(props.stateMessageProps?.className, 'state-message')
+  const classes = createClassName(props.containerProps?.className, '', {
+    [createClassName('', size)]: true,
+    [createClassName('', 'open')]: !!isOpen,
+    [createClassName('', state[0])]: true,
+    [createClassName('', props.loading ? 'loading' : '')]: !!props.loading,
+    [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
+  })
+
+  const selectOptions: SelectNS.SelectOptions = (currentOptions, selectedOptions) => {
+    const options = { ...currentOptions }
+    const { current: prevSelectedOptions } = selectedOptionRef
+
+    if (!props.multiSelect) {
+      if (prevSelectedOptions) {
+        if (prevSelectedOptions[1]) {
+          options[prevSelectedOptions[0]].options![prevSelectedOptions[1]].selected = false
+        } else {
+          options[prevSelectedOptions[0]].selected = false
+        }
+      }
+      close()
+    }
+
+    if (typeof selectedOptions === 'number' || typeof selectedOptions === 'string') {
+      const newSelection = !options[selectedOptions].selected
+
+      options[selectedOptions].selected = newSelection
+      selectedOptionRef.current = [selectedOptions]
+    } else {
+      const parentValue = Object.keys(selectedOptions)[0]
+      const childValues = selectedOptions[parentValue]
+      const newSelection = !childValues.some(
+        value => options[parentValue].options?.[value].selected,
+      )
+
+      selectedOptionRef.current = [parentValue, childValues[0]]
+      childValues.forEach(childValue => {
+        options[parentValue].options![childValue].selected = newSelection
+      })
+    }
+
+    return options
+  }
+
+  const handleSelectOptions = (selectedOptions: SelectNS.SelectedOption) => {
+    setOptions(options => selectOptions(options, selectedOptions))
+  }
+
+  const handleSetEmptyList = async () => {
+    await sleep(20)
+    const { current: optionsList } = optionsListRef
+    if (!optionsList) {
+      return null
+    }
+
+    setEmptyState(
+      optionsList.innerHTML
+        ? false
+        : (providedOptions || []).length > 0
+        ? 'nothing-found'
+        : 'empty-list',
+    )
+  }
+
+  const onClose = () => {
+    props.onWillClose?.()
+  }
+
+  const onOpen = () => {
+    props.onWillOpen?.()
+    scrollToTop(containerRef, scrollOnOpen)
+    void focusSearchBox(inputRef)
+    void handleSetEmptyList()
+  }
 
   const close = () => {
     setIsOpen(currentIsOpen => {
       if (currentIsOpen) {
-        onWillClose?.()
+        onClose()
       }
       return false
     })
   }
 
   const open = () => {
+    if (isDisabled) {
+      return
+    }
     setIsOpen(currentIsOpen => {
       if (currentIsOpen) {
-        onWillClose?.()
+        onClose()
         return false
       }
-      onWillOpen?.()
+      onOpen()
       return true
     })
   }
 
-  useOutsideClick(close, childRef, dropdownRef)
-
-  const deselectFirstSelected = (sourceOptions: SelectNS.Option[]) => {
-    for (const source of sourceOptions) {
-      if (source.selected) {
-        source.selected = false
-        break
-      }
-
-      if (source.options && source.options.length > 0) {
-        for (const sourceChild of source.options) {
-          if (sourceChild.selected) {
-            sourceChild.selected = false
-            break
-          }
-        }
-      }
-    }
-  }
-
-  const selectOption = (
-    source: SelectNS.Option,
-    selectedOptions: SelectNS.Option[],
-    isSelectAllButton?: boolean,
-  ) => {
-    const changeSelection = (source: SelectNS.Option) => {
-      if (isSelectAllButton) {
-        const newSelection = !selectedOptions.some(option => option.selected)
-        selectedOptions.forEach(
-          selectedOption => (selectedOption.selected = newSelection),
-        )
-      } else {
-        source.selected = !source.selected
-      }
-    }
-
-    for (const target of selectedOptions) {
-      if (target.value === source.value) {
-        if (!source.disabled) {
-          if (multiSelect) {
-            changeSelection(source)
-            continue
-          } else {
-            deselectFirstSelected(options)
-            changeSelection(source)
-            // close()
-            break
-          }
-        }
-      }
-    }
-  }
-
-  const selectOptions = (
-    sourceOptions: SelectNS.Option[],
-    selectedOptions: SelectNS.Option[],
-    isSelectAllButton?: boolean,
-  ) => {
-    const options = [...sourceOptions]
-
-    for (const source of options) {
-      if (source.options && source.options.length > 0) {
-        for (const sourceChild of source.options) {
-          selectOption(sourceChild, selectedOptions, isSelectAllButton)
-        }
-      } else {
-        selectOption(source, selectedOptions, isSelectAllButton)
-      }
-    }
-    return options
-  }
-
-  const handleSelectOptions =
-    (selectedOptions: SelectNS.Option[], isSelectAllButton?: boolean) => () => {
-      setOptions(options =>
-        selectOptions(options, selectedOptions, isSelectAllButton),
-      )
-    }
-
-  const renderOption = (option: SelectNS.Option, index: number): ReactNode => {
-    if ((option.options?.length || 0) > 0) {
-      return (
-        <SelectGroup
-          {...option}
-          onSelect={option => handleSelectOptions([option])}
-          onSelectAll={options => handleSelectOptions(options, true)}
-          key={index}
-          multiSelect={!!multiSelect}
-          selectAllText={selectAllText}
-          deselectAllText={deselectAllText}
-        />
-      )
-    }
-    return (
-      <SelectOption
-        {...option}
-        onSelect={handleSelectOptions([option])}
-        key={index}
-      />
-    )
-  }
-
-  const filterOptions = (currentOptions: SelectNS.Option[], query: string) => {
-    const options = [...currentOptions]
-    const newOptions: SelectNS.Option[] = []
-
-    for (const option of options) {
-      if (option.label.includes(query)) {
-        newOptions.push(option)
-      }
-
-      // if (option.options && option.options.length > 0) {
-      //   for (const childOption of option.options) {
-      //     if (childOption.label.includes(query)) {
-      //       for (const filteredOption of newOptions) {
-      //         if (filteredOption.value === childOption.value) {
-      //           filteredOption.options?.push(childOption)
-      //         } else {
-      //           newOptions.push({
-      //             ...option,
-      //             options: [childOption],
-      //           })
-      //         }
-      //       }
-      //     }
-      //   }
-      // }
-    }
-
-    return options
-  }
-
   const handleOnFilter = (evt: FormEvent<HTMLInputElement>) => {
-    const { value: query } = evt.currentTarget
-    setOptions(options => filterOptions(options, query))
+    setSearchQuery(evt.currentTarget.value)
+    void handleSetEmptyList()
   }
 
-  const listStyles: CSSProperties = {
-    maxHeight: optionsPerScroll * 34 + 12,
-  }
+  useOutsideClick(close, childRef, dropdownRef)
+  useEffect(() => setIsOpen(props.defaultIsOpen), [props.defaultIsOpen])
+  useEffect(() => setSearchQuery(props.searchQuery || ''), [props.searchQuery])
+  useEffect(() => {
+    setOptions(groupOptions(providedOptions))
+    void handleSetEmptyList()
+  }, [providedOptions])
 
   return (
-    <div {...rest} className={classes}>
+    <div {...props.containerProps} className={classes} ref={containerRef}>
       <div className="info-container" ref={childRef} onClick={open}>
-        {loading && (
-          <Spin size="small" className="select-spin" color={spinColor} />
-        )}
+        {props.loading && <Spin size="small" className="select-spin" color={spinColor} />}
 
         <Text common normal {...textSizeProps} className="select-label">
-          {`${label}${labelColon ? ':' : ''}`}
+          {props.label && `${props.label}${labelColon ? ':' : ''}`}
         </Text>
 
-        <Text
-          common
-          normal
-          className={valueAndPlaceholderClasses}
-          {...textSizeProps}
-        >
-          {value ?? placeholder}
-        </Text>
+        <SelectValue
+          options={options}
+          placeholder={props.placeholder}
+          size={size}
+          multiSelect={props.multiSelect}
+        />
 
         <Icon name="expand_more" className="expand-icon" />
       </div>
 
       {state[1] && (
-        <Text
-          {...textSizeProps}
-          {...stateMessageProps}
-          className={stateMessageClasses}
-        >
+        <Text {...textSizeProps} {...props.stateMessageProps} className={stateMessageClasses}>
           {state[1]}
         </Text>
       )}
 
       {isOpen && (
-        <div {...dropdownProps} className={dropdownClasses} ref={dropdownRef}>
-          {showSearch && (
+        <div {...props.dropdownProps} className={dropdownClasses} ref={dropdownRef}>
+          {showSearch && emptyState !== 'empty-list' && (
             <div className="search-box">
               <Input
                 placeholder="جستجو بین موارد..."
-                {...searchInputProps}
+                {...props.searchInputProps}
                 labelContainerProps={{ className: 'search-input-container' }}
                 onInput={handleOnFilter}
+                inputRef={inputRef}
+                defaultValue={searchQuery}
               />
             </div>
           )}
-          <div className="options-list" style={listStyles}>
-            {options.map(renderOption)}
+
+          {emptyState && (
+            <div className="empty-list">
+              <SVGIcon
+                name="empty-box"
+                className="empty-list-icon"
+                color={color => color({ source: 'text', tone: 3 })}
+                size={40}
+              />
+
+              <Text common normal className="empty-list-message">
+                {emptyState === 'empty-list' ? emptyListText : nothingFoundText}
+              </Text>
+            </div>
+          )}
+
+          <div className="options-list" style={listStyles} ref={optionsListRef}>
+            {Object.values(options).map((option, index) =>
+              option.options ? (
+                <SelectGroup
+                  {...option}
+                  onSelect={value => handleSelectOptions(value)}
+                  onSelectAll={values => handleSelectOptions(values)}
+                  multiSelect={!!props.multiSelect}
+                  selectAllText={selectAllText}
+                  deselectAllText={deselectAllText}
+                  searchQuery={searchQuery}
+                  key={index}
+                />
+              ) : (
+                <SelectOption
+                  {...option}
+                  onSelect={handleSelectOptions}
+                  searchQuery={searchQuery}
+                  key={index}
+                />
+              ),
+            )}
           </div>
         </div>
       )}

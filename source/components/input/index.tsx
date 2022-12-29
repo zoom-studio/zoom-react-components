@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC, HTMLAttributes, RefObject } from 'react'
 
 import { Spin, SpinNS, Text, TypographyNS } from '..'
 import { useZoomComponent } from '../../hooks'
@@ -9,10 +9,7 @@ export namespace InputNS {
   export type Size = 'small' | 'normal' | 'large'
   export type StateNames = 'error' | 'warning' | 'success' | 'info' | 'neutral'
   export type State = [StateNames, string?]
-  export type TextSize = Pick<
-    TypographyNS.TextNS.Props,
-    'small' | 'normal' | 'large'
-  >
+  export type TextSize = Pick<TypographyNS.TextNS.Props, 'small' | 'normal' | 'large'>
 
   export interface Props extends HTMLAttributes<HTMLInputElement> {
     containerProps?: HTMLAttributes<HTMLDivElement>
@@ -28,6 +25,7 @@ export namespace InputNS {
     loading?: boolean
     labelColon?: boolean
     disabledOnLoading?: boolean
+    inputRef?: RefObject<HTMLInputElement>
   }
 }
 
@@ -40,6 +38,7 @@ export const Input: FC<InputNS.Props> = ({
   labelTextProps,
   stateMessageProps,
   spinProps,
+  inputRef,
   label,
   labelContainerProps,
   labelProps,
@@ -53,29 +52,18 @@ export const Input: FC<InputNS.Props> = ({
   const inputClasses = createClassName(className)
   const labelClasses = createClassName(labelProps?.className, 'label')
 
-  const stateMessageClasses = createClassName(
-    stateMessageProps?.className,
-    'state-message',
-  )
+  const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
 
-  const spinColor =
-    state[0] === 'neutral' ? undefined : color({ source: state[0] })
+  const spinColor = state[0] === 'neutral' ? undefined : color({ source: state[0] })
 
-  const labelContainerClasses = createClassName(
-    labelContainerProps?.className,
-    'label-container',
-  )
+  const labelContainerClasses = createClassName(labelContainerProps?.className, 'label-container')
 
-  const containerClasses = createClassName(
-    containerProps?.className,
-    'container',
-    {
-      [createClassName('', size)]: true,
-      [createClassName('', state[0])]: true,
-      [createClassName('', loading ? 'loading' : '')]: !!loading,
-      [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
-    },
-  )
+  const containerClasses = createClassName(containerProps?.className, 'container', {
+    [createClassName('', size)]: true,
+    [createClassName('', state[0])]: true,
+    [createClassName('', loading ? 'loading' : '')]: !!loading,
+    [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
+  })
 
   const textSizeProps: InputNS.TextSize = {
     small: size === 'small',
@@ -97,15 +85,11 @@ export const Input: FC<InputNS.Props> = ({
           </span>
         )}
 
-        <input {...rest} className={inputClasses} />
+        <input {...rest} className={inputClasses} ref={inputRef} />
       </label>
 
       {state[1] && (
-        <Text
-          {...textSizeProps}
-          {...stateMessageProps}
-          className={stateMessageClasses}
-        >
+        <Text {...textSizeProps} {...stateMessageProps} className={stateMessageClasses}>
           {state[1]}
         </Text>
       )}

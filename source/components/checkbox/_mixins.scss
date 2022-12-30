@@ -2,11 +2,7 @@
   $is-neutral: $variant == neutral;
   $color: if($is-neutral, color(text, 1), color($variant));
   $border-color: if($is-neutral, color(border, 2), color($variant, glassy, 4));
-  $shadow-color: if(
-    $is-neutral,
-    color(border, 2, glassy, 5),
-    color($variant, glassy, 2)
-  );
+  $shadow-color: if($is-neutral, color(border, 2, glassy, 5), color($variant, glassy, 2));
 
   &-#{$variant} {
     color: $color;

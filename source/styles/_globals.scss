@@ -176,3 +176,8 @@
 [data-digits='latin'] {
   @include set-font-families($font-family-latin-digits);
 }
+
+html,
+body {
+  scroll-behavior: smooth;
+}

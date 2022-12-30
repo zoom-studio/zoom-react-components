@@ -25,10 +25,7 @@ const ContextMenuStory: FC<ContextMenuStoryNS.Props> = ({ layout }) => {
 
   return (
     <div className="context-menu-story">
-      <ContextMenu
-        menuProps={{ isRTL }}
-        items={isRTL ? faMenuItems : enMenuItems}
-      >
+      <ContextMenu menuProps={{ isRTL }} items={isRTL ? faMenuItems : enMenuItems}>
         <Text light normal>
           Or long press for touchable devices
         </Text>

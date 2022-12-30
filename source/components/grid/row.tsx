@@ -8,12 +8,7 @@ export namespace RowNS {
   }
 }
 
-export const Row: FC<RowNS.Props> = ({
-  className,
-  children,
-  fixWidth = true,
-  ...rest
-}) => {
+export const Row: FC<RowNS.Props> = ({ className, children, fixWidth = true, ...rest }) => {
   const { createClassName } = useZoomComponent('row')
 
   const classNames = createClassName(className, '', {

@@ -21,9 +21,7 @@ export namespace ContextMenuNS {
     children?: ReactNode
     items: MenuNS.Item[]
     menuProps?: Omit<MenuNS.Props, 'items'>
-    containerRef?:
-      | RefObject<HTMLDivElement>
-      | ((element: HTMLDivElement | null) => void)
+    containerRef?: RefObject<HTMLDivElement> | ((element: HTMLDivElement | null) => void)
   }
 }
 

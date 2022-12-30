@@ -1,11 +1,7 @@
 import React, { FC, ReactNode, useEffect } from 'react'
 
 export namespace ZoomProviderNS {
-  export type Themes =
-    | 'dark'
-    | 'dark-high-contrast'
-    | 'light'
-    | 'light-high-contrast'
+  export type Themes = 'dark' | 'dark-high-contrast' | 'light' | 'light-high-contrast'
 
   export type Digits = 'farsi' | 'latin'
 

@@ -97,8 +97,7 @@ export const MenuItem: FC<MenuItemNS.Props> = ({
                   <span className="control">Ctrl</span>
                 ))}
               <span className="other-keys">
-                {(accelerator.ctrlOrCmd ? '+' : '') +
-                  accelerator.otherKeys.join('+')}
+                {(accelerator.ctrlOrCmd ? '+' : '') + accelerator.otherKeys.join('+')}
               </span>
             </span>
           )}

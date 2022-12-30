@@ -95,9 +95,7 @@ export const _Dialog = () => {
           size="small"
           type="dashed"
           variant="info"
-          onClick={() =>
-            setLayout(layout => (layout === 'ltr' ? 'rtl' : 'ltr'))
-          }
+          onClick={() => setLayout(layout => (layout === 'ltr' ? 'rtl' : 'ltr'))}
         >
           Switch to {layout === 'ltr' ? 'RTL' : 'LTR'} layout
         </Button>

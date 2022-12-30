@@ -3,11 +3,7 @@ import React, { FC, HTMLAttributes } from 'react'
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
 import { useFindEmoji } from './hooks'
-import {
-  EMOJI_GROUP_NAMES,
-  EMOJI_NAMES,
-  EMOJI_SUBGROUP_NAMES,
-} from './constants'
+import { EMOJI_GROUP_NAMES, EMOJI_NAMES, EMOJI_SUBGROUP_NAMES } from './constants'
 
 export namespace EmojiNS {
   export interface Props extends Omit<HTMLAttributes<HTMLImageElement>, 'src'> {

@@ -15,8 +15,7 @@ export namespace ButtonNS {
   export type MaterialIcon = IconNS.Names
   export type EmojiIcon = EmojiNS.Emojis.Names
 
-  export interface Props
-    extends Omit<HTMLAttributes<HTMLButtonElement>, 'type'> {
+  export interface Props extends Omit<HTMLAttributes<HTMLButtonElement>, 'type'> {
     type?: Types
     htmlType?: HtmlType
     size?: Size

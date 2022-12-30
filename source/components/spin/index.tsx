@@ -9,8 +9,7 @@ import { colorFnToColor, color as generateColor } from '../../utils/color'
 export namespace SpinNS {
   export type Sizes = TypographyNS.TextNS.Sizes
 
-  export interface Props
-    extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
+  export interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
     size?: Sizes
     speed?: string
     tip?: string

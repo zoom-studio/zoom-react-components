@@ -13,10 +13,7 @@ export namespace MenuNS {
 
   export interface Props
     extends Omit<ButtonNS.Props, 'href'>,
-      Pick<
-        MenuItemNS.Props,
-        'linkComponent' | 'isDarwinOS' | 'closeOnItemClick'
-      > {
+      Pick<MenuItemNS.Props, 'linkComponent' | 'isDarwinOS' | 'closeOnItemClick'> {
     items: Item[]
     isRTL?: boolean
     onClose?: () => void

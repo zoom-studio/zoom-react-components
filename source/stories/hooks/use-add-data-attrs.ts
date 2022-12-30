@@ -7,8 +7,7 @@ export namespace UseAddDataAttrsNS {
 }
 
 export const useAddDataAttrs = (layout: UseAddDataAttrsNS.Layout = 'rtl') => {
-  const [currentLayout, setCurrentLayout] =
-    useState<UseAddDataAttrsNS.Layout>(layout)
+  const [currentLayout, setCurrentLayout] = useState<UseAddDataAttrsNS.Layout>(layout)
 
   const nextLayout = currentLayout === 'ltr' ? 'RTL' : 'LTR'
 
@@ -21,10 +20,7 @@ export const useAddDataAttrs = (layout: UseAddDataAttrsNS.Layout = 'rtl') => {
 
     if (htmlElement) {
       htmlElement.setAttribute('dir', currentLayout)
-      htmlElement.setAttribute(
-        'data-digits',
-        currentLayout === 'rtl' ? 'farsi' : 'latin',
-      )
+      htmlElement.setAttribute('data-digits', currentLayout === 'rtl' ? 'farsi' : 'latin')
     }
     addThemeToBody()
   }, [currentLayout])

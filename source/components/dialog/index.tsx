@@ -34,10 +34,7 @@ export namespace DialogNS {
     title?: string
     cancelButton?: string | false
     cancelButtonProps?: ButtonProps
-    onCancelButtonClick?: (
-      evt: MouseEvent<HTMLButtonElement>,
-      defaultOnClick: () => void,
-    ) => void
+    onCancelButtonClick?: (evt: MouseEvent<HTMLButtonElement>, defaultOnClick: () => void) => void
     onWillCancelButtonClick?: (evt: MouseEvent<HTMLButtonElement>) => void
     fullScreen?: boolean
     fullScreenButtonProps?: ButtonProps
@@ -91,10 +88,7 @@ export const Dialog: FC<DialogNS.Props> = ({
     return createClassName(classNames, 'action-button')
   }
 
-  const cancelButtonClasses = createClassName(
-    cancelButtonProps?.className,
-    'action-button',
-  )
+  const cancelButtonClasses = createClassName(cancelButtonProps?.className, 'action-button')
 
   const fullscreenButtonClasses = createClassName(
     fullScreenButtonProps?.className,
@@ -104,13 +98,9 @@ export const Dialog: FC<DialogNS.Props> = ({
     },
   )
 
-  const closeButtonClasses = createClassName(
-    closeButtonProps?.className,
-    'close-button',
-    {
-      [HEADER_ACTION_BUTTON_CLASS]: true,
-    },
-  )
+  const closeButtonClasses = createClassName(closeButtonProps?.className, 'close-button', {
+    [HEADER_ACTION_BUTTON_CLASS]: true,
+  })
 
   const dialogClasses = createClassName(className, '', {
     [`${createClassName('', size)}`]: true,
@@ -139,6 +129,7 @@ export const Dialog: FC<DialogNS.Props> = ({
     if (evt.key === 'Escape' || evt.which === 27) {
       close()
     }
+    window.removeEventListener('keydown', onEscape)
   }
 
   const handleOnOpen = () => {
@@ -155,15 +146,9 @@ export const Dialog: FC<DialogNS.Props> = ({
     }
   }
 
-  const handleOnClose = () => {
-    window.removeEventListener('keydown', onEscape)
-  }
-
   useEffect(() => {
     if (isOpen) {
       handleOnOpen()
-    } else {
-      handleOnClose()
     }
   }, [isOpen])
 
@@ -177,12 +162,7 @@ export const Dialog: FC<DialogNS.Props> = ({
     <>
       {isOpen && (
         <>
-          <div
-            onClick={close}
-            {...backdropProps}
-            className={backdropClasses}
-            ref={backdropRef}
-          />
+          <div onClick={close} {...backdropProps} className={backdropClasses} ref={backdropRef} />
 
           <div {...rest} className={dialogClasses} ref={dialogRef}>
             <div {...headerProps} className={headerClasses}>

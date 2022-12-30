@@ -1,9 +1,6 @@
 import React, { FC, ReactNode } from 'react'
 
-import {
-  SubMenuItem as SubMenuItemComponent,
-  SubMenuItemProps,
-} from 'react-menu-list'
+import { SubMenuItem as SubMenuItemComponent, SubMenuItemProps } from 'react-menu-list'
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Icon } from '../icon'
@@ -16,12 +13,7 @@ export namespace SubMenuItemNS {
   }
 }
 
-export const SubMenuItem: FC<SubMenuItemNS.Props> = ({
-  title,
-  children,
-  isRTL,
-  ...rest
-}) => {
+export const SubMenuItem: FC<SubMenuItemNS.Props> = ({ title, children, isRTL, ...rest }) => {
   const iconClassnames = classNames('chevron-icon', {
     'ltr-layout': !isRTL,
   })

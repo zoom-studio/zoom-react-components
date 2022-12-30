@@ -14,18 +14,14 @@ export namespace UseZoomComponentNS {
   }
 }
 
-export const useZoomComponent = (
-  componentName: string,
-): UseZoomComponentNS.ReturnType => {
+export const useZoomComponent = (componentName: string): UseZoomComponentNS.ReturnType => {
   const createClassName: UseZoomComponentNS.CreateClassNameFN = (
     userClassNames,
     staticClassNamesSuffix,
     dynamicClassNames,
   ): string =>
     classNames(
-      `zoomrc-${componentName}${
-        staticClassNamesSuffix ? `-${staticClassNamesSuffix}` : ''
-      }`,
+      `zoomrc-${componentName}${staticClassNamesSuffix ? `-${staticClassNamesSuffix}` : ''}`,
       {
         [userClassNames ?? '']: true,
         ...dynamicClassNames,

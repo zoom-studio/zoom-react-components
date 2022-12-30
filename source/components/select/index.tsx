@@ -24,7 +24,7 @@ export namespace SelectNS {
   export type EmptyState = 'nothing-found' | 'empty-list' | false
   export type Size = 'small' | 'normal' | 'large'
   export type Option = SelectGroupNS.Props & SelectOptionNS.Props
-  export type SingleOption = Array<Pick<SelectOptionNS.Props, 'value' | 'label'>>
+  export type SingleOption = Pick<SelectOptionNS.Props, 'value' | 'label'>
   export type SelectedOption = SelectOptionNS.Value | SelectGroupNS.GroupedSelectedOptions
   export type SingleSelectedOption = [SelectOptionNS.Value, SelectOptionNS.Value?]
   export type SelectValue = Pick<Option, 'label' | 'value'>
@@ -238,6 +238,7 @@ export const Select: FC<SelectNS.Props> = ({
           placeholder={props.placeholder}
           size={size}
           multiSelect={props.multiSelect}
+          onChange={props.onChange}
         />
 
         <Icon name="expand_more" className="expand-icon" />

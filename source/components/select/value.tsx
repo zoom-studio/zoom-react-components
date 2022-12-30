@@ -6,7 +6,8 @@ import { getSelectedOptions } from './utils'
 import { SelectNS } from '.'
 
 export namespace SelectValueNS {
-  export interface Props extends Pick<SelectNS.Props, 'placeholder' | 'size' | 'multiSelect'> {
+  export interface Props
+    extends Pick<SelectNS.Props, 'placeholder' | 'size' | 'multiSelect' | 'onChange'> {
     options: SelectNS.GroupedOptions
   }
 }
@@ -16,9 +17,15 @@ export const SelectValue: FC<SelectValueNS.Props> = ({
   options,
   size,
   multiSelect,
+  onChange,
 }) => {
   const { createClassName } = useZoomComponent('select')
-  const selectedOptions = useMemo(() => getSelectedOptions(options), [options])
+
+  const selectedOptions = useMemo<string[]>(() => {
+    const selectedOptions = getSelectedOptions(options)
+    onChange?.(selectedOptions)
+    return selectedOptions.map(option => option.label)
+  }, [options])
 
   const classes = createClassName('', selectedOptions.length > 0 ? 'value' : 'placeholder')
 

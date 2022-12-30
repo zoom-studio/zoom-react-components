@@ -16,7 +16,7 @@ export default {
     size: 'normal',
     // label: 'یه متن تقریبا بلند برای اینکه ترانکیت هم تست شود در اینجا',
     label: 'لیبل',
-    // multiSelect: true,
+    multiSelect: true,
     placeholder: 'پلیس هولدر',
   },
 } as ComponentMeta<typeof Select>

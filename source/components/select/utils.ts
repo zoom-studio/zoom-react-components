@@ -21,8 +21,10 @@ export const groupOptions = (options?: SelectNS.Option[]): SelectNS.GroupedOptio
   return groupedOptions
 }
 
-export const getSelectedOptions = (currentOptions?: SelectNS.GroupedOptions): string[] => {
-  const selectedOptions: string[] = []
+export const getSelectedOptions = (
+  currentOptions?: SelectNS.GroupedOptions,
+): SelectNS.SingleOption[] => {
+  const selectedOptions: SelectNS.SingleOption[] = []
   if (!currentOptions) {
     return selectedOptions
   }
@@ -31,14 +33,20 @@ export const getSelectedOptions = (currentOptions?: SelectNS.GroupedOptions): st
 
   for (const option of options) {
     if (option.selected) {
-      selectedOptions.push(option.label)
+      selectedOptions.push({
+        label: option.label,
+        value: option.value,
+      })
     }
 
     if (option.options) {
       const childOptions = Object.values(option.options)
       for (const childOption of childOptions) {
         if (childOption.selected) {
-          selectedOptions.push(childOption.label)
+          selectedOptions.push({
+            label: childOption.label,
+            value: childOption.value,
+          })
         }
       }
     }

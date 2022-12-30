@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
   framework: '@storybook/react',
-  stories: ['../source/stories/*.story.tsx'],
+  stories: ['../source/stories/**/*.story.tsx'],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
       test: /\.scss$/,

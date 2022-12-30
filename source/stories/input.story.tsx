@@ -67,7 +67,6 @@ const inputs: Array<{
         placeholder: 'در حال بارگذاری',
         label: 'در حال بارگذاری',
         loading: true,
-        state: ['info'],
       },
       {
         title: 'Loading but not disabled',
@@ -88,19 +87,19 @@ const inputs: Array<{
     title: 'Sizes',
     group: [
       {
-        title: 'Small input 29',
+        title: 'Small input',
         placeholder: 'اینپوت کوچک',
         label: 'اینپوت کوچک',
         size: 'small',
       },
       {
-        title: 'Normal input 36',
+        title: 'Normal input',
         placeholder: 'اینپوت نرمال',
         label: 'اینپوت نرمال',
         size: 'normal',
       },
       {
-        title: 'Large input 47',
+        title: 'Large input',
         placeholder: 'اینپوت بزرگ',
         label: 'اینپوت بزرگ',
         size: 'large',

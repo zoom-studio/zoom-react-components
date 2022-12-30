@@ -1,11 +1,17 @@
 import { SelectNS } from '..'
 
-export const SIMPLE_SELECT_OPTIONS: SelectNS.Option[] = [
-  { label: 'option 1', value: 'value 1' },
-  { label: 'option 2', value: 'value 2' },
-  { label: 'option 3', value: 'value 3' },
-  { label: 'option 4', value: 'value 4' },
-]
+export const DYNAMIC_SIMPLE_SELECT = (
+  count = 4,
+  disabled?: (index: number) => boolean,
+): SelectNS.Option[] => {
+  return Array.from(Array(count)).map((_, index) => ({
+    label: `option ${index + 1}`,
+    value: `value ${index + 1}`,
+    disabled: disabled?.(index),
+  }))
+}
+
+export const SIMPLE_SELECT_OPTIONS: SelectNS.Option[] = DYNAMIC_SIMPLE_SELECT()
 
 export const SELECT_OPTIONS: SelectNS.Option[] = [
   {

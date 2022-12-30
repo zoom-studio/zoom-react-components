@@ -5,7 +5,8 @@ import { Color } from '../../types/color'
 import { colorFnToColor, color as generateColor } from '../../utils'
 
 export namespace SVGIconNS {
-  export type SVGIconNames = 'empty-box'
+  export const SVGIconNames = ['empty-box'] as const
+  export type SVGIconNames = typeof SVGIconNames[number]
 
   export interface Props extends Omit<SVGAttributes<SVGSVGElement>, 'color' | 'size' | 'name'> {
     name: SVGIconNames

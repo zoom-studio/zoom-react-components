@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, RefObject } from 'react'
+import React, { FC, HTMLAttributes, InputHTMLAttributes, RefObject } from 'react'
 
 import { Spin, SpinNS, Text, TypographyNS } from '..'
 import { useZoomComponent } from '../../hooks'
@@ -11,7 +11,7 @@ export namespace InputNS {
   export type State = [StateNames, string?]
   export type TextSize = Pick<TypographyNS.TextNS.Props, 'small' | 'normal' | 'large'>
 
-  export interface Props extends HTMLAttributes<HTMLInputElement> {
+  export interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
     containerProps?: HTMLAttributes<HTMLDivElement>
     labelProps?: HTMLAttributes<HTMLSpanElement>
     labelContainerProps?: HTMLAttributes<HTMLLabelElement>

@@ -157,6 +157,7 @@ export const Select: FC<SelectNS.Props> = ({
       })
     }
 
+    void focusSearchBox(inputRef)
     return options
   }
 

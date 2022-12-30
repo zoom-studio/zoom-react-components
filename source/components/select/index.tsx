@@ -226,7 +226,7 @@ export const Select: FC<SelectNS.Props> = ({
   useEffect(() => {
     setOptions(groupOptions(providedOptions, props.defaultValue))
     void handleSetEmptyList()
-  }, [providedOptions])
+  }, [providedOptions, props.defaultValue])
 
   return (
     <div {...props.containerProps} className={classes} ref={containerRef}>

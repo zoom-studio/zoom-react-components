@@ -66,6 +66,7 @@ export namespace SelectNS {
     emptyListText?: string
     scrollOnOpen?: boolean
     onChange?: (options: SingleOption[]) => void
+    defaultValue?: SelectOptionNS.Value | SelectOptionNS.Value[]
     onWillOpen?: () => void
     onWillClose?: () => void
   }
@@ -98,7 +99,9 @@ export const Select: FC<SelectNS.Props> = ({
   const [searchQuery, setSearchQuery] = useState(props.searchQuery || '')
   const [isOpen, setIsOpen] = useState(props.defaultIsOpen)
   const [emptyState, setEmptyState] = useState<SelectNS.EmptyState>(defaultEmpty(providedOptions))
-  const [options, setOptions] = useState<SelectNS.GroupedOptions>(groupOptions(providedOptions))
+  const [options, setOptions] = useState<SelectNS.GroupedOptions>(
+    groupOptions(providedOptions, props.defaultValue),
+  )
 
   const isDisabled = disabledOnLoading ? props.loading || props.disabled : props.disabled
   const spinColor = state[0] === 'neutral' ? undefined : color({ source: state[0] })
@@ -220,7 +223,7 @@ export const Select: FC<SelectNS.Props> = ({
   useEffect(() => setIsOpen(props.defaultIsOpen), [props.defaultIsOpen])
   useEffect(() => setSearchQuery(props.searchQuery || ''), [props.searchQuery])
   useEffect(() => {
-    setOptions(groupOptions(providedOptions))
+    setOptions(groupOptions(providedOptions, props.defaultValue))
     void handleSetEmptyList()
   }, [providedOptions])
 

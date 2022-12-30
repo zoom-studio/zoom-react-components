@@ -4,18 +4,37 @@ import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 
 import { SelectNS } from '.'
 
-export const groupOptions = (options?: SelectNS.Option[]): SelectNS.GroupedOptions => {
+export const groupOptions = (
+  options?: SelectNS.Option[],
+  defaultValue?: SelectNS.Props['defaultValue'],
+): SelectNS.GroupedOptions => {
   const groupedOptions: SelectNS.GroupedOptions = {}
+
+  if (!defaultValue) {
+    defaultValue = []
+  }
+  if (typeof defaultValue === 'string' || typeof defaultValue === 'number') {
+    defaultValue = [defaultValue]
+  }
+
+  const defaultSelections = [...defaultValue]
 
   options?.forEach(option => {
     if (option.options) {
       const groupedChild: SelectNS.GroupedOptions = {}
       option.options.forEach(childOption => {
-        groupedChild[childOption.value] = childOption
+        groupedChild[childOption.value] = {
+          ...childOption,
+          selected: defaultSelections.includes(childOption.value),
+        }
       })
       groupedOptions[option.value] = { ...option, options: groupedChild }
     } else {
-      groupedOptions[option.value] = { ...option, options: undefined }
+      groupedOptions[option.value] = {
+        ...option,
+        options: undefined,
+        selected: defaultSelections.includes(option.value),
+      }
     }
   })
   return groupedOptions

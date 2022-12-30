@@ -14,7 +14,6 @@ export default {
   args: {
     optionsPerScroll: 200,
     size: 'normal',
-    // label: 'یه متن تقریبا بلند برای اینکه ترانکیت هم تست شود در اینجا',
     label: 'لیبل',
     multiSelect: true,
     placeholder: 'پلیس هولدر',

@@ -13,15 +13,15 @@ export const SELECT_OPTIONS: SelectNS.Option[] = [
     disabled: true,
     value: Math.random(),
     options: [
-      { label: 'into an', value: Math.random() },
+      { label: 'into an', value: 1 },
       { label: 'installable PWA', value: Math.random() },
       { label: 'with offline', value: Math.random() },
       { label: 'detection', value: Math.random() },
-      { label: 'service workers', value: Math.random() },
+      { label: 'service workers', value: 2 },
     ],
   },
   { label: 'and theming', value: Math.random() },
-  { label: 'Recently I decided', value: Math.random(), selected: false },
+  { label: 'Recently I decided', value: 3, selected: false },
   {
     label: 'to take the dive into',
     disabled: true,
@@ -38,7 +38,7 @@ export const SELECT_OPTIONS: SelectNS.Option[] = [
     label: 'times and the',
     disabled: true,
     selected: false,
-    value: Math.random(),
+    value: 4,
     options: [
       { label: 'ability for a', value: Math.random() },
       { label: 'user to install it "natively"', value: Math.random() },

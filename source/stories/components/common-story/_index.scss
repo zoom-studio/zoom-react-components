@@ -1,0 +1,25 @@
+.common-story-child {
+  border-radius: 10px;
+  max-width: 1000px;
+  margin: 10px;
+
+  > h1 {
+    color: color(text, 3);
+    text-align: left;
+    user-select: none;
+  }
+
+  > div {
+    text-align: left;
+    display: block;
+    margin: 20px 0;
+    border-left: 1px solid;
+    padding: 10px 0 10px 10px;
+    color: color(text, 3);
+
+    > h4 {
+      margin: 0;
+      user-select: none;
+    }
+  }
+}

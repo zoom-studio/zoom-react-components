@@ -1,9 +1,14 @@
 @use "sass:math";
 @use "sass:color";
+@use "sass:map";
 
 :root {
   @each $theme-name, $palette in $palettes {
+    $scheme: if($theme-name == dark or $theme-name == dark-high-contrast, dark, light);
+
     [data-theme='#{$theme-name}'] {
+      color-scheme: $scheme;
+
       @each $color-name, $color in $palette {
         --zoomrc-color-#{$color-name}: #{$color};
 

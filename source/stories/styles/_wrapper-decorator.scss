@@ -1,0 +1,51 @@
+@keyframes startup {
+  from {
+    transform: scale(0.98);
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.zoomrc-story-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  background-color: color(layer, 1);
+  padding: 10px 0;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+
+  > span {
+    @include text(heading, 1);
+
+    color: color(text, 3);
+    display: inline-block;
+    margin: 0;
+    width: unset;
+    width: 100%;
+    max-width: 700px;
+    text-align: left;
+    user-select: none;
+  }
+
+  > .story-container {
+    background-color: color(layer, 2);
+    border: 1px solid color(border, 2);
+    border-radius: 6px;
+    padding: 6px;
+    width: 100%;
+    max-width: 700px;
+    animation: startup 150ms ease-in;
+
+    > .zoomrc-long-press,
+    > .zoomrc-long-tap,
+    > .zoomrc-context-menu {
+      display: table;
+      margin: auto;
+    }
+  }
+}

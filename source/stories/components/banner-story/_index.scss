@@ -1,0 +1,19 @@
+.banner-story {
+  background-color: color(layer, 3);
+  width: 200px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+  color: color(text, 2);
+  user-select: none;
+  border-radius: 4px;
+  border: 1px solid color(border, 2);
+  text-align: center;
+  padding: 10px;
+
+  > p {
+    margin: 4px 0;
+  }
+}

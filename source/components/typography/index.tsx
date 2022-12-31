@@ -6,28 +6,33 @@ import { Range } from '../../types'
 
 export namespace TypographyNS {
   export namespace TextNS {
-    export type Types = 'common' | 'bold' | 'light' | 'underlined' | 'strikethrough'
+    export const Types = ['common', 'bold', 'light', 'underlined', 'strikethrough'] as const
+    export type Types = typeof Types[number]
 
-    export type Sizes = 'small' | 'normal' | 'large'
+    export const Sizes = ['small', 'normal', 'large'] as const
+    export type Sizes = typeof Sizes[number]
 
-    export interface Props extends HTMLAttributes<HTMLParagraphElement> {
-      // types
+    export interface TypeProps {
       common?: boolean
       bold?: boolean
       light?: boolean
       underlined?: boolean
       strikethrough?: boolean
-      // sizes
+    }
+
+    export interface SizeProps {
       small?: boolean
       normal?: boolean
       large?: boolean
     }
+
+    export interface Props extends HTMLAttributes<HTMLParagraphElement>, TypeProps, SizeProps {}
   }
 
   export namespace TitleNS {
     export type Sizes = Range<1, 7>
 
-    export interface Props extends HTMLAttributes<HTMLHeadElement> {
+    export interface HeadingProps {
       h1?: boolean
       h2?: boolean
       h3?: boolean
@@ -35,6 +40,8 @@ export namespace TypographyNS {
       h5?: boolean
       h6?: boolean
     }
+
+    export interface Props extends HTMLAttributes<HTMLHeadElement>, HeadingProps {}
   }
 }
 

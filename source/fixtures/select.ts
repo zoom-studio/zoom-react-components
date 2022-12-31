@@ -113,7 +113,7 @@ export const SELECT_OPTIONS: SelectNS.Option[] = [
       { label: 'This will give you two files', value: Math.random() },
       { label: 'you can move into your project', value: Math.random() },
       { label: 'serviceWorkerRegistration.js', value: Math.random() },
-      { label: 'and', value: Math.random() },
+      { label: 'and', value: 8 },
     ],
   },
   {

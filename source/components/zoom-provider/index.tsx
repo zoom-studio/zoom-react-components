@@ -1,9 +1,11 @@
 import React, { FC, ReactNode, useEffect } from 'react'
 
 export namespace ZoomProviderNS {
-  export type Themes = 'dark' | 'dark-high-contrast' | 'light' | 'light-high-contrast'
+  export const Themes = ['dark', 'dark-high-contrast', 'light', 'light-high-contrast'] as const
+  export type Themes = typeof Themes[number]
 
-  export type Digits = 'farsi' | 'latin'
+  export const Digits = ['farsi', 'latin'] as const
+  export type Digits = typeof Digits[number]
 
   export interface Props {
     theme?: Themes

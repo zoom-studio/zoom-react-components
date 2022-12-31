@@ -7,11 +7,18 @@ import { Spin, EmojiNS, Emoji, IconNS, Icon } from '..'
 import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace ButtonNS {
-  export type Types = 'primary' | 'secondary' | 'dashed' | 'link' | 'text'
   export type HtmlType = 'submit' | 'reset' | 'button'
-  export type Size = 'small' | 'normal' | 'large'
   export type HtmlTypes = '_self' | '_blank' | '_parent' | '_top'
-  export type Variants = 'inherit' | 'success' | 'info' | 'warning' | 'error'
+
+  export const Types = ['primary', 'secondary', 'dashed', 'link', 'text'] as const
+  export type Types = typeof Types[number]
+
+  export const Size = ['small', 'normal', 'large'] as const
+  export type Size = typeof Size[number]
+
+  export const Variants = ['inherit', 'success', 'info', 'warning', 'error'] as const
+  export type Variants = typeof Variants[number]
+
   export type MaterialIcon = IconNS.Names
   export type EmojiIcon = EmojiNS.Emojis.Names
 

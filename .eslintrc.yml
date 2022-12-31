@@ -27,5 +27,6 @@ rules:
     '@typescript-eslint/prefer-nullish-coalescing': 0,
     '@typescript-eslint/no-misused-promises': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
+    '@typescript-eslint/array-type': 0,
   }
 ignorePatterns: ['dist', 'node_modules']

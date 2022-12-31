@@ -3,15 +3,15 @@ import React, { useEffect } from 'react'
 import { PartialStoryFn, Args, StoryContext } from '@storybook/csf'
 import { ReactFramework } from '@storybook/react'
 
-export const ThemeProviderDecorator = (
+export const DigitProviderDecorator = (
   Story: PartialStoryFn<ReactFramework, Args>,
   context: StoryContext<ReactFramework, Args>,
 ) => {
-  const theme = context.globals.theme || 'dark'
+  const digits = context.globals.digits || 'latin'
 
   useEffect(() => {
-    document.body?.setAttribute('data-theme', theme)
-  }, [theme])
+    document.body?.setAttribute('data-digits', digits)
+  }, [digits])
 
   return <Story />
 }

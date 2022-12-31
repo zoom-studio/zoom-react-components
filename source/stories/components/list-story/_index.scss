@@ -1,0 +1,62 @@
+.list-story {
+  > .zoomrc-input-container {
+    &,
+    & * {
+      direction: ltr !important;
+      text-align: left;
+    }
+
+    > .zoomrc-input-label-container {
+      background-color: color(layer, 3) !important;
+    }
+  }
+
+  > .info {
+    color: color(text, 2);
+    direction: ltr;
+    text-align: left;
+    margin-top: 10px;
+
+    > h5 {
+      margin: 0;
+    }
+  }
+
+  > .items {
+    @include scrollbar;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 12px;
+    row-gap: 16px;
+    margin-top: 10px;
+    max-height: calc(100vh - 200px);
+    overflow: auto;
+    padding: 10px;
+
+    > .item {
+      background-color: color(layer, 3);
+      border: 1px solid color(border, 2);
+      border-radius: 10%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 6px 0;
+
+      > .zoomrc-icon {
+        color: color(text, 2);
+        font-size: 30px;
+      }
+
+      > .name {
+        @include truncate;
+
+        user-select: all;
+        max-width: 100px;
+        color: color(text, 3);
+        direction: ltr;
+      }
+    }
+  }
+}

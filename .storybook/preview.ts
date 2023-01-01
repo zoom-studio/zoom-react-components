@@ -8,6 +8,7 @@ import { ThemeProviderDecorator } from './decorators/theme-provider'
 import { ReactRouterDecorator } from './decorators/react-router'
 import { I18nDecorator } from './decorators/i18n'
 import { DigitProviderDecorator } from './decorators/digit-provider'
+import { branding } from './branding'
 
 import { I18nNS } from '../source/i18n'
 import { ZoomProviderNS } from '../source/components'
@@ -64,5 +65,16 @@ export const parameters = {
   },
   docs: {
     theme: themes.dark,
+  },
+  darkMode: {
+    current: 'dark',
+    dark: {
+      ...themes.dark,
+      ...branding,
+    },
+    light: {
+      ...themes.light,
+      ...branding,
+    },
   },
 }

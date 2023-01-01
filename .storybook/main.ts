@@ -2,7 +2,8 @@ const path = require('path')
 
 module.exports = {
   framework: '@storybook/react',
-  stories: ['../source/stories/**/*.story.tsx'],
+  stories: ['../source/stories/documents/*.story.mdx', '../source/stories/*.story.tsx'],
+  staticDirs: ['../public'],
   webpackFinal: async (config, { configType }) => {
     config.module.rules.push({
       test: /\.scss$/,
@@ -18,13 +19,12 @@ module.exports = {
     'storybook-addon-performance/register',
     'storybook-dark-mode',
     '@storybook/addon-a11y',
-    'storybook-theme-css-vars',
     {
       name: '@storybook/addon-storysource',
       options: {
         loaderOptions: {
           prettierConfig: {
-            printWidth: 80,
+            printWidth: 100,
             singleQuote: true,
             tabWidth: 2,
             semi: false,

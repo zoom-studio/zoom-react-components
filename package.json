@@ -48,7 +48,7 @@
     ]
   },
   "scripts": {
-    "start": "start-storybook -p 9998",
+    "start": "start-storybook --no-manager-cache -p 9998",
     "build": "yarn clean && rollup -c --bundleConfigAsCjs && yarn clean:removal-dists && yarn fix-sass-dist-file",
     "fix-sass-dist-file": "node ./source/scripts/rename-files-in-dist.js index.es.css index.css",
     "pub": "npm publish --access public",
@@ -133,7 +133,6 @@
     "sass-loader": "^10.2.0",
     "storybook-addon-performance": "^0.16.1",
     "storybook-dark-mode": "^1.1.2",
-    "storybook-theme-css-vars": "^0.0.5",
     "style-loader": "^1.3.0",
     "stylelint": "^14.13.0",
     "stylelint-config-prettier-scss": "^0.0.1",

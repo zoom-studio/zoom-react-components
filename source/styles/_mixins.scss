@@ -206,13 +206,15 @@
 }
 
 @mixin ltr {
-  [data-layout='ltr'] {
+  [data-layout='ltr'],
+  html[dir='ltr'] {
     @content;
   }
 }
 
 @mixin rtl {
-  [data-layout='rtl'] {
+  [data-layout='rtl'],
+  html[dir='rtl'] {
     @content;
   }
 }

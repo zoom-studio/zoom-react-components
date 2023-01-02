@@ -7,7 +7,7 @@ import { StoryPlayground, ListStory } from './components'
 import { EMOJI_NAMES } from '../components/emoji/constants'
 
 export default {
-  title: 'Icon/Emoji',
+  title: 'Emoji/Emojis',
   component: Emoji,
   args: {
     name: 'ZZZ',

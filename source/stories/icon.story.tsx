@@ -8,7 +8,7 @@ import { color } from '../utils'
 import { ICON_NAMES } from '../components/icon/constants/icon-names'
 
 export default {
-  title: 'Icon/Icon',
+  title: 'Icon/Material icons',
   component: Icon,
   args: {
     name: 'lunch_dining',

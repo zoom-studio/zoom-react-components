@@ -27,9 +27,14 @@
   $box-size: if($size == small, 20px, if($size == normal, 24px, 32px));
   $check-icon-font-size: $box-size;
   $spin-size: $box-size - 6px;
+  $text-top-padding: if($size == small, 1px, if($size == normal, 2px, 4px));
 
   &-#{$size} {
     > .zoomrc-checkbox-label {
+      > .label-text {
+        padding-top: $text-top-padding;
+      }
+
       > .custom-checkbox {
         width: $box-size;
         height: $box-size;

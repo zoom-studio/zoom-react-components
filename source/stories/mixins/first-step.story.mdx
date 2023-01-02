@@ -1,0 +1,18 @@
+import { Meta } from '@storybook/addon-docs'
+
+<Meta title="SASS/Import stuff" />
+
+# Import mixins
+
+### Before start using Zoom's SASS mixins, please make sure you've imported them into your great app
+
+#### With the following four lines, you can import everything you need to use SASS features of Zoomrc
+
+> #### Note that the order if imports is seriously important
+
+```tsx
+@import '../node_modules/@zoom-studio/zoom-react-components/scss/palette';
+@import '../node_modules/@zoom-studio/zoom-react-components/scss/variables';
+@import '../node_modules/@zoom-studio/zoom-react-components/scss/functions';
+@import '../node_modules/@zoom-studio/zoom-react-components/scss/mixins';
+```

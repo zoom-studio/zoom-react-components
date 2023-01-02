@@ -1,0 +1,45 @@
+import { Meta } from '@storybook/addon-docs'
+
+<Meta title="SASS/SASS Mixins/Respect" />
+
+# Respect mixin
+
+### The `respect` mixin helps you to use `@media` queries of CSS in a much more better way
+
+### Learn Zoomrc breakpoints
+
+#### The Zoomrc provides you a [Bootstrap](https://getbootstrap.com)-like breakpoints but instead has 24 columns by default
+
+| sm-phone | phone | lg-phone | tablet | desktop | lg-desktop |
+| -------- | ----- | -------- | ------ | ------- | ---------- |
+| xs       | sm    | md       | lg     | xl      | xxl        |
+| 0        | 576   | 768      | 992    | 1200    | 1400       |
+| <        | ≥     | ≥        | ≥      | ≥       | ≥          |
+
+### A) respect
+
+The `respect` mixin accepts two arguments:
+
+- **$breakpoint\***: Select one of above breakpoints, for example `lg-phone`. You can also pass `md` or `768` instead of `lg-phone`
+- **$infix**: `max` | `min` (this parameter is optionl and is `max` by default)
+
+```css
+.my-element {
+  width: 100%;
+
+  /*
+    Instead of ugly media queries like:
+    
+    @media screen and (max-width: 768px) {
+      width: 50%;
+    }
+
+    Write:
+  */
+  @include respect(lg-phone, max) {
+    width: 50%;
+  }
+}
+```
+
+### B) respect-only

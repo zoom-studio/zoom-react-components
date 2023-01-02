@@ -1,0 +1,86 @@
+@mixin generate-switch-variants($variant) {
+  $is-neutral: $variant == neutral;
+  $color: if($is-neutral, color(text, 1), color($variant));
+  $loading-color: if($is-neutral, color(accent, 1, glassy, 3), color($variant, glassy, 3));
+  $loading-box-color: if($is-neutral, color(accent, 1, glassy, 1), color($variant, glassy, 1));
+  $border-color: if($is-neutral, color(accent, 1, glassy, 4), color($variant, glassy, 4));
+  $shadow-color: if($is-neutral, color(accent, 2, glassy, 2), color($variant, glassy, 2));
+  $inner-circle-color: $color;
+
+  @if $variant == neutral {
+    $inner-circle-color: color(accent);
+  }
+
+  &-#{$variant}.zoomrc-switch-loading {
+    > .zoomrc-switch-label {
+      > .custom-switch {
+        background-color: $loading-box-color !important;
+
+        > .inner-circle {
+          background-color: $loading-color;
+        }
+      }
+    }
+  }
+
+  &-#{$variant} {
+    color: $color;
+
+    > .zoomrc-switch-label {
+      > .custom-switch {
+        border-color: $border-color;
+
+        > .inner-circle {
+          background-color: $inner-circle-color;
+        }
+      }
+
+      > .native-switch {
+        &:checked {
+          & + .custom-switch {
+            background-color: $border-color;
+          }
+        }
+      }
+
+      &:hover {
+        > .custom-switch {
+          box-shadow: 0 0 0 2px $shadow-color;
+        }
+      }
+    }
+  }
+}
+
+@mixin generate-switch-sizes($size) {
+  $box-height: if($size == small, 20px, if($size == normal, 24px, 32px));
+  $box-width: $box-height + 16px;
+  $text-top-padding: if($size == small, 2px, if($size == normal, 3px, 5px));
+  $inner-circle-size: $box-height - 6px;
+
+  &-#{$size} {
+    > .zoomrc-switch-label {
+      &:hover {
+        > .custom-switch {
+          > .inner-circle {
+            width: $inner-circle-size + 2px;
+          }
+        }
+      }
+
+      > .label-text {
+        padding-top: $text-top-padding;
+      }
+
+      > .custom-switch {
+        width: $box-width;
+        height: $box-height;
+
+        > .inner-circle {
+          height: $inner-circle-size;
+          width: $inner-circle-size;
+        }
+      }
+    }
+  }
+}

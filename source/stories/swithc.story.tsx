@@ -2,27 +2,27 @@ import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Checkbox, CheckboxNS } from '..'
+import { Switch, SwitchNS } from '..'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
 export default {
-  title: 'Data Entry/Checkbox',
-  component: Checkbox,
+  title: 'Data Entry/Switch',
+  component: Switch,
   args: {
-    label: 'Some label for the checkbox',
+    label: 'Some label for the switch',
   },
-} as ComponentMeta<typeof Checkbox>
+} as ComponentMeta<typeof Switch>
 
-export const Playground: FC<CheckboxNS.Props> = props => (
-  <StoryPlayground component={Checkbox} props={props} />
+export const Playground: FC<SwitchNS.Props> = props => (
+  <StoryPlayground component={Switch} props={props} />
 )
 
 export const Sizes = () => {
-  const { t } = useI18n('checkbox')
+  const { t } = useI18n('switch')
   return (
     <CommonStory
-      component={Checkbox}
+      component={Switch}
       stories={[
         {
           group: [
@@ -37,11 +37,11 @@ export const Sizes = () => {
 }
 
 export const States = () => {
-  const { t } = useI18n('checkbox')
+  const { t } = useI18n('switch')
   const { t: tg } = useI18n('global')
   return (
     <CommonStory
-      component={Checkbox}
+      component={Switch}
       stories={[
         {
           group: [
@@ -73,10 +73,10 @@ export const States = () => {
 }
 
 export const LoadingAndDisabled = () => {
-  const { t } = useI18n('checkbox')
+  const { t } = useI18n('switch')
   return (
     <CommonStory
-      component={Checkbox}
+      component={Switch}
       stories={[
         {
           group: [

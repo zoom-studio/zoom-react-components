@@ -1,0 +1,172 @@
+@import 'variables';
+@import 'mixins';
+
+@keyframes check-zoomrc-switch-animation {
+  from {
+    transform: scale(0.5) rotate(-50deg);
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+div.zoomrc-switch {
+  width: 100%;
+  height: auto;
+
+  &-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  @each $size in $switch-sizes {
+    @include generate-switch-sizes($size);
+  }
+
+  @each $variant in $switch-variants {
+    @include generate-switch-variants($variant);
+  }
+
+  > .zoomrc-switch-label {
+    width: 100%;
+    height: auto;
+    display: flex;
+    cursor: pointer;
+
+    > .native-switch {
+      width: 0;
+      height: 0;
+      position: fixed;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      z-index: -1000;
+      visibility: hidden;
+
+      &:checked {
+        & + .custom-switch {
+          > .inner-circle {
+            left: $zoomrc-switch-inner-circle-left;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      > .native-switch {
+        &:checked {
+          & + .custom-switch {
+            > .inner-circle {
+              left: $zoomrc-switch-inner-circle-left - 2px;
+            }
+          }
+        }
+      }
+    }
+
+    > .custom-switch {
+      background-color: color(layer, 2);
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 100px;
+      position: relative;
+      transition: all 80ms linear;
+
+      > .inner-circle {
+        border-radius: 100%;
+        display: block;
+        margin-top: 1px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 2px;
+        transition: inherit;
+
+        > .loading-spin {
+          width: 100%;
+          height: 100%;
+
+          > svg {
+            margin: 0;
+            width: inherit;
+            height: inherit;
+          }
+        }
+      }
+    }
+
+    > .label-text {
+      margin: 0;
+      user-select: none;
+      margin-right: $zoomrc-switch-label-text-right-margin;
+      direction: rtl;
+      text-align: right;
+    }
+  }
+
+  > .zoomrc-switch-state-message {
+    color: inherit;
+    margin: 0;
+    margin-top: 4px;
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+@include rtl {
+  div.zoomrc-switch {
+    > .zoomrc-switch-label {
+      > .native-switch {
+        &:checked {
+          & + .custom-switch {
+            > .inner-circle {
+              left: unset;
+              right: $zoomrc-switch-inner-circle-left;
+            }
+          }
+        }
+      }
+
+      &:hover {
+        > .native-switch {
+          &:checked {
+            & + .custom-switch {
+              > .inner-circle {
+                left: unset;
+                right: $zoomrc-switch-inner-circle-left - 2px;
+              }
+            }
+          }
+        }
+      }
+
+      > .custom-switch {
+        > .inner-circle {
+          left: unset;
+          right: 2px;
+        }
+      }
+    }
+  }
+}
+
+@include ltr {
+  div.zoomrc-switch {
+    > .zoomrc-switch-label {
+      > .label-text {
+        margin-right: 0;
+        margin-left: $zoomrc-switch-label-text-right-margin;
+        direction: ltr;
+        text-align: left;
+      }
+    }
+
+    > .zoomrc-switch-state-message {
+      direction: ltr;
+      text-align: left;
+    }
+  }
+}

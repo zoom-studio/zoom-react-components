@@ -87,4 +87,9 @@ export const FATranslations = {
     menu4: 'خروج از برنامه',
     menu5: 'پروفایل',
   },
+
+  switch: {
+    sizingTitle: 'سایزهای مختلف سوئیچ',
+    sampleTitle: 'سوئیچ نمونه',
+  },
 }

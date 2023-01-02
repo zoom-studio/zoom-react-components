@@ -89,4 +89,9 @@ export const ENTranslations: typeof FATranslations = {
     menu4: 'Quite from app',
     menu5: 'Profile',
   },
+
+  switch: {
+    sizingTitle: 'Variant size of switch',
+    sampleTitle: 'Sample switch',
+  },
 }

@@ -1,0 +1,52 @@
+@mixin generate-radio-variants($variant) {
+  $is-neutral: $variant == neutral;
+  $color: if($is-neutral, color(accent, 1), color($variant));
+  $border-color: if($is-neutral, color(accent, 2, glassy, 4), color($variant, glassy, 4));
+  $shadow-color: if($is-neutral, color(border, 2, glassy, 5), color($variant, glassy, 2));
+
+  &-#{$variant} {
+    color: $color;
+
+    > .zoomrc-radio-label {
+      > .custom-radio {
+        border-color: $border-color;
+
+        > .checked-icon {
+          background-color: $color;
+        }
+      }
+
+      &:hover {
+        > .custom-radio {
+          box-shadow: 0 0 0 4px $shadow-color;
+        }
+      }
+    }
+  }
+}
+
+@mixin generate-radio-sizes($size) {
+  $box-size: if($size == small, 20px, if($size == normal, 24px, 32px));
+  $spin-size: $box-size - 6px;
+  $text-top-padding: if($size == small, 1px, if($size == normal, 2px, 4px));
+
+  &-#{$size} {
+    > .zoomrc-radio-label {
+      > .label-text {
+        padding-top: $text-top-padding;
+      }
+
+      > .custom-radio {
+        width: $box-size;
+        height: $box-size;
+
+        > .zoomrc-spin-small {
+          > svg {
+            width: $spin-size;
+            height: $spin-size;
+          }
+        }
+      }
+    }
+  }
+}

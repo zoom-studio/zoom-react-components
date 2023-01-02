@@ -94,4 +94,9 @@ export const ENTranslations: typeof FATranslations = {
     sizingTitle: 'Variant size of switch',
     sampleTitle: 'Sample switch',
   },
+
+  radio: {
+    sizingTitle: 'Variant size of radio button',
+    sampleTitle: 'Sample radio button',
+  },
 }

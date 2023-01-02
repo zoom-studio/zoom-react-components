@@ -1,0 +1,124 @@
+@import 'variables';
+@import 'mixins';
+
+@keyframes check-zoomrc-radio-animation {
+  from {
+    transform: scale(0.5) rotate(-50deg);
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+div.zoomrc-radio {
+  width: 100%;
+  height: auto;
+
+  &-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  @each $size in $radio-sizes {
+    @include generate-radio-sizes($size);
+  }
+
+  @each $variant in $radio-variants {
+    @include generate-radio-variants($variant);
+  }
+
+  > .zoomrc-radio-label {
+    width: 100%;
+    height: auto;
+    display: flex;
+    cursor: pointer;
+
+    > .native-radio {
+      width: 0;
+      height: 0;
+      position: fixed;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      z-index: -1000;
+      visibility: hidden;
+
+      &:checked {
+        & + .custom-radio {
+          > .checked-icon {
+            transform: none;
+            opacity: 1;
+            visibility: visible;
+          }
+        }
+      }
+    }
+
+    > .custom-radio {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: color(layer, 2);
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 50%;
+      overflow: hidden;
+      transition: all 150ms linear;
+
+      > .checked-icon {
+        display: block;
+        animation: check-zoomrc-radio-animation 200ms ease-in;
+        width: calc(100% - 4px);
+        height: calc(100% - 4px);
+        border-radius: 100%;
+        transform: scale(0);
+        opacity: 0;
+        visibility: hidden;
+        transition: inherit;
+      }
+
+      > .zoomrc-spin-small {
+        > svg {
+          margin: 0;
+        }
+      }
+    }
+
+    > .label-text {
+      margin: 0;
+      user-select: none;
+      margin-right: $zoomrc-radio-label-text-right-margin;
+      direction: rtl;
+      text-align: right;
+    }
+  }
+
+  > .zoomrc-radio-state-message {
+    color: inherit;
+    margin: 0;
+    margin-top: 4px;
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+@include ltr {
+  div.zoomrc-radio {
+    > .zoomrc-radio-label {
+      > .label-text {
+        margin-right: 0;
+        margin-left: $zoomrc-radio-label-text-right-margin;
+        direction: ltr;
+        text-align: left;
+      }
+    }
+
+    > .zoomrc-radio-state-message {
+      direction: ltr;
+      text-align: left;
+    }
+  }
+}

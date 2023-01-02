@@ -92,4 +92,9 @@ export const FATranslations = {
     sizingTitle: 'سایزهای مختلف سوئیچ',
     sampleTitle: 'سوئیچ نمونه',
   },
+
+  radio: {
+    sizingTitle: 'سایزهای مختلف رادیو باتن',
+    sampleTitle: 'رادیو باتن نمونه',
+  },
 }

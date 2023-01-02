@@ -56,6 +56,10 @@ div.zoomrc-input-container {
     }
 
     > .zoomrc-input {
+      @include generate-input-password-button-visibilities('text');
+
+      @include generate-input-password-button-visibilities('password');
+
       flex: 1;
       margin: 0;
       outline: none;
@@ -66,6 +70,114 @@ div.zoomrc-input-container {
       &::placeholder {
         color: color(placeholder);
         user-select: none;
+      }
+
+      &[type='search']::-webkit-search-cancel-button,
+      &[type='search']::-webkit-search-decoration {
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      &[type='number']::-webkit-inner-spin-button,
+      &[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+      }
+
+      &[type='number'] {
+        -moz-appearance: textfield;
+      }
+
+      &[type='search']:valid {
+        & + .search-clear-button {
+          display: block;
+        }
+      }
+    }
+
+    > .type-switch-button,
+    > .search-clear-button {
+      height: unset;
+      display: block;
+      border: none;
+      width: 36px;
+
+      > .zoomrc-button-inner-child {
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        > .visible,
+        > .hidden,
+        > .clear {
+          display: none;
+          font-size: to-rem(24px);
+          color: color(text, 3);
+        }
+      }
+    }
+
+    > .search-clear-button {
+      display: none;
+
+      > .zoomrc-button-inner-child {
+        > .clear {
+          display: initial;
+        }
+      }
+    }
+
+    > .number-handlers {
+      display: flex;
+      flex-direction: column;
+      width: 36px;
+
+      > .number-handler {
+        border: none;
+        width: 100%;
+        height: 50%;
+
+        &:first-child {
+          > .zoomrc-button-inner-child {
+            > .zoomrc-long-press {
+              align-items: flex-end;
+            }
+          }
+        }
+
+        &:last-child {
+          > .zoomrc-button-inner-child {
+            > .zoomrc-long-press {
+              align-items: flex-start;
+            }
+          }
+        }
+
+        &:hover {
+          height: 80%;
+
+          > .zoomrc-button-inner-child {
+            > .zoomrc-long-press {
+              align-items: center;
+            }
+          }
+        }
+
+        > .zoomrc-button-inner-child {
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          display: block;
+
+          > .zoomrc-long-press {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+          }
+        }
       }
     }
   }

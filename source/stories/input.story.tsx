@@ -74,6 +74,46 @@ export const Sizes: FC = () => {
   )
 }
 
+export const Types: FC = () => {
+  const { label, placeholder } = useInputStory()
+  return (
+    <CommonStory
+      component={Input}
+      stories={[
+        {
+          group: [
+            { name: 'Password input', props: { type: 'password', label, placeholder } },
+            {
+              name: 'Password input with callback',
+              props: {
+                type: 'password',
+                onTogglePasswordVisibility: isVisible =>
+                  alert(`Is visible now? \n ${isVisible ? 'Yes it is' : "Nope it's not"}`),
+                label,
+                placeholder,
+              },
+            },
+            {
+              name: 'Password input without toggler',
+              props: { type: 'password', passwordToggleButton: false, label, placeholder },
+            },
+            { name: 'Search input', props: { type: 'search', label, placeholder } },
+            {
+              name: 'Search input without clear button',
+              props: { type: 'search', searchClearButton: false, label, placeholder },
+            },
+            { name: 'Number input', props: { type: 'number', label, placeholder } },
+            {
+              name: 'Number input without handlers',
+              props: { type: 'number', numberButtonHandlers: false, label, placeholder },
+            },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
 export const States: FC = () => {
   const { label, placeholder } = useInputStory()
   const { t } = useI18n('global')

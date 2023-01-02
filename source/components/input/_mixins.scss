@@ -41,3 +41,17 @@
     }
   }
 }
+
+@mixin generate-input-password-button-visibilities($type) {
+  $visibility-class: if($type == password, visible, hidden);
+
+  &[type='#{$type}'] {
+    & + .type-switch-button {
+      > .zoomrc-button-inner-child {
+        > .#{$visibility-class} {
+          display: initial;
+        }
+      }
+    }
+  }
+}

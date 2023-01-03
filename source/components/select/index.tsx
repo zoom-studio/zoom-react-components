@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react'
 
-import { sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, sleep } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Icon, Input, InputNS, Spin, SVGIcon, Text, TypographyNS } from '..'
 import { BREAKPOINTS } from '../../constants'
@@ -115,6 +115,7 @@ export const Select: FC<SelectNS.Props> = ({
     maxHeight: optionsPerScroll * 34 + 12,
   }
 
+  const infoContainerClasses = classNames('info-container', { focus: isOpen })
   const dropdownClasses = createClassName(props.dropdownProps?.className, 'dropdown')
   const stateMessageClasses = createClassName(props.stateMessageProps?.className, 'state-message')
   const classes = createClassName(props.containerProps?.className, '', {
@@ -236,7 +237,7 @@ export const Select: FC<SelectNS.Props> = ({
 
   return (
     <div {...props.containerProps} className={classes} ref={containerRef}>
-      <div className="info-container" ref={childRef} onClick={open}>
+      <div className={infoContainerClasses} ref={childRef} onClick={open}>
         {props.loading && <Spin size="small" className="select-spin" color={spinColor} />}
 
         <Text common normal {...textSizeProps} className="select-label">

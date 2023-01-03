@@ -64,11 +64,11 @@ div.zoomrc-select {
       padding-left: $zoomrc-select-label-left-padding;
       direction: rtl;
       text-align: right;
-      color: inherit;
     }
 
     > .zoomrc-select-value,
     > .zoomrc-select-placeholder {
+      color: inherit;
       flex: 1;
     }
 
@@ -115,6 +115,11 @@ div.zoomrc-select {
 
       .search-input-container {
         background-color: color(layer, 1);
+
+        &.focus {
+          border: none;
+          box-shadow: none;
+        }
       }
     }
 

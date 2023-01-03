@@ -1,6 +1,7 @@
 import React, {
   ChangeEvent,
   FC,
+  FocusEvent,
   FormEvent,
   HTMLAttributes,
   HTMLInputTypeAttribute,
@@ -31,6 +32,7 @@ export namespace InputNS {
     label?: string
     size?: CommonSize
     state?: DataEntriesState
+    labelRef?: RefObject<HTMLLabelElement>
     disabled?: boolean
     loading?: boolean
     labelColon?: boolean
@@ -45,6 +47,7 @@ export namespace InputNS {
 
 export const Input: FC<InputNS.Props> = ({
   inputRef: providedInputRef,
+  labelRef: providedLabelRef,
   type = 'text',
   passwordToggleButton = true,
   searchClearButton = true,
@@ -68,9 +71,12 @@ export const Input: FC<InputNS.Props> = ({
   required,
   onInput,
   onChange,
+  onBlur,
+  onFocus,
   ...rest
 }) => {
   const inputRef = providedInputRef ?? useRef<HTMLInputElement>(null)
+  const labelRef = providedLabelRef ?? useRef<HTMLLabelElement>(null)
   const { createClassName } = useZoomComponent('input')
   const isDisabled = disabledOnLoading ? loading || disabled : disabled
   const inputClasses = createClassName(className)
@@ -146,9 +152,30 @@ export const Input: FC<InputNS.Props> = ({
     onInput?.(evt)
   }
 
+  const handleOnToggleFocus = (evt: FocusEvent<HTMLInputElement>) => {
+    const focus = 'focus'
+    const { type } = evt
+    const { current: label } = labelRef
+    const isFocused = type === focus
+
+    if (label) {
+      if (isFocused) {
+        label.classList.add(focus)
+      } else {
+        label.classList.remove(focus)
+      }
+    }
+
+    if (isFocused) {
+      onFocus?.(evt)
+    } else {
+      onBlur?.(evt)
+    }
+  }
+
   return (
     <div {...containerProps} className={containerClasses}>
-      <label {...labelContainerProps} className={labelContainerClasses}>
+      <label {...labelContainerProps} className={labelContainerClasses} ref={labelRef}>
         {(label || loading) && (
           <span {...labelProps} className={labelClasses}>
             {loading && <Spin size="small" {...spinProps} color={spinColor} />}
@@ -168,6 +195,8 @@ export const Input: FC<InputNS.Props> = ({
           required={isRequired}
           onChange={handleOnChange}
           onInput={handleOnInput}
+          onBlur={handleOnToggleFocus}
+          onFocus={handleOnToggleFocus}
         />
 
         {isPassword && passwordToggleButton && (

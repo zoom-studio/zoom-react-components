@@ -78,6 +78,8 @@ div.zoomrc-select {
 
     > .zoomrc-select-value {
       color: color(text, 1);
+      text-align: right;
+      direction: rtl;
 
       > .label {
         display: inline-block;
@@ -277,7 +279,9 @@ div.zoomrc-select {
 @include ltr {
   div.zoomrc-select {
     > .info-container {
-      > .select-label {
+      > .select-label,
+      > .zoomrc-select-value,
+      > .zoomrc-select-placeholder {
         direction: ltr;
         text-align: left;
         padding-left: 0;

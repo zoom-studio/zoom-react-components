@@ -3,9 +3,9 @@ import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes 
 import { useZoomComponent } from '../../hooks'
 
 import { InputNS, Spin, Text, TypographyNS } from '..'
+import { CommonSize, DataEntriesState } from '../../types'
 
 export namespace RadioButtonNS {
-  export type Size = 'small' | 'normal' | 'large'
   export type Value = number | string
 
   export interface Props
@@ -13,13 +13,13 @@ export namespace RadioButtonNS {
     name: string
     containerProps?: HTMLAttributes<HTMLDivElement>
     stateMessageProps?: TypographyNS.TextNS.Props
-    size?: Size
+    size?: CommonSize
     disabled?: boolean
     loading?: boolean
     disabledOnLoading?: boolean
     label?: string
     labelProps?: HTMLAttributes<HTMLLabelElement>
-    state?: InputNS.State
+    state?: DataEntriesState
     value: Value
     onWrite?: (value: Value) => void
   }

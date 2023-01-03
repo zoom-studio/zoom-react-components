@@ -1,4 +1,3 @@
-@import 'variables';
 @import 'mixins';
 
 div.zoomrc-textarea-container {
@@ -9,11 +8,11 @@ div.zoomrc-textarea-container {
       }
     }
 
-    @each $variant in $textarea-variants {
+    @each $variant in $common-variants {
       @include generate-textarea-variants($variant);
     }
 
-    @each $size in $textarea-sizes {
+    @each $size in $common-sizes {
       @include generate-textarea-sizes($size);
     }
   }

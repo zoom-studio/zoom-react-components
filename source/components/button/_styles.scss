@@ -1,4 +1,3 @@
-@import 'variables';
 @import 'functions';
 @import 'mixins';
 
@@ -32,7 +31,7 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child) {
     width: 100%;
   }
 
-  @each $size in $button-sizes {
+  @each $size in $common-sizes {
     &-#{$size} {
       @include generate-size($size);
     }

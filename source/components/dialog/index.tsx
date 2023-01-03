@@ -12,11 +12,11 @@ import { useZoomComponent } from '../../hooks'
 import { makeElementDraggable } from '../../utils'
 
 import { ButtonNS, Button, Icon, Title } from '..'
+import { CommonSize } from '../../types'
 
 export namespace DialogNS {
   export type Action = ButtonNS.Props
   export type ButtonProps = ButtonNS.Props
-  export type Size = 'small' | 'normal' | 'large'
 
   export interface BackdropProps extends HTMLAttributes<HTMLDivElement> {}
   export interface HeaderProps extends HTMLAttributes<HTMLDivElement> {}
@@ -29,7 +29,7 @@ export namespace DialogNS {
     closable?: boolean
     backdropProps?: BackdropProps
     actions?: Action[]
-    size?: Size
+    size?: CommonSize
     secondaryActions?: Action[]
     title?: string
     cancelButton?: string | false

@@ -25,7 +25,7 @@
 }
 
 @mixin generate-primary-variants {
-  @each $variant in $button-variants {
+  @each $variant in $common-variants {
     $color-name: translate-variant($variant);
     $text-color: if($variant == 'warning', 'black', 'white');
 
@@ -52,7 +52,7 @@
 }
 
 @mixin generate-secondary-variants {
-  @each $variant in $button-variants {
+  @each $variant in $common-variants {
     $color-name: translate-variant($variant);
 
     @include var($variant) {
@@ -79,7 +79,7 @@
 }
 
 @mixin generate-dashed-variants {
-  @each $variant in $button-variants {
+  @each $variant in $common-variants {
     $color-name: translate-variant($variant);
 
     @include var($variant) {
@@ -107,7 +107,7 @@
 }
 
 @mixin generate-link-variants {
-  @each $variant in $button-variants {
+  @each $variant in $common-variants {
     $color-name: translate-variant($variant);
 
     @include var($variant) {
@@ -116,7 +116,7 @@
       color: variant-color($variant);
 
       @include hover-and-active {
-        color: if($variant == 'inherit', color(accent, 2, lighter, 2), color($variant, lighter, 2));
+        color: if($variant == 'neutral', color(accent, 2, lighter, 2), color($variant, lighter, 2));
       }
 
       @include active {
@@ -131,7 +131,7 @@
 }
 
 @mixin generate-text-variants {
-  @each $variant in $button-variants {
+  @each $variant in $common-variants {
     $color-name: translate-variant($variant);
 
     @include var($variant) {

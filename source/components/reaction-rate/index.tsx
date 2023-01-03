@@ -2,19 +2,18 @@ import React, { FC, HTMLAttributes, MouseEvent } from 'react'
 
 import { Button, Emoji, EmojiNS } from '..'
 import { useZoomComponent } from '../../hooks'
-import { Range } from '../../types'
+import { CommonSize, Range } from '../../types'
 
 export namespace ReactionRateNS {
   export type EmojiName = EmojiNS.Emojis.Names
   export type SelectedRange = Range<1, 6>
-  export type Sizes = 'small' | 'normal' | 'large'
 
   export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
     type?: 'quintuple' | 'couple'
     selectedReaction?: SelectedRange
     loading?: boolean
     disabled?: boolean
-    size?: Sizes
+    size?: CommonSize
     onSelect?: (rate: SelectedRange, evt?: MouseEvent<HTMLButtonElement>) => void
     emojis?: [EmojiName, EmojiName] | [EmojiName, EmojiName, EmojiName, EmojiName, EmojiName]
   }

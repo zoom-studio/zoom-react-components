@@ -1,5 +1,6 @@
-@import 'variables';
 @import 'mixins';
+
+$zoomrc-radio-label-text-right-margin: 8px;
 
 @keyframes check-zoomrc-radio-animation {
   from {
@@ -22,11 +23,11 @@ div.zoomrc-radio {
     opacity: 0.5;
   }
 
-  @each $size in $radio-sizes {
+  @each $size in $common-sizes {
     @include generate-radio-sizes($size);
   }
 
-  @each $variant in $radio-variants {
+  @each $variant in $common-variants {
     @include generate-radio-variants($variant);
   }
 

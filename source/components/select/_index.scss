@@ -1,5 +1,4 @@
 @use 'sass:math';
-@import 'variables';
 @import 'mixins';
 
 $zoomrc-select-label-left-padding: 6px;
@@ -26,11 +25,11 @@ div.zoomrc-select {
   height: auto;
   position: relative;
 
-  @each $variant in $select-variants {
+  @each $variant in $common-variants {
     @include generate-select-variants($variant);
   }
 
-  @each $size in $select-sizes {
+  @each $size in $common-sizes {
     @include generate-select-sizes($size);
   }
 

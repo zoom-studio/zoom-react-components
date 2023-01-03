@@ -2,21 +2,20 @@ import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes 
 
 import { useZoomComponent } from '../../hooks'
 
-import { Icon, InputNS, Text, TypographyNS, Spin } from '..'
+import { Icon, InputNS, Spin, Text, TypographyNS } from '..'
+import { CommonSize, DataEntriesState } from '../../types'
 
 export namespace CheckboxNS {
-  export type Size = 'small' | 'normal' | 'large'
-
   export interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
     containerProps?: HTMLAttributes<HTMLDivElement>
     stateMessageProps?: TypographyNS.TextNS.Props
-    size?: Size
+    size?: CommonSize
     disabled?: boolean
     loading?: boolean
     disabledOnLoading?: boolean
     label?: string
     labelProps?: HTMLAttributes<HTMLLabelElement>
-    state?: InputNS.State
+    state?: DataEntriesState
     onWrite?: (isChecked: boolean) => void
   }
 }

@@ -1,5 +1,6 @@
-@import 'variables';
 @import 'mixins';
+
+$zoomrc-checkbox-label-text-right-margin: 8px;
 
 @keyframes check-zoomrc-checkbox-animation {
   from {
@@ -22,11 +23,11 @@ div.zoomrc-checkbox {
     opacity: 0.5;
   }
 
-  @each $size in $checkbox-sizes {
+  @each $size in $common-sizes {
     @include generate-checkbox-sizes($size);
   }
 
-  @each $variant in $checkbox-variants {
+  @each $variant in $common-variants {
     @include generate-checkbox-variants($variant);
   }
 

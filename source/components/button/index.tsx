@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { useZoomComponent } from '../../hooks'
 import { Spin, EmojiNS, Emoji, IconNS, Icon } from '..'
 import { ConditionalWrapper } from '../conditional-wrapper'
+import { CommonSize, CommonVariants } from '../../types'
 
 export namespace ButtonNS {
   export type HtmlType = 'submit' | 'reset' | 'button'
@@ -13,19 +14,13 @@ export namespace ButtonNS {
   export const Types = ['primary', 'secondary', 'dashed', 'link', 'text'] as const
   export type Types = typeof Types[number]
 
-  export const Size = ['small', 'normal', 'large'] as const
-  export type Size = typeof Size[number]
-
-  export const Variants = ['inherit', 'success', 'info', 'warning', 'error'] as const
-  export type Variants = typeof Variants[number]
-
   export type MaterialIcon = IconNS.Names
   export type EmojiIcon = EmojiNS.Emojis.Names
 
   export interface Props extends Omit<HTMLAttributes<HTMLButtonElement>, 'type'> {
     type?: Types
     htmlType?: HtmlType
-    size?: Size
+    size?: CommonSize
     containerRef?: RefObject<HTMLButtonElement>
     href?: string
     target?: HtmlTypes
@@ -36,7 +31,7 @@ export namespace ButtonNS {
     loading?: boolean
     full?: boolean
     active?: boolean
-    variant?: Variants
+    variant?: CommonVariants
     prefixMaterialIcon?: MaterialIcon
     prefixEmojiIcon?: EmojiIcon
     suffixMaterialIcon?: MaterialIcon
@@ -54,7 +49,7 @@ export const Button: FC<ButtonNS.Props> = ({
   disabled = false,
   loading = false,
   active = false,
-  variant = 'inherit',
+  variant = 'neutral',
   children,
   className,
   href,

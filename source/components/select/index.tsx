@@ -14,15 +14,15 @@ import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 import { Icon, Input, InputNS, Spin, SVGIcon, Text, TypographyNS } from '..'
 import { BREAKPOINTS } from '../../constants'
 import { useOutsideClick, useZoomComponent } from '../../hooks'
+import { CommonSize, DataEntriesState } from '../../types'
 import { color } from '../../utils'
 import { SelectGroup, SelectGroupNS } from './group'
 import { SelectOption, SelectOptionNS } from './option'
-import { SelectValue } from './value'
 import { defaultEmpty, focusSearchBox, groupOptions, scrollToTop } from './utils'
+import { SelectValue } from './value'
 
 export namespace SelectNS {
   export type EmptyState = 'nothing-found' | 'empty-list' | false
-  export type Size = 'small' | 'normal' | 'large'
   export type Option = SelectGroupNS.Props & SelectOptionNS.Props
   export type SingleOption = Pick<SelectOptionNS.Props, 'value' | 'label'>
   export type SelectedOption = SelectOptionNS.Value | SelectGroupNS.GroupedSelectedOptions
@@ -45,8 +45,8 @@ export namespace SelectNS {
     stateMessageProps?: TypographyNS.TextNS.Props
     dropdownProps?: HTMLAttributes<HTMLDivElement>
     containerProps?: Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'>
-    size?: Size
-    state?: InputNS.State
+    size?: CommonSize
+    state?: DataEntriesState
     disabled?: boolean
     loading?: boolean
     labelColon?: boolean

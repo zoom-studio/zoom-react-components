@@ -6,6 +6,7 @@ import { Text, TypographyNS } from '..'
 import { CommonStory, CommonStoryNS, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 import { color } from '../utils'
+import { COMMON_SIZES } from '../constants'
 
 export default {
   title: 'Typography/Text',
@@ -20,7 +21,7 @@ const { TextNS } = TypographyNS
 
 const generateTexts = (children: ReactNode) => {
   const stories: CommonStoryNS.Story<TypographyNS.TextNS.Props>[] = []
-  for (const size of TextNS.Sizes) {
+  for (const size of COMMON_SIZES) {
     stories.push({
       title: `Size: ${size}`,
       group: TextNS.Types.map(type => ({

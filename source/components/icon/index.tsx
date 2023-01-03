@@ -5,6 +5,7 @@ import { useZoomComponent } from '../../hooks'
 
 export namespace IconNS {
   export type Names = typeof ICON_NAMES[number]
+
   export interface Props extends HTMLAttributes<HTMLSpanElement> {
     name: Names
     flipOn?: 'rtl' | 'ltr'

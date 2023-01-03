@@ -5,12 +5,11 @@ import { Text, TypographyNS } from '..'
 
 import { Color } from '../../types/color'
 import { colorFnToColor, color as generateColor } from '../../utils/color'
+import { CommonSize } from '../../types'
 
 export namespace SpinNS {
-  export type Sizes = TypographyNS.TextNS.Sizes
-
   export interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
-    size?: Sizes
+    size?: CommonSize
     speed?: string
     tip?: string
     tipProps?: TypographyNS.TextNS.Props

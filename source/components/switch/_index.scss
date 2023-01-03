@@ -1,5 +1,7 @@
-@import 'variables';
 @import 'mixins';
+
+$zoomrc-switch-label-text-right-margin: 8px;
+$zoomrc-switch-inner-circle-left: 17px;
 
 @keyframes check-zoomrc-switch-animation {
   from {
@@ -22,11 +24,11 @@ div.zoomrc-switch {
     opacity: 0.5;
   }
 
-  @each $size in $switch-sizes {
+  @each $size in $common-sizes {
     @include generate-switch-sizes($size);
   }
 
-  @each $variant in $switch-variants {
+  @each $variant in $common-variants {
     @include generate-switch-variants($variant);
   }
 

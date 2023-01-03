@@ -2,15 +2,12 @@ import React, { FC, HTMLAttributes } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Range } from '../../types'
+import { CommonSize, Range } from '../../types'
 
 export namespace TypographyNS {
   export namespace TextNS {
     export const Types = ['common', 'bold', 'light', 'underlined', 'strikethrough'] as const
     export type Types = typeof Types[number]
-
-    export const Sizes = ['small', 'normal', 'large'] as const
-    export type Sizes = typeof Sizes[number]
 
     export interface TypeProps {
       common?: boolean
@@ -70,13 +67,7 @@ export const Text: FC<TypographyNS.TextNS.Props> = ({
     ? 'strikethrough'
     : 'common'
 
-  const size: TypographyNS.TextNS.Sizes = small
-    ? 'small'
-    : normal
-    ? 'normal'
-    : large
-    ? 'large'
-    : 'normal'
+  const size: CommonSize = small ? 'small' : normal ? 'normal' : large ? 'large' : 'normal'
 
   const classes = classNames(`zoomrc-text-${type}-${size}`, {
     [className ?? '']: true,

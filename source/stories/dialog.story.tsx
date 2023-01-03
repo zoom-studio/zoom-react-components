@@ -6,6 +6,7 @@ import { Dialog, Button, DialogNS, ButtonNS } from '..'
 import { StoryPlayground, CommonStory, CommonStoryNS } from './components'
 import { lorem } from '../fixtures'
 import { useI18n } from './hooks/use-i18n'
+import { CommonSize } from '../types'
 
 export default {
   title: 'Feedback/Dialog',
@@ -31,11 +32,11 @@ export const Playground: FC<DialogNS.Props> = props => {
 export const Sizes = () => {
   const dialogRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const [dialogSize, setDialogSize] = useState<DialogNS.Size>('normal')
+  const [dialogSize, setDialogSize] = useState<CommonSize>('normal')
   const { t } = useI18n('dialog')
 
   const close = () => setIsOpen(false)
-  const open = (size: DialogNS.Size) => () => {
+  const open = (size: CommonSize) => () => {
     setDialogSize(size)
     setIsOpen(true)
   }

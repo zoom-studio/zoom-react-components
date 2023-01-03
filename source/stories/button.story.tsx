@@ -5,6 +5,7 @@ import { ComponentMeta } from '@storybook/react'
 import { Button, ButtonNS } from '..'
 import { CommonStory, CommonStoryNS, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
+import { COMMON_VARIANTS } from '../constants/common-variants'
 
 export default {
   title: 'Call To Action/Button',
@@ -15,7 +16,7 @@ export default {
     full: false,
     active: false,
     type: 'primary',
-    variant: 'inherit',
+    variant: 'neutral',
     size: 'normal',
     htmlType: 'button',
     target: '_blank',
@@ -29,7 +30,7 @@ const generateVariantsAndTypes = (
   disabled?: boolean,
 ): CommonStoryNS.Story<ButtonNS.Props>[] => {
   const stories: CommonStoryNS.Story<ButtonNS.Props>[] = []
-  for (const variant of ButtonNS.Variants) {
+  for (const variant of COMMON_VARIANTS) {
     stories.push({
       title: `Variant: ${variant}`,
       group: ButtonNS.Types.map(type => ({

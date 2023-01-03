@@ -11,13 +11,11 @@ import React, {
 
 import { Spin, SpinNS, Text, TypographyNS } from '..'
 import { useZoomComponent } from '../../hooks'
+import { CommonSize, DataEntriesState } from '../../types'
 
 import { color } from '../../utils/color'
 
 export namespace TextareaNS {
-  export type Size = 'small' | 'normal' | 'large'
-  export type StateNames = 'error' | 'warning' | 'success' | 'info' | 'neutral'
-  export type State = [StateNames, string?]
   export type TextSize = Pick<TypographyNS.TextNS.Props, 'small' | 'normal' | 'large'>
 
   export interface Props extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
@@ -29,8 +27,8 @@ export namespace TextareaNS {
     stateMessageProps?: TypographyNS.TextNS.Props
     spinProps?: SpinNS.Props
     label?: string
-    size?: Size
-    state?: State
+    size?: CommonSize
+    state?: DataEntriesState
     disabled?: boolean
     loading?: boolean
     labelColon?: boolean

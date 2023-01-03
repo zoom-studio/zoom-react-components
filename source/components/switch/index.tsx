@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, InputHTMLAttributes } from 'react'
+import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes } from 'react'
 
 import { InputNS, Spin, Text, TypographyNS } from '..'
 import { useZoomComponent } from '../../hooks'
@@ -16,6 +16,7 @@ export namespace SwitchNS {
     label?: string
     labelProps?: HTMLAttributes<HTMLLabelElement>
     state?: InputNS.State
+    onWrite?: (isChecked: boolean) => void
   }
 }
 
@@ -30,6 +31,9 @@ export const Switch: FC<SwitchNS.Props> = ({
   loading,
   label,
   labelProps,
+  onWrite,
+  onChange,
+  onInput,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('switch')
@@ -52,10 +56,27 @@ export const Switch: FC<SwitchNS.Props> = ({
     large: size === 'large',
   }
 
+  const handleOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    onWrite?.(evt.currentTarget.checked)
+    onChange?.(evt)
+  }
+
+  const handleOnInput = (evt: FormEvent<HTMLInputElement>) => {
+    onWrite?.(evt.currentTarget.checked)
+    onInput?.(evt)
+  }
+
   return (
     <div {...containerProps} className={containerClasses}>
       <label {...labelProps} className={labelClasses}>
-        <input {...rest} type="checkbox" className="native-switch" disabled={isDisabled} />
+        <input
+          {...rest}
+          type="checkbox"
+          className="native-switch"
+          disabled={isDisabled}
+          onInput={handleOnInput}
+          onChange={handleOnChange}
+        />
 
         <div className="custom-switch">
           <span className="inner-circle">

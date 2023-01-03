@@ -1,0 +1,71 @@
+$zoomrc-button-selector: "button[class^='zoomrc-button-']";
+
+div.zoomrc-button-group {
+  display: flex;
+  flex-direction: row;
+
+  > #{$zoomrc-button-selector} {
+    position: relative;
+    border-radius: 0;
+
+    &:hover {
+      z-index: 1;
+    }
+  }
+
+  &-row {
+    flex-direction: row;
+
+    > #{$zoomrc-button-selector} {
+      &:first-child {
+        border-radius: 0 4px 4px 0;
+      }
+
+      &:last-child {
+        border-radius: 4px 0 0 4px;
+      }
+    }
+  }
+
+  &-column {
+    flex-direction: column;
+    align-items: flex-start;
+
+    > #{$zoomrc-button-selector} {
+      &:first-child {
+        border-radius: 4px 4px 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 4px 4px;
+      }
+    }
+  }
+
+  &-row > #{$zoomrc-button-selector}:not(:first-child) {
+    margin-right: -2px;
+  }
+
+  &-column > #{$zoomrc-button-selector}:not(:last-child) {
+    margin-bottom: -2px;
+  }
+}
+
+@include ltr {
+  div.zoomrc-button-group {
+    &-row > #{$zoomrc-button-selector} {
+      &:not(:first-child) {
+        margin-right: unset;
+        margin-left: -2px;
+      }
+
+      &:first-child {
+        border-radius: 4px 0 0 4px;
+      }
+
+      &:last-child {
+        border-radius: 0 4px 4px 0;
+      }
+    }
+  }
+}

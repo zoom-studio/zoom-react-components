@@ -1,4 +1,5 @@
 export * from './button'
+export * from './button-group'
 export * from './checkbox'
 export * from './context-menu'
 export * from './dialog'

@@ -64,3 +64,45 @@ export const TypesInColDir: FC<ButtonGroupNS.Props> = () => {
   const { t } = useI18n('button')
   return <CommonStory component={ButtonGroup} stories={generateTypes(t('sampleTitle'), 'column')} />
 }
+
+export const MixedVariants: FC<ButtonGroupNS.Props> = () => {
+  const { t } = useI18n('button')
+  return (
+    <CommonStory
+      component={ButtonGroup}
+      stories={[
+        {
+          group: [
+            {
+              name: 'Primary type',
+              props: {
+                children: t('sampleTitle'),
+                buttons: [
+                  { variant: 'error' },
+                  { variant: 'info' },
+                  { variant: 'neutral' },
+                  { variant: 'success' },
+                  { variant: 'warning' },
+                ],
+              },
+            },
+            {
+              name: 'Secondary type',
+              props: {
+                children: t('sampleTitle'),
+                type: 'secondary',
+                buttons: [
+                  { variant: 'error' },
+                  { variant: 'info' },
+                  { variant: 'neutral' },
+                  { variant: 'success' },
+                  { variant: 'warning' },
+                ],
+              },
+            },
+          ],
+        },
+      ]}
+    />
+  )
+}

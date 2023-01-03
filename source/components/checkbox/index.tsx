@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, InputHTMLAttributes } from 'react'
+import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes } from 'react'
 
 import { useZoomComponent } from '../../hooks'
 
@@ -17,6 +17,7 @@ export namespace CheckboxNS {
     label?: string
     labelProps?: HTMLAttributes<HTMLLabelElement>
     state?: InputNS.State
+    onWrite?: (isChecked: boolean) => void
   }
 }
 
@@ -24,6 +25,9 @@ export const Checkbox: FC<CheckboxNS.Props> = ({
   size = 'normal',
   state = ['neutral'],
   disabledOnLoading = true,
+  onWrite,
+  onChange,
+  onInput,
   containerProps,
   stateMessageProps,
   className,
@@ -53,10 +57,27 @@ export const Checkbox: FC<CheckboxNS.Props> = ({
     large: size === 'large',
   }
 
+  const handleOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    onWrite?.(evt.currentTarget.checked)
+    onChange?.(evt)
+  }
+
+  const handleOnInput = (evt: FormEvent<HTMLInputElement>) => {
+    onWrite?.(evt.currentTarget.checked)
+    onInput?.(evt)
+  }
+
   return (
     <div {...containerProps} className={containerClasses}>
       <label {...labelProps} className={labelClasses}>
-        <input {...rest} type="checkbox" className="native-checkbox" disabled={isDisabled} />
+        <input
+          {...rest}
+          type="checkbox"
+          className="native-checkbox"
+          disabled={isDisabled}
+          onInput={handleOnInput}
+          onChange={handleOnChange}
+        />
 
         <span className="custom-checkbox">
           {loading ? <Spin size="small" /> : <Icon name="done" className="checked-icon" />}

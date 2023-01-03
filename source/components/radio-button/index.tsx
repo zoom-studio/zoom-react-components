@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, InputHTMLAttributes } from 'react'
+import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes } from 'react'
 
 import { useZoomComponent } from '../../hooks'
 
@@ -6,9 +6,10 @@ import { InputNS, Spin, Text, TypographyNS } from '..'
 
 export namespace RadioButtonNS {
   export type Size = 'small' | 'normal' | 'large'
+  export type Value = number | string
 
   export interface Props
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size' | 'name'> {
+    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size' | 'name' | 'value'> {
     name: string
     containerProps?: HTMLAttributes<HTMLDivElement>
     stateMessageProps?: TypographyNS.TextNS.Props
@@ -19,6 +20,8 @@ export namespace RadioButtonNS {
     label?: string
     labelProps?: HTMLAttributes<HTMLLabelElement>
     state?: InputNS.State
+    value: Value
+    onWrite?: (value: Value) => void
   }
 }
 
@@ -26,6 +29,7 @@ export const RadioButton: FC<RadioButtonNS.Props> = ({
   size = 'normal',
   state = ['neutral'],
   disabledOnLoading = true,
+  onWrite,
   containerProps,
   stateMessageProps,
   className,
@@ -33,6 +37,8 @@ export const RadioButton: FC<RadioButtonNS.Props> = ({
   loading,
   label,
   labelProps,
+  onChange,
+  onInput,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('radio')
@@ -55,10 +61,27 @@ export const RadioButton: FC<RadioButtonNS.Props> = ({
     large: size === 'large',
   }
 
+  const handleOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    onWrite?.(evt.currentTarget.value)
+    onChange?.(evt)
+  }
+
+  const handleOnInput = (evt: FormEvent<HTMLInputElement>) => {
+    onWrite?.(evt.currentTarget.value)
+    onInput?.(evt)
+  }
+
   return (
     <div {...containerProps} className={containerClasses}>
       <label {...labelProps} className={labelClasses}>
-        <input {...rest} type="radio" className="native-radio" disabled={isDisabled} />
+        <input
+          {...rest}
+          type="radio"
+          className="native-radio"
+          disabled={isDisabled}
+          onInput={handleOnInput}
+          onChange={handleOnChange}
+        />
 
         <span className="custom-radio">
           {loading ? <Spin size="small" /> : <span className="checked-icon" />}

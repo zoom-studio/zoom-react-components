@@ -1,0 +1,48 @@
+@mixin generate-textarea-variants($variant) {
+  $is-neutral: $variant == neutral;
+  $color: if($is-neutral, color(accent), color($variant));
+  $border-color: if($is-neutral, color(border, 2), color($variant, glassy, 4));
+  $focused-border-color: if($is-neutral, color(accent, 1, glassy, 8), color($variant, glassy, 8));
+  $box-shadow: 0 0 0 4px if($is-neutral, color(accent, 2, glassy, 2), color($variant, glassy, 2));
+  $message-color: $color;
+
+  @if $is-neutral {
+    $message-color: color(text, 2);
+  }
+
+  &-#{$variant} {
+    > .zoomrc-textarea-label-container {
+      color: $color;
+      border-color: $border-color;
+
+      &:hover {
+        box-shadow: $box-shadow;
+      }
+
+      &.focus {
+        border-color: $focused-border-color;
+        box-shadow: $box-shadow;
+      }
+    }
+
+    > .zoomrc-textarea-state-message {
+      color: $message-color;
+    }
+  }
+}
+
+@mixin generate-textarea-sizes($size) {
+  $spin-size: if($size == small, 17px, if($size == normal, 20px, 23px));
+
+  &-#{$size} {
+    > .zoomrc-textarea-label-container {
+      > .zoomrc-textarea {
+        @include text(common, #{$size});
+      }
+
+      .zoomrc-spin-small {
+        height: $spin-size;
+      }
+    }
+  }
+}

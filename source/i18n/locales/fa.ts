@@ -71,6 +71,11 @@ export const FATranslations = {
     placeholder: 'مقداری را وارد کنید',
   },
 
+  textarea: {
+    label: 'لیبل تکست‌اریا',
+    placeholder: 'مقداری را وارد کنید',
+  },
+
   text: {
     sampleText: 'مقداری متن تستی برای تست کردن کامپوننت تکست',
   },

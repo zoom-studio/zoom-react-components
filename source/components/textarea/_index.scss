@@ -1,0 +1,83 @@
+@import 'variables';
+@import 'mixins';
+
+div.zoomrc-textarea-container {
+  &.zoomrc-textarea {
+    &-disabled {
+      > .zoomrc-textarea-label-container {
+        pointer-events: none;
+      }
+    }
+
+    @each $variant in $textarea-variants {
+      @include generate-textarea-variants($variant);
+    }
+
+    @each $size in $textarea-sizes {
+      @include generate-textarea-sizes($size);
+    }
+  }
+
+  > .zoomrc-textarea-state-message {
+    margin-top: 4px;
+    direction: rtl;
+    text-align: right;
+  }
+
+  > .zoomrc-textarea-label-container {
+    background-color: color(layer, 2);
+    border-width: 1px;
+    border-style: solid;
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    transition: box-shadow 150ms linear;
+
+    > .zoomrc-textarea-label {
+      user-select: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      cursor: text;
+      padding: 6px;
+      padding-bottom: 0;
+
+      > p[class^='zoomrc-text-'] {
+        margin: 0;
+        color: inherit;
+        direction: rtl;
+      }
+    }
+
+    > .zoomrc-textarea {
+      border: none;
+      background-color: transparent;
+      resize: vertical;
+      width: 100%;
+      outline: none;
+      padding: 10px;
+
+      &::placeholder {
+        user-select: none;
+      }
+    }
+  }
+}
+
+@include ltr {
+  div.zoomrc-textarea-container {
+    > .zoomrc-textarea-label-container {
+      > .zoomrc-textarea-label {
+        > p[class^='zoomrc-text-'] {
+          direction: ltr;
+          text-align: left;
+        }
+      }
+    }
+
+    > .zoomrc-textarea-state-message {
+      direction: ltr;
+      text-align: left;
+    }
+  }
+}

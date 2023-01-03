@@ -73,6 +73,11 @@ export const ENTranslations: typeof FATranslations = {
     placeholder: 'Enter something',
   },
 
+  textarea: {
+    label: 'Label of textarea',
+    placeholder: 'Enter something',
+  },
+
   text: {
     sampleText: 'Some test text for testing text component',
   },

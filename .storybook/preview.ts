@@ -24,10 +24,9 @@ addDecorator(DigitProviderDecorator)
 
 export const globalTypes = {
   locale: {
-    name: 'Locale',
     description: 'Internationalization locale',
     toolbar: {
-      showName: true,
+      title: 'Locale',
       icon: 'globe',
       items: I18nNS.LANGUAGES.map(({ name, narrow }) => ({
         title: sentenceCase(name),
@@ -36,19 +35,17 @@ export const globalTypes = {
     },
   },
   theme: {
-    name: 'Theme',
     description: 'Change components theme',
     toolbar: {
-      showName: true,
+      title: 'Theme',
       icon: 'cog',
       items: ZoomProviderNS.Themes.map(theme => ({ title: sentenceCase(theme), value: theme })),
     },
   },
   digits: {
-    name: 'Digits',
     description: 'Change components digits style',
     toolbar: {
-      showName: true,
+      title: 'Digits',
       icon: 'nut',
       items: ZoomProviderNS.Digits.map(digit => ({ title: sentenceCase(digit), value: digit })),
     },

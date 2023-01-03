@@ -69,6 +69,7 @@ export namespace SelectNS {
     defaultValue?: SelectOptionNS.Value | SelectOptionNS.Value[]
     onWillOpen?: () => void
     onWillClose?: () => void
+    onWrite?: (values: SelectOptionNS.Value[]) => void
   }
 }
 
@@ -220,6 +221,11 @@ export const Select: FC<SelectNS.Props> = ({
     void handleSetEmptyList()
   }
 
+  const handleOnChange = (options: SelectNS.SingleOption[]) => {
+    props.onChange?.(options)
+    props.onWrite?.(options.map(option => option.value))
+  }
+
   useOutsideClick(close, childRef, dropdownRef)
   useEffect(() => setIsOpen(props.defaultIsOpen), [props.defaultIsOpen])
   useEffect(() => setSearchQuery(props.searchQuery || ''), [props.searchQuery])
@@ -242,7 +248,7 @@ export const Select: FC<SelectNS.Props> = ({
           placeholder={props.placeholder}
           size={size}
           multiSelect={props.multiSelect}
-          onChange={props.onChange}
+          onChange={handleOnChange}
         />
 
         <Icon name="expand_more" className="expand-icon" />

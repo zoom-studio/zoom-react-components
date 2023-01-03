@@ -54,7 +54,7 @@
     "pub": "npm publish --access public",
     "build:sb": "build-storybook",
     "clean": "rimraf dist tsconfig.tsbuildinfo storybook-static .rollup.cache",
-    "clean:removal-dists": "rimraf dist/stories dist/fixtures dist/utils dist/hooks",
+    "clean:removal-dists": "rimraf dist/stories dist/fixtures dist/i18n",
     "lint:scss": "npx stylelint ./source/**/*.scss",
     "lint:ts": "eslint ./source --ext .ts,.tsx --fix --quiet",
     "lint:staged": "./node_modules/.bin/lint-staged",

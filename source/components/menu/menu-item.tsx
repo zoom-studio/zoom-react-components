@@ -26,8 +26,8 @@ export namespace MenuItemNS {
   export interface Props extends Item {
     linkComponent?: CustomLinkNS.Props['userLink']
     isRTL?: boolean
-    isDarwinOS?: boolean
     closeOnItemClick?: boolean
+    isDarwin: boolean
   }
 }
 
@@ -41,8 +41,8 @@ export const MenuItem: FC<MenuItemNS.Props> = ({
   className,
   linkComponent,
   isRTL,
-  isDarwinOS,
   isSeparator,
+  isDarwin,
   isDisabled,
   ...rest
 }) => {
@@ -89,7 +89,7 @@ export const MenuItem: FC<MenuItemNS.Props> = ({
           {accelerator && (
             <span className="menu-item-accelerator">
               {accelerator.ctrlOrCmd &&
-                (isDarwinOS ? (
+                (isDarwin ? (
                   <span className="command">
                     <Icon name="keyboard_command_key" />
                   </span>

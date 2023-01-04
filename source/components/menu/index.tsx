@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 import { Dropdown, MenuButton, MenuList } from 'react-menu-list'
 
 import { Button, ButtonNS } from '..'
-import { useZoomComponent } from '../../hooks'
+import { useZoomComponent, useZoomContext } from '../../hooks'
 
 import { MenuItemNS } from './menu-item'
 import { Items } from './menu-items'
@@ -13,10 +13,11 @@ export namespace MenuNS {
 
   export interface Props
     extends Omit<ButtonNS.Props, 'href'>,
-      Pick<MenuItemNS.Props, 'linkComponent' | 'isDarwinOS' | 'closeOnItemClick'> {
+      Pick<MenuItemNS.Props, 'linkComponent' | 'closeOnItemClick'> {
     items: Item[]
     isRTL?: boolean
     onClose?: () => void
+    onOpen?: () => void
   }
 }
 
@@ -27,11 +28,12 @@ export const Menu: FC<MenuNS.Props> = ({
   isRTL,
   linkComponent,
   onClose,
-  isDarwinOS,
+  onOpen,
   closeOnItemClick,
   ...buttonProps
 }) => {
   const { createClassName } = useZoomComponent('menu')
+  const { isDarwin } = useZoomContext()
 
   const containerClasses = createClassName(className, '', {
     'rtl-layout': !!isRTL,
@@ -43,6 +45,7 @@ export const Menu: FC<MenuNS.Props> = ({
       <MenuButton
         className="menu-button"
         onWillClose={onClose}
+        onWillOpen={onOpen}
         positionOptions={{
           position: 'bottom',
           vAlign: 'bottom',
@@ -52,10 +55,10 @@ export const Menu: FC<MenuNS.Props> = ({
           <Dropdown className={`${containerClasses} dropdown`}>
             <MenuList>
               <Items
-                isDarwinOS={isDarwinOS}
                 items={items}
                 isRTL={isRTL}
                 linkComponent={linkComponent}
+                isDarwin={isDarwin}
                 closeOnItemClick={closeOnItemClick}
               />
             </MenuList>

@@ -7,10 +7,10 @@ import { MenuItem, MenuItemNS } from './menu-item'
 import { useZoomComponent } from '../../hooks'
 
 export namespace ItemsNS {
-  export interface Props
-    extends Pick<MenuItemNS.Props, 'linkComponent' | 'isDarwinOS' | 'closeOnItemClick'> {
+  export interface Props extends Pick<MenuItemNS.Props, 'linkComponent' | 'closeOnItemClick'> {
     items: MenuItemNS.Item[]
     isRTL?: boolean
+    isDarwin: boolean
   }
 }
 
@@ -18,8 +18,8 @@ export const Items: FC<ItemsNS.Props> = ({
   items,
   isRTL,
   linkComponent,
-  isDarwinOS,
   closeOnItemClick,
+  isDarwin,
 }) => {
   const { createClassName } = useZoomComponent('menu-item')
 
@@ -53,7 +53,7 @@ export const Items: FC<ItemsNS.Props> = ({
                     items={item.children}
                     key={index}
                     linkComponent={linkComponent}
-                    isDarwinOS={isDarwinOS}
+                    isDarwin={isDarwin}
                     closeOnItemClick={closeOnItemClick}
                   />
                 </MenuList>
@@ -66,10 +66,10 @@ export const Items: FC<ItemsNS.Props> = ({
           <MenuItem
             {...item}
             key={index}
-            isDarwinOS={isDarwinOS}
             linkComponent={linkComponent}
             isRTL={isRTL}
             closeOnItemClick={closeOnItemClick}
+            isDarwin={isDarwin}
           />
         )
       })}

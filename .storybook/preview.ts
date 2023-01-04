@@ -4,11 +4,9 @@ import { withPerformance } from 'storybook-addon-performance'
 import { sentenceCase } from 'change-case'
 
 import { WrapperDecorator } from './decorators/wrapper'
-import { ThemeProviderDecorator } from './decorators/theme-provider'
 import { ReactRouterDecorator } from './decorators/react-router'
-import { I18nDecorator } from './decorators/i18n'
-import { DigitProviderDecorator } from './decorators/digit-provider'
 import { branding } from './branding'
+import { ZoomProvider } from './decorators/zoom-provider'
 
 import { I18nNS } from '../source/i18n'
 import { ZoomProviderNS } from '../source/components'
@@ -17,10 +15,8 @@ import '../source/stories/styles/index.scss'
 
 addDecorator(withPerformance)
 addDecorator(WrapperDecorator)
-addDecorator(ThemeProviderDecorator)
 addDecorator(ReactRouterDecorator)
-addDecorator(I18nDecorator)
-addDecorator(DigitProviderDecorator)
+addDecorator(ZoomProvider)
 
 export const globalTypes = {
   locale: {

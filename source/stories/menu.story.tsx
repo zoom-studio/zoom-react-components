@@ -7,6 +7,7 @@ import { enMenuItems, faMenuItems } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 import { useSettings } from './hooks/use-settings'
+import { useZoomContext } from '../hooks'
 
 export default {
   title: 'Menu/Menu',
@@ -158,6 +159,8 @@ export const DisabledItems: FC = () => {
 
 export const Accelerator: FC = () => {
   const { simpleItems, children, isRTL } = useMenuStory()
+  const { setIsDarwin } = useZoomContext()
+
   return (
     <CommonStory
       component={Menu}
@@ -173,8 +176,8 @@ export const Accelerator: FC = () => {
                   index => index === 2 || index === 4,
                 ),
                 children,
-                isDarwinOS: true,
                 isRTL,
+                onOpen: () => setIsDarwin(true),
               },
             },
             {
@@ -186,6 +189,7 @@ export const Accelerator: FC = () => {
                   index => index === 2 || index === 4,
                 ),
                 children,
+                onOpen: () => setIsDarwin(false),
               },
             },
           ],

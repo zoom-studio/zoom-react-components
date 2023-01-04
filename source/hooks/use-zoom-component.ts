@@ -1,4 +1,8 @@
+import { useContext } from 'react'
+
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+
+import { zoomLogContext } from '../components'
 
 export namespace UseZoomComponentNS {
   export type CreateClassNameFN = (
@@ -8,13 +12,11 @@ export namespace UseZoomComponentNS {
       [name: string]: boolean
     },
   ) => string
-
-  export interface ReturnType {
-    createClassName: CreateClassNameFN
-  }
 }
 
-export const useZoomComponent = (componentName: string): UseZoomComponentNS.ReturnType => {
+export const useZoomComponent = (componentName: string) => {
+  const { sendLog = () => undefined } = useContext(zoomLogContext)
+
   const createClassName: UseZoomComponentNS.CreateClassNameFN = (
     userClassNames,
     staticClassNamesSuffix,
@@ -28,5 +30,5 @@ export const useZoomComponent = (componentName: string): UseZoomComponentNS.Retu
       },
     )
 
-  return { createClassName }
+  return { createClassName, sendLog }
 }

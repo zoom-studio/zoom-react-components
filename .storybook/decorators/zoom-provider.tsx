@@ -4,7 +4,11 @@ import { PartialStoryFn, Args, StoryContext } from '@storybook/csf'
 import { ReactFramework } from '@storybook/react'
 
 import i18n from '../../source/i18n'
-import { ZoomProvider as ZoomrcProvider } from '../../source/components'
+import {
+  ZoomProvider as ZoomrcProvider,
+  ZoomLogProvider,
+  ZoomLogProviderNS,
+} from '../../source/components'
 
 export const ZoomProvider = (
   Story: PartialStoryFn<ReactFramework, Args>,
@@ -20,9 +24,16 @@ export const ZoomProvider = (
     document.dir = localeDirection
   }, [locale])
 
+  const handleOnLog: ZoomLogProviderNS.Log = (description, error) => {
+    console.error({ description, error })
+    return undefined
+  }
+
   return (
     <ZoomrcProvider digits={digits} theme={theme} isRTL={localeDirection === 'rtl'}>
-      <Story />
+      <ZoomLogProvider onLog={handleOnLog}>
+        <Story />
+      </ZoomLogProvider>
     </ZoomrcProvider>
   )
 }

@@ -7,6 +7,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from 'react'
+import { CustomLinkNS } from '../custom-link'
 
 export namespace ZoomProviderNS {
   export const Themes = ['dark', 'dark-high-contrast', 'light', 'light-high-contrast'] as const
@@ -20,6 +21,7 @@ export namespace ZoomProviderNS {
     digits?: Digits
     isDarwin?: boolean
     setIsDarwin?: Dispatch<SetStateAction<boolean>>
+    linkComponent?: CustomLinkNS.Props['userLink']
   }
 
   export interface Props extends Omit<ProviderValue, 'setIsDarwin'> {

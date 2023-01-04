@@ -10,6 +10,7 @@ import React, {
 } from 'react'
 
 import { Spin, SpinNS, Text, TypographyNS } from '..'
+import { logs } from '../../constants'
 import { useZoomComponent } from '../../hooks'
 import { CommonSize, DataEntriesState } from '../../types'
 
@@ -70,7 +71,7 @@ export const Textarea: FC<TextareaNS.Props> = ({
 }) => {
   const textareaRef = providedTextareaRef ?? useRef<HTMLTextAreaElement>(null)
   const labelRef = providedLabelRef ?? useRef<HTMLLabelElement>(null)
-  const { createClassName } = useZoomComponent('textarea')
+  const { createClassName, sendLog } = useZoomComponent('textarea')
   const isDisabled = disabledOnLoading ? loading || disabled : disabled
   const textareaClasses = createClassName(className)
   const labelClasses = createClassName(labelProps?.className, 'label')
@@ -98,7 +99,7 @@ export const Textarea: FC<TextareaNS.Props> = ({
   const handleAutoHeight = () => {
     const { current: textarea } = textareaRef
     if (!textarea) {
-      return null
+      return sendLog(logs.textareaNotFoundTextareaRef, 'handleAutoHeight function')
     }
     textarea.style.height = '5px'
     textarea.style.height = `${textarea.scrollHeight}px`
@@ -130,6 +131,8 @@ export const Textarea: FC<TextareaNS.Props> = ({
       } else {
         label.classList.remove(focus)
       }
+    } else {
+      sendLog(logs.textareaNotFoundLabelRef, 'handleOnToggleFocus function')
     }
 
     if (isFocused) {

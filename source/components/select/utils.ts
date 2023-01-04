@@ -3,6 +3,8 @@ import { RefObject } from 'react'
 import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 
 import { SelectNS } from '.'
+import { ZoomLogProviderNS } from '../zoom-log-provider'
+import { logs } from '../../constants'
 
 export const groupOptions = (
   options?: SelectNS.Option[],
@@ -74,20 +76,28 @@ export const getSelectedOptions = (
   return selectedOptions
 }
 
-export const scrollToTop = (containerRef: RefObject<HTMLDivElement>, scrollOnOpen?: boolean) => {
+export const scrollToTop = (
+  containerRef: RefObject<HTMLDivElement>,
+  scrollOnOpen: boolean,
+  sendLog: ZoomLogProviderNS.Log,
+) => {
   const { current: container } = containerRef
   if (!container || !scrollOnOpen) {
-    return null
+    return sendLog(logs.selectNotFoundContainerRef, 'scrollToTop function')
   }
   window.scrollTo({ top: container.offsetTop - 20 })
 }
 
-export const focusSearchBox = async (inputRef: RefObject<HTMLInputElement>) => {
+export const focusSearchBox = async (
+  inputRef: RefObject<HTMLInputElement>,
+  sendLog: ZoomLogProviderNS.Log,
+) => {
   await sleep(2)
   const { current: searchBox } = inputRef
-  if (searchBox) {
-    searchBox.focus()
+  if (!searchBox) {
+    return sendLog(logs.selectNotFoundInputRef, 'focusSearchBox function')
   }
+  searchBox.focus()
 }
 
 export const defaultEmpty = (options?: SelectNS.Option[]) => {

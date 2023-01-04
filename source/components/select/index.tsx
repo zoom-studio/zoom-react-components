@@ -12,7 +12,7 @@ import React, {
 import { classNames, sleep } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Icon, Input, InputNS, Spin, SVGIcon, Text, TypographyNS } from '..'
-import { BREAKPOINTS } from '../../constants'
+import { BREAKPOINTS, logs } from '../../constants'
 import { useOutsideClick, useZoomComponent } from '../../hooks'
 import { CommonSize, DataEntriesState } from '../../types'
 import { color } from '../../utils'
@@ -88,7 +88,7 @@ export const Select: FC<SelectNS.Props> = ({
   scrollOnOpen = window.innerWidth <= BREAKPOINTS.md,
   ...props
 }) => {
-  const { createClassName } = useZoomComponent('select')
+  const { createClassName, sendLog } = useZoomComponent('select')
 
   const dropdownRef = props.dropdownRef ?? useRef<HTMLDivElement>(null)
   const inputRef = props.searchInputRef ?? useRef<HTMLInputElement>(null)
@@ -159,7 +159,7 @@ export const Select: FC<SelectNS.Props> = ({
       })
     }
 
-    void focusSearchBox(inputRef)
+    void focusSearchBox(inputRef, sendLog)
     return options
   }
 
@@ -171,7 +171,7 @@ export const Select: FC<SelectNS.Props> = ({
     await sleep(20)
     const { current: optionsList } = optionsListRef
     if (!optionsList) {
-      return null
+      return sendLog(logs.selectNotFoundOptionsListRef, 'handleSetEmptyList function')
     }
 
     setEmptyState(
@@ -189,8 +189,8 @@ export const Select: FC<SelectNS.Props> = ({
 
   const onOpen = () => {
     props.onWillOpen?.()
-    scrollToTop(containerRef, scrollOnOpen)
-    void focusSearchBox(inputRef)
+    scrollToTop(containerRef, scrollOnOpen, sendLog)
+    void focusSearchBox(inputRef, sendLog)
     void handleSetEmptyList()
   }
 

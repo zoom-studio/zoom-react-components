@@ -27,11 +27,14 @@ export namespace MenuItemNS {
     linkComponent?: CustomLinkNS.Props['userLink']
     isRTL?: boolean
     closeOnItemClick?: boolean
+  }
+
+  export interface InnerProps {
     isDarwin: boolean
   }
 }
 
-export const MenuItem: FC<MenuItemNS.Props> = ({
+export const MenuItem: FC<MenuItemNS.Props & MenuItemNS.InnerProps> = ({
   closeOnItemClick = true,
   title,
   onClick,

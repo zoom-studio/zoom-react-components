@@ -13,6 +13,7 @@ import { makeElementDraggable } from '../../utils'
 
 import { ButtonNS, Button, Icon, Title } from '..'
 import { CommonSize } from '../../types'
+import { logs } from '../../constants'
 
 export namespace DialogNS {
   export type Action = ButtonNS.Props
@@ -78,7 +79,7 @@ export const Dialog: FC<DialogNS.Props> = ({
 }) => {
   const dialogRef = customDialogRef ?? useRef<HTMLDivElement>(null)
   const [isFullscreen, setIsFullscreen] = useState(!!fullScreen)
-  const { createClassName } = useZoomComponent('dialog')
+  const { createClassName, sendLog } = useZoomComponent('dialog')
   const headerClasses = createClassName(headerProps?.className, 'header')
   const bodyClasses = createClassName(bodyProps?.className, 'body')
   const footerClasses = createClassName(footerProps?.className, 'footer')
@@ -134,16 +135,17 @@ export const Dialog: FC<DialogNS.Props> = ({
 
   const handleOnOpen = () => {
     const { current: dialog } = dialogRef
-
     window.addEventListener('keydown', onEscape)
 
-    if (dialog) {
-      makeElementDraggable({
-        element: dialog,
-        onDragStart: () => setIsFullscreen(false),
-        whiteList: ['draggable-area'],
-      })
+    if (!dialog) {
+      return sendLog(logs.dialogNotFoundDialogRef, 'handleOnOpen function')
     }
+
+    makeElementDraggable({
+      element: dialog,
+      onDragStart: () => setIsFullscreen(false),
+      whiteList: ['draggable-area'],
+    })
   }
 
   useEffect(() => {

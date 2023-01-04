@@ -13,6 +13,7 @@ import React, {
 import { useZoomComponent } from '../../hooks'
 
 import { Menu, MenuNS } from '..'
+import { logs } from '../../constants'
 
 export namespace ContextMenuNS {
   export type Menu = FunctionComponentElement<MenuNS.Props> | null
@@ -35,13 +36,14 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
   ...rest
 }) => {
   const [menuComponent, setMenuComponent] = useState<ContextMenuNS.Menu>(null)
-  const { createClassName } = useZoomComponent('context-menu')
+  const { createClassName, sendLog } = useZoomComponent('context-menu')
   const containerClasses = createClassName(className)
   const menuButtonRef = useRef<HTMLButtonElement | null>(null)
 
   const openMenu = (evt: MouseEvent<HTMLDivElement>) => () => {
     const { current: menuButton } = menuButtonRef
     if (!menuButton) {
+      sendLog(logs.contextMenuNotFoundButtonRef, 'openMenu function')
       return null
     }
 

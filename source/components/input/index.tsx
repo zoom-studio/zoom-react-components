@@ -11,6 +11,7 @@ import React, {
 } from 'react'
 
 import { Button, Icon, LongPress, Spin, SpinNS, Text, TypographyNS } from '..'
+import { logs } from '../../constants'
 import { useZoomComponent } from '../../hooks'
 import { CommonSize, DataEntriesState } from '../../types'
 
@@ -77,7 +78,7 @@ export const Input: FC<InputNS.Props> = ({
 }) => {
   const inputRef = providedInputRef ?? useRef<HTMLInputElement>(null)
   const labelRef = providedLabelRef ?? useRef<HTMLLabelElement>(null)
-  const { createClassName } = useZoomComponent('input')
+  const { createClassName, sendLog } = useZoomComponent('input')
   const isDisabled = disabledOnLoading ? loading || disabled : disabled
   const inputClasses = createClassName(className)
   const labelClasses = createClassName(labelProps?.className, 'label')
@@ -108,7 +109,11 @@ export const Input: FC<InputNS.Props> = ({
 
   const handleOnPasswordButtonClick = () => {
     const { current: input } = inputRef
-    if (!input || !isPassword || !passwordToggleButton) {
+    if (!input) {
+      return sendLog(logs.inputNotFoundInputRef, 'handleOnPasswordButtonClick fn')
+    }
+
+    if (!isPassword || !passwordToggleButton) {
       return null
     }
 
@@ -122,7 +127,11 @@ export const Input: FC<InputNS.Props> = ({
 
   const handleClearSearchButtonClick = () => {
     const { current: input } = inputRef
-    if (!input || !isSearch || !searchClearButton) {
+    if (!input) {
+      return sendLog(logs.inputNotFoundInputRef, 'handleClearSearchButtonClick fn')
+    }
+
+    if (!isSearch || !searchClearButton) {
       return null
     }
     input.value = ''
@@ -132,7 +141,11 @@ export const Input: FC<InputNS.Props> = ({
 
   const handleNumberButtonHandlers = (handler: 'increase' | 'decrease') => () => {
     const { current: input } = inputRef
-    if (!input || !isNumber || !numberButtonHandlers) {
+    if (!input) {
+      return sendLog(logs.inputNotFoundInputRef, 'handleNumberButtonHandlers fn')
+    }
+
+    if (!isNumber || !numberButtonHandlers) {
       return null
     }
 
@@ -164,6 +177,8 @@ export const Input: FC<InputNS.Props> = ({
       } else {
         label.classList.remove(focus)
       }
+    } else {
+      sendLog(logs.inputNotFoundLabelRef, 'handleOnToggleFocus fn')
     }
 
     if (isFocused) {

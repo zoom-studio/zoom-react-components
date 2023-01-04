@@ -68,6 +68,8 @@
   "dependencies": {
     "@zoom-studio/zoom-js-ts-utils": "file:../zoom-web-utils/dist",
     "lodash": "^4.17.21",
+    "overlayscrollbars": "^2.0.3",
+    "overlayscrollbars-react": "^0.5.0",
     "react-menu-list": "https://github.com/zoom-studio/react-menu-list.git",
     "react-router-dom": "^6.4.2"
   },

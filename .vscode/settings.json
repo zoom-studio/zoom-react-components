@@ -10,6 +10,7 @@
     "tsbuildinfo",
     "storysource",
     "languagedetector",
+    "overlayscrollbars",
     "pluginutils"
   ]
 }

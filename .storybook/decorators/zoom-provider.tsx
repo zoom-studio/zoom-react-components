@@ -11,17 +11,17 @@ export const ZoomProvider = (
   context: StoryContext<ReactFramework, Args>,
 ) => {
   const locale = context.globals.locale || 'fa'
+  const localeDirection = i18n.dir(locale)
   const digits = context.globals.digits || 'latin'
   const theme = context.globals.theme || 'dark'
 
   useEffect(() => {
     i18n.changeLanguage(locale)
-    const direction = i18n.dir(locale)
-    document.dir = direction
+    document.dir = localeDirection
   }, [locale])
 
   return (
-    <ZoomrcProvider digits={digits} theme={theme}>
+    <ZoomrcProvider digits={digits} theme={theme} isRTL={localeDirection === 'rtl'}>
       <Story />
     </ZoomrcProvider>
   )

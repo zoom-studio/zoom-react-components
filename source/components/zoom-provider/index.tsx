@@ -22,6 +22,7 @@ export namespace ZoomProviderNS {
     isDarwin?: boolean
     setIsDarwin?: Dispatch<SetStateAction<boolean>>
     linkComponent?: CustomLinkNS.Props['userLink']
+    isRTL?: boolean
   }
 
   export interface Props extends Omit<ProviderValue, 'setIsDarwin'> {

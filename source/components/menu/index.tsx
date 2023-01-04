@@ -15,7 +15,6 @@ export namespace MenuNS {
     extends Omit<ButtonNS.Props, 'href'>,
       Pick<MenuItemNS.Props, 'closeOnItemClick'> {
     items: Item[]
-    isRTL?: boolean
     onClose?: () => void
     onOpen?: () => void
   }
@@ -25,14 +24,13 @@ export const Menu: FC<MenuNS.Props> = ({
   items,
   className,
   children,
-  isRTL,
   onClose,
   onOpen,
   closeOnItemClick,
   ...buttonProps
 }) => {
   const { createClassName } = useZoomComponent('menu')
-  const { isDarwin, linkComponent } = useZoomContext()
+  const { isDarwin, linkComponent, isRTL } = useZoomContext()
 
   const containerClasses = createClassName(className, '', {
     'rtl-layout': !!isRTL,

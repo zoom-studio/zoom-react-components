@@ -1,0 +1,4 @@
+// $placement:  top | right | bottom | left
+@function popover-animation-name($placement) {
+  @return zoomrc-popover-component-open-from- + $placement + -animation;
+}

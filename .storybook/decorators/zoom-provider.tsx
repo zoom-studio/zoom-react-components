@@ -30,7 +30,7 @@ export const ZoomProvider = (
   }
 
   return (
-    <ZoomrcProvider digits={digits} theme={theme} isRTL={localeDirection === 'rtl'}>
+    <ZoomrcProvider digits={digits} theme={theme} isRTL={localeDirection === 'rtl'} withToast>
       <ZoomLogProvider onLog={handleOnLog}>
         <Story />
       </ZoomLogProvider>

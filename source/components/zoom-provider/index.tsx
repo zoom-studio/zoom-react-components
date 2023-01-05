@@ -9,6 +9,9 @@ import React, {
 } from 'react'
 import { CustomLinkNS } from '../custom-link'
 
+import { ToastProvider, ToastProviderNS } from '..'
+import { ConditionalWrapper } from '../conditional-wrapper'
+
 export namespace ZoomProviderNS {
   export const Themes = ['dark', 'dark-high-contrast', 'light', 'light-high-contrast'] as const
   export type Themes = typeof Themes[number]
@@ -27,6 +30,8 @@ export namespace ZoomProviderNS {
 
   export interface Props extends Omit<ProviderValue, 'setIsDarwin'> {
     children?: ReactNode
+    withToast?: boolean
+    toastsDefaultConfig?: ToastProviderNS.Props
   }
 }
 
@@ -52,7 +57,15 @@ export const ZoomProvider: FC<ZoomProviderNS.Props> = props => {
 
   return (
     <ZoomContext.Provider value={{ ...props, isDarwin, setIsDarwin }}>
-      {props.children}
+      <ConditionalWrapper
+        condition={props.withToast}
+        falseWrapper={children => <>{children}</>}
+        trueWrapper={children => (
+          <ToastProvider {...props.toastsDefaultConfig}>{children}</ToastProvider>
+        )}
+      >
+        {props.children}
+      </ConditionalWrapper>
     </ZoomContext.Provider>
   )
 }

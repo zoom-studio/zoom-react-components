@@ -119,7 +119,7 @@ div.zoomrc-select {
         background-color: color(layer, 1);
 
         &.focus {
-          border: none;
+          border-color: transparent;
           box-shadow: none;
         }
       }

@@ -171,7 +171,10 @@ export const Select: FC<SelectNS.Props> = ({
     await sleep(20)
     const { current: optionsList } = optionsListRef
     if (!optionsList) {
-      return sendLog(logs.selectNotFoundOptionsListRef, 'handleSetEmptyList function')
+      if (isOpen) {
+        return sendLog(logs.selectNotFoundOptionsListRef, 'handleSetEmptyList function')
+      }
+      return
     }
 
     setEmptyState(

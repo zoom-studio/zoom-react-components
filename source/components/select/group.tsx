@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 
-import { Button, Text } from '..'
+import { Button, Title } from '..'
 import { useZoomComponent } from '../../hooks'
 import { SelectOption, SelectOptionNS } from './option'
 import { filterLabel } from './utils'
@@ -75,9 +75,9 @@ export const SelectGroup: FC<SelectGroupNS.GroupedProps & SelectGroupNS.InnerPro
   return filteredOptions.length > 0 ? (
     <div className={classes}>
       <div className="group-info">
-        <Text light large className="label">
+        <Title h4 className="label">
           {label}
-        </Text>
+        </Title>
 
         {multiSelect && (
           <Button size="small" type="link" className="select-all" onClick={handleOnSelectAll}>

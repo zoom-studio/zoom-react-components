@@ -82,8 +82,11 @@ export const scrollToTop = (
   sendLog: ZoomLogProviderNS.Log,
 ) => {
   const { current: container } = containerRef
-  if (!container || !scrollOnOpen) {
+  if (!container) {
     return sendLog(logs.selectNotFoundContainerRef, 'scrollToTop function')
+  }
+  if (!scrollOnOpen) {
+    return
   }
   window.scrollTo({ top: container.offsetTop - 20 })
 }

@@ -5,11 +5,12 @@ import React, {
   MouseEvent,
   ReactNode,
   RefObject,
+  useEffect,
   useRef,
-  useState,
 } from 'react'
 
 import { Spin, SpinNS, Text, Title, TypographyNS } from '..'
+import { logs } from '../../constants'
 import { useOutsideClick, useZoomComponent } from '../../hooks'
 
 export namespace PopoverNS {
@@ -78,10 +79,10 @@ export const Popover: FC<PopoverNS.Props> = ({
   spinProps,
   ...rest
 }) => {
+  const OPEN = 'open'
   const containerRef = customContainerRef ?? useRef<HTMLDivElement>(null)
   const timeout = useRef<number | null>(null)
-  const { createClassName } = useZoomComponent('popover')
-  const [isOpen, setIsOpen] = useState(!!defaultIsOpen)
+  const { createClassName, sendLog } = useZoomComponent('popover')
 
   const titleClasses = createClassName(titleProps?.className, 'title')
   const descriptionClasses = createClassName(descriptionProps?.className, 'description')
@@ -94,17 +95,36 @@ export const Popover: FC<PopoverNS.Props> = ({
     'with-arrow': !!showArrow,
   })
 
-  const toggle = () => setIsOpen(isOpen => (isOpen ? close : open)())
+  const isOpen = (): boolean => {
+    const { current: container } = containerRef
+    if (!container) {
+      sendLog(logs.popoverNotFoundContainerRef, 'isOpen function')
+      return false
+    }
+    return container.classList.contains(OPEN)
+  }
+
+  const toggle = () => (isOpen() ? close : open)()
 
   const open = (): boolean => {
     onOpen?.()
-    setIsOpen(true)
+    const { current: container } = containerRef
+    if (!container) {
+      sendLog(logs.popoverNotFoundContainerRef, 'open function')
+      return isOpen()
+    }
+    container.classList.add(OPEN)
     return true
   }
 
   const close = (): boolean => {
     onClose?.()
-    setIsOpen(false)
+    const { current: container } = containerRef
+    if (!container) {
+      sendLog(logs.popoverNotFoundContainerRef, 'close function')
+      return isOpen()
+    }
+    container.classList.remove(OPEN)
     return false
   }
 
@@ -141,6 +161,12 @@ export const Popover: FC<PopoverNS.Props> = ({
     rest?.onClick?.(evt)
   }
 
+  useEffect(() => {
+    if (defaultIsOpen) {
+      open()
+    }
+  }, [])
+
   useOutsideClick(close, containerRef)
   return (
     <div
@@ -153,39 +179,37 @@ export const Popover: FC<PopoverNS.Props> = ({
       onMouseLeave={handleOnMouseEnterOrLeave}
       onClick={handleOnClick}
     >
-      {isOpen && (
-        <div {...popoverProps} className={popoverClasses}>
-          <div className="container-children">
-            {showArrow && <span className="arrow" />}
+      <div {...popoverProps} className={popoverClasses}>
+        <div className="container-children">
+          {showArrow && <span className="arrow" />}
 
-            {loading ? (
-              <div className="popover-loader">
-                <Spin {...spinProps} tip={loadingTitle || spinProps?.tip} />
-              </div>
-            ) : (
-              <>
-                {title && (
-                  <Title h5 {...titleProps} className={titleClasses}>
-                    {title}
-                  </Title>
-                )}
+          {loading ? (
+            <div className="popover-loader">
+              <Spin {...spinProps} tip={loadingTitle || spinProps?.tip} />
+            </div>
+          ) : (
+            <>
+              {title && (
+                <Title h5 {...titleProps} className={titleClasses}>
+                  {title}
+                </Title>
+              )}
 
-                {description && (
-                  <Text {...descriptionProps} className={descriptionClasses}>
-                    {description}
-                  </Text>
-                )}
+              {description && (
+                <Text {...descriptionProps} className={descriptionClasses}>
+                  {description}
+                </Text>
+              )}
 
-                {content && (
-                  <div {...contentProps} className={contentClasses}>
-                    {content}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
+              {content && (
+                <div {...contentProps} className={contentClasses}>
+                  {content}
+                </div>
+              )}
+            </>
+          )}
         </div>
-      )}
+      </div>
       {children}
     </div>
   )

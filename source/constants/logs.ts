@@ -12,4 +12,6 @@ export enum logs {
 
   textareaNotFoundTextareaRef = 'ZOOMRC/TEXTAREA/NOT_FOUND_TEXTAREA_REF',
   textareaNotFoundLabelRef = 'ZOOMRC/TEXTAREA/NOTFOUND_LABEL_REF',
+
+  popoverNotFoundContainerRef = 'ZOOMRC/POPOVER/NOT_FOUND_CONTAINER_REF',
 }

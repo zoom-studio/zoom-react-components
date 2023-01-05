@@ -28,8 +28,9 @@ const generateTexts = (children: ReactNode) => {
         name: `Type: ${type}`,
         props: {
           children,
-          type,
-          size,
+          [type]: true,
+          [size]: true,
+          className: 'text-story',
         },
       })),
     })

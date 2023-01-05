@@ -20,7 +20,7 @@ export default {
 
 const useMenuStory = () => {
   const { t } = useI18n('menu')
-  const { language, isRTL } = useSettings()
+  const { language } = useSettings()
   const children = t('buttonTitle')
   const simpleItems = (
     props?: MenuNS.Item,
@@ -34,33 +34,27 @@ const useMenuStory = () => {
       ...props,
     }))
   }
-  return { t, simpleItems, children, language, isRTL }
-}
-
-export const Playground: FC<MenuNS.Props> = props => {
-  return <StoryPlayground component={Menu} props={props} />
+  return { t, simpleItems, children, language }
 }
 
 export const Basic: FC = () => {
-  const { simpleItems, children, isRTL } = useMenuStory()
+  const { simpleItems, children } = useMenuStory()
   return (
     <CommonStory
       component={Menu}
-      stories={[{ group: [{ props: { items: simpleItems(), children, isRTL } }] }]}
+      stories={[{ group: [{ props: { items: simpleItems(), children } }] }]}
     />
   )
 }
 
 export const Nested: FC = () => {
-  const { children, language, isRTL } = useMenuStory()
+  const { children, language } = useMenuStory()
   return (
     <CommonStory
       component={Menu}
       stories={[
         {
-          group: [
-            { props: { items: language === 'en' ? enMenuItems : faMenuItems, children, isRTL } },
-          ],
+          group: [{ props: { items: language === 'en' ? enMenuItems : faMenuItems, children } }],
         },
       ]}
     />
@@ -68,15 +62,13 @@ export const Nested: FC = () => {
 }
 
 export const CallbackFunction: FC = () => {
-  const { simpleItems, children, isRTL } = useMenuStory()
+  const { simpleItems, children } = useMenuStory()
   return (
     <CommonStory
       component={Menu}
       stories={[
         {
-          group: [
-            { props: { items: simpleItems({ onClick: () => alert('Click') }), children, isRTL } },
-          ],
+          group: [{ props: { items: simpleItems({ onClick: () => alert('Click') }), children } }],
         },
       ]}
     />
@@ -84,25 +76,23 @@ export const CallbackFunction: FC = () => {
 }
 
 export const LinkedItems: FC = () => {
-  const { simpleItems, children, isRTL } = useMenuStory()
+  const { simpleItems, children } = useMenuStory()
   return (
     <CommonStory
       component={Menu}
-      stories={[{ group: [{ props: { items: simpleItems({ link: '/' }), children, isRTL } }] }]}
+      stories={[{ group: [{ props: { items: simpleItems({ link: '/' }), children } }] }]}
     />
   )
 }
 
 export const ActiveItems: FC = () => {
-  const { simpleItems, children, isRTL } = useMenuStory()
+  const { simpleItems, children } = useMenuStory()
   return (
     <CommonStory
       component={Menu}
       stories={[
         {
-          group: [
-            { props: { items: simpleItems(undefined, index => index === 2), children, isRTL } },
-          ],
+          group: [{ props: { items: simpleItems(undefined, index => index === 2), children } }],
         },
       ]}
     />
@@ -110,7 +100,7 @@ export const ActiveItems: FC = () => {
 }
 
 export const WithSeparator: FC = () => {
-  const { simpleItems, children, isRTL } = useMenuStory()
+  const { simpleItems, children } = useMenuStory()
   return (
     <CommonStory
       component={Menu}
@@ -121,7 +111,6 @@ export const WithSeparator: FC = () => {
               props: {
                 items: [...simpleItems(), { isSeparator: true }, ...simpleItems()],
                 children,
-                isRTL,
               },
             },
           ],
@@ -132,7 +121,7 @@ export const WithSeparator: FC = () => {
 }
 
 export const DisabledItems: FC = () => {
-  const { simpleItems, children, isRTL } = useMenuStory()
+  const { simpleItems, children } = useMenuStory()
   return (
     <CommonStory
       component={Menu}
@@ -147,7 +136,6 @@ export const DisabledItems: FC = () => {
                   index => index === 2 || index === 4,
                 ),
                 children,
-                isRTL,
               },
             },
           ],
@@ -158,7 +146,7 @@ export const DisabledItems: FC = () => {
 }
 
 export const Accelerator: FC = () => {
-  const { simpleItems, children, isRTL } = useMenuStory()
+  const { simpleItems, children } = useMenuStory()
   const { setIsDarwin } = useZoomContext()
 
   return (
@@ -176,7 +164,6 @@ export const Accelerator: FC = () => {
                   index => index === 2 || index === 4,
                 ),
                 children,
-                isRTL,
                 onOpen: () => setIsDarwin(true),
               },
             },
@@ -197,4 +184,8 @@ export const Accelerator: FC = () => {
       ]}
     />
   )
+}
+
+export const Playground: FC<MenuNS.Props> = props => {
+  return <StoryPlayground component={Menu} props={props} />
 }

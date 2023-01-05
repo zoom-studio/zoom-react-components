@@ -16,15 +16,6 @@ export default {
   },
 } as ComponentMeta<typeof LongPress>
 
-export const Playground: FC<LongPressNS.Props> = props => {
-  const { t } = useI18n('longPress')
-  return (
-    <LongPress {...props}>
-      <Button>{t('buttonTitle')}</Button>
-    </LongPress>
-  )
-}
-
 export const WithCallback: FC = () => {
   const { t } = useI18n('longPress')
   const [number, setNumber] = useState(0)
@@ -32,6 +23,15 @@ export const WithCallback: FC = () => {
   return (
     <LongPress callback={handleLongPressCallback}>
       <BannerStory title={t('title')} description={number} emoji="thumbs up" />
+    </LongPress>
+  )
+}
+
+export const Playground: FC<LongPressNS.Props> = props => {
+  const { t } = useI18n('longPress')
+  return (
+    <LongPress {...props}>
+      <Button>{t('buttonTitle')}</Button>
     </LongPress>
   )
 }

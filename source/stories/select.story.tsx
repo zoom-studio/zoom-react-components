@@ -26,10 +26,6 @@ const useSelectStory = () => {
   }
 }
 
-export const Playground: FC<SelectNS.Props> = props => {
-  return <StoryPlayground component={Select} props={props} />
-}
-
 export const Basic: FC = () => {
   const { label, placeholder } = useSelectStory()
   return (
@@ -303,4 +299,8 @@ export const DefaultValue: FC = () => {
       ]}
     />
   )
+}
+
+export const Playground: FC<SelectNS.Props> = props => {
+  return <StoryPlayground component={Select} props={props} />
 }

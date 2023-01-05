@@ -47,10 +47,6 @@ const generateVariantsAndTypes = (
   return stories
 }
 
-export const Playground: FC<ButtonNS.Props> = props => (
-  <StoryPlayground props={props} component={Button} />
-)
-
 export const Sizes: FC<ButtonNS.Props> = () => {
   const { t } = useI18n('button')
   return (
@@ -136,3 +132,7 @@ export const IconAndEmoji: FC<ButtonNS.Props> = () => {
     />
   )
 }
+
+export const Playground: FC<ButtonNS.Props> = props => (
+  <StoryPlayground props={props} component={Button} />
+)

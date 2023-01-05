@@ -13,10 +13,6 @@ export default {
   },
 } as ComponentMeta<typeof SVGIcon>
 
-export const Playground: FC<SVGIconNS.Props> = props => {
-  return <StoryPlayground component={SVGIcon} props={props} />
-}
-
 export const AllSVGIcons: FC = () => {
   return (
     <ListStory
@@ -26,4 +22,8 @@ export const AllSVGIcons: FC = () => {
       maximinRenderedItems={200}
     />
   )
+}
+
+export const Playground: FC<SVGIconNS.Props> = props => {
+  return <StoryPlayground component={SVGIcon} props={props} />
 }

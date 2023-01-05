@@ -15,10 +15,6 @@ export default {
   },
 } as ComponentMeta<typeof Spin>
 
-export const Playground: FC<SpinNS.Props> = props => {
-  return <StoryPlayground component={Spin} props={props} />
-}
-
 export const Sizes: FC = () => {
   return (
     <CommonStory
@@ -95,4 +91,8 @@ export const CustomColor: FC = () => {
       ]}
     />
   )
+}
+
+export const Playground: FC<SpinNS.Props> = props => {
+  return <StoryPlayground component={Spin} props={props} />
 }

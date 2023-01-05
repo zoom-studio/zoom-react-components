@@ -25,10 +25,6 @@ const useTextareaStory = () => {
   }
 }
 
-export const Playground: FC<TextareaNS.Props> = props => {
-  return <StoryPlayground component={Textarea} props={props} />
-}
-
 export const LoadingAndDisabled: FC = () => {
   const { label, placeholder } = useTextareaStory()
   return (
@@ -121,4 +117,8 @@ export const LabelAndPlaceholder: FC = () => {
       ]}
     />
   )
+}
+
+export const Playground: FC<TextareaNS.Props> = props => {
+  return <StoryPlayground component={Textarea} props={props} />
 }

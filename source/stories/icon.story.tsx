@@ -15,15 +15,6 @@ export default {
   },
 } as ComponentMeta<typeof Icon>
 
-export const Playground: FC<IconNS.Props> = props => {
-  return (
-    <StoryPlayground
-      component={Icon}
-      props={{ ...props, style: { color: color({ source: 'text' }), fontSize: 50 } }}
-    />
-  )
-}
-
 export const AllIcons: FC = () => {
   return (
     <ListStory
@@ -31,6 +22,15 @@ export const AllIcons: FC = () => {
       nameProp="name"
       props={ICON_NAMES.map(name => ({ name }))}
       maximinRenderedItems={500}
+    />
+  )
+}
+
+export const Playground: FC<IconNS.Props> = props => {
+  return (
+    <StoryPlayground
+      component={Icon}
+      props={{ ...props, style: { color: color({ source: 'text' }), fontSize: 50 } }}
     />
   )
 }

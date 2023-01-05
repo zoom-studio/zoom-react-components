@@ -17,15 +17,6 @@ export default {
   },
 } as ComponentMeta<typeof LongTap>
 
-export const Playground: FC<LongTapNS.Props> = props => {
-  const { t } = useI18n('longTap')
-  return (
-    <LongTap {...props}>
-      <Button>{t('buttonTitle')}</Button>
-    </LongTap>
-  )
-}
-
 export const WithCallback: FC = () => {
   const { t } = useI18n('longTap')
   const [number, setNumber] = useState(0)
@@ -33,6 +24,15 @@ export const WithCallback: FC = () => {
   return (
     <LongTap callback={handleLongTapCallback} timeout={2000}>
       <BannerStory title={t('title')} description={number} emoji="thumbs up" />
+    </LongTap>
+  )
+}
+
+export const Playground: FC<LongTapNS.Props> = props => {
+  const { t } = useI18n('longTap')
+  return (
+    <LongTap {...props}>
+      <Button>{t('buttonTitle')}</Button>
     </LongTap>
   )
 }

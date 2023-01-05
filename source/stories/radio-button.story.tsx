@@ -14,10 +14,6 @@ export default {
   },
 } as ComponentMeta<typeof RadioButton>
 
-export const Playground: FC<RadioButtonNS.Props> = props => (
-  <StoryPlayground component={RadioButton} props={props} />
-)
-
 export const Sizes = () => {
   const { t } = useI18n('radio')
   return (
@@ -152,3 +148,7 @@ export const LoadingAndDisabled = () => {
     />
   )
 }
+
+export const Playground: FC<RadioButtonNS.Props> = props => (
+  <StoryPlayground component={RadioButton} props={props} />
+)

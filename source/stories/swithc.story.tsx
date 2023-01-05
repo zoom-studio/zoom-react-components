@@ -14,10 +14,6 @@ export default {
   },
 } as ComponentMeta<typeof Switch>
 
-export const Playground: FC<SwitchNS.Props> = props => (
-  <StoryPlayground component={Switch} props={props} />
-)
-
 export const Sizes = () => {
   const { t } = useI18n('switch')
   return (
@@ -93,3 +89,7 @@ export const LoadingAndDisabled = () => {
     />
   )
 }
+
+export const Playground: FC<SwitchNS.Props> = props => (
+  <StoryPlayground component={Switch} props={props} />
+)

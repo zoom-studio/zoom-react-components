@@ -28,18 +28,6 @@ const Child: FC<{ children?: ReactNode }> = ({ children }) => (
   </div>
 )
 
-export const Playground: FC<ColNS.Props> = props => {
-  return (
-    <Row>
-      {Array.from(Array(4)).map((_, index) => (
-        <Col {...props} key={index}>
-          <Child>col</Child>
-        </Col>
-      ))}
-    </Row>
-  )
-}
-
 export const The24Cols: FC<ColNS.Props> = () => (
   <CommonStory
     component={Col}
@@ -58,3 +46,15 @@ export const The24Cols: FC<ColNS.Props> = () => (
     ]}
   />
 )
+
+export const Playground: FC<ColNS.Props> = props => {
+  return (
+    <Row>
+      {Array.from(Array(4)).map((_, index) => (
+        <Col {...props} key={index}>
+          <Child>col</Child>
+        </Col>
+      ))}
+    </Row>
+  )
+}

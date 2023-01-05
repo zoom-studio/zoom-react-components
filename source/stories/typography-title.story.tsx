@@ -16,10 +16,6 @@ export default {
   },
 } as ComponentMeta<typeof Title>
 
-export const Playground: FC<TypographyNS.TitleNS.Props> = props => {
-  return <StoryPlayground component={Title} props={props} />
-}
-
 export const HeadingVariants: FC = () => {
   const { t } = useI18n('title')
   return (
@@ -39,4 +35,8 @@ export const HeadingVariants: FC = () => {
       ]}
     />
   )
+}
+
+export const Playground: FC<TypographyNS.TitleNS.Props> = props => {
+  return <StoryPlayground component={Title} props={props} />
 }

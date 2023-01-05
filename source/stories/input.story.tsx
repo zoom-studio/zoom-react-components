@@ -25,10 +25,6 @@ const useInputStory = () => {
   }
 }
 
-export const Playground: FC<InputNS.Props> = props => {
-  return <StoryPlayground component={Input} props={props} />
-}
-
 export const LoadingAndDisabled: FC = () => {
   const { label, placeholder } = useInputStory()
   return (
@@ -161,4 +157,8 @@ export const LabelAndPlaceholder: FC = () => {
       ]}
     />
   )
+}
+
+export const Playground: FC<InputNS.Props> = props => {
+  return <StoryPlayground component={Input} props={props} />
 }

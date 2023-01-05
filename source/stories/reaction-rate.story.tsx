@@ -15,10 +15,6 @@ export default {
   },
 } as ComponentMeta<typeof ReactionRate>
 
-export const Playground: FC<ReactionRateNS.Props> = props => {
-  return <StoryPlayground component={ReactionRate} props={props} />
-}
-
 export const Types: FC = () => {
   return (
     <CommonStory
@@ -168,4 +164,8 @@ export const RealWorldExample: FC = () => {
       ]}
     />
   )
+}
+
+export const Playground: FC<ReactionRateNS.Props> = props => {
+  return <StoryPlayground component={ReactionRate} props={props} />
 }

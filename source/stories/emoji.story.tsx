@@ -14,10 +14,6 @@ export default {
   },
 } as ComponentMeta<typeof Emoji>
 
-export const Playground: FC<EmojiNS.Props> = props => {
-  return <StoryPlayground component={Emoji} props={props} />
-}
-
 export const AllEmojis: FC = () => {
   return (
     <ListStory
@@ -27,4 +23,8 @@ export const AllEmojis: FC = () => {
       maximinRenderedItems={100}
     />
   )
+}
+
+export const Playground: FC<EmojiNS.Props> = props => {
+  return <StoryPlayground component={Emoji} props={props} />
 }

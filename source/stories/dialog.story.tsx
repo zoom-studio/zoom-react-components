@@ -13,22 +13,6 @@ export default {
   component: Dialog,
 } as ComponentMeta<typeof Dialog>
 
-export const Playground: FC<DialogNS.Props> = props => {
-  const [isOpen, setIsOpen] = useState(!!props.isOpen)
-  const open = () => setIsOpen(true)
-  const close = () => setIsOpen(false)
-  const { t } = useI18n('dialog')
-
-  return (
-    <StoryPlayground<DialogNS.Props>
-      component={Dialog}
-      props={{ ...props, isOpen, onClose: close }}
-    >
-      <Button onClick={open}>{t('open')}</Button>
-    </StoryPlayground>
-  )
-}
-
 export const Sizes = () => {
   const dialogRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -107,5 +91,21 @@ export const Sizes = () => {
         {lorem(10)}
       </Dialog>
     </div>
+  )
+}
+
+export const Playground: FC<DialogNS.Props> = props => {
+  const [isOpen, setIsOpen] = useState(!!props.isOpen)
+  const open = () => setIsOpen(true)
+  const close = () => setIsOpen(false)
+  const { t } = useI18n('dialog')
+
+  return (
+    <StoryPlayground<DialogNS.Props>
+      component={Dialog}
+      props={{ ...props, isOpen, onClose: close }}
+    >
+      <Button onClick={open}>{t('open')}</Button>
+    </StoryPlayground>
   )
 }

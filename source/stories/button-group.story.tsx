@@ -33,10 +33,6 @@ const generateTypes = (
   }))
 }
 
-export const Playground: FC<ButtonGroupNS.Props> = props => (
-  <StoryPlayground props={props} component={ButtonGroup} />
-)
-
 export const Directions: FC<ButtonGroupNS.Props> = () => {
   const { t } = useI18n('button')
   const buttons = generateSampleButtons(t('sampleTitle'))
@@ -106,3 +102,7 @@ export const MixedVariants: FC<ButtonGroupNS.Props> = () => {
     />
   )
 }
+
+export const Playground: FC<ButtonGroupNS.Props> = props => (
+  <StoryPlayground props={props} component={ButtonGroup} />
+)

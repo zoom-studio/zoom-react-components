@@ -14,10 +14,6 @@ export default {
   },
 } as ComponentMeta<typeof Checkbox>
 
-export const Playground: FC<CheckboxNS.Props> = props => (
-  <StoryPlayground component={Checkbox} props={props} />
-)
-
 export const Sizes = () => {
   const { t } = useI18n('checkbox')
   return (
@@ -93,3 +89,7 @@ export const LoadingAndDisabled = () => {
     />
   )
 }
+
+export const Playground: FC<CheckboxNS.Props> = props => (
+  <StoryPlayground component={Checkbox} props={props} />
+)

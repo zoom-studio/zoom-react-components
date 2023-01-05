@@ -20,10 +20,6 @@ export default {
   },
 } as ComponentMeta<typeof ScrollView>
 
-export const Playground: FC<ScrollViewNS.Props> = props => {
-  return <StoryPlayground component={ScrollView} props={props} />
-}
-
 export const IndicatorVisibility: FC = () => {
   return (
     <CommonStory
@@ -44,4 +40,8 @@ export const IndicatorVisibility: FC = () => {
       ]}
     />
   )
+}
+
+export const Playground: FC<ScrollViewNS.Props> = props => {
+  return <StoryPlayground component={ScrollView} props={props} />
 }

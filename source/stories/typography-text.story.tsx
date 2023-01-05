@@ -37,11 +37,11 @@ const generateTexts = (children: ReactNode) => {
   return stories
 }
 
-export const Playground: FC<TypographyNS.TextNS.Props> = props => {
-  return <StoryPlayground component={Text} props={props} />
-}
-
 export const TypesAndSizes: FC = () => {
   const { t } = useI18n('text')
   return <CommonStory component={Text} stories={generateTexts(t('sampleText'))} />
+}
+
+export const Playground: FC<TypographyNS.TextNS.Props> = props => {
+  return <StoryPlayground component={Text} props={props} />
 }

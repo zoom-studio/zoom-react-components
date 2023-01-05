@@ -1,3 +1,5 @@
 export * from './use-outside-click'
 export * from './use-zoom-component'
 export * from './use-zoom-context'
+export * from './use-variable'
+export * from './use-stated-icon'

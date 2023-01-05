@@ -9,7 +9,7 @@ import React, {
 } from 'react'
 import { CustomLinkNS } from '../custom-link'
 
-import { ToastProvider, ToastProviderNS } from '..'
+import { ToastProvider, ToastProviderNS } from '../toast/provider'
 import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace ZoomProviderNS {

@@ -2,23 +2,26 @@ import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Button, useToast } from '..'
 import { Toast, ToastNS } from '../components/toast/toast'
 import { StoryPlayground } from './components'
-import { useI18n } from './hooks/use-i18n'
+import { lorem } from '../fixtures'
 
 export default {
   title: 'Feedback/Toast',
   component: Toast,
+  args: {
+    children: lorem(8),
+    size: 'normal',
+    variant: 'error',
+    loading: false,
+    icon: 'error',
+    actions: [
+      { children: 'Accept', variant: 'success' },
+      { children: 'Dismiss', variant: 'error' },
+    ],
+  },
 } as ComponentMeta<typeof Toast>
 
 export const Playground: FC<ToastNS.Props> = props => {
-  const { t } = useI18n('dialog')
-  useToast()
-
-  return (
-    <StoryPlayground<ToastNS.Props> component={Toast} props={props}>
-      <Button>{t('open')}</Button>
-    </StoryPlayground>
-  )
+  return <StoryPlayground component={Toast} props={props} />
 }

@@ -5,8 +5,8 @@ export namespace ConditionalWrapperNS {
 
   export interface Props {
     condition: boolean | null | undefined
-    trueWrapper: Wrapper
-    falseWrapper: Wrapper
+    trueWrapper?: Wrapper
+    falseWrapper?: Wrapper
     children?: ReactNode
   }
 }
@@ -17,5 +17,5 @@ export const ConditionalWrapper: FC<ConditionalWrapperNS.Props> = ({
   trueWrapper,
   falseWrapper,
 }) => {
-  return <>{condition ? trueWrapper(children) : falseWrapper(children)}</>
+  return <>{condition ? trueWrapper?.(children) : falseWrapper?.(children)}</>
 }

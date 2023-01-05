@@ -69,7 +69,7 @@ export const Text: FC<TypographyNS.TextNS.Props> = ({
 
   const size: CommonSize = small ? 'small' : normal ? 'normal' : large ? 'large' : 'normal'
 
-  const classes = classNames(`zoomrc-text-${type}-${size}`, {
+  const classes = classNames(`zoomrc-text-${type}-${size} zoomrc-typography`, {
     [className ?? '']: true,
   })
 
@@ -93,7 +93,7 @@ export const Title: FC<TypographyNS.TitleNS.Props> = ({
 }) => {
   const size: TypographyNS.TitleNS.Sizes = h1 ? 1 : h2 ? 2 : h3 ? 3 : h4 ? 4 : h5 ? 5 : h6 ? 6 : 4
 
-  const classes = classNames(`zoomrc-title-${size}`, {
+  const classes = classNames(`zoomrc-title-${size} zoomrc-typography`, {
     [className ?? '']: true,
   })
 

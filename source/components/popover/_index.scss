@@ -79,6 +79,14 @@ div.zoomrc-popover {
         margin-top: 6px;
         direction: rtl;
       }
+
+      > .popover-loader {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 0;
+      }
     }
   }
 }
@@ -93,7 +101,8 @@ div.zoomrc-popover {
           direction: ltr;
         }
 
-        > .zoomrc-popover-content {
+        > .zoomrc-popover-content,
+        > .popover-loader {
           direction: ltr;
         }
       }

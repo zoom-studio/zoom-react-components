@@ -7,6 +7,12 @@ export const FATranslations = {
       warning: 'حالتی که هشداری را نشان میدهد',
       error: 'حالتی که یک ارور نشان میدهد',
     },
+    triggers: {
+      hover: 'هاور ماوس',
+      click: 'کلیک ماوس',
+      focus: 'فوکوس با ماوس یا کیبورد',
+    },
+    fetching: 'در حال دریافت اطلاعات...',
   },
 
   dialog: {
@@ -101,5 +107,10 @@ export const FATranslations = {
   radio: {
     sizingTitle: 'سایزهای مختلف رادیو باتن',
     sampleTitle: 'رادیو باتن نمونه',
+  },
+
+  popover: {
+    title: 'عنوان پاپ‌اور',
+    description: 'مقداری توضیحات تستی برای تست کامپوننت پاپ‌اور',
   },
 }

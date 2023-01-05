@@ -33,18 +33,6 @@ export const Spin: FC<SpinNS.Props> = ({
 
   return (
     <span {...rest} className={classes}>
-      {children ??
-        (tip && (
-          <Text
-            {...tipProps}
-            small={size === 'small'}
-            normal={size === 'normal'}
-            large={size === 'large'}
-          >
-            {tip}
-          </Text>
-        ))}
-
       <svg width="100%" height="100%" viewBox="0 0 50 50">
         <path
           className="inner-path"
@@ -62,6 +50,18 @@ export const Spin: FC<SpinNS.Props> = ({
           />
         </path>
       </svg>
+
+      {children ??
+        (tip && (
+          <Text
+            {...tipProps}
+            small={size === 'small'}
+            normal={size === 'normal'}
+            large={size === 'large'}
+          >
+            {tip}
+          </Text>
+        ))}
     </span>
   )
 }

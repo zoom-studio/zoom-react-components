@@ -51,4 +51,18 @@
       @include generate-none-heading-variants('strikethrough');
     }
   }
+
+  &-typography {
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+@include ltr {
+  .zoomrc {
+    &-typography {
+      direction: ltr;
+      text-align: left;
+    }
+  }
 }

@@ -9,6 +9,12 @@ export const ENTranslations: typeof FATranslations = {
       warning: 'A state that indicates a warning',
       error: 'A state that indicates an error',
     },
+    triggers: {
+      hover: 'Mouse hover',
+      click: 'Mouse click',
+      focus: 'Mouse or keyboard focus',
+    },
+    fetching: 'Fetching data...',
   },
 
   dialog: {
@@ -103,5 +109,10 @@ export const ENTranslations: typeof FATranslations = {
   radio: {
     sizingTitle: 'Variant size of radio button',
     sampleTitle: 'Sample radio button',
+  },
+
+  popover: {
+    title: 'Popover title',
+    description: 'Some test description for testing popover component',
   },
 }

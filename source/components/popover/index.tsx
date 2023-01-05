@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react'
 
-import { Spin, Text, Title, TypographyNS } from '..'
+import { Spin, SpinNS, Text, Title, TypographyNS } from '..'
 import { useOutsideClick, useZoomComponent } from '../../hooks'
 
 export namespace PopoverNS {
@@ -33,7 +33,7 @@ export namespace PopoverNS {
   ] as const
 
   export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
-    children: ReactNode
+    children?: ReactNode
     containerRef?: RefObject<HTMLDivElement>
     title?: string
     titleProps?: TypographyNS.TitleNS.Props
@@ -50,6 +50,8 @@ export namespace PopoverNS {
     loadingTitle?: string
     placement?: Placement
     showArrow?: boolean
+    spinProps?: SpinNS.Props
+    hoverDelay?: number
   }
 }
 
@@ -57,6 +59,7 @@ export const Popover: FC<PopoverNS.Props> = ({
   trigger = 'hover',
   placement = 'top',
   showArrow = true,
+  hoverDelay = 0,
   containerRef: customContainerRef,
   children,
   className,
@@ -72,9 +75,11 @@ export const Popover: FC<PopoverNS.Props> = ({
   defaultIsOpen,
   loading,
   loadingTitle,
+  spinProps,
   ...rest
 }) => {
   const containerRef = customContainerRef ?? useRef<HTMLDivElement>(null)
+  const timeout = useRef<number | null>(null)
   const { createClassName } = useZoomComponent('popover')
   const [isOpen, setIsOpen] = useState(!!defaultIsOpen)
 
@@ -116,8 +121,14 @@ export const Popover: FC<PopoverNS.Props> = ({
   const handleOnMouseEnterOrLeave = (evt: MouseEvent<HTMLDivElement>) => {
     const isMouseEntered = evt.type === 'mouseenter'
     if (trigger === 'hover') {
-      if (isMouseEntered) open()
-      else close()
+      if (isMouseEntered) {
+        timeout.current = window.setTimeout(open, hoverDelay)
+      } else {
+        if (timeout.current) {
+          clearTimeout(timeout.current)
+        }
+        close()
+      }
     }
     if (isMouseEntered) rest?.onMouseEnter?.(evt)
     else rest?.onMouseLeave?.(evt)
@@ -148,7 +159,9 @@ export const Popover: FC<PopoverNS.Props> = ({
             {showArrow && <span className="arrow" />}
 
             {loading ? (
-              <Spin tip={loadingTitle} />
+              <div className="popover-loader">
+                <Spin {...spinProps} tip={loadingTitle || spinProps?.tip} />
+              </div>
             ) : (
               <>
                 {title && (

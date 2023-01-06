@@ -1,0 +1,157 @@
+$zoomrc-progress-br: 4px;
+
+@keyframes zoomrc-progress-wave-rtl-animation {
+  from {
+    right: -100%;
+    opacity: 0.5;
+  }
+
+  to {
+    right: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes zoomrc-progress-wave-ltr-animation {
+  from {
+    left: -100%;
+    opacity: 0.5;
+  }
+
+  to {
+    left: 0;
+    opacity: 0;
+  }
+}
+
+div.zoomrc-progress {
+  width: 100%;
+  height: 16px;
+  display: flex;
+  flex-direction: row;
+  background-color: color(layer, 3);
+  border: 1px solid color(border, 2);
+  border-radius: 4px;
+  padding: 2px;
+
+  > .zoomrc-progress-step {
+    height: 100%;
+    display: inline-block;
+    position: relative;
+    border-radius: $zoomrc-progress-br;
+
+    &.multi-step {
+      &:last-child {
+        border-radius: $zoomrc-progress-br 0 0 $zoomrc-progress-br;
+      }
+
+      &:first-child {
+        border-radius: 0 $zoomrc-progress-br $zoomrc-progress-br 0;
+      }
+    }
+
+    > .zoomrc-progress-wave {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border-radius: inherit;
+      top: 0;
+      overflow: hidden;
+      pointer-events: none;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: #fff;
+        border-radius: inherit;
+        animation-name: zoomrc-progress-wave-rtl-animation;
+        animation-duration: 1.4s;
+        animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+        animation-iteration-count: infinite;
+        right: -100%;
+        width: 100%;
+      }
+    }
+
+    > .zoomrc-popover {
+      height: 100%;
+
+      &:last-child {
+        border-radius: $zoomrc-progress-br;
+      }
+
+      &:first-child {
+        border-radius: 0 $zoomrc-progress-br $zoomrc-progress-br 0;
+      }
+    }
+  }
+
+  &.vertical {
+    width: 16px;
+    height: 100%;
+    flex-direction: column-reverse;
+
+    > .zoomrc-progress-step {
+      &.multi-step {
+        &:last-child {
+          border-radius: $zoomrc-progress-br $zoomrc-progress-br 0 0;
+        }
+
+        &:first-child {
+          border-radius: 0 0 $zoomrc-progress-br $zoomrc-progress-br;
+        }
+      }
+    }
+  }
+
+  &-circular {
+    .zoomrc-progress-background {
+      stroke: color(layer, 3);
+    }
+
+    .zoomrc-progress-bar {
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: all 150ms linear;
+    }
+  }
+}
+
+@include ltr {
+  div.zoomrc-progress {
+    > .zoomrc-progress-step {
+      &.multi-step {
+        &:last-child {
+          border-radius: 0 $zoomrc-progress-br $zoomrc-progress-br 0;
+        }
+
+        &:first-child {
+          border-radius: $zoomrc-progress-br 0 0 $zoomrc-progress-br;
+        }
+      }
+
+      > .zoomrc-progress-wave {
+        &::before {
+          animation-name: zoomrc-progress-wave-ltr-animation;
+          right: unset;
+          left: -100%;
+        }
+      }
+    }
+
+    &.vertical {
+      > .zoomrc-progress-step {
+        &.multi-step {
+          &:last-child {
+            border-radius: $zoomrc-progress-br $zoomrc-progress-br 0 0;
+          }
+
+          &:first-child {
+            border-radius: 0 0 $zoomrc-progress-br $zoomrc-progress-br;
+          }
+        }
+      }
+    }
+  }
+}

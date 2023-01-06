@@ -12,6 +12,7 @@ import React, {
 import { Spin, SpinNS, Text, Title, TypographyNS } from '..'
 import { logs } from '../../constants'
 import { useOutsideClick, useZoomComponent } from '../../hooks'
+import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace PopoverNS {
   export const Trigger = ['click', 'focus', 'hover'] as const
@@ -83,6 +84,7 @@ export const Popover: FC<PopoverNS.Props> = ({
   const containerRef = customContainerRef ?? useRef<HTMLDivElement>(null)
   const timeout = useRef<number | null>(null)
   const { createClassName, sendLog } = useZoomComponent('popover')
+  const isValidPopover = !!title || !!description || !!content || loading
 
   const titleClasses = createClassName(titleProps?.className, 'title')
   const descriptionClasses = createClassName(descriptionProps?.className, 'description')
@@ -169,48 +171,54 @@ export const Popover: FC<PopoverNS.Props> = ({
 
   useOutsideClick(close, containerRef)
   return (
-    <div
-      {...rest}
-      className={classes}
-      ref={containerRef}
-      onFocus={handleOnFocusOrBlur}
-      onBlur={handleOnFocusOrBlur}
-      onMouseEnter={handleOnMouseEnterOrLeave}
-      onMouseLeave={handleOnMouseEnterOrLeave}
-      onClick={handleOnClick}
+    <ConditionalWrapper
+      condition={isValidPopover}
+      trueWrapper={child => <>{child}</>}
+      falseWrapper={() => <>{children}</>}
     >
-      <div {...popoverProps} className={popoverClasses}>
-        <div className="container-children">
-          {showArrow && <span className="arrow" />}
+      <div
+        {...rest}
+        className={classes}
+        ref={containerRef}
+        onFocus={handleOnFocusOrBlur}
+        onBlur={handleOnFocusOrBlur}
+        onMouseEnter={handleOnMouseEnterOrLeave}
+        onMouseLeave={handleOnMouseEnterOrLeave}
+        onClick={handleOnClick}
+      >
+        <div {...popoverProps} className={popoverClasses}>
+          <div className="container-children">
+            {showArrow && <span className="arrow" />}
 
-          {loading ? (
-            <div className="popover-loader">
-              <Spin {...spinProps} tip={loadingTitle || spinProps?.tip} />
-            </div>
-          ) : (
-            <>
-              {title && (
-                <Title h5 {...titleProps} className={titleClasses}>
-                  {title}
-                </Title>
-              )}
+            {loading ? (
+              <div className="popover-loader">
+                <Spin {...spinProps} tip={loadingTitle || spinProps?.tip} />
+              </div>
+            ) : (
+              <>
+                {title && (
+                  <Title h5 {...titleProps} className={titleClasses}>
+                    {title}
+                  </Title>
+                )}
 
-              {description && (
-                <Text {...descriptionProps} className={descriptionClasses}>
-                  {description}
-                </Text>
-              )}
+                {description && (
+                  <Text {...descriptionProps} className={descriptionClasses}>
+                    {description}
+                  </Text>
+                )}
 
-              {content && (
-                <div {...contentProps} className={contentClasses}>
-                  {content}
-                </div>
-              )}
-            </>
-          )}
+                {content && (
+                  <div {...contentProps} className={contentClasses}>
+                    {content}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         </div>
+        {children}
       </div>
-      {children}
-    </div>
+    </ConditionalWrapper>
   )
 }

@@ -1,15 +1,17 @@
-import React, { FC } from 'react'
+import React, { CSSProperties, FC } from 'react'
 
 import { Popover, PopoverNS } from '..'
 import { useZoomComponent } from '../../hooks'
 import { BaseComponent, Color as ColorType, MaybeArray } from '../../types'
 import { CircularProgress } from './circular'
-import { generateProgressColor } from './utils'
+import { generateProgressColor, normalizePercentage } from './utils'
+import { ProgressInfo } from './info'
 
 export namespace ProgressNS {
   export const Types = ['horizontal', 'vertical', 'circular'] as const
   export type Types = typeof Types[number]
   export type Color = [ColorType, { [percentage: number]: ColorType }?]
+  export type Size = string | number
 
   export interface Step {
     percentage?: number
@@ -19,13 +21,35 @@ export namespace ProgressNS {
     popoverProps?: PopoverNS.Props
   }
 
-  export interface Props extends Omit<BaseComponent, 'children'> {
+  export interface CircularProps {
+    circularSize?: number
+    circularStroke?: number
+    circularPercentageFontSize?: Size
+    circularIconFontSize?: Size
+  }
+
+  export interface VerticalProps {
+    verticalHeight?: Size
+    verticalWidth?: Size
+  }
+
+  export interface HorizontalProps {
+    horizontalWidth?: Size
+    horizontalHeight?: Size
+  }
+
+  export interface Props
+    extends Omit<BaseComponent, 'children'>,
+      CircularProps,
+      VerticalProps,
+      HorizontalProps {
     type?: Types
     steps: MaybeArray<Step>
     info?: 'percentage' | 'status'
-    horizontalHeight?: string | number
-    circularSize?: number
-    circularStroke?: number
+    failed?: boolean
+    dynamicColors?: boolean
+    dynamicInfo?: boolean
+    showInfo?: boolean
   }
 }
 
@@ -34,7 +58,19 @@ export const Progress: FC<ProgressNS.Props> = props => {
     return <CircularProgress {...props} />
   }
 
-  const { type = 'horizontal', horizontalHeight = '200px', containerProps } = props
+  const {
+    type = 'horizontal',
+    verticalHeight = '200px',
+    verticalWidth = '16px',
+    horizontalHeight = '16px',
+    horizontalWidth = '100%',
+    info = 'percentage',
+    showInfo,
+    containerProps,
+    failed,
+    dynamicColors,
+    dynamicInfo,
+  } = props
   let steps = props.steps
 
   if (!('length' in steps)) {
@@ -53,26 +89,54 @@ export const Progress: FC<ProgressNS.Props> = props => {
     [steps.length === 1 ? 'single-step' : 'multi-step']: true,
   })
 
+  const getTotalPercentage = (steps: ProgressNS.Step[]): number => {
+    let totalPercents = 0
+    steps.forEach(step => (totalPercents += step.percentage ?? defaultPercentage))
+    return normalizePercentage(totalPercents, defaultPercentage)
+  }
+
+  const getSizes = (): CSSProperties => ({
+    width: type === 'horizontal' ? horizontalWidth : verticalWidth,
+    height: type === 'horizontal' ? horizontalHeight : verticalHeight,
+  })
+
   return (
-    <div className={classes} style={isVertical ? { height: horizontalHeight } : undefined}>
-      {steps.map(({ withWave = true, ...step }, index) => (
-        <div
-          key={index}
-          className={stepClasses}
-          style={{
-            background: generateProgressColor(step, defaultPercentage),
-            [isVertical ? 'height' : 'width']: `${step.percentage ?? defaultPercentage}%`,
-          }}
-        >
-          <Popover
-            description={step.title}
-            trigger="hover"
-            placement={isVertical ? 'right' : 'top'}
-            {...step.popoverProps}
-          />
-          {withWave && <span className={waveClasses} />}
-        </div>
-      ))}
+    <div className={classes} style={isVertical ? { height: verticalHeight } : undefined}>
+      <div className="progresses" style={getSizes()}>
+        {steps.map((step, index) => (
+          <div
+            key={index}
+            className={stepClasses}
+            style={{
+              background: generateProgressColor(step, defaultPercentage, !!failed, !!dynamicColors),
+              [isVertical ? 'height' : 'width']: `${normalizePercentage(
+                step.percentage,
+                defaultPercentage,
+              )}%`,
+            }}
+          >
+            <Popover
+              description={step.title}
+              trigger="hover"
+              placement={isVertical ? 'right' : 'top'}
+              {...step.popoverProps}
+            />
+            {step.withWave && <span className={waveClasses} />}
+          </div>
+        ))}
+      </div>
+
+      {showInfo && (
+        <ProgressInfo
+          percentage={getTotalPercentage(steps)}
+          iconsFontsize={16}
+          percentageFontSize={10}
+          failed={failed}
+          info={info}
+          dynamicColors={dynamicColors}
+          dynamicInfo={dynamicInfo}
+        />
+      )}
     </div>
   )
 }

@@ -1,4 +1,5 @@
 $zoomrc-progress-br: 4px;
+$zoomrc-progress-transition: all 500ms cubic-bezier(0.68, 0.16, 0.2, 0.91);
 
 @keyframes zoomrc-progress-wave-rtl-animation {
   from {
@@ -24,123 +25,124 @@ $zoomrc-progress-br: 4px;
   }
 }
 
+@keyframes zoomrc-progress-wave-vertical-animation {
+  from {
+    top: 100%;
+    opacity: 0.5;
+  }
+
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+
 div.zoomrc-progress {
   width: 100%;
-  height: 16px;
   display: flex;
   flex-direction: row;
-  background-color: color(layer, 3);
-  border: 1px solid color(border, 2);
-  border-radius: 4px;
-  padding: 2px;
+  align-items: center;
+  column-gap: 6px;
 
-  > .zoomrc-progress-step {
-    height: 100%;
-    display: inline-block;
-    position: relative;
-    border-radius: $zoomrc-progress-br;
+  > .progresses {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: color(layer, 3);
+    border: 1px solid color(border, 2);
+    padding: 2px;
+    border-radius: 4px;
 
-    &.multi-step {
-      &:last-child {
-        border-radius: $zoomrc-progress-br 0 0 $zoomrc-progress-br;
-      }
-
-      &:first-child {
-        border-radius: 0 $zoomrc-progress-br $zoomrc-progress-br 0;
-      }
-    }
-
-    > .zoomrc-progress-wave {
-      position: absolute;
+    > .zoomrc-progress-step {
       height: 100%;
-      width: 100%;
-      border-radius: inherit;
-      top: 0;
-      overflow: hidden;
-      pointer-events: none;
+      display: inline-block;
+      position: relative;
+      transition: $zoomrc-progress-transition;
 
-      &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: #fff;
-        border-radius: inherit;
-        animation-name: zoomrc-progress-wave-rtl-animation;
-        animation-duration: 1.4s;
-        animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
-        animation-iteration-count: infinite;
-        right: -100%;
-        width: 100%;
-      }
-    }
-
-    > .zoomrc-popover {
-      height: 100%;
-
-      &:last-child {
+      &.single-step {
         border-radius: $zoomrc-progress-br;
       }
 
-      &:first-child {
-        border-radius: 0 $zoomrc-progress-br $zoomrc-progress-br 0;
+      &.multi-step {
+        &:last-child {
+          border-radius: $zoomrc-progress-br 0 0 $zoomrc-progress-br;
+        }
+
+        &:first-child {
+          border-radius: 0 $zoomrc-progress-br $zoomrc-progress-br 0;
+        }
+      }
+
+      > .zoomrc-progress-wave {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        border-radius: inherit;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        pointer-events: none;
+
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-color: #fff;
+          border-radius: inherit;
+          animation-name: zoomrc-progress-wave-rtl-animation;
+          animation-duration: 1.4s;
+          animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+          animation-iteration-count: infinite;
+          right: -100%;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      > .zoomrc-popover {
+        height: 100%;
+
+        &:last-child {
+          border-radius: $zoomrc-progress-br;
+        }
+
+        &:first-child {
+          border-radius: 0 $zoomrc-progress-br $zoomrc-progress-br 0;
+        }
+      }
+    }
+  }
+
+  > .zoomrc-progress-info {
+    display: flex;
+
+    > .percentage {
+      color: color(text, 1);
+      user-select: none;
+    }
+
+    > .progress-icon {
+      &.done {
+        color: color(success);
+      }
+
+      &.failed {
+        color: color(error);
       }
     }
   }
 
   &.vertical {
-    width: 16px;
-    height: 100%;
+    display: inline-flex;
     flex-direction: column-reverse;
+    width: unset;
 
-    > .zoomrc-progress-step {
-      &.multi-step {
-        &:last-child {
-          border-radius: $zoomrc-progress-br $zoomrc-progress-br 0 0;
-        }
+    > .progresses {
+      flex-direction: column-reverse;
+      height: 100%;
 
-        &:first-child {
-          border-radius: 0 0 $zoomrc-progress-br $zoomrc-progress-br;
-        }
-      }
-    }
-  }
-
-  &-circular {
-    .zoomrc-progress-background {
-      stroke: color(layer, 3);
-    }
-
-    .zoomrc-progress-bar {
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: all 150ms linear;
-    }
-  }
-}
-
-@include ltr {
-  div.zoomrc-progress {
-    > .zoomrc-progress-step {
-      &.multi-step {
-        &:last-child {
-          border-radius: 0 $zoomrc-progress-br $zoomrc-progress-br 0;
-        }
-
-        &:first-child {
-          border-radius: $zoomrc-progress-br 0 0 $zoomrc-progress-br;
-        }
-      }
-
-      > .zoomrc-progress-wave {
-        &::before {
-          animation-name: zoomrc-progress-wave-ltr-animation;
-          right: unset;
-          left: -100%;
-        }
-      }
-    }
-
-    &.vertical {
       > .zoomrc-progress-step {
         &.multi-step {
           &:last-child {
@@ -149,6 +151,101 @@ div.zoomrc-progress {
 
           &:first-child {
             border-radius: 0 0 $zoomrc-progress-br $zoomrc-progress-br;
+          }
+        }
+
+        > .zoomrc-progress-wave {
+          &::before {
+            animation-name: zoomrc-progress-wave-vertical-animation;
+            bottom: unset;
+            top: 100%;
+            left: 0;
+            right: 0;
+          }
+        }
+      }
+    }
+  }
+
+  &-circular {
+    position: relative;
+    display: inline-block;
+
+    .zoomrc-progress-background {
+      stroke: color(layer, 3);
+    }
+
+    .zoomrc-progress-bar {
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: $zoomrc-progress-transition;
+    }
+
+    > .zoomrc-progress-info {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+
+      > .percentage {
+        color: color(text, 1);
+        user-select: none;
+      }
+
+      > .progress-icon {
+        &.done {
+          color: color(success);
+        }
+
+        &.failed {
+          color: color(error);
+        }
+      }
+    }
+  }
+}
+
+@include ltr {
+  div.zoomrc-progress {
+    > .progresses {
+      > .zoomrc-progress-step {
+        &.multi-step {
+          &:last-child {
+            border-radius: 0 $zoomrc-progress-br $zoomrc-progress-br 0;
+          }
+
+          &:first-child {
+            border-radius: $zoomrc-progress-br 0 0 $zoomrc-progress-br;
+          }
+        }
+
+        > .zoomrc-progress-wave {
+          &::before {
+            animation-name: zoomrc-progress-wave-ltr-animation;
+            right: unset;
+            left: -100%;
+          }
+        }
+      }
+    }
+
+    &.vertical {
+      > .progresses {
+        > .zoomrc-progress-step {
+          &.multi-step {
+            &:last-child {
+              border-radius: $zoomrc-progress-br $zoomrc-progress-br 0 0;
+            }
+
+            &:first-child {
+              border-radius: 0 0 $zoomrc-progress-br $zoomrc-progress-br;
+            }
           }
         }
       }

@@ -15,6 +15,8 @@ export const ENTranslations: typeof FATranslations = {
       focus: 'Mouse or keyboard focus',
     },
     fetching: 'Fetching data...',
+    increase: 'Increase value',
+    decrease: 'Decrease value',
   },
 
   dialog: {
@@ -114,5 +116,12 @@ export const ENTranslations: typeof FATranslations = {
   popover: {
     title: 'Popover title',
     description: 'Some test description for testing popover component',
+  },
+
+  progress: {
+    title1: 'First step title',
+    title2: 'Second step title',
+    title3: 'Third step title',
+    title4: 'Fourth step title',
   },
 }

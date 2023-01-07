@@ -1,0 +1,24 @@
+.with-number-story {
+  width: 100%;
+
+  > .handlers {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    border: 2px dashed color(border, 2);
+    margin-bottom: 60px;
+    border-radius: 6px;
+    flex-direction: column;
+
+    > p {
+      color: color(text, 3);
+      margin: 10px 0 0;
+    }
+  }
+
+  > .story {
+    display: block;
+    width: 100%;
+  }
+}

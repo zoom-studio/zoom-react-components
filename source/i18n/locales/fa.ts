@@ -13,6 +13,8 @@ export const FATranslations = {
       focus: 'فوکوس با ماوس یا کیبورد',
     },
     fetching: 'در حال دریافت اطلاعات...',
+    increase: 'افزایش مقدار',
+    decrease: 'کاهش مقدار',
   },
 
   dialog: {
@@ -112,5 +114,12 @@ export const FATranslations = {
   popover: {
     title: 'عنوان پاپ‌اور',
     description: 'مقداری توضیحات تستی برای تست کامپوننت پاپ‌اور',
+  },
+
+  progress: {
+    title1: 'عنوان استپ اول',
+    title2: 'عنوان استپ دوم',
+    title3: 'عنوان استپ سوم',
+    title4: 'عنوان استپ چهارم',
   },
 }

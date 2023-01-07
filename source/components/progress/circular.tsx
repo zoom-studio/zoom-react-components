@@ -2,15 +2,21 @@ import React, { FC, SVGAttributes } from 'react'
 
 import { ProgressNS } from '.'
 import { useZoomComponent } from '../../hooks'
-import { generateProgressColor } from './utils'
+import { generateProgressColor, normalizePercentage } from './utils'
+import { ProgressInfo } from './info'
 
 export const CircularProgress: FC<ProgressNS.Props> = ({
-  circularSize: size = 200,
-  circularStroke: stroke = 10,
+  circularSize: size = 100,
+  circularStroke: stroke = 12,
+  info = 'percentage',
+  circularIconFontSize = '30pt',
+  circularPercentageFontSize = '16pt',
   steps,
   containerProps,
-  info,
-  type,
+  failed,
+  dynamicColors,
+  dynamicInfo,
+  showInfo,
 }) => {
   const { createClassName } = useZoomComponent('progress')
   const classes = createClassName(containerProps?.className, 'circular')
@@ -19,7 +25,7 @@ export const CircularProgress: FC<ProgressNS.Props> = ({
   const defaultPercentage = 78
 
   const step = 'length' in steps ? steps[0] : steps
-  const percentage = step.percentage ?? defaultPercentage
+  const percentage = normalizePercentage(step.percentage, defaultPercentage)
   const circleSize = size / 2
   const radius = (size - stroke) / 2
   const dashArray = radius * Math.PI * 2
@@ -33,7 +39,7 @@ export const CircularProgress: FC<ProgressNS.Props> = ({
   }
 
   return (
-    <div className={classes}>
+    <div className={classes} style={{ width: size, height: size }}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <circle {...circlesProps} strokeWidth={`${stroke}px`} className={backgroundClasses} />
         <circle
@@ -41,16 +47,25 @@ export const CircularProgress: FC<ProgressNS.Props> = ({
           strokeWidth={`${stroke - 4}px`}
           className={progressClasses}
           transform={`rotate(-90 ${circleSize} ${circleSize})`}
-          stroke={generateProgressColor(step, defaultPercentage)}
+          stroke={generateProgressColor(step, defaultPercentage, !!failed, !!dynamicColors)}
           style={{
             strokeDasharray: dashArray,
             strokeDashoffset: dashOffset,
           }}
         />
-        <text x="50%" y="50%" dy=".3em" textAnchor="middle" className="text">
-          {`${percentage}%`}
-        </text>
       </svg>
+
+      {showInfo && (
+        <ProgressInfo
+          percentage={percentage}
+          iconsFontsize={circularIconFontSize}
+          percentageFontSize={circularPercentageFontSize}
+          failed={failed}
+          info={info}
+          dynamicColors={dynamicColors}
+          dynamicInfo={dynamicInfo}
+        />
+      )}
     </div>
   )
 }

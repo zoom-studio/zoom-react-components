@@ -34,7 +34,7 @@ export namespace PopoverNS {
     'left-end',
   ] as const
 
-  export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
+  export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'width'> {
     children?: ReactNode
     containerRef?: RefObject<HTMLDivElement>
     title?: string
@@ -54,6 +54,7 @@ export namespace PopoverNS {
     showArrow?: boolean
     spinProps?: SpinNS.Props
     hoverDelay?: number
+    width?: string | number
   }
 }
 
@@ -78,6 +79,7 @@ export const Popover: FC<PopoverNS.Props> = ({
   loading,
   loadingTitle,
   spinProps,
+  width,
   ...rest
 }) => {
   const OPEN = 'open'
@@ -186,7 +188,7 @@ export const Popover: FC<PopoverNS.Props> = ({
         onMouseLeave={handleOnMouseEnterOrLeave}
         onClick={handleOnClick}
       >
-        <div {...popoverProps} className={popoverClasses}>
+        <div {...popoverProps} className={popoverClasses} style={{ width: width ?? 'max-content' }}>
           <div className="container-children">
             {showArrow && <span className="arrow" />}
 

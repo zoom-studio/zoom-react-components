@@ -22,7 +22,7 @@ div.zoomrc-popover {
   @include zoomrc-popover-placements;
 
   position: relative;
-  display: flex;
+  display: inline-flex;
   direction: rtl;
 
   &:not(.open) {
@@ -33,14 +33,14 @@ div.zoomrc-popover {
 
   > .zoomrc-popover-container {
     position: absolute;
-    width: 200px;
+    max-width: 200px;
 
     > .container-children {
       position: relative;
       display: flex;
       flex-direction: column;
       background-color: color(layer, 1);
-      padding: 6px;
+      padding: 6px 14px;
       border-radius: 6px;
       border: 1px solid color(border, 2);
 

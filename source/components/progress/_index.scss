@@ -103,6 +103,7 @@ div.zoomrc-progress {
 
       > .zoomrc-popover {
         height: 100%;
+        display: flex;
 
         &:last-child {
           border-radius: $zoomrc-progress-br;

@@ -4,6 +4,7 @@
   "description": "The design language of Zoom",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
+  "homepage": "http://zoom-studio.github.io/zoom-react-components",
   "files": [
     "dist",
     "README.md"
@@ -16,7 +17,7 @@
   },
   "author": {
     "name": "zoom-studio",
-    "url": "https://domain.com"
+    "url": "http://zoom-studio.github.io/zoom-react-components"
   },
   "keywords": [
     "react",
@@ -52,7 +53,10 @@
     "build": "yarn clean && rollup -c --bundleConfigAsCjs && yarn clean:removal-dists && yarn fix-sass-dist-file",
     "fix-sass-dist-file": "node ./source/scripts/rename-files-in-dist.js index.es.css index.css",
     "pub": "npm publish --access public",
-    "build:sb": "build-storybook -o built",
+    "predeploy": "npm run build-storybook",
+    "deploy-storybook": "gh-pages -d storybook-static",
+    "deploy": "yarn deploy-storybook",
+    "build-storybook": "build-storybook",
     "clean": "rimraf dist tsconfig.tsbuildinfo storybook-static .rollup.cache",
     "clean:removal-dists": "rimraf dist/stories dist/fixtures dist/i18n",
     "lint:scss": "npx stylelint ./source/**/*.scss",
@@ -113,6 +117,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-storybook": "^0.6.6",
+    "gh-pages": "^4.0.0",
     "husky": "^8.0.1",
     "i18next": "^22.4.6",
     "i18next-browser-languagedetector": "^7.0.1",

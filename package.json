@@ -52,7 +52,7 @@
     "build": "yarn clean && rollup -c --bundleConfigAsCjs && yarn clean:removal-dists && yarn fix-sass-dist-file",
     "fix-sass-dist-file": "node ./source/scripts/rename-files-in-dist.js index.es.css index.css",
     "pub": "npm publish --access public",
-    "build:sb": "build-storybook",
+    "build:sb": "build-storybook -o built",
     "clean": "rimraf dist tsconfig.tsbuildinfo storybook-static .rollup.cache",
     "clean:removal-dists": "rimraf dist/stories dist/fixtures dist/i18n",
     "lint:scss": "npx stylelint ./source/**/*.scss",

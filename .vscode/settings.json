@@ -12,5 +12,8 @@
     "languagedetector",
     "overlayscrollbars",
     "pluginutils"
-  ]
+  ],
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///home/hamid/repo/zoom-web-components/.github/workflows/deploy.yaml"
+  }
 }

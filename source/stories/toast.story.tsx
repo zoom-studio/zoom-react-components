@@ -16,8 +16,8 @@ export default {
     loading: false,
     icon: 'error',
     actions: [
-      { children: 'Accept', variant: 'success' },
-      { children: 'Dismiss', variant: 'error' },
+      { children: 'Accepts', variant: 'success' },
+      { children: 'Dismisses', variant: 'error' },
     ],
   },
 } as ComponentMeta<typeof Toast>

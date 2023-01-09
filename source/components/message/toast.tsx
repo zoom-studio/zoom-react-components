@@ -39,7 +39,9 @@ export const Toast: FC<ToastNS.Props> = ({
   })
 
   const handleClose = () => {
-    toaster.dismiss(toastId)
+    if (closable) {
+      toaster.dismiss(toastId)
+    }
   }
 
   return (

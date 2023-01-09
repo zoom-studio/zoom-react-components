@@ -7,6 +7,7 @@ import { Toast, ToastNS } from '../components/message/toast'
 import { CommonStory, StoryPlayground, WithButtonsStory } from './components'
 import { COMMON_VARIANTS } from '../constants'
 import { useI18n } from './hooks/use-i18n'
+import { DEFAULT_TOAST_DURATION } from '../components/message/constants'
 
 interface ToastStoryProps {
   children?: (toast: UseMessage.UseToastReturnType) => ReactNode
@@ -261,7 +262,10 @@ export const Duration: FC = () => {
           stories={[
             {
               group: [
-                { name: 'Five seconds (Default)', props: { variant: 'warning', message } },
+                {
+                  name: `${DEFAULT_TOAST_DURATION} seconds (Default)`,
+                  props: { variant: 'warning', message },
+                },
                 { name: 'One second', props: { variant: 'error', message, duration: 1000 } },
               ],
             },

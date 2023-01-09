@@ -126,4 +126,10 @@ export const FATranslations = {
   toast: {
     message: 'عنوان نمونه جهت نمایش در تست',
   },
+
+  notification: {
+    title: 'عنوان نمونه',
+    message: 'پیام نمونه جهت نمایش در نوتیفیکیشن',
+    dismiss: 'کلیک کن برای بسته شدن',
+  },
 }

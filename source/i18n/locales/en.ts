@@ -128,4 +128,10 @@ export const ENTranslations: typeof FATranslations = {
   toast: {
     message: 'Sample title to be shown in the toast',
   },
+
+  notification: {
+    title: 'Sample title',
+    message: 'Sample message to be show in the notification',
+    dismiss: 'Click to close',
+  },
 }

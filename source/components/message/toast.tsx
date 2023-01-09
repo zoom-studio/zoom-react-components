@@ -16,6 +16,8 @@ export namespace ToastNS {
     loading?: boolean
     closable?: boolean
     thisToast?: ToastType
+    playSound?: boolean
+    customSound?: string
   }
 }
 

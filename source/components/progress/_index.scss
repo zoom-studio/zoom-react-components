@@ -1,5 +1,4 @@
 $zoomrc-progress-br: 4px;
-$zoomrc-progress-transition: all 500ms cubic-bezier(0.68, 0.16, 0.2, 0.91);
 
 @keyframes zoomrc-progress-wave-rtl-animation {
   from {
@@ -57,7 +56,6 @@ div.zoomrc-progress {
       height: 100%;
       display: inline-block;
       position: relative;
-      transition: $zoomrc-progress-transition;
 
       &.single-step {
         border-radius: $zoomrc-progress-br;
@@ -179,7 +177,6 @@ div.zoomrc-progress {
     .zoomrc-progress-bar {
       stroke-linecap: round;
       stroke-linejoin: round;
-      transition: $zoomrc-progress-transition;
     }
 
     > .zoomrc-progress-info {

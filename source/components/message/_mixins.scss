@@ -1,0 +1,10 @@
+@mixin zoomrc-generate-toast-variants($variant) {
+  $is-neutral: $variant == neutral;
+  $color: if($is-neutral, color(text, 1), color($variant));
+  $border-color: if($is-neutral, color(accent, 1, glassy, 2), color($variant, glassy, 2));
+
+  &-#{$variant} {
+    color: $color;
+    border-color: $border-color;
+  }
+}

@@ -1,0 +1,19 @@
+.with-buttons-story {
+  width: 100%;
+
+  > .handlers {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    border: 2px dashed color(border, 2);
+    margin-bottom: 60px;
+    border-radius: 6px;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  > .story {
+    display: block;
+    width: 100%;
+  }
+}

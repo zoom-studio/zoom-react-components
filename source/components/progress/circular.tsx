@@ -11,6 +11,7 @@ export const CircularProgress: FC<ProgressNS.Props> = ({
   info = 'percentage',
   circularIconFontSize = '30pt',
   circularPercentageFontSize = '16pt',
+  transition: trans,
   steps,
   containerProps,
   failed,
@@ -24,6 +25,7 @@ export const CircularProgress: FC<ProgressNS.Props> = ({
   const progressClasses = createClassName('', 'bar')
   const defaultPercentage = 78
 
+  const transition = trans as string
   const step = 'length' in steps ? steps[0] : steps
   const percentage = normalizePercentage(step.percentage, defaultPercentage)
   const circleSize = size / 2
@@ -49,6 +51,7 @@ export const CircularProgress: FC<ProgressNS.Props> = ({
           transform={`rotate(-90 ${circleSize} ${circleSize})`}
           stroke={generateProgressColor(step, defaultPercentage, !!failed, !!dynamicColors)}
           style={{
+            transition,
             strokeDasharray: dashArray,
             strokeDashoffset: dashOffset,
           }}

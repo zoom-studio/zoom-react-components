@@ -122,4 +122,8 @@ export const FATranslations = {
     title3: 'عنوان استپ سوم',
     title4: 'عنوان استپ چهارم',
   },
+
+  toast: {
+    message: 'عنوان نمونه جهت نمایش در تست',
+  },
 }

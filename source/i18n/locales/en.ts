@@ -124,4 +124,8 @@ export const ENTranslations: typeof FATranslations = {
     title3: 'Third step title',
     title4: 'Fourth step title',
   },
+
+  toast: {
+    message: 'Sample title to be shown in the toast',
+  },
 }

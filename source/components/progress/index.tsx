@@ -50,12 +50,16 @@ export namespace ProgressNS {
     dynamicColors?: boolean
     dynamicInfo?: boolean
     showInfo?: boolean
+    transition?: string
   }
 }
 
-export const Progress: FC<ProgressNS.Props> = props => {
+export const Progress: FC<ProgressNS.Props> = ({
+  transition = 'all 500ms cubic-bezier(0.68, 0.16, 0.2, 0.91)',
+  ...props
+}) => {
   if (props.type === 'circular') {
-    return <CircularProgress {...props} />
+    return <CircularProgress {...props} transition={transition} />
   }
 
   const {
@@ -108,6 +112,7 @@ export const Progress: FC<ProgressNS.Props> = props => {
             key={index}
             className={stepClasses}
             style={{
+              transition,
               background: generateProgressColor(step, defaultPercentage, !!failed, !!dynamicColors),
               [isVertical ? 'height' : 'width']: `${normalizePercentage(
                 step.percentage,

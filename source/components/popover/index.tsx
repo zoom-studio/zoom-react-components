@@ -102,7 +102,9 @@ export const Popover: FC<PopoverNS.Props> = ({
   const isOpen = (): boolean => {
     const { current: container } = containerRef
     if (!container) {
-      sendLog(logs.popoverNotFoundContainerRef, 'isOpen function')
+      if (isValidPopover) {
+        sendLog(logs.popoverNotFoundContainerRef, 'isOpen function')
+      }
       return false
     }
     return container.classList.contains(OPEN)
@@ -114,7 +116,9 @@ export const Popover: FC<PopoverNS.Props> = ({
     onOpen?.()
     const { current: container } = containerRef
     if (!container) {
-      sendLog(logs.popoverNotFoundContainerRef, 'open function')
+      if (isValidPopover) {
+        sendLog(logs.popoverNotFoundContainerRef, 'open function')
+      }
       return isOpen()
     }
     container.classList.add(OPEN)
@@ -125,7 +129,9 @@ export const Popover: FC<PopoverNS.Props> = ({
     onClose?.()
     const { current: container } = containerRef
     if (!container) {
-      sendLog(logs.popoverNotFoundContainerRef, 'close function')
+      if (isValidPopover) {
+        sendLog(logs.popoverNotFoundContainerRef, 'close function')
+      }
       return isOpen()
     }
     container.classList.remove(OPEN)

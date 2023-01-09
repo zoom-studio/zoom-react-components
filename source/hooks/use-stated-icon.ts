@@ -25,13 +25,15 @@ export const useStatedIcon = ({
   noIconAndEmoji,
 }: UseStatedIcon.Params): UseStatedIcon.TupleReturn => {
   const result = useVariable<UseStatedIcon.Return>(() => {
+    if (noIconAndEmoji) {
+      return { type: 'nothing' }
+    }
+
     if (emoji) {
       return { type: 'emoji', name: emoji }
     }
 
-    if (noIconAndEmoji) {
-      return { type: 'nothing' }
-    } else if (icon) {
+    if (icon) {
       return { type: 'icon', name: icon }
     }
 

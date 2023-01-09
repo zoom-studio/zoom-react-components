@@ -56,7 +56,24 @@ export namespace UseMessage {
 }
 
 const useToast = (): UseMessage.UseToastReturnType => {
+  const { playAudio } = useAudio()
+
+  const handlePlaySound = (toastOptions?: UseMessage.NotificationOptions) => {
+    const isWithSound = toastOptions?.playSound
+    if (!isWithSound) {
+      return null
+    }
+    let sound: UseAudioNS.Audios = ''
+    if (toastOptions?.customSound) {
+      sound = toastOptions.customSound
+    } else {
+      sound = 'toast'
+    }
+    void playAudio(sound)
+  }
+
   const toast: UseMessage.ToastCreator = (message, variant, options) => {
+    handlePlaySound(options)
     return toaster(t => <Toast thisToast={t} variant={variant} message={message} {...options} />, {
       duration: options?.duration ?? DEFAULT_TOAST_DURATION,
       id: options?.id,

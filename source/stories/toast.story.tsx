@@ -9,6 +9,8 @@ import { COMMON_VARIANTS } from '../constants'
 import { useI18n } from './hooks/use-i18n'
 import { DEFAULT_TOAST_DURATION } from '../components/message/constants'
 
+const SOUND = 'https://soundbible.com/mp3/Music_Box-Big_Daddy-1389738694.mp3'
+
 interface ToastStoryProps {
   children?: (toast: UseMessage.UseToastReturnType) => ReactNode
   creator?: (toast: UseMessage.UseToastReturnType) => void
@@ -81,6 +83,42 @@ export const Variants: FC = () => {
               ],
             },
           ]}
+        />
+      )}
+    </ToastStory>
+  )
+}
+
+export const WithSound: FC = () => {
+  const { t } = useI18n('toast')
+  const message = t('message')
+  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+    toast.neutral(t('message'), { playSound: true })
+  }
+  return (
+    <ToastStory creator={createToasts} onMount={createToasts}>
+      {() => (
+        <CommonStory
+          component={Toast}
+          stories={[{ group: [{ props: { message, playSound: true } }] }]}
+        />
+      )}
+    </ToastStory>
+  )
+}
+
+export const CustomSound: FC = () => {
+  const { t } = useI18n('toast')
+  const message = t('message')
+  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+    toast.neutral(t('message'), { playSound: true, customSound: SOUND })
+  }
+  return (
+    <ToastStory creator={createToasts} onMount={createToasts}>
+      {() => (
+        <CommonStory
+          component={Toast}
+          stories={[{ group: [{ props: { message, playSound: true, customSound: SOUND } }] }]}
         />
       )}
     </ToastStory>

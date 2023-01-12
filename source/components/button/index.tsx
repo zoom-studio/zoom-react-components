@@ -14,6 +14,9 @@ export namespace ButtonNS {
   export const Types = ['primary', 'secondary', 'dashed', 'link', 'text'] as const
   export type Types = typeof Types[number]
 
+  export const Shapes = ['default', 'circle', 'sharp', 'square', 'sharp-square', 'rounded'] as const
+  export type Shapes = typeof Shapes[number]
+
   export type MaterialIcon = IconNS.Names
   export type EmojiIcon = EmojiNS.Emojis.Names
 
@@ -21,6 +24,7 @@ export namespace ButtonNS {
     type?: Types
     htmlType?: HtmlType
     size?: CommonSize
+    shape?: Shapes
     containerRef?: RefObject<HTMLButtonElement>
     href?: string
     target?: HtmlTypes
@@ -50,6 +54,7 @@ export const Button: FC<ButtonNS.Props> = ({
   loading = false,
   active = false,
   variant = 'neutral',
+  shape = 'default',
   children,
   className,
   href,
@@ -69,6 +74,7 @@ export const Button: FC<ButtonNS.Props> = ({
 
   const classNames = createClassName(className, `${type}-${variant}`, {
     [`${createClassName(undefined, size)}`]: true,
+    [`${createClassName(undefined, shape)}`]: true,
     [`${createClassName(undefined, 'full')}`]: full,
     active,
   })
@@ -86,16 +92,7 @@ export const Button: FC<ButtonNS.Props> = ({
     if (!Icon) {
       return null
     }
-    const classNames = createClassName(
-      type === 'suffix' ? suffixClassName : prefixClassName,
-      type,
-      {
-        [`${createClassName(undefined, 'icon-with-margin')}`]:
-          !!children ||
-          (type === 'suffix' && (!!prefixMaterialIcon || !!prefixEmojiIcon)) ||
-          (type === 'prefix' && (!!suffixMaterialIcon || !!suffixEmojiIcon)),
-      },
-    )
+    const classNames = createClassName(type === 'suffix' ? suffixClassName : prefixClassName, type)
     if (materialIcon) {
       return <Icon name={materialIcon} className={classNames} />
     } else if (emojiIcon) {

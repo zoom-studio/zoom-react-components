@@ -72,6 +72,42 @@ export const VariantsAndTypes: FC<ButtonNS.Props> = () => {
   )
 }
 
+export const Shapes: FC<ButtonNS.Props> = () => {
+  const { t } = useI18n('button')
+  const group: CommonStoryNS.Group<ButtonNS.Props>[] = ButtonNS.Shapes.map(shape => ({
+    name: shape,
+    props: { shape, children: t('sampleTitle') },
+  }))
+  return <CommonStory component={Button} stories={[{ group }]} />
+}
+
+export const FullWidth: FC<ButtonNS.Props> = () => {
+  const { t } = useI18n('button')
+  return (
+    <CommonStory
+      component={Button}
+      stories={[
+        {
+          group: [
+            {
+              props: { shape: 'default', full: true, children: t('sizingTitle') },
+              name: 'Default shape',
+            },
+            {
+              props: { shape: 'sharp', full: true, children: t('sizingTitle') },
+              name: 'Sharp Shape',
+            },
+            {
+              props: { shape: 'rounded', full: true, children: t('sizingTitle') },
+              name: 'Rounded Shape',
+            },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
 export const Disabled: FC<ButtonNS.Props> = () => {
   const { t } = useI18n('button')
   return (

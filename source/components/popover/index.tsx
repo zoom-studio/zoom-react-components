@@ -55,6 +55,7 @@ export namespace PopoverNS {
     spinProps?: SpinNS.Props
     hoverDelay?: number
     width?: string | number
+    autoCloseDelay?: number
   }
 }
 
@@ -80,6 +81,7 @@ export const Popover: FC<PopoverNS.Props> = ({
   loadingTitle,
   spinProps,
   width,
+  autoCloseDelay,
   ...rest
 }) => {
   const OPEN = 'open'
@@ -122,6 +124,9 @@ export const Popover: FC<PopoverNS.Props> = ({
       return isOpen()
     }
     container.classList.add(OPEN)
+    if (autoCloseDelay) {
+      setTimeout(close, autoCloseDelay)
+    }
     return true
   }
 
@@ -135,6 +140,7 @@ export const Popover: FC<PopoverNS.Props> = ({
       return isOpen()
     }
     container.classList.remove(OPEN)
+    container.blur()
     return false
   }
 

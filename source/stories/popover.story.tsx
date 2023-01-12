@@ -75,6 +75,56 @@ export const Triggers: FC = () => {
   )
 }
 
+export const AutoClose: FC = () => {
+  const { t } = useI18n('global')
+  return (
+    <CommonStory
+      component={Popover}
+      stories={[
+        {
+          title: 'Click',
+          custom: (
+            <Popover
+              trigger="click"
+              content={<CustomContent />}
+              title={t('triggers.click')}
+              autoCloseDelay={1000}
+            >
+              <Button>{t('triggers.click')}</Button>
+            </Popover>
+          ),
+        },
+        {
+          title: 'Hover',
+          custom: (
+            <Popover
+              trigger="hover"
+              content={<CustomContent />}
+              title={t('triggers.hover')}
+              autoCloseDelay={1000}
+            >
+              <Button>{t('triggers.hover')}</Button>
+            </Popover>
+          ),
+        },
+        {
+          title: 'Focus',
+          custom: (
+            <Popover
+              trigger="focus"
+              content={<CustomContent />}
+              title={t('triggers.focus')}
+              autoCloseDelay={1000}
+            >
+              <Button>{t('triggers.focus')}</Button>
+            </Popover>
+          ),
+        },
+      ]}
+    />
+  )
+}
+
 export const Loading: FC = () => {
   const { t } = useI18n('global')
   return (

@@ -11,7 +11,7 @@ import React, {
 
 import { Spin, SpinNS, Text, TypographyNS } from '..'
 import { logs } from '../../constants'
-import { useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 import { CommonSize, DataEntriesState } from '../../types'
 
 import { color } from '../../utils/color'
@@ -43,11 +43,11 @@ export namespace TextareaNS {
 }
 
 export const Textarea: FC<TextareaNS.Props> = ({
+  size: providedSize,
   textareaRef: providedTextareaRef,
   labelRef: providedLabelRef,
   labelColon = true,
   disabledOnLoading = true,
-  size = 'normal',
   state = ['neutral'],
   minHeight = '40px',
   maxHeight = 'unset',
@@ -69,6 +69,7 @@ export const Textarea: FC<TextareaNS.Props> = ({
   onFocus,
   ...rest
 }) => {
+  const size = useComponentSize(providedSize)
   const textareaRef = providedTextareaRef ?? useRef<HTMLTextAreaElement>(null)
   const labelRef = providedLabelRef ?? useRef<HTMLLabelElement>(null)
   const { createClassName, sendLog } = useZoomComponent('textarea')

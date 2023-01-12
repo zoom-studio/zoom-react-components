@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react'
 
-import { useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 import { makeElementDraggable } from '../../utils'
 
 import { ButtonNS, Button, Icon, Title } from '..'
@@ -52,7 +52,7 @@ export namespace DialogNS {
 const HEADER_ACTION_BUTTON_CLASS = 'header-action-button'
 
 export const Dialog: FC<DialogNS.Props> = ({
-  size = 'normal',
+  size: providedSize,
   cancelButton = 'انصراف',
   withFullscreenButton = true,
   closable = true,
@@ -77,6 +77,7 @@ export const Dialog: FC<DialogNS.Props> = ({
   backdropRef,
   ...rest
 }) => {
+  const size = useComponentSize(providedSize)
   const dialogRef = customDialogRef ?? useRef<HTMLDivElement>(null)
   const [isFullscreen, setIsFullscreen] = useState(!!fullScreen)
   const { createClassName, sendLog } = useZoomComponent('dialog')

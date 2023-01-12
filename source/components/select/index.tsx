@@ -13,7 +13,7 @@ import { classNames, sleep } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Icon, Input, InputNS, Spin, SVGIcon, Text, TypographyNS } from '..'
 import { BREAKPOINTS, logs } from '../../constants'
-import { useOutsideClick, useZoomComponent } from '../../hooks'
+import { useComponentSize, useOutsideClick, useZoomComponent } from '../../hooks'
 import { CommonSize, DataEntriesState } from '../../types'
 import { color } from '../../utils'
 import { SelectGroup, SelectGroupNS } from './group'
@@ -74,11 +74,11 @@ export namespace SelectNS {
 }
 
 export const Select: FC<SelectNS.Props> = ({
+  size: providedSize,
   options: providedOptions,
   labelColon = true,
   disabledOnLoading = true,
   showSearch = true,
-  size = 'normal',
   state = ['neutral'],
   optionsPerScroll = 6,
   selectAllText = 'انتخاب همه',
@@ -88,6 +88,7 @@ export const Select: FC<SelectNS.Props> = ({
   scrollOnOpen = window.innerWidth <= BREAKPOINTS.md,
   ...props
 }) => {
+  const size = useComponentSize(providedSize)
   const { createClassName, sendLog } = useZoomComponent('select')
 
   const dropdownRef = props.dropdownRef ?? useRef<HTMLDivElement>(null)

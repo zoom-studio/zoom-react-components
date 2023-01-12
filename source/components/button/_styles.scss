@@ -6,7 +6,6 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child) {
   cursor: pointer;
   border-width: 2px;
   border-style: solid;
-  border-radius: 2px;
   display: inline-flex;
   user-select: none;
   padding: 0;
@@ -29,6 +28,24 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child) {
 .zoomrc-button {
   &-full {
     width: 100%;
+  }
+
+  &-default,
+  &-square {
+    border-radius: 2px;
+  }
+
+  &-circle {
+    border-radius: 50%;
+  }
+
+  &-sharp,
+  &-sharp-square {
+    border-radius: 0;
+  }
+
+  &-rounded {
+    border-radius: 100px;
   }
 
   @each $size in $common-sizes {

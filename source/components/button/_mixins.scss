@@ -157,18 +157,34 @@
 @mixin generate-size($size) {
   $padding: 4px 10px;
   $spin-width: 20px;
-  $emoji-width: 20px;
+  $emoji-width: 18px;
+  $max-size: 29px;
 
   @include text(common, $size);
 
   @if $size == 'normal' {
     $padding: 6px 20px;
     $spin-width: 22px;
-    $emoji-width: 22px;
+    $emoji-width: 20px;
+    $max-size: 36px;
   } @else if $size == 'large' {
     $padding: 10px 24px;
     $spin-width: 24px;
-    $emoji-width: 26px;
+    $emoji-width: 24px;
+    $max-size: 47px;
+  }
+
+  &.zoomrc-button-square,
+  &.zoomrc-button-sharp-square,
+  &.zoomrc-button-circle {
+    max-width: $max-size;
+    max-height: $max-size;
+    overflow: hidden;
+
+    > .zoomrc-button-inner-child {
+      padding: 2px;
+      justify-content: center;
+    }
   }
 
   > &-inner-child {
@@ -177,7 +193,8 @@
     text-align: center;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    column-gap: 6px;
     align-items: center;
     padding: #{$padding};
 
@@ -187,20 +204,6 @@
 
     .zoomrc-emoji {
       width: #{$emoji-width};
-    }
-
-    .zoomrc-button {
-      &-prefix {
-        &.zoomrc-button-icon-with-margin {
-          margin-left: 4px;
-        }
-      }
-
-      &-suffix {
-        &.zoomrc-button-icon-with-margin {
-          margin-right: 4px;
-        }
-      }
     }
   }
 }

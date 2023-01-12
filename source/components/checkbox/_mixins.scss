@@ -24,7 +24,6 @@
 @mixin generate-checkbox-sizes($size) {
   $box-size: if($size == small, 20px, if($size == normal, 24px, 32px));
   $check-icon-font-size: $box-size;
-  $spin-size: $box-size - 6px;
   $text-top-padding: if($size == small, 1px, if($size == normal, 2px, 4px));
 
   &-#{$size} {
@@ -39,13 +38,6 @@
 
         > .checked-icon {
           font-size: to-rem($check-icon-font-size);
-        }
-
-        > .zoomrc-spin-small {
-          > svg {
-            width: $spin-size;
-            height: $spin-size;
-          }
         }
       }
     }

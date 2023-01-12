@@ -48,6 +48,12 @@
 
       .zoomrc-spin-small {
         height: $spin-size;
+        width: $spin-size;
+
+        > .spinner {
+          height: 100%;
+          width: 100%;
+        }
       }
     }
   }

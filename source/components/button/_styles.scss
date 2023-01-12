@@ -19,8 +19,8 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child) {
     cursor: default;
     pointer-events: none;
 
-    span[class^='zoomrc-spin-'] > svg > path {
-      fill: color(text, 3);
+    .zoomrc-spin > .spinner {
+      border-color: color(text, 3) !important;
     }
   }
 }

@@ -156,7 +156,7 @@
 
 @mixin generate-size($size) {
   $padding: 4px 10px;
-  $spin-width: 20px;
+  $spin-width: 17px;
   $emoji-width: 18px;
   $max-size: 29px;
 
@@ -164,12 +164,12 @@
 
   @if $size == 'normal' {
     $padding: 6px 20px;
-    $spin-width: 22px;
+    $spin-width: 20px;
     $emoji-width: 20px;
     $max-size: 36px;
   } @else if $size == 'large' {
     $padding: 10px 24px;
-    $spin-width: 24px;
+    $spin-width: 23px;
     $emoji-width: 24px;
     $max-size: 47px;
   }
@@ -198,8 +198,9 @@
     align-items: center;
     padding: #{$padding};
 
-    > .zoomrc-spin-#{$size} > svg {
+    > .zoomrc-spin-#{$size} > .spinner {
       width: #{$spin-width};
+      height: #{$spin-width};
     }
 
     .zoomrc-emoji {

@@ -32,16 +32,10 @@
 }
 
 @mixin generate-textarea-sizes($size) {
-  $spin-size: if($size == small, 17px, if($size == normal, 20px, 23px));
-
   &-#{$size} {
     > .zoomrc-textarea-label-container {
       > .zoomrc-textarea {
         @include text(common, #{$size});
-      }
-
-      .zoomrc-spin-small {
-        height: $spin-size;
       }
     }
   }

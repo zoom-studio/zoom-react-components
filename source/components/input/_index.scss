@@ -46,6 +46,7 @@ div.zoomrc-input-container {
       display: flex;
       align-items: center;
       cursor: text;
+      column-gap: 6px;
 
       > p[class^='zoomrc-text-'] {
         margin: 0;

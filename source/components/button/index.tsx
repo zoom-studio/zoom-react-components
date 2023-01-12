@@ -35,6 +35,7 @@ export namespace ButtonNS {
     loading?: boolean
     full?: boolean
     active?: boolean
+    disabledOnLoading?: boolean
     variant?: CommonVariants
     prefixMaterialIcon?: MaterialIcon
     prefixEmojiIcon?: EmojiIcon
@@ -51,8 +52,9 @@ export const Button: FC<ButtonNS.Props> = ({
   target = '_self',
   full = false,
   disabled = false,
-  loading = false,
+  loading = true,
   active = false,
+  disabledOnLoading = false,
   variant = 'neutral',
   shape = 'default',
   children,
@@ -71,6 +73,7 @@ export const Button: FC<ButtonNS.Props> = ({
 }) => {
   const { createClassName } = useZoomComponent('button')
   const size = useComponentSize(providedSize)
+  const isDisabled = disabledOnLoading ? loading || disabled : disabled
 
   const classNames = createClassName(className, `${type}-${variant}`, {
     [`${createClassName(undefined, size)}`]: true,
@@ -111,19 +114,20 @@ export const Button: FC<ButtonNS.Props> = ({
       </>
     )
 
-    return loading ? <Spin size={size}>{child}</Spin> : child
+    return loading ? (
+      <Spin size={size} color="unset">
+        {child}
+      </Spin>
+    ) : (
+      child
+    )
   }
 
   return (
     <ConditionalWrapper
       condition={useSpan}
       trueWrapper={children => (
-        <span
-          {...rest}
-          className={classNames}
-          aria-disabled={disabled || loading}
-          ref={containerRef}
-        >
+        <span {...rest} className={classNames} aria-disabled={isDisabled} ref={containerRef}>
           {children}
         </span>
       )}
@@ -132,7 +136,7 @@ export const Button: FC<ButtonNS.Props> = ({
           {...rest}
           type={htmlType}
           className={classNames}
-          disabled={disabled || loading}
+          disabled={isDisabled}
           ref={containerRef}
         >
           {children}

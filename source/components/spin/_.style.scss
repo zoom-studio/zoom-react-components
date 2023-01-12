@@ -1,42 +1,38 @@
-$zoomrc-spin-left-margin: 4px;
-
-span[class^='zoomrc-spin-'] {
-  display: flex;
-  align-items: center;
-
-  > svg {
-    margin-left: $zoomrc-spin-left-margin;
-
-    > .outer-path {
-      opacity: 0.2;
-    }
-  }
-
-  > p[class^='zoomrc-text-'] {
-    color: color(text, 2);
-    margin: 0;
-  }
-}
-
-@include ltr {
-  span[class^='zoomrc-spin-'] {
-    > svg {
-      margin-left: 0;
-      margin-right: $zoomrc-spin-left-margin;
-    }
+@keyframes zoomrc-spin-animation {
+  to {
+    transform: rotate(360deg);
   }
 }
 
 .zoomrc-spin {
-  &-small > svg {
-    width: to-rem(34px, small);
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+
+  > .spinner {
+    animation-name: zoomrc-spin-animation;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    display: inline-block;
+    border-width: 2px;
+    border-style: solid;
+    border-left: none;
+    border-top: none;
+    border-radius: 50%;
   }
 
-  &-normal > svg {
-    width: to-rem(36px, normal);
+  &-small > .spinner {
+    width: 18px;
+    height: 18px;
   }
 
-  &-large > svg {
-    width: to-rem(38px, large);
+  &-normal > .spinner {
+    width: 24px;
+    height: 24px;
+  }
+
+  &-large > .spinner {
+    width: 30px;
+    height: 30px;
   }
 }

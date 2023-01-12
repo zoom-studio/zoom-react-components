@@ -81,9 +81,14 @@ div.zoomrc-radio {
         transition: inherit;
       }
 
-      > .zoomrc-spin-small {
-        > svg {
-          margin: 0;
+      > .zoomrc-spin {
+        width: 100%;
+        height: 100%;
+        padding: 4px;
+
+        > .spinner {
+          width: 100%;
+          height: 100%;
         }
       }
     }

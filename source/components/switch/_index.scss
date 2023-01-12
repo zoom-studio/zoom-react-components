@@ -90,9 +90,9 @@ div.zoomrc-switch {
         > .loading-spin {
           width: 100%;
           height: 100%;
+          padding: 2px;
 
-          > svg {
-            margin: 0;
+          > .spinner {
             width: inherit;
             height: inherit;
           }

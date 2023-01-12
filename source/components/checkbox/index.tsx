@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes } from 'react'
 
-import { useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 
 import { Icon, InputNS, Spin, Text, TypographyNS } from '..'
 import { CommonSize, DataEntriesState } from '../../types'
@@ -21,7 +21,7 @@ export namespace CheckboxNS {
 }
 
 export const Checkbox: FC<CheckboxNS.Props> = ({
-  size = 'normal',
+  size: providedSize,
   state = ['neutral'],
   disabledOnLoading = true,
   onWrite,
@@ -37,6 +37,8 @@ export const Checkbox: FC<CheckboxNS.Props> = ({
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('checkbox')
+  const size = useComponentSize(providedSize)
+
   const isDisabled = disabledOnLoading ? loading || disabled : disabled
 
   const labelClasses = createClassName(labelProps?.className, 'label')

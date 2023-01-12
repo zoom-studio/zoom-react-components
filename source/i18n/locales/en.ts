@@ -134,4 +134,14 @@ export const ENTranslations: typeof FATranslations = {
     message: 'Sample message to be show in the notification',
     dismiss: 'Click to close',
   },
+
+  popConfirm: {
+    title: 'Delete this item',
+    description: 'Are you sure to delete this item?',
+    ok: 'Yes, delete',
+    no: 'Cancel',
+    onOk: 'The item has been deleted successfully',
+    onNo: 'Canceled',
+    button: 'Delete item',
+  },
 }

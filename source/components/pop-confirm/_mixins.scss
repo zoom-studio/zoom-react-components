@@ -1,0 +1,10 @@
+@mixin zoomrc-generate-pop-confirm-variants($variant) {
+  $is-neutral: $variant == neutral;
+  $color: if($is-neutral, color(text, 1), color($variant));
+
+  &-#{$variant} {
+    > .title {
+      color: $color;
+    }
+  }
+}

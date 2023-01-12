@@ -142,4 +142,9 @@ export const FATranslations = {
     onNo: 'انصراف دادی',
     button: 'حذف آیتم',
   },
+
+  tooltip: {
+    children: 'منو هاور کن',
+    title: 'منو هاور کردی',
+  },
 }

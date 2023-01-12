@@ -144,4 +144,9 @@ export const ENTranslations: typeof FATranslations = {
     onNo: 'Canceled',
     button: 'Delete item',
   },
+
+  tooltip: {
+    children: 'Hover me',
+    title: "You've hovered me",
+  },
 }

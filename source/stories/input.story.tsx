@@ -78,6 +78,7 @@ export const Types: FC = () => {
       stories={[
         {
           group: [
+            { name: 'Text input (Default)', props: { label, placeholder } },
             { name: 'Password input', props: { type: 'password', label, placeholder } },
             {
               name: 'Password input with callback',
@@ -133,6 +134,23 @@ export const States: FC = () => {
               name: 'Warning',
             },
             { props: { label, placeholder, state: ['error', t('states.error')] }, name: 'Error' },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
+export const AutoDirection: FC = () => {
+  const { label, placeholder } = useInputStory()
+  return (
+    <CommonStory
+      component={Input}
+      stories={[
+        {
+          group: [
+            { props: { label, placeholder }, name: 'With auto direction (Default)' },
+            { props: { label, placeholder, autoDirection: false }, name: 'Without auto direction' },
           ],
         },
       ]}

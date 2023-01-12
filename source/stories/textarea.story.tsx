@@ -151,6 +151,23 @@ export const AutoHeight: FC = () => {
   )
 }
 
+export const AutoDirection: FC = () => {
+  const { label, placeholder } = useTextareaStory()
+  return (
+    <CommonStory
+      component={Textarea}
+      stories={[
+        {
+          group: [
+            { props: { label, placeholder }, name: 'With auto direction (Default)' },
+            { props: { label, placeholder, autoDirection: false }, name: 'Without auto direction' },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
 export const LabelAndPlaceholder: FC = () => {
   const { label, placeholder } = useTextareaStory()
   return (

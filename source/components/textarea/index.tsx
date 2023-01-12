@@ -11,7 +11,7 @@ import React, {
 
 import { Spin, SpinNS, Text, TypographyNS } from '..'
 import { logs } from '../../constants'
-import { useComponentSize, useZoomComponent } from '../../hooks'
+import { useComponentSize, useInputDirectionHandler, useZoomComponent } from '../../hooks'
 import { CommonSize, DataEntriesState } from '../../types'
 
 import { color } from '../../utils/color'
@@ -39,6 +39,7 @@ export namespace TextareaNS {
     autoHeight?: boolean
     minHeight?: number | string
     maxHeight?: number | string
+    autoDirection?: boolean
   }
 }
 
@@ -48,6 +49,7 @@ export const Textarea: FC<TextareaNS.Props> = ({
   labelRef: providedLabelRef,
   labelColon = true,
   disabledOnLoading = true,
+  autoDirection = true,
   state = ['neutral'],
   minHeight = '40px',
   maxHeight = 'unset',
@@ -76,6 +78,12 @@ export const Textarea: FC<TextareaNS.Props> = ({
   const isDisabled = disabledOnLoading ? loading || disabled : disabled
   const textareaClasses = createClassName(className)
   const labelClasses = createClassName(labelProps?.className, 'label')
+
+  const handleDirection = useInputDirectionHandler(
+    textareaRef,
+    () => sendLog(logs.inputNotFoundInputRef, 'useInputDirectionHandler hook'),
+    autoDirection,
+  )
 
   const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
 
@@ -107,13 +115,17 @@ export const Textarea: FC<TextareaNS.Props> = ({
   }
 
   const handleOnChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
-    onWrite?.(evt.currentTarget.value)
+    const { value } = evt.currentTarget
+    onWrite?.(value)
     onChange?.(evt)
+    handleDirection(value)
   }
 
   const handleOnInput = (evt: FormEvent<HTMLTextAreaElement>) => {
-    onWrite?.(evt.currentTarget.value)
+    const { value } = evt.currentTarget
+    onWrite?.(value)
     onInput?.(evt)
+    handleDirection(value)
 
     if (autoHeight) {
       handleAutoHeight()

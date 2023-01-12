@@ -55,9 +55,18 @@ div.zoomrc-textarea-container {
       width: 100%;
       outline: none;
       padding: 10px;
+      direction: rtl;
+      text-align: right;
+
+      &.ltr-language {
+        direction: ltr;
+        text-align: left;
+      }
 
       &::placeholder {
         user-select: none;
+        direction: rtl;
+        text-align: right;
       }
     }
   }
@@ -68,6 +77,21 @@ div.zoomrc-textarea-container {
     > .zoomrc-textarea-label-container {
       > .zoomrc-textarea-label {
         > p[class^='zoomrc-text-'] {
+          direction: ltr;
+          text-align: left;
+        }
+      }
+
+      > .zoomrc-textarea {
+        direction: ltr;
+        text-align: left;
+
+        &.rtl-language {
+          direction: rtl;
+          text-align: right;
+        }
+
+        &::placeholder {
           direction: ltr;
           text-align: left;
         }

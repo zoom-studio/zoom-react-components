@@ -65,10 +65,19 @@ div.zoomrc-input-container {
       background-color: unset;
       border: none;
       color: color(text, 1);
+      direction: rtl;
+      text-align: right;
+
+      &.ltr-language {
+        direction: ltr;
+        text-align: left;
+      }
 
       &::placeholder {
         color: color(placeholder);
         user-select: none;
+        direction: rtl;
+        text-align: right;
       }
 
       &[type='search']::-webkit-search-cancel-button,
@@ -188,6 +197,21 @@ div.zoomrc-input-container {
       > .zoomrc-input-label {
         > p[class^='zoomrc-text-'] {
           direction: ltr;
+        }
+      }
+
+      > .zoomrc-input {
+        direction: ltr;
+        text-align: left;
+
+        &.rtl-language {
+          direction: rtl;
+          text-align: right;
+        }
+
+        &::placeholder {
+          direction: ltr;
+          text-align: left;
         }
       }
     }

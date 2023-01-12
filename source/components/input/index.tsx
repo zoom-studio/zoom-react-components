@@ -12,7 +12,7 @@ import React, {
 
 import { Button, Icon, LongPress, Spin, SpinNS, Text, TypographyNS } from '..'
 import { logs } from '../../constants'
-import { useComponentSize, useZoomComponent } from '../../hooks'
+import { useComponentSize, useInputDirectionHandler, useZoomComponent } from '../../hooks'
 import { CommonSize, DataEntriesState } from '../../types'
 
 import { color } from '../../utils/color'
@@ -43,6 +43,7 @@ export namespace InputNS {
     passwordToggleButton?: boolean
     searchClearButton?: boolean
     numberButtonHandlers?: boolean
+    autoDirection?: boolean
   }
 }
 
@@ -56,6 +57,7 @@ export const Input: FC<InputNS.Props> = ({
   numberButtonHandlers = true,
   labelColon = true,
   disabledOnLoading = true,
+  autoDirection = true,
   state = ['neutral'],
   onWrite,
   onTogglePasswordVisibility,
@@ -87,7 +89,14 @@ export const Input: FC<InputNS.Props> = ({
   const isPassword = type === 'password'
   const isNumber = type === 'number'
   const isSearch = type === 'search'
+  const isText = type === 'text' || !type
   const isRequired = required || (isSearch && searchClearButton)
+
+  const handleDirection = useInputDirectionHandler(
+    inputRef,
+    () => sendLog(logs.inputNotFoundInputRef, 'useInputDirectionHandler hook'),
+    (isText || isSearch) && autoDirection,
+  )
 
   const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
 
@@ -157,13 +166,17 @@ export const Input: FC<InputNS.Props> = ({
   }
 
   const handleOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    onWrite?.(evt.currentTarget.value)
+    const { value } = evt.currentTarget
+    onWrite?.(value)
     onChange?.(evt)
+    handleDirection(value)
   }
 
   const handleOnInput = (evt: FormEvent<HTMLInputElement>) => {
-    onWrite?.(evt.currentTarget.value)
+    const { value } = evt.currentTarget
+    onWrite?.(value)
     onInput?.(evt)
+    handleDirection(value)
   }
 
   const handleOnToggleFocus = (evt: FocusEvent<HTMLInputElement>) => {

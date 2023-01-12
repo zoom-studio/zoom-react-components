@@ -101,26 +101,35 @@ export const makeElementDraggable = ({
     onDragEnd?.(pos3, pos4)
   }
 
+  const shouldStartDrag = (target: HTMLDivElement | null): boolean => {
+    if (!target) {
+      return true
+    }
+
+    if (blackList) {
+      for (const blocked of blackList) {
+        if (target.classList.contains(blocked)) {
+          return false
+        }
+      }
+    }
+
+    if (whiteList) {
+      for (const allowed of whiteList) {
+        if (!target.classList.contains(allowed)) {
+          return false
+        }
+      }
+    }
+
+    return true
+  }
+
   element.onmousedown = evt => {
     onDragStart?.()
-    const target = <HTMLDivElement | null>evt.target
 
-    if (target) {
-      if (blackList) {
-        for (const blocked of blackList) {
-          if (target.classList.contains(blocked)) {
-            return
-          }
-        }
-      }
-
-      if (whiteList) {
-        for (const allowed of whiteList) {
-          if (!target.classList.contains(allowed)) {
-            return
-          }
-        }
-      }
+    if (!shouldStartDrag(<HTMLDivElement | null>evt.target)) {
+      return
     }
 
     evt = evt || window.event
@@ -131,6 +140,11 @@ export const makeElementDraggable = ({
     onDragStart?.()
     evt = evt || window.event
     const { pageX, pageY } = evt.touches[0]
+
+    if (!shouldStartDrag(<HTMLDivElement | null>evt.target)) {
+      return
+    }
+
     dragMouseDown(pageX, pageY)
   }
 }

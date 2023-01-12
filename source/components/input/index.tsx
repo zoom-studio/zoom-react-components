@@ -12,7 +12,7 @@ import React, {
 
 import { Button, Icon, LongPress, Spin, SpinNS, Text, TypographyNS } from '..'
 import { logs } from '../../constants'
-import { useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 import { CommonSize, DataEntriesState } from '../../types'
 
 import { color } from '../../utils/color'
@@ -49,13 +49,13 @@ export namespace InputNS {
 export const Input: FC<InputNS.Props> = ({
   inputRef: providedInputRef,
   labelRef: providedLabelRef,
+  size: providedSize,
   type = 'text',
   passwordToggleButton = true,
   searchClearButton = true,
   numberButtonHandlers = true,
   labelColon = true,
   disabledOnLoading = true,
-  size = 'normal',
   state = ['neutral'],
   onWrite,
   onTogglePasswordVisibility,
@@ -76,6 +76,7 @@ export const Input: FC<InputNS.Props> = ({
   onFocus,
   ...rest
 }) => {
+  const size = useComponentSize(providedSize)
   const inputRef = providedInputRef ?? useRef<HTMLInputElement>(null)
   const labelRef = providedLabelRef ?? useRef<HTMLLabelElement>(null)
   const { createClassName, sendLog } = useZoomComponent('input')

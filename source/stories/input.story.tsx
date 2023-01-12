@@ -79,6 +79,10 @@ export const Types: FC = () => {
         {
           group: [
             { name: 'Text input (Default)', props: { label, placeholder } },
+            {
+              name: 'Text with numeral keypad',
+              props: { label, placeholder, type: 'numeral-keypad-text' },
+            },
             { name: 'Password input', props: { type: 'password', label, placeholder } },
             {
               name: 'Password input with callback',

@@ -19,7 +19,9 @@ import { color } from '../../utils/color'
 
 export namespace InputNS {
   export type TextSize = Pick<TypographyNS.TextNS.Props, 'small' | 'normal' | 'large'>
-  export type Type = Exclude<HTMLInputTypeAttribute, 'button' | 'checkbox' | 'radio' | object>
+  export type Type =
+    | Exclude<HTMLInputTypeAttribute, 'button' | 'checkbox' | 'radio' | object>
+    | 'numeral-keypad-text'
 
   export interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
     onWrite?: (value: string) => void
@@ -89,6 +91,7 @@ export const Input: FC<InputNS.Props> = ({
   const isPassword = type === 'password'
   const isNumber = type === 'number'
   const isSearch = type === 'search'
+  const isNumeralKeypad = type === 'numeral-keypad-text'
   const isText = type === 'text' || !type
   const isRequired = required || (isSearch && searchClearButton)
 
@@ -202,6 +205,26 @@ export const Input: FC<InputNS.Props> = ({
     }
   }
 
+  const getNumeralKeyPadProps = (): InputHTMLAttributes<HTMLInputElement> => {
+    if (!isNumeralKeypad) {
+      return {}
+    }
+    return {
+      pattern: '[0-9]*',
+      inputMode: 'numeric',
+    }
+  }
+
+  const getInputType = (): HTMLInputTypeAttribute => {
+    switch (type) {
+      case 'numeral-keypad-text':
+      case undefined:
+        return 'text'
+      default:
+        return type
+    }
+  }
+
   return (
     <div {...containerProps} className={containerClasses}>
       <label {...labelContainerProps} className={labelContainerClasses} ref={labelRef}>
@@ -218,9 +241,10 @@ export const Input: FC<InputNS.Props> = ({
 
         <input
           {...rest}
+          {...getNumeralKeyPadProps()}
           className={inputClasses}
           ref={inputRef}
-          type={type}
+          type={getInputType()}
           required={isRequired}
           onChange={handleOnChange}
           onInput={handleOnInput}

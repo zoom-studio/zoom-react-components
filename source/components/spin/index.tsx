@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react'
 
-import { useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 import { Text, TypographyNS } from '..'
 
 import { Color } from '../../types/color'
@@ -18,7 +18,7 @@ export namespace SpinNS {
 }
 
 export const Spin: FC<SpinNS.Props> = ({
-  size = 'normal',
+  size: providedSize,
   speed = '0.5s',
   tip,
   tipProps,
@@ -27,6 +27,7 @@ export const Spin: FC<SpinNS.Props> = ({
   children,
   ...rest
 }) => {
+  const size = useComponentSize(providedSize)
   const { createClassName } = useZoomComponent('spin')
   const classes = createClassName(className, size)
   color = colorFnToColor(color)

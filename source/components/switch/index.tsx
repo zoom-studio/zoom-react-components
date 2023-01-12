@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes } from 'react'
 
 import { InputNS, Spin, Text, TypographyNS } from '..'
-import { useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 import { CommonSize, DataEntriesState } from '../../types'
 
 export namespace SwitchNS {
@@ -20,7 +20,7 @@ export namespace SwitchNS {
 }
 
 export const Switch: FC<SwitchNS.Props> = ({
-  size = 'normal',
+  size: providedSize,
   state = ['neutral'],
   disabledOnLoading = true,
   containerProps,
@@ -35,6 +35,7 @@ export const Switch: FC<SwitchNS.Props> = ({
   onInput,
   ...rest
 }) => {
+  const size = useComponentSize(providedSize)
   const { createClassName } = useZoomComponent('switch')
   const isDisabled = disabledOnLoading ? loading || disabled : disabled
 

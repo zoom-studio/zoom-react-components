@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes } from 'react'
 
-import { useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 
 import { InputNS, Spin, Text, TypographyNS } from '..'
 import { CommonSize, DataEntriesState } from '../../types'
@@ -26,7 +26,7 @@ export namespace RadioButtonNS {
 }
 
 export const RadioButton: FC<RadioButtonNS.Props> = ({
-  size = 'normal',
+  size: providedSize,
   state = ['neutral'],
   disabledOnLoading = true,
   onWrite,
@@ -41,6 +41,7 @@ export const RadioButton: FC<RadioButtonNS.Props> = ({
   onInput,
   ...rest
 }) => {
+  const size = useComponentSize(providedSize)
   const { createClassName } = useZoomComponent('radio')
   const isDisabled = disabledOnLoading ? loading || disabled : disabled
 

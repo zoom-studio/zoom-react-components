@@ -100,6 +100,57 @@ export const States: FC = () => {
   )
 }
 
+export const AutoHeight: FC = () => {
+  const { label, placeholder } = useTextareaStory()
+  const { t } = useI18n('global')
+  return (
+    <CommonStory
+      component={Textarea}
+      stories={[
+        {
+          group: [
+            {
+              props: {
+                label,
+                placeholder,
+                state: ['neutral', t('states.neutral')],
+                autoHeight: true,
+              },
+              name: 'Neutral',
+            },
+            {
+              props: {
+                label,
+                placeholder,
+                state: ['success', t('states.success')],
+                autoHeight: true,
+              },
+              name: 'Success',
+            },
+            {
+              props: { label, placeholder, state: ['info', t('states.info')], autoHeight: true },
+              name: 'Info',
+            },
+            {
+              props: {
+                label,
+                placeholder,
+                state: ['warning', t('states.warning')],
+                autoHeight: true,
+              },
+              name: 'Warning',
+            },
+            {
+              props: { label, placeholder, state: ['error', t('states.error')], autoHeight: true },
+              name: 'Error',
+            },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
 export const LabelAndPlaceholder: FC = () => {
   const { label, placeholder } = useTextareaStory()
   return (

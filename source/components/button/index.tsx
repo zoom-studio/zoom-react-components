@@ -2,7 +2,7 @@ import React, { FC, HTMLAttributes, ReactNode, RefObject } from 'react'
 
 import { Link } from 'react-router-dom'
 
-import { useZoomComponent } from '../../hooks'
+import { useZoomComponent, useComponentSize } from '../../hooks'
 import { Spin, EmojiNS, Emoji, IconNS, Icon } from '..'
 import { ConditionalWrapper } from '../conditional-wrapper'
 import { CommonSize, CommonVariants } from '../../types'
@@ -41,9 +41,9 @@ export namespace ButtonNS {
 }
 
 export const Button: FC<ButtonNS.Props> = ({
+  size: providedSize,
   type = 'primary',
   htmlType = 'button',
-  size = 'normal',
   target = '_self',
   full = false,
   disabled = false,
@@ -65,6 +65,7 @@ export const Button: FC<ButtonNS.Props> = ({
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('button')
+  const size = useComponentSize(providedSize)
 
   const classNames = createClassName(className, `${type}-${variant}`, {
     [`${createClassName(undefined, size)}`]: true,

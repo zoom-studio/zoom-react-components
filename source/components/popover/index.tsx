@@ -34,10 +34,11 @@ export namespace PopoverNS {
     'left-end',
   ] as const
 
-  export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'width'> {
+  export interface Props
+    extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'width' | 'title'> {
     children?: ReactNode
     containerRef?: RefObject<HTMLDivElement>
-    title?: string
+    title?: string | ReactNode
     titleProps?: TypographyNS.TitleNS.Props
     popoverProps?: HTMLAttributes<HTMLDivElement>
     content?: ReactNode
@@ -210,11 +211,17 @@ export const Popover: FC<PopoverNS.Props> = ({
               </div>
             ) : (
               <>
-                {title && (
-                  <Title h5 {...titleProps} className={titleClasses}>
-                    {title}
-                  </Title>
-                )}
+                <ConditionalWrapper
+                  condition={typeof title === 'string'}
+                  falseWrapper={children => <>{children}</>}
+                  trueWrapper={children => (
+                    <Title h5 {...titleProps} className={titleClasses}>
+                      {children}
+                    </Title>
+                  )}
+                >
+                  {title}
+                </ConditionalWrapper>
 
                 {description && (
                   <Text {...descriptionProps} className={descriptionClasses}>

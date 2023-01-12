@@ -1,0 +1,47 @@
+@import 'mixins';
+
+.zoomrc-pop-confirm {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  user-select: none;
+
+  @each $variant in $common-variants {
+    @include zoomrc-generate-pop-confirm-variants($variant);
+  }
+
+  > .title {
+    display: flex;
+    align-items: flex-start;
+    column-gap: 6px;
+
+    > .zoomrc-typography {
+      margin: 0;
+      flex: 1;
+    }
+
+    > .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14pt;
+      margin-top: 2px;
+
+      > .emoji {
+        height: 19px;
+        margin-top: -3px;
+      }
+    }
+  }
+
+  > .description {
+    margin: 0;
+    color: color(text, 2);
+  }
+
+  > .actions {
+    margin-bottom: 6px;
+    display: flex;
+    column-gap: 6px;
+  }
+}

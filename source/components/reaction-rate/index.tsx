@@ -1,7 +1,7 @@
 import React, { FC, HTMLAttributes, MouseEvent } from 'react'
 
 import { Button, Emoji, EmojiNS } from '..'
-import { useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 import { CommonSize, Range } from '../../types'
 
 export namespace ReactionRateNS {
@@ -20,8 +20,8 @@ export namespace ReactionRateNS {
 }
 
 export const ReactionRate: FC<ReactionRateNS.Props> = ({
+  size: providedSize,
   type = 'quintuple',
-  size = 'normal',
   emojis = [
     'frowning face',
     'slightly frowning face',
@@ -36,6 +36,7 @@ export const ReactionRate: FC<ReactionRateNS.Props> = ({
   disabled,
   ...rest
 }) => {
+  const size = useComponentSize(providedSize)
   const { createClassName } = useZoomComponent('reaction-rate')
 
   const classes = createClassName(className, type, {

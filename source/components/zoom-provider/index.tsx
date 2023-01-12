@@ -11,6 +11,7 @@ import React, {
 import { Message } from '../message'
 
 import { CustomLinkNS } from '../custom-link'
+import { CommonSize } from '../../types'
 
 export namespace ZoomProviderNS {
   export const Themes = ['dark', 'dark-high-contrast', 'light', 'light-high-contrast'] as const
@@ -26,6 +27,7 @@ export namespace ZoomProviderNS {
     setIsDarwin?: Dispatch<SetStateAction<boolean>>
     linkComponent?: CustomLinkNS.Props['userLink']
     isRTL?: boolean
+    defaultComponentsSize?: CommonSize
   }
 
   export interface Props extends Omit<ProviderValue, 'setIsDarwin'> {
@@ -37,7 +39,7 @@ export namespace ZoomProviderNS {
 const ZoomContext = createContext<ZoomProviderNS.ProviderValue>({})
 
 export const ZoomProvider: FC<ZoomProviderNS.Props> = props => {
-  const { digits = 'farsi', theme = 'dark' } = props
+  const { digits = 'farsi', theme = 'dark', defaultComponentsSize = 'normal' } = props
   const [isDarwin, setIsDarwin] = useState(!!props.isDarwin)
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export const ZoomProvider: FC<ZoomProviderNS.Props> = props => {
   }, [props.isDarwin])
 
   return (
-    <ZoomContext.Provider value={{ ...props, isDarwin, setIsDarwin }}>
+    <ZoomContext.Provider value={{ ...props, isDarwin, setIsDarwin, defaultComponentsSize }}>
       {props.withMessage && <Message />}
       {props.children}
     </ZoomContext.Provider>

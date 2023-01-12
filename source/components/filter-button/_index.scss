@@ -1,0 +1,66 @@
+@use 'sass:color';
+
+$color: var(--zoomrc-filter-button-color);
+
+.zoomrc-filter-button {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    border-color: $color !important;
+  }
+
+  > .zoomrc-button-inner-child {
+    border-radius: inherit;
+
+    &::before {
+      content: '';
+      position: absolute;
+      opacity: 0.1;
+      background-color: $color;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      pointer-events: none;
+      height: 100%;
+    }
+
+    > .zoomrc-filter-button-inner-child {
+      display: flex;
+      align-items: center;
+      column-gap: 8px;
+      border-radius: inherit;
+
+      > .badge {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 40%;
+        background-color: $color;
+      }
+
+      > .content {
+        color: color(text, 1);
+      }
+    }
+  }
+
+  &-active {
+    border-color: $color !important;
+
+    > .zoomrc-button-inner-child {
+      &::before {
+        opacity: 0.2;
+      }
+    }
+  }
+
+  &:disabled {
+    opacity: 0.8;
+    filter: grayscale(0.5);
+  }
+}

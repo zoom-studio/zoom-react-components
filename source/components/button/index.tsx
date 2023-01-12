@@ -9,7 +9,7 @@ import { CommonSize, CommonVariants } from '../../types'
 
 export namespace ButtonNS {
   export type HtmlType = 'submit' | 'reset' | 'button'
-  export type HtmlTypes = '_self' | '_blank' | '_parent' | '_top'
+  export type HtmlTargets = '_self' | '_blank' | '_parent' | '_top'
 
   export const Types = ['primary', 'secondary', 'dashed', 'link', 'text'] as const
   export type Types = typeof Types[number]
@@ -27,7 +27,7 @@ export namespace ButtonNS {
     shape?: Shapes
     containerRef?: RefObject<HTMLButtonElement>
     href?: string
-    target?: HtmlTypes
+    target?: HtmlTargets
     innerClassName?: string
     suffixClassName?: string
     prefixClassName?: string
@@ -42,6 +42,7 @@ export namespace ButtonNS {
     suffixMaterialIcon?: MaterialIcon
     suffixEmojiIcon?: EmojiIcon
     useSpan?: boolean
+    showSpinOnLoading?: boolean
   }
 }
 
@@ -55,6 +56,7 @@ export const Button: FC<ButtonNS.Props> = ({
   loading,
   active = false,
   disabledOnLoading = true,
+  showSpinOnLoading = true,
   variant = 'neutral',
   shape = 'default',
   children,
@@ -115,9 +117,13 @@ export const Button: FC<ButtonNS.Props> = ({
     )
 
     return loading ? (
-      <Spin size={size} color="unset">
-        {child}
-      </Spin>
+      showSpinOnLoading ? (
+        <Spin size={size} color="unset">
+          {child}
+        </Spin>
+      ) : (
+        child
+      )
     ) : (
       child
     )

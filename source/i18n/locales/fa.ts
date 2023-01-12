@@ -147,4 +147,10 @@ export const FATranslations = {
     children: 'منو هاور کن',
     title: 'منو هاور کردی',
   },
+
+  filterButton: {
+    title1: 'پر بازدید ترین',
+    title2: 'ارزان ترین',
+    title3: 'گران ترین',
+  },
 }

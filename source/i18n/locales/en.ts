@@ -149,4 +149,10 @@ export const ENTranslations: typeof FATranslations = {
     children: 'Hover me',
     title: "You've hovered me",
   },
+
+  filterButton: {
+    title1: 'Most viewed',
+    title2: 'Cheapest',
+    title3: 'Most expensive',
+  },
 }

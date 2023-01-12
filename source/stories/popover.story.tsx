@@ -17,7 +17,7 @@ const CustomContent: FC = () => (
 )
 
 export default {
-  title: 'Feedback/Popover',
+  title: 'Data Display/Popover',
   component: Popover,
   args: {
     title: 'Some title for the popover component',

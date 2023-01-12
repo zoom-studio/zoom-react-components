@@ -26,7 +26,7 @@ export const ButtonGroup: FC<ButtonGroupNS.Props> = ({
   return (
     <div {...containerProps} className={classes}>
       {buttons.map((props, index) => (
-        <Button key={index} {...rest} {...props} />
+        <Button key={index} full={direction === 'column'} {...rest} {...props} />
       ))}
     </div>
   )

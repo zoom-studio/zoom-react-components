@@ -28,6 +28,7 @@ div.zoomrc-button-group {
   }
 
   &-column {
+    display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
 

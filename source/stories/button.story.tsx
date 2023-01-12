@@ -135,6 +135,32 @@ export const Loading: FC<ButtonNS.Props> = () => {
               props: { size: 'large', children: t('loadingTitle'), loading: true },
               name: 'Loading / Large',
             },
+            {
+              props: {
+                size: 'large',
+                children: t('loadingTitle'),
+                loading: true,
+                disabledOnLoading: false,
+              },
+              name: 'Loading but not disabled',
+            },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
+export const Linked: FC<ButtonNS.Props> = () => {
+  const { t } = useI18n('button')
+  return (
+    <CommonStory
+      component={Button}
+      stories={[
+        {
+          group: [
+            { props: { children: t('loadingTitle'), href: '/' }, name: 'Linked button' },
+            { props: { children: t('loadingTitle') }, name: 'None-linked' },
           ],
         },
       ]}

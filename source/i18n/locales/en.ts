@@ -155,4 +155,12 @@ export const ENTranslations: typeof FATranslations = {
     title2: 'Cheapest',
     title3: 'Most expensive',
   },
+
+  copyToClipboard: {
+    buttonTitle: 'Copy',
+    text: 'This text has been added to the clipboard',
+    error: 'Not copied',
+    success: 'Copied',
+    callback: 'Starting to copy',
+  },
 }

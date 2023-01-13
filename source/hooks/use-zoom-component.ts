@@ -15,7 +15,7 @@ export namespace UseZoomComponentNS {
 }
 
 export const useZoomComponent = (componentName: string) => {
-  const { sendLog = () => undefined } = useContext(zoomLogContext)
+  const { sendLog = () => undefined, globalErrors } = useContext(zoomLogContext)
 
   const createClassName: UseZoomComponentNS.CreateClassNameFN = (
     userClassNames,
@@ -30,5 +30,5 @@ export const useZoomComponent = (componentName: string) => {
       },
     )
 
-  return { createClassName, sendLog }
+  return { createClassName, sendLog, globalErrors }
 }

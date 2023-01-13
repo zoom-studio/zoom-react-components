@@ -153,4 +153,12 @@ export const FATranslations = {
     title2: 'ارزان ترین',
     title3: 'گران ترین',
   },
+
+  copyToClipboard: {
+    buttonTitle: 'کپی کن',
+    text: 'این متن به کلیپ‌بورد اضافه شد',
+    error: 'کپی نشد',
+    success: 'کپی شد',
+    callback: 'شروع شد به کپی کردن',
+  },
 }

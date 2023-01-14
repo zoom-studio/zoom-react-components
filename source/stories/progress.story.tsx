@@ -194,6 +194,14 @@ export const Info: FC = () => {
                   name: 'Status',
                   props: { showInfo: true, steps: { percentage }, info: 'status' },
                 },
+                {
+                  name: 'Seconds left',
+                  props: {
+                    showInfo: true,
+                    steps: { percentage },
+                    info: { name: 'seconds-left', duration: 15000 },
+                  },
+                },
               ],
             },
             {
@@ -219,6 +227,16 @@ export const Info: FC = () => {
                     verticalHeight: 100,
                   },
                 },
+                {
+                  name: 'Seconds left',
+                  props: {
+                    showInfo: true,
+                    steps: { percentage },
+                    info: { name: 'seconds-left', duration: 15000 },
+                    type: 'vertical',
+                    verticalHeight: 100,
+                  },
+                },
               ],
             },
             {
@@ -239,6 +257,15 @@ export const Info: FC = () => {
                     showInfo: true,
                     steps: { percentage },
                     info: 'status',
+                    type: 'circular',
+                  },
+                },
+                {
+                  name: 'Seconds left',
+                  props: {
+                    showInfo: true,
+                    steps: { percentage },
+                    info: { name: 'seconds-left', duration: 15000 },
                     type: 'circular',
                   },
                 },
@@ -356,6 +383,44 @@ export const ColorPerPercentage: FC = () => {
       50: color => color({ source: 'error' }),
       70: color => color({ source: 'error' }),
       90: color => color({ source: 'error' }),
+    },
+  ]
+
+  return (
+    <WithNumberStory steps={10} defaultValue={70}>
+      {percentage => (
+        <CommonStory
+          component={Progress}
+          stories={[
+            {
+              group: [
+                {
+                  name: 'Horizontal',
+                  props: { type: 'horizontal', steps: { percentage, color }, showInfo: true },
+                },
+                {
+                  name: 'Vertical',
+                  props: { type: 'vertical', steps: { percentage, color }, showInfo: true },
+                },
+                {
+                  name: 'Circular',
+                  props: { type: 'circular', steps: { percentage, color }, showInfo: true },
+                },
+              ],
+            },
+          ]}
+        />
+      )}
+    </WithNumberStory>
+  )
+}
+
+export const ColorPerPercentageRange: FC = () => {
+  const color: ProgressNS.Color = [
+    color => color({ source: 'warning' }),
+    {
+      '20-40': color => color({ source: 'error' }),
+      '80-90': color => color({ source: 'error' }),
     },
   ]
 

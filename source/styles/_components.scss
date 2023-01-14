@@ -1,9 +1,9 @@
-@import '../components/reaction-rate/styles';
-@import '../components/typography/styles';
-@import '../components//button/styles';
-@import '../components/spin/.style';
-@import '../components/grid/style';
-@import '../components/icon/styles';
+@import '../components/reaction-rate';
+@import '../components/typography';
+@import '../components/button';
+@import '../components/spin';
+@import '../components/grid';
+@import '../components/icon';
 @import '../components/menu';
 @import '../components/context-menu';
 @import '../components/dialog';
@@ -16,6 +16,9 @@
 @import '../components/button-group';
 @import '../components/scroll-view';
 @import '../components/message';
+@import '../components/message/notification';
+@import '../components/message/toast';
+@import '../components/message/time-shift';
 @import '../components/popover';
 @import '../components/progress';
 @import '../components/pop-confirm';

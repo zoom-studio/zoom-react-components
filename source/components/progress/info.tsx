@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 
 import { ProgressNS } from '.'
 import { useZoomComponent } from '../../hooks'
@@ -53,6 +53,42 @@ export const ProgressInfo: FC<ProgressInfoNS.Props> = ({
     />
   )
 
+  const renderInfo = (): ReactNode => {
+    if (!info) {
+      return ''
+    }
+
+    if (typeof info === 'string') {
+      switch (info) {
+        case 'percentage': {
+          return percentageText
+        }
+        case 'status': {
+          return percentage >= 100 ? doneIcon : ongoingIcon
+        }
+      }
+    }
+
+    switch (info.name) {
+      case 'seconds-left': {
+        const { duration } = info
+        let secondsLeft =
+          parseInt((duration / 1000 - (percentage * duration) / 100000).toFixed(0)) + 1
+        if (secondsLeft >= duration / 1000) {
+          secondsLeft = duration / 1000
+        }
+        if (secondsLeft <= 0) {
+          secondsLeft = 1
+        }
+        return (
+          <span className="percentage" style={{ fontSize: percentageFontSize }}>
+            {secondsLeft}
+          </span>
+        )
+      }
+    }
+  }
+
   return (
     <div className={classes}>
       {failed ? (
@@ -60,10 +96,7 @@ export const ProgressInfo: FC<ProgressInfoNS.Props> = ({
       ) : dynamicInfo ? (
         <>{percentage >= 100 ? doneIcon : percentageText}</>
       ) : (
-        <>
-          {info === 'percentage' && percentageText}
-          {info === 'status' && <>{percentage >= 100 ? doneIcon : ongoingIcon}</>}
-        </>
+        renderInfo()
       )}
     </div>
   )

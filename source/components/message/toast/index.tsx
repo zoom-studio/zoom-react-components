@@ -2,10 +2,9 @@ import React, { FC } from 'react'
 
 import toaster, { Toast as ToastType } from 'react-hot-toast'
 
-import { useZoomComponent, useStatedIcon, UseStatedIcon } from '../../hooks'
-import { CommonVariants } from '../../types'
-import { Button, Emoji, EmojiNS, Icon, IconNS, Spin, Text } from '..'
-import { ConditionalWrapper } from '../conditional-wrapper'
+import { useZoomComponent, useStatedIcon, UseStatedIcon } from '../../../hooks'
+import { CommonVariants } from '../../../types'
+import { Button, Emoji, EmojiNS, Icon, IconNS, Spin, Text, ConditionalWrapper } from '../..'
 
 export namespace ToastNS {
   export interface Props extends Omit<UseStatedIcon.Params, 'variant'> {

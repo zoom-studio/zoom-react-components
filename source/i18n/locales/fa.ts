@@ -161,4 +161,13 @@ export const FATranslations = {
     success: 'کپی شد',
     callback: 'شروع شد به کپی کردن',
   },
+
+  timeShift: {
+    undo: 'بازگشت به عقب',
+    message: 'این موردو حذف کردی. اگه میخوای به عقب برگرد',
+    onShift: 'با موفقیت به عقب برگشتید و آیتم حذف شده بازگردانده شد.',
+    action1: 'اکشن 1',
+    action2: 'اکشن 2',
+    action3: 'اکشن 3',
+  },
 }

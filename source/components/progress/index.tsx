@@ -10,7 +10,7 @@ import { ProgressInfo } from './info'
 export namespace ProgressNS {
   export const Types = ['horizontal', 'vertical', 'circular'] as const
   export type Types = typeof Types[number]
-  export type Color = [ColorType, { [percentage: number]: ColorType }?]
+  export type Color = [ColorType, { [percentage: number | string]: ColorType }?]
   export type Size = string | number
 
   export interface Step {
@@ -45,7 +45,13 @@ export namespace ProgressNS {
       HorizontalProps {
     type?: Types
     steps: MaybeArray<Step>
-    info?: 'percentage' | 'status'
+    info?:
+      | 'percentage'
+      | 'status'
+      | {
+          name: 'seconds-left'
+          duration: number
+        }
     failed?: boolean
     dynamicColors?: boolean
     dynamicInfo?: boolean

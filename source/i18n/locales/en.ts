@@ -163,4 +163,13 @@ export const ENTranslations: typeof FATranslations = {
     success: 'Copied',
     callback: 'Starting to copy',
   },
+
+  timeShift: {
+    undo: 'Undo',
+    message: "You've deleted this item. Return back if you want",
+    onShift: "You've successfully returned back and the deleted item has been restored",
+    action1: 'Action 1',
+    action2: 'Action 2',
+    action3: 'Action 3',
+  },
 }

@@ -1,0 +1,36 @@
+.zoomrc-time-shift {
+  display: inline-flex;
+  background-color: color(layer, 2);
+  max-width: 100%;
+  border: 2px solid color(warning, glassy, 2);
+  padding: 6px 10px;
+  border-radius: 4px;
+  column-gap: 16px;
+  align-items: center;
+  user-select: none;
+
+  > .zoomrc-time-shift-progress {
+    display: inline-flex;
+  }
+
+  > .message {
+    margin: 0;
+    color: color(text, 1);
+  }
+
+  > .actions {
+    display: inline-flex;
+    column-gap: 4px;
+    align-items: center;
+  }
+
+  > .close-button {
+    width: 30px;
+    height: 30px;
+
+    > .zoomrc-button-inner-child {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

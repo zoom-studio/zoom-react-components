@@ -1,6 +1,7 @@
 export * from './button'
 export * from './button-group'
 export * from './checkbox'
+export * from './conditional-wrapper'
 export * from './context-menu'
 export * from './copy-to-clipboard'
 export * from './dialog'

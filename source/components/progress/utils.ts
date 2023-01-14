@@ -24,18 +24,33 @@ export const generateProgressColor = (
   if (!step.color) {
     return color({ source: 'accent' })
   }
+
   if (typeof step.color === 'string') {
     return step.color
   }
+
   const defaultColor = colorFnToColor(step.color[0])
-  const coloredPercentages = step.color[1]
-  if (!coloredPercentages) {
-    return defaultColor
+  const percentagesWithColor = step.color[1]
+  const coloredPercentageRanges = percentagesWithColor
+    ? Object.keys(percentagesWithColor).filter(key => key.includes('-'))
+    : []
+
+  let percentageColor = defaultColor
+
+  if (percentagesWithColor?.[percentage]) {
+    percentageColor = colorFnToColor(percentagesWithColor[percentage])
   }
-  if (coloredPercentages[percentage]) {
-    return colorFnToColor(coloredPercentages[percentage])
-  }
-  return defaultColor
+
+  coloredPercentageRanges?.forEach(coloredPercentageRange => {
+    const range = coloredPercentageRange.split('-').map(parseFloat)
+    const rangeColor = percentagesWithColor?.[range.join('-')]
+
+    if (range[0] <= percentage && range[1] >= percentage && rangeColor) {
+      percentageColor = colorFnToColor(rangeColor)
+    }
+  })
+
+  return percentageColor
 }
 
 export const normalizePercentage = (

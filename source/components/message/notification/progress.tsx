@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
 
-import { useZoomComponent } from '../../hooks'
-import { CommonVariants } from '../../types'
-import { Progress } from '../progress'
+import { useZoomComponent } from '../../../hooks'
+import { CommonVariants } from '../../../types'
+import { Progress } from '../..'
 
 export namespace MessageProgressNS {
   export interface Props {

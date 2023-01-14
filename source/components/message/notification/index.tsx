@@ -2,12 +2,23 @@ import React, { FC, ReactNode, useState } from 'react'
 
 import notifier, { Toast as NotificationType } from 'react-hot-toast'
 
-import { useStatedIcon, UseStatedIcon, useZoomComponent } from '../../hooks'
-import { CommonVariants } from '../../types'
-import { ConditionalWrapper } from '../conditional-wrapper'
-import { Icon, IconNS, Emoji, EmojiNS, Spin, Button, ButtonNS, Title, Text } from '..'
+import { useStatedIcon, UseStatedIcon, useZoomComponent } from '../../../hooks'
+import { CommonVariants } from '../../../types'
+import {
+  Icon,
+  IconNS,
+  Emoji,
+  EmojiNS,
+  Spin,
+  Button,
+  ButtonNS,
+  Title,
+  Text,
+  ConditionalWrapper,
+} from '../..'
+
 import { MessageProgress } from './progress'
-import { DEFAULT_NOTIFICATION_DURATION } from './constants'
+import { DEFAULT_NOTIFICATION_DURATION } from '../constants'
 
 export namespace NotificationNS {
   export type Action = ButtonNS.Props | ((notificationId: string) => ButtonNS.Props)

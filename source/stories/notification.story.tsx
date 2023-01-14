@@ -2,18 +2,22 @@ import React, { FC, ReactNode, useEffect } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { ButtonNS, UseMessage, useMessage } from '..'
-import { DEFAULT_NOTIFICATION_DURATION } from '../components/message/constants'
-import { Notification, NotificationNS } from '../components/message/notification'
-import { COMMON_VARIANTS } from '../constants'
 import { CommonStory, StoryPlayground, WithButtonsStory } from './components'
+
+import { COMMON_VARIANTS } from '../constants'
 import { useI18n } from './hooks/use-i18n'
 
+import { ButtonNS, useMessage } from '..'
+
+import { DEFAULT_NOTIFICATION_DURATION } from '../components/message/constants'
+import { Notification, NotificationNS } from '../components/message/notification'
+import { UseNotificationNS } from '../components/message/notification/use-notification'
+
 interface NotificationStoryProps {
-  children?: (notification: UseMessage.UseNotificationReturnType) => ReactNode
-  creator?: (notification: UseMessage.UseNotificationReturnType) => void
-  moreButtons?: (notification: UseMessage.UseNotificationReturnType) => ButtonNS.Props[]
-  onMount?: (notification: UseMessage.UseNotificationReturnType) => void
+  children?: (notification: UseNotificationNS.UseNotificationReturnType) => ReactNode
+  creator?: (notification: UseNotificationNS.UseNotificationReturnType) => void
+  moreButtons?: (notification: UseNotificationNS.UseNotificationReturnType) => ButtonNS.Props[]
+  onMount?: (notification: UseNotificationNS.UseNotificationReturnType) => void
   defaultButtons?: {
     pushNew?: boolean
     destroyAll?: boolean
@@ -67,7 +71,7 @@ export const Variants: FC = () => {
   const { t } = useI18n('notification')
   const title = t('title')
   const message = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     COMMON_VARIANTS.forEach(variant => {
       notify.notify(title, message, variant)
     })
@@ -98,7 +102,7 @@ export const WithSomeImages: FC = () => {
   const { t } = useI18n('notification')
   const title = t('title')
   const message = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     notify.neutral(title, message, { images: [IMAGE, IMAGE] })
   }
   return (
@@ -124,7 +128,9 @@ export const WithSomeActions: FC = () => {
   const title = t('title')
   const message = t('message')
 
-  const actions = (notify: UseMessage.UseNotificationReturnType): NotificationNS.Action[] => [
+  const actions = (
+    notify: UseNotificationNS.UseNotificationReturnType,
+  ): NotificationNS.Action[] => [
     { children: tb('sampleTitle'), variant: 'success' },
     notificationId => ({
       children: t('dismiss'),
@@ -133,7 +139,7 @@ export const WithSomeActions: FC = () => {
     }),
   ]
 
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     notify.neutral(title, message, { images: [IMAGE], actions: actions(notify) })
   }
 
@@ -157,7 +163,7 @@ export const NoneClosable: FC = () => {
   const { t } = useI18n('notification')
   const title = t('title')
   const message = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     COMMON_VARIANTS.forEach(variant => {
       notify.notify(title, message, variant, { closable: false })
     })
@@ -191,7 +197,7 @@ export const WithoutSound: FC = () => {
   const { t } = useI18n('notification')
   const title = t('title')
   const message = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     notify.notify(title, message, 'neutral', { playSound: false })
   }
   return (
@@ -210,7 +216,7 @@ export const CustomSound: FC = () => {
   const { t } = useI18n('notification')
   const title = t('title')
   const message = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     notify.notify(title, message, 'neutral', { customSound: SOUND })
   }
   return (
@@ -229,7 +235,7 @@ export const WithoutProgress: FC = () => {
   const { t } = useI18n('notification')
   const title = t('title')
   const message = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     notify.notify(title, message, 'neutral', { showProgress: false })
   }
   return (
@@ -248,7 +254,7 @@ export const OmittedIcon: FC = () => {
   const { t } = useI18n('notification')
   const title = t('title')
   const message = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     COMMON_VARIANTS.forEach(variant => {
       notify.notify(title, message, variant, { closable: true, noIconAndEmoji: true })
     })
@@ -312,7 +318,7 @@ export const CustomIcon: FC = () => {
   const { t } = useI18n('notification')
   const title = t('title')
   const message = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     notify.notify(title, message, 'neutral', { icon: 'hdr_auto_select' })
     notify.notify(title, message, 'neutral', { emoji: 'heart hands' })
   }
@@ -339,7 +345,7 @@ export const LoadingState: FC = () => {
   const { t } = useI18n('notification')
   const title = t('title')
   const message = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     COMMON_VARIANTS.forEach(variant => {
       notify.notify(title, message, variant, { loading: true })
     })
@@ -373,14 +379,14 @@ export const UpdateExistNotify: FC = () => {
   const { t } = useI18n('notification')
   const message = t('message')
   const title = t('title')
-  const reset = (notify: UseMessage.UseNotificationReturnType) => {
+  const reset = (notify: UseNotificationNS.UseNotificationReturnType) => {
     notify.notify(title, message, 'warning', {
       loading: true,
       id: 'my-notification',
       closable: true,
     })
   }
-  const update = (notify: UseMessage.UseNotificationReturnType) => {
+  const update = (notify: UseNotificationNS.UseNotificationReturnType) => {
     notify.notify(title, message, 'success', {
       loading: false,
       id: 'my-notification',
@@ -426,7 +432,7 @@ export const Duration: FC = () => {
   const { t } = useI18n('notification')
   const message = t('message')
   const title = t('message')
-  const createNotifies = (notify: UseMessage.UseNotificationReturnType) => {
+  const createNotifies = (notify: UseNotificationNS.UseNotificationReturnType) => {
     notify.warning(title, message)
     notify.error(title, message, { duration: 1000 })
   }
@@ -453,7 +459,7 @@ export const Duration: FC = () => {
 }
 
 export const Playground: FC<NotificationNS.Props> = props => {
-  const handleCreateNotification = (notification: UseMessage.UseNotificationReturnType) => {
+  const handleCreateNotification = (notification: UseNotificationNS.UseNotificationReturnType) => {
     notification.notify(props.title, props.message, props?.variant ?? 'neutral', { ...props })
   }
   return (

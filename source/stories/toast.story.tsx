@@ -2,20 +2,24 @@ import React, { FC, ReactNode, useEffect } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { UseMessage, useMessage, ButtonNS } from '..'
-import { Toast, ToastNS } from '../components/message/toast'
 import { CommonStory, StoryPlayground, WithButtonsStory } from './components'
+
 import { COMMON_VARIANTS } from '../constants'
 import { useI18n } from './hooks/use-i18n'
+
+import { ButtonNS, useMessage } from '..'
+
 import { DEFAULT_TOAST_DURATION } from '../components/message/constants'
+import { Toast, ToastNS } from '../components/message/toast'
+import { UseToastNS } from '../components/message/toast/use-toast'
 
 const SOUND = 'https://soundbible.com/mp3/Music_Box-Big_Daddy-1389738694.mp3'
 
 interface ToastStoryProps {
-  children?: (toast: UseMessage.UseToastReturnType) => ReactNode
-  creator?: (toast: UseMessage.UseToastReturnType) => void
-  moreButtons?: (toast: UseMessage.UseToastReturnType) => ButtonNS.Props[]
-  onMount?: (toast: UseMessage.UseToastReturnType) => void
+  children?: (toast: UseToastNS.UseToastReturnType) => ReactNode
+  creator?: (toast: UseToastNS.UseToastReturnType) => void
+  moreButtons?: (toast: UseToastNS.UseToastReturnType) => ButtonNS.Props[]
+  onMount?: (toast: UseToastNS.UseToastReturnType) => void
   defaultButtons?: {
     pushNew?: boolean
     destroyAll?: boolean
@@ -62,7 +66,7 @@ export default {
 export const Variants: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
-  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+  const createToasts = (toast: UseToastNS.UseToastReturnType) => {
     COMMON_VARIANTS.forEach(variant => {
       toast.toast(message, variant)
     })
@@ -92,7 +96,7 @@ export const Variants: FC = () => {
 export const WithSound: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
-  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+  const createToasts = (toast: UseToastNS.UseToastReturnType) => {
     toast.neutral(t('message'), { playSound: true })
   }
   return (
@@ -110,7 +114,7 @@ export const WithSound: FC = () => {
 export const CustomSound: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
-  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+  const createToasts = (toast: UseToastNS.UseToastReturnType) => {
     toast.neutral(t('message'), { playSound: true, customSound: SOUND })
   }
   return (
@@ -128,7 +132,7 @@ export const CustomSound: FC = () => {
 export const Closable: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
-  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+  const createToasts = (toast: UseToastNS.UseToastReturnType) => {
     COMMON_VARIANTS.forEach(variant => {
       toast.toast(t('message'), variant, { closable: true })
     })
@@ -158,7 +162,7 @@ export const Closable: FC = () => {
 export const OmittedIcon: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
-  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+  const createToasts = (toast: UseToastNS.UseToastReturnType) => {
     COMMON_VARIANTS.forEach(variant => {
       toast.toast(t('message'), variant, { noIconAndEmoji: true })
     })
@@ -188,7 +192,7 @@ export const OmittedIcon: FC = () => {
 export const CustomIcon: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
-  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+  const createToasts = (toast: UseToastNS.UseToastReturnType) => {
     toast.toast(message, 'neutral', { icon: 'hdr_auto_select' })
     toast.toast(message, 'neutral', { emoji: 'heart hands' })
   }
@@ -214,7 +218,7 @@ export const CustomIcon: FC = () => {
 export const LoadingState: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
-  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+  const createToasts = (toast: UseToastNS.UseToastReturnType) => {
     COMMON_VARIANTS.forEach(variant => {
       toast.toast(message, variant, { loading: true })
     })
@@ -244,10 +248,10 @@ export const LoadingState: FC = () => {
 export const UpdateExistToast: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
-  const reset = (toast: UseMessage.UseToastReturnType) => {
+  const reset = (toast: UseToastNS.UseToastReturnType) => {
     toast.toast(message, 'warning', { loading: true, id: 'my-toast', closable: true })
   }
-  const update = (toast: UseMessage.UseToastReturnType) => {
+  const update = (toast: UseToastNS.UseToastReturnType) => {
     toast.toast(message, 'success', { loading: false, id: 'my-toast', closable: true })
   }
   return (
@@ -288,7 +292,7 @@ export const UpdateExistToast: FC = () => {
 export const Duration: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
-  const createToasts = (toast: UseMessage.UseToastReturnType) => {
+  const createToasts = (toast: UseToastNS.UseToastReturnType) => {
     toast.warning(message)
     toast.error(message, { duration: 1000 })
   }
@@ -315,7 +319,7 @@ export const Duration: FC = () => {
 }
 
 export const Playground: FC<ToastNS.Props> = props => {
-  const handleCreateToast = (toast: UseMessage.UseToastReturnType) => {
+  const handleCreateToast = (toast: UseToastNS.UseToastReturnType) => {
     toast.toast(props.message, props?.variant ?? 'neutral', { ...props })
   }
   return (

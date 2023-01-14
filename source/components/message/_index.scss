@@ -1,10 +1,8 @@
-@import 'mixins';
-
 .zoomrc-message-react-hot-toast {
   inset: 6px !important;
 }
 
-.zoomrc-toast-container {
+.zoomrc-message-container {
   padding: 0;
   background-color: unset;
   color: unset;
@@ -12,131 +10,5 @@
 
   > div {
     margin: 0;
-  }
-}
-
-.zoomrc-toast {
-  background-color: color(layer, 2);
-  border: 2px solid;
-  display: inline-flex;
-  padding: 10px;
-  align-items: center;
-  border-radius: 4px;
-  column-gap: 10px;
-  min-width: 200px;
-
-  &,
-  & * {
-    user-select: none;
-  }
-
-  @each $variant in $common-variants {
-    @include zoomrc-generate-toast-variants($variant);
-  }
-
-  > .icon {
-    font-size: 16pt;
-    display: flex;
-    align-items: center;
-
-    > .emoji {
-      width: 28px;
-    }
-  }
-
-  > .message {
-    margin: 0;
-    flex: 1;
-  }
-
-  > .close-button {
-    > .zoomrc-button-inner-child {
-      padding: 0;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14pt;
-    }
-  }
-}
-
-.zoomrc-notification {
-  display: inline-flex;
-  flex-direction: column;
-  background-color: color(layer, 2);
-  width: 260px;
-  max-width: 100%;
-  border: 2px solid;
-  padding: 6px 10px;
-  border-radius: 4px;
-  row-gap: 10px;
-
-  &,
-  & * {
-    user-select: none;
-  }
-
-  @each $variant in $common-variants {
-    @include zoomrc-generate-toast-variants($variant);
-  }
-
-  > .header {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    column-gap: 6px;
-
-    > .icon {
-      font-size: 16pt;
-      display: flex;
-      align-items: center;
-
-      > .emoji {
-        width: 28px;
-      }
-    }
-
-    > .notification-title {
-      @include truncate;
-
-      margin: 0;
-      flex: 1;
-    }
-
-    > .close-button {
-      > .zoomrc-button-inner-child {
-        padding: 0;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14pt;
-      }
-    }
-  }
-
-  > .content {
-    margin: 0;
-  }
-
-  > .actions {
-    width: 100%;
-    display: flex;
-    column-gap: 6px;
-  }
-
-  > .images {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    row-gap: 6px;
-
-    > img {
-      max-width: 100%;
-      -webkit-user-drag: none;
-    }
   }
 }

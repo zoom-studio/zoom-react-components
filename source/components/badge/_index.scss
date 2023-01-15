@@ -1,0 +1,53 @@
+@import 'mixins';
+
+.zoomrc-badge {
+  display: inline-flex;
+  position: relative;
+
+  @each $size in $common-sizes {
+    @include zoomrc-generate-badge-sizes($size);
+  }
+
+  > .zoomrc-badge-info {
+    position: absolute;
+    pointer-events: none;
+
+    > .badge-count {
+      justify-content: center;
+      direction: ltr;
+      display: flex;
+      user-select: none;
+      align-items: center;
+      border-radius: 100px;
+    }
+
+    > .badge-dot {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+
+  &-text-mode {
+    position: static;
+    align-items: center;
+    column-gap: 8px;
+
+    > .zoomrc-badge-info {
+      position: static;
+    }
+
+    > .zoomrc-badge-content {
+      color: color(text, 1);
+      margin: 0;
+    }
+  }
+
+  &-clickable {
+    > .zoomrc-badge-info {
+      cursor: pointer;
+      pointer-events: initial;
+    }
+  }
+}

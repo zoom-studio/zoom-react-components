@@ -172,4 +172,8 @@ export const ENTranslations: typeof FATranslations = {
     action2: 'Action 2',
     action3: 'Action 3',
   },
+
+  badge: {
+    text: 'Some sample sentence for testing the badge component',
+  },
 }

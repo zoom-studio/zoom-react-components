@@ -170,4 +170,8 @@ export const FATranslations = {
     action2: 'اکشن 2',
     action3: 'اکشن 3',
   },
+
+  badge: {
+    text: 'مقداری متن تستی برای تست کردن کامپوننت بج',
+  },
 }

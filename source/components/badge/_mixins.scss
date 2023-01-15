@@ -1,0 +1,37 @@
+@mixin zoomrc-generate-badge-sizes($size) {
+  $dot-size: if($size == small, 8px, if($size == normal, 14px, 20px));
+  $icon-size: if($size == small, 16px, if($size == normal, 22px, 28px));
+  $emoji-size: if($size == small, 18px, if($size == normal, 24px, 30px));
+  $count-padding: if(
+    $size == small,
+    1px 4px 0 4px,
+    if($size == normal, 2px 6px 0 6px, 4px 8px 2px 8px)
+  );
+
+  &-#{$size} {
+    > .zoomrc-badge-info {
+      > .badge-count {
+        @include text(common, #{$size});
+
+        padding: $count-padding;
+      }
+
+      > .badge-icon {
+        font-size: to-rem($icon-size);
+      }
+
+      > .badge-emoji {
+        width: $emoji-size;
+        height: $emoji-size;
+      }
+    }
+
+    &.zoomrc-badge-dot-style {
+      > .zoomrc-badge-info {
+        padding: 0;
+        width: $dot-size;
+        height: $dot-size;
+      }
+    }
+  }
+}

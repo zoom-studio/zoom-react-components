@@ -1,0 +1,19 @@
+@keyframes zoomrc-image-load-animation {
+  0% {
+    opacity: 0.1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.zoomrc-image {
+  &.loaded:not(.not-loaded) {
+    animation: loaded 300ms ease-in-out;
+  }
+
+  &.not-loaded {
+    content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=');
+  }
+}

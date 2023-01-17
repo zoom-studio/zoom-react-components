@@ -1,0 +1,18 @@
+@mixin zoomrc-generate-skeleton-avatar-sizes($size) {
+  $box-size: if($size == small, 40px, if($size == normal, 60px, 80px));
+  $border-width: if($size == small, 2px, 4px);
+
+  &-#{$size} {
+    > .zoomrc-skeleton {
+      width: $box-size;
+      height: $box-size;
+
+      > .avatar-icon {
+        &::after,
+        &::before {
+          border-width: $border-width;
+        }
+      }
+    }
+  }
+}

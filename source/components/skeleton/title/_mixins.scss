@@ -1,0 +1,16 @@
+@mixin zoomrc-generate-skeleton-title-tag-levels {
+  $levels: (
+    1: 36px,
+    2: 32px,
+    3: 30px,
+    4: 28px,
+    5: 26px,
+    6: 24px,
+  );
+
+  @each $level, $size in $levels {
+    &-tag-level-#{$level} {
+      height: $size;
+    }
+  }
+}

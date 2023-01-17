@@ -1,0 +1,72 @@
+@import 'mixins';
+
+.zoomrc-skeleton-avatar {
+  @each $size in $common-sizes {
+    @include zoomrc-generate-skeleton-avatar-sizes($size);
+  }
+
+  display: inline-block;
+
+  &-grouped {
+    > .zoomrc-skeleton:not(:last-child) {
+      margin-left: -20px;
+    }
+  }
+
+  > .zoomrc-skeleton {
+    display: inline-block;
+    position: relative;
+    border-radius: 50%;
+
+    > .avatar-icon {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+
+      &::after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-color: color(placeholder);
+        left: 0;
+        right: 0;
+        bottom: 54%;
+        width: 32%;
+        height: 32%;
+        border-radius: 50%;
+        margin: auto;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: 50%;
+        border-style: solid;
+        border-color: color(placeholder);
+        height: 32%;
+        left: 0;
+        right: 0;
+        margin: auto;
+        bottom: 20%;
+        border-radius: 50% 50% 0 0;
+        border-bottom: 0;
+      }
+    }
+  }
+}
+
+@include ltr {
+  .zoomrc-skeleton-avatar {
+    &-grouped {
+      > .zoomrc-skeleton:not(:last-child) {
+        margin-left: unset;
+        margin-right: -20px;
+      }
+    }
+  }
+}

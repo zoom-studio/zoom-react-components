@@ -1,0 +1,12 @@
+.zoomrc-skeleton-paragraph {
+  display: inline-flex;
+  row-gap: 10px;
+  width: 100%;
+  flex-direction: column;
+
+  > .zoomrc-skeleton {
+    height: 10px;
+    border-radius: 100px;
+    display: block;
+  }
+}

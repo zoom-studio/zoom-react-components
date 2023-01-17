@@ -12,6 +12,7 @@ export namespace ColorNS {
     'error',
     'backdrop',
     'placeholder',
+    'skeleton',
   ] as const
   export const SOURCES = [...THEME_SOURCES, ...BASE_SOURCES] as const
 

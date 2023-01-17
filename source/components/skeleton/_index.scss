@@ -1,0 +1,22 @@
+$zoomrc-default-skeleton-background: color(skeleton);
+
+@keyframes zoomrc-skeleton-animation {
+  to {
+    background-position: 200% 0, 0 0, 0 100%, 50px 100%;
+  }
+}
+
+.zoomrc-skeleton {
+  overflow: hidden;
+  background-color: $zoomrc-default-skeleton-background;
+  cursor: progress;
+
+  &-animated {
+    background: linear-gradient(0.25turn, transparent, #80808038, transparent),
+      linear-gradient($zoomrc-default-skeleton-background, $zoomrc-default-skeleton-background);
+    background-repeat: no-repeat;
+    background-size: 50% 100%, 100% 100%, 100px 100px, 225px 30px;
+    background-position: -200% 0, 0 0, 0 100%, 50px 100%;
+    animation: zoomrc-skeleton-animation 2s ease infinite;
+  }
+}

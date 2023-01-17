@@ -7,7 +7,7 @@ import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
 export default {
-  title: 'General/Spin',
+  title: 'Loaders/Spin',
   component: Spin,
   args: {
     speed: '0.5s',

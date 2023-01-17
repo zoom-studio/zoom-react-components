@@ -23,6 +23,7 @@ $palettes: (
     'info': rgb(23 162 184),
     'backdrop': rgba(0 0 0 / 60%),
     'placeholder': rgb(100 100 100),
+    'skeleton': rgb(55 56 58),
   ),
   dark-high-contrast: (
     // layers
@@ -48,6 +49,7 @@ $palettes: (
     'info': rgb(23 162 184),
     'backdrop': rgba(0 0 0 / 60%),
     'placeholder': rgb(184 184 184),
+    'skeleton': rgb(37 37 37),
   ),
   light: (
     // layers
@@ -73,6 +75,7 @@ $palettes: (
     'info': rgb(23 162 184),
     'backdrop': rgba(0 0 0 / 60%),
     'placeholder': rgb(177 177 177),
+    'skeleton': rgb(239 239 239),
   ),
   light-high-contrast: (
     // layers
@@ -97,6 +100,6 @@ $palettes: (
     'success': rgb(40 167 69),
     'info': rgb(23 162 184),
     'backdrop': rgba(0 0 0 / 60%),
-    'placeholder': rgb(81 81 81),
+    'placeholder': rgb(220 220 220),
   ),
 );

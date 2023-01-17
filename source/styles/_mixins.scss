@@ -218,3 +218,23 @@
     @content;
   }
 }
+
+/**
+ * $theme-name?: lights (all light themes) | darks (all dark themes) | light | dark | light-high-contrast | dark-hight-contrast
+**/
+@mixin on-theme($theme-name) {
+  $dark-themes: (dark, dark-high-contrast);
+  $light-themes: (light, light-high-contrast);
+  $single-theme: (#{$theme-name});
+  $themes: if(
+    $theme-name == lights,
+    $light-themes,
+    if($theme-name == darks, $dark-themes, $single-theme)
+  );
+
+  @each $theme in $themes {
+    [data-theme='#{$theme}'] {
+      @content;
+    }
+  }
+}

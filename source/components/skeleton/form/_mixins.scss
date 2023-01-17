@@ -1,0 +1,13 @@
+@mixin zoomrc-generate-skeleton-form-sizes($size) {
+  $box-size: if($size == small, 29px, if($size == normal, 36px, 47px));
+
+  &-#{$size} {
+    height: $box-size;
+
+    &.zoomrc-skeleton-form-shape-square,
+    &.zoomrc-skeleton-form-shape-sharp-square,
+    &.zoomrc-skeleton-form-shape-circle {
+      width: $box-size;
+    }
+  }
+}

@@ -1,0 +1,276 @@
+@import 'variables';
+@import 'mixins';
+
+@keyframes zoomrc-open-image-viewer-animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomrc-open-image-viewer-on-view-image-animation {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.zoomrc-image-viewer {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: color(backdrop);
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  animation: zoomrc-open-image-viewer-animation 150ms linear;
+
+  > .header {
+    direction: ltr;
+    background-color: $header-and-footer-background;
+    display: flex;
+    align-items: center;
+    padding: 8px 6px;
+    justify-content: space-between;
+
+    > .image-name {
+      @include truncate;
+
+      margin: 0;
+      color: $zoomrc-image-viewer-text-color;
+      direction: inherit;
+      text-align: inherit;
+      padding-right: 8px;
+    }
+
+    > .handlers {
+      display: flex;
+      column-gap: 16px;
+      flex-direction: row-reverse;
+
+      @include respect(lg-phone) {
+        column-gap: 6px;
+      }
+
+      > .controller-group {
+        display: flex;
+        column-gap: 4px;
+        align-items: center;
+
+        @include respect(lg-phone) {
+          &.zoom-controllers {
+            display: none;
+          }
+        }
+
+        > .zoomrc-popover {
+          > .image-viewer-handler {
+            @include zoomrc-image-viewer-action-button;
+
+            .zoomrc-icon {
+              font-size: to-rem(26px);
+
+              @include respect(lg-phone) {
+                font-size: to-rem(20px);
+              }
+            }
+          }
+        }
+
+        &.zoom-controller {
+          > .image-viewer-handler {
+            .zoomrc-icon {
+              font-size: to-rem(28px);
+
+              @include respect(lg-phone) {
+                font-size: to-rem(22px);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  > .body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: ltr;
+
+    > .react-transform-wrapper {
+      height: 100%;
+      animation: zoomrc-open-image-viewer-on-view-image-animation 150ms linear;
+
+      > .react-transform-component {
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+
+        > .opened-image {
+          max-height: calc(100vh - 140px);
+          max-width: 100%;
+        }
+      }
+    }
+
+    > .navigator {
+      @include zoomrc-image-viewer-action-button;
+
+      height: 100%;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 150ms linear;
+      flex: 1;
+
+      &:hover {
+        background-color: color(backdrop, glassy, 1);
+      }
+
+      &.disabled {
+        pointer-events: none;
+        opacity: 0.1;
+      }
+
+      &.forward {
+        justify-content: flex-end;
+      }
+
+      &.backward {
+        justify-content: flex-start;
+      }
+
+      > .zoomrc-icon {
+        color: inherit;
+        font-size: to-rem(50px);
+      }
+    }
+  }
+
+  > .footer {
+    display: flex;
+    background-color: $header-and-footer-background;
+    align-items: center;
+    min-height: 72px;
+
+    > .utilities {
+      display: flex;
+      align-items: center;
+      column-gap: 8px;
+      padding: 0 8px;
+
+      .image-viewer-util {
+        @include zoomrc-image-viewer-action-button;
+
+        .zoomrc-icon {
+          font-size: to-rem(36px);
+
+          @include respect(lg-phone) {
+            font-size: to-rem(26px);
+          }
+        }
+      }
+    }
+
+    > .images-slider-container {
+      flex: 1;
+      text-align: center;
+
+      > .slides-container {
+        display: inline-grid;
+
+        > .slides {
+          > .os-viewport {
+            display: inline-block;
+            white-space: nowrap;
+            padding-top: 14px !important;
+
+            > .zoomrc-image-viewer-slide {
+              overflow: hidden;
+              border-radius: 4px;
+              max-height: 48px;
+              opacity: 0.5;
+              border: 2px solid transparent;
+              margin: 0 4px;
+              display: inline-block;
+              outline: none;
+
+              @include respect(lg-phone) {
+                max-height: 30px;
+              }
+
+              &.active {
+                opacity: 1;
+                border-color: color(accent);
+              }
+
+              > .slide {
+                max-height: inherit;
+                pointer-events: none;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    > .counter {
+      color: $zoomrc-image-viewer-text-color;
+      margin: 0;
+      padding: 8px;
+
+      @include respect(lg-phone) {
+        @include text(common, small);
+      }
+    }
+  }
+}
+
+.print-image-container {
+  width: 100%;
+
+  > p {
+    width: 100%;
+    margin: 10px 0;
+    background-color: lightgray;
+    padding: 8px;
+    text-align: center;
+    border-radius: 10px;
+  }
+
+  > img {
+    width: 100%;
+    border-radius: 4px;
+  }
+}
+
+@include ltr {
+  .zoomrc-image-viewer {
+    > .body {
+      > .navigator {
+        &.forward {
+          justify-content: flex-start;
+        }
+
+        &.backward {
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+}

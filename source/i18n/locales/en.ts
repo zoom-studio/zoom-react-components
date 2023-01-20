@@ -19,6 +19,26 @@ export const ENTranslations: typeof FATranslations = {
     decrease: 'Decrease value',
   },
 
+  globalErrors: {
+    onCopyFailure: 'Error occurred while copying to clipboard',
+    onCopySuccess: 'Successfully copied to the clipboard',
+  },
+
+  globalI18ns: {
+    imageViewer: {
+      zoomInTooltip: 'Zoom in',
+      closeTooltip: 'Close',
+      printTooltip: 'Print image',
+      deleteTooltip: 'Delete image',
+      downloadTooltip: 'Download image',
+      zoomOutTooltip: 'Zoom out',
+      deletePopConfirmTitle: 'Delete image',
+      deletePopConfirmCancelButton: 'Discard',
+      deletePopConfirmSubmitButton: 'Yes, delete',
+      deletePopConfirmDescription: 'Are you sure to delete this image?',
+    },
+  },
+
   dialog: {
     open: 'Open dialog',
     openSizeOf: {
@@ -175,5 +195,9 @@ export const ENTranslations: typeof FATranslations = {
 
   badge: {
     text: 'Some sample sentence for testing the badge component',
+  },
+
+  imageViewer: {
+    opener: 'Open image(s)',
   },
 }

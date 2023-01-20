@@ -17,6 +17,26 @@ export const FATranslations = {
     decrease: 'کاهش مقدار',
   },
 
+  globalErrors: {
+    onCopyFailure: 'مشکلی در هنگام کپی کردن پیش آمد',
+    onCopySuccess: 'با موفقیت کپی شد',
+  },
+
+  globalI18ns: {
+    imageViewer: {
+      zoomInTooltip: 'بزرگ‌نمایی',
+      closeTooltip: 'بستن',
+      printTooltip: 'پرینت عکس',
+      deleteTooltip: 'حذف عکس',
+      downloadTooltip: 'دانلود عکس',
+      zoomOutTooltip: 'کوچک‌نمایی',
+      deletePopConfirmTitle: 'حذف عکس',
+      deletePopConfirmCancelButton: 'انصراف',
+      deletePopConfirmSubmitButton: 'بله، حذف',
+      deletePopConfirmDescription: 'از حذف عکس اطمینان دارید؟',
+    },
+  },
+
   dialog: {
     open: 'باز کردن دیالوگ',
     openSizeOf: {
@@ -173,5 +193,9 @@ export const FATranslations = {
 
   badge: {
     text: 'مقداری متن تستی برای تست کردن کامپوننت بج',
+  },
+
+  imageViewer: {
+    opener: 'عکس(ها) رو باز کن',
   },
 }

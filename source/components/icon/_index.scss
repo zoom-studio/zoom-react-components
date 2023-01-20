@@ -2,7 +2,7 @@
   user-select: none;
 }
 
-[data-layout='ltr'] {
+@include ltr {
   .material-icons {
     &.flip-on-ltr-layout {
       transform: scaleX(-1);
@@ -10,7 +10,7 @@
   }
 }
 
-[data-layout='rtl'] {
+@include rtl {
   .material-icons {
     &.flip-on-rtl-layout {
       transform: scaleX(-1);

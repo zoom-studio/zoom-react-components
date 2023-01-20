@@ -77,6 +77,7 @@
     "react-hot-toast": "^2.4.0",
     "react-menu-list": "https://github.com/zoom-studio/react-menu-list.git",
     "react-router-dom": "^6.4.2",
+    "react-to-print": "^2.14.11",
     "react-zoom-pan-pinch": "^2.2.0"
   },
   "peerDependencies": {

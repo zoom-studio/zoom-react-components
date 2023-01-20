@@ -182,6 +182,12 @@ export const Popover: FC<PopoverNS.Props> = ({
     if (defaultIsOpen) {
       open()
     }
+
+    return () => {
+      if (timeout.current) {
+        clearTimeout(timeout.current)
+      }
+    }
   }, [])
 
   useOutsideClick(close, containerRef)

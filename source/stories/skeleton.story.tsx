@@ -109,6 +109,18 @@ export const Image: FC = () => {
         { group: [{ name: 'Default size (100% with 1:1 ratio)', props: {} }] },
         { group: [{ name: 'Custom size', props: { customSize: { width: 200, height: 400 } } }] },
         { group: [{ name: 'Not animated', props: { animated: false } }] },
+        {
+          group: [
+            {
+              name: 'Custom icon',
+              props: {
+                icon: 'broken_image',
+                customSize: { width: 200, height: 200 },
+                iconSize: '100px',
+              },
+            },
+          ],
+        },
       ]}
     />
   )

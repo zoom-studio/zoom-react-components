@@ -9,16 +9,17 @@ import React, {
   useState,
 } from 'react'
 
-import { renderToString } from 'react-dom/server'
-import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
-import { useReactToPrint, IReactToPrintProps } from 'react-to-print'
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { renderToString } from 'react-dom/server'
+import { IReactToPrintProps, useReactToPrint } from 'react-to-print'
+import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
 
 import {
   Button,
   ButtonNS,
   Icon,
   IconNS,
+  Image,
   PopConfirm,
   PopoverNS,
   ScrollView,
@@ -447,7 +448,13 @@ export const ImageViewer: FC<ImageViewerNS.Props> = ({
                             className={imageSlideClasses(index)}
                             onClick={() => handleSetActiveImageIndex(index, centerView)}
                           >
-                            <img src={image.source} className="slide" />
+                            <Image
+                              src={image.source}
+                              className="slide"
+                              containerProps={{ className: 'slide' }}
+                              width={48}
+                              shape="square"
+                            />
                           </div>
                         ))}
                       </ScrollView>

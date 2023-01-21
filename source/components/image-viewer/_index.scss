@@ -36,6 +36,7 @@
   flex-direction: column;
   user-select: none;
   animation: zoomrc-open-image-viewer-animation 150ms linear;
+  z-index: 20;
 
   > .header {
     direction: ltr;

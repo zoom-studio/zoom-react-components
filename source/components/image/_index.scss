@@ -1,19 +1,79 @@
-@keyframes zoomrc-image-load-animation {
-  0% {
-    opacity: 0.1;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
 .zoomrc-image {
-  &.loaded:not(.not-loaded) {
-    animation: loaded 300ms ease-in-out;
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+  height: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+
+  &:hover {
+    > .image-viewer-opener {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 
-  &.not-loaded {
-    content: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII=');
+  &.loading,
+  &.errored {
+    > img {
+      width: 1px;
+      height: 1px;
+      position: absolute;
+      z-index: -10;
+    }
+  }
+
+  > img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .zoomrc-icon {
+    color: color(text, 3);
+  }
+
+  > .image-viewer-opener {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #303034ba;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 150ms linear;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > .zoomrc-icon {
+      color: #e1e1e1;
+    }
+  }
+
+  &-sharp,
+  &-sharp-square {
+    > img,
+    .zoomrc-skeleton {
+      border-radius: 0 !important;
+    }
+  }
+
+  &-circle {
+    > img,
+    .zoomrc-skeleton {
+      border-radius: 50% !important;
+    }
+  }
+
+  &-semi-circle {
+    > img,
+    .zoomrc-skeleton {
+      border-radius: 40% !important;
+    }
   }
 }

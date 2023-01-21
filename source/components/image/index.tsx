@@ -37,7 +37,7 @@ export namespace ImageNS {
     imageViewerOpenerIconSize?: string | number
     imageViewerCustomImages?: ImageViewerNS.Image[]
     shape?: Shapes
-    imageViewerProps?: Omit<ImageViewerNS.Props, 'images'>
+    imageViewerProps?: Omit<ImageViewerNS.Props, 'images' | 'children'>
     containerProps?: HTMLAttributes<HTMLPictureElement>
   }
 }
@@ -104,11 +104,11 @@ export const Image: FC<ImageNS.Props> = ({
           images={imageViewerCustomImages ?? [{ name: name ?? alt ?? src, source: src }]}
         >
           {({ openImageViewer }) => (
-            <picture {...containerProps}>
+            <picture {...containerProps} onClick={openImageViewer}>
               {children}
 
               {!isLoading && !hasError && (
-                <span onClick={openImageViewer} className="image-viewer-opener">
+                <span className="image-viewer-opener">
                   <Icon name="image_search" style={{ fontSize: imageViewerOpenerIconSize }} />
                 </span>
               )}

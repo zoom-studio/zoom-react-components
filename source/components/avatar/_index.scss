@@ -1,0 +1,24 @@
+@import 'mixins';
+
+.zoomrc-avatar {
+  @each $size in $common-sizes {
+    @include zoomrc-generate-avatar-sizes($size);
+  }
+
+  &-grouped {
+    > .zoomrc-image:not(:last-child) {
+      margin-left: -20px;
+    }
+  }
+}
+
+@include ltr {
+  .zoomrc-avatar {
+    &-grouped {
+      > .zoomrc-image:not(:last-child) {
+        margin-left: unset;
+        margin-right: -20px;
+      }
+    }
+  }
+}

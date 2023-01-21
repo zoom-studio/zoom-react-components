@@ -26,7 +26,7 @@ const ImageStory: FC<Omit<ImageNS.Props, 'src'>> = props => {
   const getProps = (): ImageNS.Props => {
     const width = props.width ? +props.width : (10 - Math.floor(Math.random() * 5 + 1)) * 100
     const height = props.height ? +props.height : (10 - Math.floor(Math.random() * 5 + 1)) * 100
-    return { ...props, src: image(width, height), width, height }
+    return { ...props, src: image(width, height, 'profile'), width, height }
   }
 
   return (

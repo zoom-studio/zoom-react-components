@@ -49,9 +49,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
 
     > .zoomrc-icon {
       color: #e1e1e1;
+    }
+
+    @include respect(lg-phone) {
+      display: none;
     }
   }
 

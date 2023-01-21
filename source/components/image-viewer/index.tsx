@@ -27,6 +27,7 @@ import {
   Title,
   Tooltip,
 } from '..'
+import { BREAKPOINTS } from '../../constants'
 import { useZoomComponent, useZoomContext } from '../../hooks'
 
 export namespace ImageViewerNS {
@@ -453,7 +454,7 @@ export const ImageViewer: FC<ImageViewerNS.Props> = ({
                               className="slide"
                               containerProps={{ className: 'slide' }}
                               lazy={false}
-                              width={48}
+                              width={window.innerWidth <= BREAKPOINTS.md ? 30 : 48}
                               shape="square"
                             />
                           </div>

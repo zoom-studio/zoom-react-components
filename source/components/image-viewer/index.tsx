@@ -452,6 +452,7 @@ export const ImageViewer: FC<ImageViewerNS.Props> = ({
                               src={image.source}
                               className="slide"
                               containerProps={{ className: 'slide' }}
+                              lazy={false}
                               width={48}
                               shape="square"
                             />

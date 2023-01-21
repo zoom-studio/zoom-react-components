@@ -6,7 +6,7 @@ import { Avatar, AvatarNS } from '../components'
 import { StoryPlayground } from './components'
 
 export default {
-  title: 'Data display/Image',
+  title: 'Data display/Avatar',
   component: Avatar,
   args: {},
 } as ComponentMeta<typeof Avatar>

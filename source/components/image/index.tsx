@@ -37,7 +37,7 @@ export namespace ImageNS {
     imageViewerOpenerIconSize?: string | number
     imageViewerCustomImages?: ImageViewerNS.Image[]
     shape?: Shapes
-    imageViewerProps?: Omit<ImageViewerNS.Props, 'images'>
+    imageViewerProps?: Omit<ImageViewerNS.Props, 'images' | 'children'>
     containerProps?: HTMLAttributes<HTMLPictureElement>
   }
 }

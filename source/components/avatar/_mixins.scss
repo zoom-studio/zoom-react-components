@@ -1,0 +1,10 @@
+@mixin zoomrc-generate-avatar-sizes($size) {
+  $box-size: if($size == small, 40px, if($size == normal, 60px, 80px));
+
+  &-#{$size} {
+    > .zoomrc-image {
+      width: $box-size !important;
+      height: $box-size !important;
+    }
+  }
+}

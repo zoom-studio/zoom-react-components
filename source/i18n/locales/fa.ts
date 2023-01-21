@@ -198,4 +198,8 @@ export const FATranslations = {
   imageViewer: {
     opener: 'عکس(ها) رو باز کن',
   },
+
+  image: {
+    reGenerate: 'دریافت عکس جدید',
+  },
 }

@@ -1,8 +1,11 @@
 .zoomrc-skeleton-image {
   display: inline-block;
   width: 100%;
-  padding-top: 100%;
   position: relative;
+
+  &.auto-height {
+    padding-top: 100%;
+  }
 
   > .zoomrc-skeleton {
     position: absolute;
@@ -15,7 +18,8 @@
     border-radius: 4px;
   }
 
-  > .image-icon {
+  > .image-icon,
+  > .zoomrc-icon {
     position: absolute;
     left: 0;
     right: 0;
@@ -23,5 +27,11 @@
     top: 0;
     margin: auto;
     pointer-events: none;
+  }
+
+  > .zoomrc-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

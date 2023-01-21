@@ -5,7 +5,7 @@ import { useComponentSize, useZoomComponent } from '../../../hooks'
 import { SkeletonNS } from '..'
 import { useSkeleton } from '../use-skeleton'
 import { CommonSize } from '../../../types'
-import { SVGIcon } from '../..'
+import { Icon, IconNS, SVGIcon } from '../..'
 
 export namespace ImageSkeletonNS {
   export interface Size {
@@ -16,11 +16,15 @@ export namespace ImageSkeletonNS {
   export interface Props extends SkeletonNS.BaseProps {
     size?: CommonSize
     customSize?: Size
+    icon?: IconNS.Names
+    iconSize?: string
   }
 }
 
 export const ImageSkeleton: FC<ImageSkeletonNS.Props> = ({
   size: providedSize,
+  iconSize = '80px',
+  icon,
   className,
   customSize,
   ...baseProps
@@ -31,6 +35,7 @@ export const ImageSkeleton: FC<ImageSkeletonNS.Props> = ({
 
   const classes = createClassName(className, 'image', {
     [createClassName('', `image-${size}`)]: true,
+    'auto-height': !customSize?.height,
   })
 
   const getSkeletonStyles = (): CSSProperties => {
@@ -41,12 +46,17 @@ export const ImageSkeleton: FC<ImageSkeletonNS.Props> = ({
   return (
     <div {...baseProps} className={classes} style={getSkeletonStyles()}>
       <span className={animatedClasses} />
-      <SVGIcon
-        color={color => color({ source: 'placeholder' })}
-        name="image"
-        className="image-icon"
-        size="60%"
-      />
+
+      {icon ? (
+        <Icon name={icon} className="skeleton-icon" style={{ fontSize: iconSize }} />
+      ) : (
+        <SVGIcon
+          color={color => color({ source: 'placeholder' })}
+          name="image"
+          className="image-icon"
+          size="60%"
+        />
+      )}
     </div>
   )
 }

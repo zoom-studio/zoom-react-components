@@ -200,4 +200,8 @@ export const ENTranslations: typeof FATranslations = {
   imageViewer: {
     opener: 'Open image(s)',
   },
+
+  image: {
+    reGenerate: 'Get new image',
+  },
 }

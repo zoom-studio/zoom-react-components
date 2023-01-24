@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 
 import { Title } from '../../..'
 
@@ -17,15 +17,17 @@ export namespace CommonStoryNS {
   export interface Props<Props> {
     stories: Story<Props>[]
     component: FC<Props>
+    containerStyles?: CSSProperties
   }
 }
 
 export function CommonStory<Props = {}>({
   component: Component,
   stories,
+  containerStyles,
 }: React.PropsWithChildren<CommonStoryNS.Props<Props>>): JSX.Element {
   return (
-    <div className="common-story">
+    <div style={containerStyles} className="common-story">
       {stories.map(({ title, group, custom }, index) => (
         <div key={index} className="common-story-child">
           {title && (typeof title === 'string' ? <Title h1>{title}</Title> : title)}

@@ -1,16 +1,22 @@
-import { sleep } from '@zoom-studio/zoom-js-ts-utils'
-import React, { FC, HTMLAttributes, KeyboardEvent, MouseEvent, useRef, useState } from 'react'
+import React, {
+  FC,
+  FocusEvent,
+  HTMLAttributes,
+  KeyboardEvent,
+  MouseEvent,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
-import { Avatar, Input, InputNS, ScrollView, Text, Textarea, TextareaNS } from '..'
+import { sleep } from '@zoom-studio/zoom-js-ts-utils'
+
+import { Avatar, ScrollView, Text, Textarea, TextareaNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { CommonSize } from '../../types'
+import { logs } from '../../constants'
 
 export namespace MentionNS {
-  export const Types = ['input', 'textarea'] as const
-  export type Types = typeof Types[number]
-
-  export type EntryElement = HTMLInputElement | HTMLTextAreaElement
-
   export const ReservedKeys = ['ArrowDown', 'ArrowUp', 'Enter'] as const
   export type ReservedKeys = typeof ReservedKeys[number]
 
@@ -20,47 +26,37 @@ export namespace MentionNS {
     avatar: string
   }
 
-  export interface Props {
+  export interface Props extends TextareaNS.Props {
     users: User[]
-    as?: Types
-    textareaProps?: TextareaNS.Props
-    inputProps?: InputNS.Props
-    containerProps?: HTMLAttributes<HTMLDivElement>
+    mentionContainerProps?: HTMLAttributes<HTMLDivElement>
     maxHeight?: string | number
-    debounce?: boolean
-    isLoading?: boolean
-    size?: CommonSize
     usernameRegex?: RegExp
     symbol?: string
-    onMention?: (mention: string) => void
+    closeUsersListOnBlur?: boolean
   }
 }
 
 export const Mention: FC<MentionNS.Props> = ({
   size: providedSize,
-  as = 'textarea',
+  users: providedUsers,
   maxHeight = 200,
-  debounce = true,
+  closeUsersListOnBlur = true,
   usernameRegex = /^[a-z0-9_.]+$/,
   symbol = '@',
-  onMention,
-  isLoading,
-  users,
-  inputProps,
-  textareaProps,
-  containerProps,
+  mentionContainerProps,
+  ...textareaProps
 }) => {
+  const textareaRef = textareaProps.textareaRef ?? useRef<HTMLTextAreaElement | null>(null)
   const usersListRef = useRef<HTMLUListElement | null>(null)
   const size = useComponentSize(providedSize)
-  const { createClassName } = useZoomComponent('mention')
+  const { createClassName, sendLog } = useZoomComponent('mention')
   const [activeUserIndex, setActiveUserIndex] = useState(0)
   const [isUsersListOpen, setIsUsersListOpen] = useState(false)
-  // const [mention, setMention] = useState<string>('')
+  const [mention, setMention] = useState<string>('')
+  const [users, setUsers] = useState(providedUsers)
 
-  const classes = createClassName(containerProps?.className, '', {
-    [createClassName('', as)]: true,
+  const classes = createClassName(mentionContainerProps?.className, '', {
     [createClassName('', size)]: true,
-    [createClassName('', 'loading')]: !!isLoading,
   })
 
   const userItemClasses = (userIndex: number): string => {
@@ -69,14 +65,21 @@ export const Mention: FC<MentionNS.Props> = ({
     })
   }
 
+  const isMentionInUsername = (username: string, mention: string): boolean => {
+    username = username.toLowerCase()
+    mention = mention.toLowerCase()
+    return username.includes(mention)
+  }
+
   const handleResetStates = () => {
     setIsUsersListOpen(false)
-    // setMention('')
+    setMention('')
     setActiveUserIndex(0)
   }
 
-  const handleMention = async (entryElement: MentionNS.EntryElement) => {
+  const handleMention = async (entryElement: HTMLTextAreaElement) => {
     await sleep(10)
+    setActiveUserIndex(0)
     let { selectionStart, value, selectionEnd } = entryElement
     if (selectionStart !== selectionEnd) {
       return handleResetStates()
@@ -96,8 +99,8 @@ export const Mention: FC<MentionNS.Props> = ({
       return handleResetStates()
     }
 
-    onMention?.(mention)
-    // setMention(mention)
+    setMention(mention)
+    setUsers(providedUsers.filter(({ username }) => isMentionInUsername(username, mention)))
     setIsUsersListOpen(true)
   }
 
@@ -115,36 +118,55 @@ export const Mention: FC<MentionNS.Props> = ({
       return null
     }
 
-    scrollSection.scrollTop = user.offsetTop - scrollSection.clientHeight + 50
+    scrollSection.scrollTop = user.offsetTop - scrollSection.clientHeight / 2
   }
 
   const handleChangeActiveUserIndex = (pressedKey: MentionNS.ReservedKeys) => {
-    setActiveUserIndex(activeIndex => {
+    setActiveUserIndex(currentIndex => {
       if (pressedKey === 'ArrowUp') {
-        const nextIndex = activeIndex - 1
+        const nextIndex = currentIndex - 1
         if (nextIndex <= 0) {
           return 0
         }
         handleOnNavigationDone(nextIndex)
         return nextIndex
       } else if (pressedKey === 'ArrowDown') {
-        const nextIndex = activeIndex + 1
+        const nextIndex = currentIndex + 1
         if (nextIndex >= users.length) {
-          return activeIndex
+          return currentIndex
         }
         handleOnNavigationDone(nextIndex)
         return nextIndex
       }
-      return activeIndex
+      return currentIndex
     })
   }
 
   const handleSelectUser = (handySelectedUserIndex?: number) => {
-    // const { username } = users[handySelectedUserIndex ?? activeUserIndex]
-    // console.log(username)
+    const { username } = users[handySelectedUserIndex ?? activeUserIndex]
+    const { current: textarea } = textareaRef
+    if (!textarea) {
+      return sendLog(logs.mentionNotFoundTextareaRef, 'handleSelectUser function')
+    }
+
+    let { selectionStart, value } = textarea
+    selectionStart = selectionStart ?? 0
+
+    const startOfReplace = value.slice(0, selectionStart).lastIndexOf(symbol)
+    const beforeMention = value.slice(0, startOfReplace)
+    const afterMention = value.slice(selectionStart, value.length)
+
+    value = `${beforeMention}${beforeMention.slice(-1) === ' ' ? '' : ''}${symbol}${username}${
+      afterMention.slice(0, 1) === ' ' ? '' : ' '
+    }${afterMention}`
+
+    textarea.value = value
+    handleResetStates()
+    textareaProps.onWrite?.(value)
+    textarea.focus()
   }
 
-  const handleOnKeyDown = (evt: KeyboardEvent<MentionNS.EntryElement>) => {
+  const handleOnKeyDown = (evt: KeyboardEvent<HTMLTextAreaElement>) => {
     const key = evt.key as MentionNS.ReservedKeys
     if (isUsersListOpen && MentionNS.ReservedKeys.includes(key)) {
       evt.preventDefault()
@@ -164,14 +186,12 @@ export const Mention: FC<MentionNS.Props> = ({
     }
 
     void handleMention(evt.currentTarget)
-    inputProps?.onKeyDown?.(evt as KeyboardEvent<HTMLInputElement>)
-    textareaProps?.onKeyDown?.(evt as KeyboardEvent<HTMLTextAreaElement>)
+    textareaProps.onKeyDown?.(evt)
   }
 
-  const handleOnMouseUp = (evt: MouseEvent<MentionNS.EntryElement>) => {
+  const handleOnMouseUp = (evt: MouseEvent<HTMLTextAreaElement>) => {
     void handleMention(evt.currentTarget)
-    inputProps?.onMouseUp?.(evt as MouseEvent<HTMLInputElement>)
-    textareaProps?.onMouseUp?.(evt as MouseEvent<HTMLTextAreaElement>)
+    textareaProps.onMouseUp?.(evt)
   }
 
   const handleOnUserClick = (userIndex: number) => () => {
@@ -179,13 +199,36 @@ export const Mention: FC<MentionNS.Props> = ({
     handleSelectUser(userIndex)
   }
 
-  const inputAndTextareaProps: HTMLAttributes<MentionNS.EntryElement> = {
-    onKeyDown: handleOnKeyDown,
-    onMouseUp: handleOnMouseUp,
+  const handleOnBlur = (evt: FocusEvent<HTMLTextAreaElement>) => {
+    if (closeUsersListOnBlur) {
+      handleResetStates()
+    }
+    textareaProps.onBlur?.(evt)
   }
 
+  const renderUsername = (username: string): ReactNode => {
+    if (!mention || !isMentionInUsername(username, mention)) {
+      return symbol + username
+    }
+
+    username = username.replace(mention, '')
+    return (
+      <>
+        <span>
+          {symbol}
+          {mention}
+        </span>
+        {username}
+      </>
+    )
+  }
+
+  useEffect(() => {
+    setUsers(providedUsers)
+  }, [providedUsers])
+
   return (
-    <div className={classes}>
+    <div {...mentionContainerProps} className={classes}>
       {isUsersListOpen && (
         <ScrollView className="users-list-container" style={{ maxHeight }} autoHide>
           <ul className="users-list" ref={usersListRef}>
@@ -200,6 +243,7 @@ export const Mention: FC<MentionNS.Props> = ({
                   avatars={[user.avatar]}
                   size="small"
                   containerProps={{ className: 'user-avatar' }}
+                  imageProps={{ erroredStateIconFontSize: '20px' }}
                 />
                 <Text
                   className="user-name"
@@ -209,26 +253,28 @@ export const Mention: FC<MentionNS.Props> = ({
                 >
                   {user.name}
                 </Text>
-                <Text className="user-username">{`${symbol}${user.username}`}</Text>
+                <Text
+                  className="user-username"
+                  large={size === 'large'}
+                  normal={size === 'normal'}
+                  small={size === 'small'}
+                >
+                  {renderUsername(user.username)}
+                </Text>
               </li>
             ))}
           </ul>
         </ScrollView>
       )}
 
-      {as === 'textarea' ? (
-        <Textarea
-          {...textareaProps}
-          {...inputAndTextareaProps}
-          defaultValue="hey my name is @hamid and im trying to create @mention using @js language"
-        />
-      ) : (
-        <Input
-          {...inputProps}
-          {...inputAndTextareaProps}
-          defaultValue="hey my name is @hamid and im trying to create @mention using @js language"
-        />
-      )}
+      <Textarea
+        {...textareaProps}
+        onKeyDown={handleOnKeyDown}
+        onMouseUp={handleOnMouseUp}
+        textareaRef={textareaRef}
+        onBlur={handleOnBlur}
+        size={size}
+      />
     </div>
   )
 }

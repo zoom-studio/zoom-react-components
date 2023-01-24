@@ -202,4 +202,8 @@ export const FATranslations = {
   image: {
     reGenerate: 'دریافت عکس جدید',
   },
+
+  mention: {
+    placeholder: 'متنی بنویس یا افراد را @منشن کن',
+  },
 }

@@ -1,0 +1,14 @@
+@mixin zoomrc-generate-mention-sizes($size) {
+  $avatar-size: if($size == small, 28px, if($size == normal, 34px, 40px));
+
+  &-#{$size} {
+    .zoomrc-mention-user {
+      > .user-avatar {
+        > .zoomrc-image {
+          width: $avatar-size !important;
+          height: $avatar-size !important;
+        }
+      }
+    }
+  }
+}

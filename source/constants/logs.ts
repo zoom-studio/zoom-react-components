@@ -18,4 +18,6 @@ export enum logs {
   couldNotCopyToClipboard = 'ZOOMRC/COPY_TO_CLIPBOARD/COULD_NOT_COPY_TO_CLIPBOARD',
 
   imageNotLoaded = 'ZOOMRC/IMAG_LOADER/COULD_NOT_LOAD_IMAGE',
+
+  mentionNotFoundTextareaRef = 'ZOOMRC/MENTION/NOT_FOUND_TEXTAREA_REF',
 }

@@ -39,6 +39,7 @@ export namespace ImageNS {
     shape?: Shapes
     imageViewerProps?: Omit<ImageViewerNS.Props, 'images' | 'children'>
     containerProps?: HTMLAttributes<HTMLPictureElement>
+    erroredStateIconFontSize?: string
   }
 }
 
@@ -48,6 +49,7 @@ export const Image: FC<ImageNS.Props> = ({
   lazy = true,
   width = '100%',
   shape = 'default',
+  erroredStateIconFontSize = '40px',
   name,
   withImageViewer,
   height,
@@ -135,7 +137,7 @@ export const Image: FC<ImageNS.Props> = ({
             customSize={{ width, height }}
             icon="image_not_supported"
             animated={false}
-            iconSize="40px"
+            iconSize={erroredStateIconFontSize}
           />
         )
       )}

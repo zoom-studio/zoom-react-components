@@ -204,4 +204,8 @@ export const ENTranslations: typeof FATranslations = {
   image: {
     reGenerate: 'Get new image',
   },
+
+  mention: {
+    placeholder: 'Type something or @mention folks',
+  },
 }

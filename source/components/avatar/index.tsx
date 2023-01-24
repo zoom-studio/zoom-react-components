@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react'
 
-import { Image } from '..'
+import { Image, ImageNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
 import { CommonSize } from '../../types'
 
@@ -10,6 +10,7 @@ export namespace AvatarNS {
     size?: CommonSize
     containerProps?: HTMLAttributes<HTMLDivElement>
     withImageViewer?: boolean
+    imageProps?: Omit<ImageNS.Props, 'src'>
   }
 }
 
@@ -18,6 +19,7 @@ export const Avatar: FC<AvatarNS.Props> = ({
   avatars,
   containerProps,
   withImageViewer,
+  imageProps,
 }) => {
   const size = useComponentSize(providedSize)
   const { createClassName } = useZoomComponent('avatar')
@@ -36,6 +38,7 @@ export const Avatar: FC<AvatarNS.Props> = ({
           shape="circle"
           withImageViewer={withImageViewer}
           imageViewerOpenerIconSize={20}
+          {...imageProps}
         />
       ))}
     </div>

@@ -1,13 +1,13 @@
 import React, {
   cloneElement,
   ComponentProps,
-  FC,
   PropsWithChildren,
   RefObject,
   useCallback,
 } from 'react'
 
-import { FixedSizeGrid, GridChildComponentProps } from 'react-window'
+import AutoSizer, { AutoSizerProps } from 'react-virtualized-auto-sizer'
+import { FixedSizeGrid, FixedSizeGridProps, GridChildComponentProps } from 'react-window'
 
 import { VirtualizedScrollViewNS } from '..'
 import { ScrollView, ScrollViewNS } from '../..'
@@ -15,6 +15,10 @@ import { useZoomComponent, useZoomContext } from '../../../hooks'
 
 export namespace FixedGridVirtualizedScrollViewNS {
   export type Ref = FixedSizeGrid<any>
+  export type PropsGetter<DataType extends unknown[][] = unknown[][]> = (
+    width: number,
+    height: number,
+  ) => FixedSizeGridProps<DataType>
 
   export interface Child<DataType extends unknown[][] = unknown[][]> {
     data: DataType[0][0]
@@ -26,11 +30,14 @@ export namespace FixedGridVirtualizedScrollViewNS {
   export interface Props<DataType extends unknown[][] = unknown[][]>
     extends Omit<
         ComponentProps<typeof FixedSizeGrid>,
-        'children' | 'itemData' | 'outerElementType' | 'direction'
+        'children' | 'itemData' | 'outerElementType' | 'direction' | 'width' | 'height'
       >,
       VirtualizedScrollViewNS.Props {
     dataset?: DataType
     reference?: RefObject<Ref | undefined>
+    width: 'auto' | number
+    height: 'auto' | number
+    autoSizerProps?: Omit<AutoSizerProps, 'children'>
   }
 
   export interface PropsObject<DataType extends unknown[][] = unknown[][]>
@@ -48,16 +55,15 @@ export function FixedGridVirtualizedScrollView<DataType extends unknown[][] = un
   dataset,
   scrollViewProps,
   reference,
+  width,
+  height,
+  autoSizerProps,
   ...rest
 }: FixedGridVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element {
   const { createClassName } = useZoomComponent('fixed-grid-virtualized-scroll-view')
   const { isRTL } = useZoomContext()
 
   const classes = createClassName(rest.className)
-
-  const ScrollViewComponent: FC<ScrollViewNS.Props> = props => (
-    <ScrollView {...props} {...scrollViewProps} maxHeight={rest.height} maxWidth={rest.width} />
-  )
 
   const renderChildren = useCallback<FixedGridVirtualizedScrollViewNS.ChildRenderer<DataType>>(
     ({ isScrolling, style, columnIndex, rowIndex }) => {
@@ -79,15 +85,24 @@ export function FixedGridVirtualizedScrollView<DataType extends unknown[][] = un
     [dataset, children],
   )
 
-  return (
-    <FixedSizeGrid
-      {...rest}
-      outerElementType={ScrollViewComponent}
-      className={classes}
-      direction={isRTL ? 'rtl' : 'ltr'}
-      ref={reference as RefObject<FixedGridVirtualizedScrollViewNS.Ref>}
-    >
-      {renderChildren}
-    </FixedSizeGrid>
+  const getProps: FixedGridVirtualizedScrollViewNS.PropsGetter<DataType> = (width, height) => ({
+    ...rest,
+    width,
+    height,
+    className: classes,
+    direction: isRTL ? 'rtl' : 'ltr',
+    outerRef: reference,
+    children: renderChildren,
+    outerElementType: (props: ScrollViewNS.Props) => (
+      <ScrollView {...props} {...scrollViewProps} maxHeight={height} maxWidth={width} />
+    ),
+  })
+
+  return width === 'auto' || height === 'auto' ? (
+    <AutoSizer {...autoSizerProps}>
+      {({ width, height }) => <FixedSizeGrid {...getProps(width, height)} key={height + width} />}
+    </AutoSizer>
+  ) : (
+    <FixedSizeGrid {...getProps(width, height)} />
   )
 }

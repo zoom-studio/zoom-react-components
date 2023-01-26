@@ -1,13 +1,13 @@
 import React, {
   cloneElement,
   ComponentProps,
-  FC,
   PropsWithChildren,
   RefObject,
   useCallback,
 } from 'react'
 
-import { ListChildComponentProps, VariableSizeList } from 'react-window'
+import AutoSizer, { AutoSizerProps } from 'react-virtualized-auto-sizer'
+import { ListChildComponentProps, VariableSizeList, VariableSizeListProps } from 'react-window'
 
 import { VirtualizedScrollViewNS } from '..'
 import { ScrollView, ScrollViewNS } from '../..'
@@ -15,6 +15,10 @@ import { useZoomComponent, useZoomContext } from '../../../hooks'
 
 export namespace VariableListVirtualizedScrollViewNS {
   export type Ref = VariableSizeList<any>
+  export type PropsGetter<DataType extends unknown[] = unknown[]> = (
+    width: number | string,
+    height: number | string,
+  ) => VariableSizeListProps<DataType>
 
   export interface Child<DataType extends unknown[] = unknown[]> {
     data: DataType[0]
@@ -25,11 +29,14 @@ export namespace VariableListVirtualizedScrollViewNS {
   export interface Props<DataType extends unknown[] = unknown[]>
     extends Omit<
         ComponentProps<typeof VariableSizeList>,
-        'children' | 'itemData' | 'outerElementType' | 'direction'
+        'children' | 'itemData' | 'outerElementType' | 'direction' | 'width' | 'height'
       >,
       VirtualizedScrollViewNS.Props {
     dataset?: DataType
     reference?: RefObject<Ref | undefined>
+    width: 'auto' | number | (string & {})
+    height: 'auto' | number | (string & {})
+    autoSizerProps?: Omit<AutoSizerProps, 'children'>
   }
 
   export interface PropsObject<DataType extends unknown[] = unknown[]>
@@ -47,16 +54,15 @@ export function VariableListVirtualizedScrollView<DataType extends unknown[] = u
   dataset,
   scrollViewProps,
   reference,
+  width,
+  height,
+  autoSizerProps,
   ...rest
 }: VariableListVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element {
   const { createClassName } = useZoomComponent('variable-list-virtualized-scroll-view')
   const { isRTL } = useZoomContext()
 
   const classes = createClassName(rest.className)
-
-  const ScrollViewComponent: FC<ScrollViewNS.Props> = props => (
-    <ScrollView {...props} {...scrollViewProps} maxHeight={rest.height} maxWidth={rest.width} />
-  )
 
   const renderChildren = useCallback<VariableListVirtualizedScrollViewNS.ChildRenderer<DataType>>(
     ({ isScrolling, index, style }) => {
@@ -70,15 +76,26 @@ export function VariableListVirtualizedScrollView<DataType extends unknown[] = u
     [dataset, children, reference],
   )
 
-  return (
-    <VariableSizeList
-      {...rest}
-      outerElementType={ScrollViewComponent}
-      className={classes}
-      direction={isRTL ? 'rtl' : 'ltr'}
-      ref={reference as RefObject<VariableListVirtualizedScrollViewNS.Ref>}
-    >
-      {renderChildren}
-    </VariableSizeList>
+  const getProps: VariableListVirtualizedScrollViewNS.PropsGetter<DataType> = (width, height) => ({
+    ...rest,
+    width,
+    height,
+    className: classes,
+    direction: isRTL ? 'rtl' : 'ltr',
+    outerRef: reference,
+    children: renderChildren,
+    outerElementType: (props: ScrollViewNS.Props) => (
+      <ScrollView {...props} {...scrollViewProps} maxHeight={height} maxWidth={width} />
+    ),
+  })
+
+  return width === 'auto' || height === 'auto' ? (
+    <AutoSizer {...autoSizerProps}>
+      {({ width, height }) => (
+        <VariableSizeList {...getProps(width, height)} key={height + width} />
+      )}
+    </AutoSizer>
+  ) : (
+    <VariableSizeList {...getProps(width, height)} />
   )
 }

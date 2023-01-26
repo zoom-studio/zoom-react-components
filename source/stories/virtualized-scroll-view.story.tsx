@@ -111,6 +111,46 @@ export const FixedList: FC = () => {
                 children: listChild,
               },
             },
+            {
+              name: 'Auto sized (Vertical)',
+              containerProps: {
+                style: {
+                  height: '500px',
+                  resize: 'vertical',
+                  border: '1px solid red',
+                  overflow: 'hidden',
+                  minHeight: 100,
+                },
+              },
+              props: {
+                itemCount: 500,
+                itemSize: 30,
+                children: listChild,
+                width: '100%',
+                height: 'auto',
+              },
+            },
+            {
+              name: 'Auto sized (Horizontal)',
+              containerProps: {
+                style: {
+                  height: '200px',
+                  resize: 'horizontal',
+                  border: '1px solid red',
+                  overflow: 'hidden',
+                  minWidth: 100,
+                },
+              },
+              props: {
+                height: 100,
+                width: 'auto',
+                itemCount: 1000,
+                itemSize: 50,
+                useIsScrolling: true,
+                layout: 'horizontal',
+                children: listChild,
+              },
+            },
           ],
         },
       ]}
@@ -182,6 +222,48 @@ export const VariableList: FC = () => {
                 children: listChild,
               },
             },
+            {
+              name: 'Auto sized (Vertical)',
+              containerProps: {
+                style: {
+                  height: '500px',
+                  resize: 'vertical',
+                  border: '1px solid red',
+                  overflow: 'hidden',
+                  minHeight: 100,
+                },
+              },
+              props: {
+                itemCount: 500,
+                itemSize: index => (index % 2 ? 60 : 30),
+                children: listChild,
+                width: '100%',
+                height: 'auto',
+                estimatedItemSize: 45,
+              },
+            },
+            {
+              name: 'Auto sized (Horizontal)',
+              containerProps: {
+                style: {
+                  height: '200px',
+                  resize: 'horizontal',
+                  border: '1px solid red',
+                  overflow: 'hidden',
+                  minWidth: 100,
+                },
+              },
+              props: {
+                height: 100,
+                width: 'auto',
+                itemCount: 1000,
+                itemSize: index => (index % 2 ? 60 : 30),
+                useIsScrolling: true,
+                layout: 'horizontal',
+                children: listChild,
+                estimatedItemSize: 45,
+              },
+            },
           ],
         },
       ]}
@@ -219,6 +301,29 @@ export const FixedGrid: FC = () => {
                 height: 500,
                 width: 500,
                 scrollViewProps: { autoHide: true, className: 'my-custom-scroll-view-component' },
+              },
+            },
+            {
+              name: 'Auto sized',
+              containerProps: {
+                style: {
+                  height: '200px',
+                  width: '200px',
+                  resize: 'both',
+                  border: '1px solid red',
+                  overflow: 'hidden',
+                  minWidth: 100,
+                  minHeight: 100,
+                },
+              },
+              props: {
+                children: gridChild,
+                columnCount: 100,
+                rowCount: 100,
+                columnWidth: 100,
+                rowHeight: 100,
+                height: 'auto',
+                width: 'auto',
               },
             },
             {
@@ -298,6 +403,29 @@ export const VariableGrid: FC = () => {
               },
             },
             {
+              name: 'Auto sized',
+              containerProps: {
+                style: {
+                  height: '200px',
+                  width: '200px',
+                  resize: 'both',
+                  border: '1px solid red',
+                  overflow: 'hidden',
+                  minWidth: 100,
+                  minHeight: 100,
+                },
+              },
+              props: {
+                children: gridChild,
+                columnCount: 100,
+                rowCount: 100,
+                columnWidth: index => (index % 2 === 0 ? 70 : 120),
+                rowHeight: index => (index % 2 === 0 ? 70 : 120),
+                height: 'auto',
+                width: 'auto',
+              },
+            },
+            {
               name: 'Lazy mount',
               props: {
                 columnCount: 1000,
@@ -330,29 +458,6 @@ export const VariableGrid: FC = () => {
                     {isScrolling ? <Spin size="small" /> : `r${rowIndex} c${colIndex}`}
                   </div>
                 ),
-              },
-            },
-          ],
-        },
-      ]}
-    />
-  )
-}
-
-export const AutoFixedList: FC = () => {
-  return (
-    <CommonStory
-      component={VirtualizedScrollView.AutoFixedList}
-      stories={[
-        {
-          group: [
-            {
-              name: '1,000,000 records',
-              containerProps: { style: { height: '100vh' } },
-              props: {
-                itemCount: 1000000,
-                itemSize: 30,
-                children: listChild,
               },
             },
           ],

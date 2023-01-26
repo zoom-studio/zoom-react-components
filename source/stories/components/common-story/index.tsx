@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, { CSSProperties, FC, HTMLAttributes, ReactNode } from 'react'
 
 import { Title } from '../../..'
 
@@ -6,6 +6,7 @@ export namespace CommonStoryNS {
   export interface Group<Props> {
     name?: string | ReactNode
     props?: Props
+    containerProps?: HTMLAttributes<HTMLDivElement>
   }
 
   export interface Story<Props> {
@@ -34,8 +35,8 @@ export function CommonStory<Props = {}>({
 
           {custom && <div>{custom}</div>}
 
-          {group?.map(({ name, props }, index) => (
-            <div key={index}>
+          {group?.map(({ name, props, containerProps }, index) => (
+            <div key={index} {...containerProps}>
               {name && (typeof name === 'string' ? <Title>{name}</Title> : name)}
               {/* @ts-expect-error */}
               <Component {...props} />

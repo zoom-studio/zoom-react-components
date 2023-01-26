@@ -1,6 +1,8 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC, HTMLAttributes, useEffect, useRef } from 'react'
 
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
+import { InitializationTarget } from 'overlayscrollbars'
+import { useOverlayScrollbars } from 'overlayscrollbars-react'
+
 import { useZoomComponent } from '../../hooks'
 
 export namespace ScrollViewNS {
@@ -14,40 +16,49 @@ export namespace ScrollViewNS {
 
 export const ScrollView: FC<ScrollViewNS.Props> = ({
   autoHide,
-  children,
   className,
   onScroll,
   maxWidth,
   maxHeight,
   ...rest
 }) => {
+  const scrollViewRef = useRef<HTMLDivElement | null>(null)
+
+  const [initialize] = useOverlayScrollbars({
+    defer: true,
+    events: {
+      scroll: (_, evt) => onScroll?.(evt),
+    },
+    options: {
+      scrollbars: {
+        autoHide: autoHide ? 'leave' : 'never',
+        autoHideDelay: 100,
+        clickScroll: true,
+        dragScroll: true,
+        pointers: ['mouse', 'touch', 'pen'],
+      },
+      overflow: {
+        x: 'scroll',
+        y: 'scroll',
+      },
+      paddingAbsolute: false,
+      showNativeOverlaidScrollbars: false,
+    },
+  })
+
   const { createClassName } = useZoomComponent('scroll-view')
   const classes = createClassName(className)
 
+  useEffect(() => {
+    initialize(scrollViewRef.current as InitializationTarget)
+  }, [initialize])
+
   return (
-    <OverlayScrollbarsComponent
-      defer
-      element="div"
-      children={children}
-      className={classes}
-      events={{ scroll: (_, evt) => onScroll?.(evt) }}
-      style={{ maxWidth, maxHeight }}
-      options={{
-        scrollbars: {
-          autoHide: autoHide ? 'leave' : 'never',
-          autoHideDelay: 100,
-          clickScroll: true,
-          dragScroll: true,
-          pointers: ['mouse', 'touch', 'pen'],
-        },
-        overflow: {
-          x: 'scroll',
-          y: 'scroll',
-        },
-        paddingAbsolute: false,
-        showNativeOverlaidScrollbars: false,
-      }}
+    <div
       {...rest}
+      ref={scrollViewRef}
+      className={classes}
+      style={{ ...rest.style, maxWidth, maxHeight }}
     />
   )
 }

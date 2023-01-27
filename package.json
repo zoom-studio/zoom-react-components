@@ -71,6 +71,7 @@
   },
   "dependencies": {
     "@zoom-studio/zoom-js-ts-utils": "file:../zoom-web-utils/dist",
+    "add": "^2.0.6",
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.0.3",
     "overlayscrollbars-react": "^0.5.0",
@@ -78,7 +79,10 @@
     "react-menu-list": "https://github.com/zoom-studio/react-menu-list.git",
     "react-router-dom": "^6.4.2",
     "react-to-print": "^2.14.11",
-    "react-zoom-pan-pinch": "^2.2.0"
+    "react-virtualized-auto-sizer": "^1.0.7",
+    "react-window": "^1.8.8",
+    "react-zoom-pan-pinch": "^2.2.0",
+    "yarn": "^1.22.19"
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -110,6 +114,8 @@
     "@types/jest": "^29.1.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@types/react-virtualized-auto-sizer": "^1.0.1",
+    "@types/react-window": "^1.8.5",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "babel-loader": "^8.2.5",
     "change-case": "^4.1.2",

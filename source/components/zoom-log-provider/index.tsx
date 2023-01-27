@@ -2,7 +2,7 @@ import React, { createContext, FC, ReactNode } from 'react'
 
 import { logs } from '../../constants'
 
-import { ImageViewerNS, EmojiPickerNs } from '..'
+import { ImageViewerNS, EmojiPickerNS } from '..'
 
 export namespace ZoomLogProviderNS {
   export type Error = string | object
@@ -21,7 +21,7 @@ export namespace ZoomLogProviderNS {
     }
     globalI18ns?: {
       imageViewer?: ImageViewerNS.I18n
-      emojiPicker?: EmojiPickerNs.I18n
+      emojiPicker?: EmojiPickerNS.I18n
     }
   }
 }

@@ -1,0 +1,24 @@
+@mixin zoomrc-generate-alert-variants($variant) {
+  $is-neutral: $variant == neutral;
+  $is-warning: $variant == warning;
+  $background: if($is-neutral, color(layer, 2, glassy, 5), color($variant, glassy, 3));
+  $border: if($is-neutral, color(accent), color($variant));
+  $icon-background: if($is-neutral, color(layer, 3), color($variant));
+  $icon-color: if($is-neutral, color(text, 2), if($is-warning, black, white));
+
+  &-#{$variant} {
+    background-color: $background;
+    border-color: $border;
+
+    > .zoomrc-container {
+      > .symbol-container {
+        background-color: $icon-background;
+        color: $icon-color;
+      }
+
+      > .content {
+        color: white;
+      }
+    }
+  }
+}

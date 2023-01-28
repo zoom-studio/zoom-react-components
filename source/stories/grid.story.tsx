@@ -2,9 +2,10 @@ import React, { FC, ReactNode } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 
-import { Col, ColNS, Row } from '../components'
+import { Col, ColNS, Container, Row } from '../components'
 import { color } from '../utils'
 import { CommonStory } from './components'
+import { lorem } from '../fixtures'
 
 export default {
   title: 'Layout/Grid',
@@ -46,6 +47,36 @@ export const The24Cols: FC<ColNS.Props> = () => (
     ]}
   />
 )
+
+export const ContainerWrapper: FC = () => {
+  return (
+    <CommonStory
+      component={Container}
+      stories={[
+        {
+          group: [
+            {
+              name: 'Fluid (Default)',
+              props: {
+                children: lorem(20),
+
+                style: { color: color({ source: 'text' }) },
+              },
+            },
+            {
+              name: 'Full width',
+              props: {
+                children: lorem(20),
+                fluid: false,
+                style: { color: color({ source: 'text' }) },
+              },
+            },
+          ],
+        },
+      ]}
+    />
+  )
+}
 
 export const Playground: FC<ColNS.Props> = props => {
   return (

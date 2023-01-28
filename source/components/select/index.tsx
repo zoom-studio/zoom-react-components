@@ -14,7 +14,7 @@ import { classNames, sleep } from '@zoom-studio/zoom-js-ts-utils'
 import { Icon, Input, InputNS, Spin, SVGIcon, Text, TypographyNS } from '..'
 import { BREAKPOINTS, logs } from '../../constants'
 import { useComponentSize, useOutsideClick, useZoomComponent } from '../../hooks'
-import { CommonSize, DataEntriesState } from '../../types'
+import { BaseComponent, CommonSize, DataEntriesState } from '../../types'
 import { color } from '../../utils'
 import { SelectGroup, SelectGroupNS } from './group'
 import { SelectOption, SelectOptionNS } from './option'
@@ -37,14 +37,13 @@ export namespace SelectNS {
     [value: SelectOptionNS.Value]: SelectGroupNS.GroupedProps
   }
 
-  export interface Props {
+  export interface Props extends BaseComponent {
     options?: Option[]
     multiSelect?: boolean
     label?: string
     placeholder?: string
     stateMessageProps?: TypographyNS.TextNS.Props
     dropdownProps?: HTMLAttributes<HTMLDivElement>
-    containerProps?: Omit<HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'>
     size?: CommonSize
     state?: DataEntriesState
     disabled?: boolean
@@ -55,7 +54,6 @@ export namespace SelectNS {
     showSearch?: boolean
     childRef?: RefObject<HTMLDivElement>
     dropdownRef?: RefObject<HTMLDivElement>
-    containerRef?: RefObject<HTMLDivElement>
     defaultIsOpen?: boolean
     searchInputProps?: InputNS.Props
     searchInputRef?: RefObject<HTMLInputElement>
@@ -76,6 +74,9 @@ export namespace SelectNS {
 export const Select: FC<SelectNS.Props> = ({
   size: providedSize,
   options: providedOptions,
+  childRef: providedChildRef,
+  dropdownRef: providedDropdownRef,
+  searchQuery: providedSearchQuery,
   labelColon = true,
   disabledOnLoading = true,
   showSearch = true,
@@ -86,26 +87,44 @@ export const Select: FC<SelectNS.Props> = ({
   nothingFoundText = 'موردی مطابق با جستجو پیدا نشد',
   emptyListText = 'موردی وجود ندارد',
   scrollOnOpen = window.innerWidth <= BREAKPOINTS.md,
-  ...props
+  className,
+  searchInputRef,
+  reference,
+  containerProps,
+  defaultIsOpen,
+  defaultValue,
+  disabled,
+  dropdownProps,
+  label,
+  loading,
+  multiSelect,
+  onChange,
+  onWillClose,
+  onWillOpen,
+  onWrite,
+  placeholder,
+  searchInputProps,
+  stateMessageProps,
+  ...rest
 }) => {
   const size = useComponentSize(providedSize)
   const { createClassName, sendLog } = useZoomComponent('select')
 
-  const dropdownRef = props.dropdownRef ?? useRef<HTMLDivElement>(null)
-  const inputRef = props.searchInputRef ?? useRef<HTMLInputElement>(null)
-  const containerRef = props.containerRef ?? useRef<HTMLInputElement>(null)
+  const dropdownRef = providedDropdownRef ?? useRef<HTMLDivElement>(null)
+  const inputRef = searchInputRef ?? useRef<HTMLInputElement>(null)
+  const containerRef = reference ?? useRef<HTMLInputElement>(null)
   const optionsListRef = useRef<HTMLDivElement>(null)
-  const childRef = props.childRef ?? useRef<HTMLDivElement>(null)
+  const childRef = providedChildRef ?? useRef<HTMLDivElement>(null)
   const selectedOptionRef = useRef<SelectNS.SingleSelectedOption | null>(null)
 
-  const [searchQuery, setSearchQuery] = useState(props.searchQuery || '')
-  const [isOpen, setIsOpen] = useState(props.defaultIsOpen)
+  const [searchQuery, setSearchQuery] = useState(providedSearchQuery || '')
+  const [isOpen, setIsOpen] = useState(defaultIsOpen)
   const [emptyState, setEmptyState] = useState<SelectNS.EmptyState>(defaultEmpty(providedOptions))
   const [options, setOptions] = useState<SelectNS.GroupedOptions>(
-    groupOptions(providedOptions, props.defaultValue),
+    groupOptions(providedOptions, defaultValue),
   )
 
-  const isDisabled = disabledOnLoading ? props.loading || props.disabled : props.disabled
+  const isDisabled = disabledOnLoading ? loading || disabled : disabled
   const spinColor = state[0] === 'neutral' ? undefined : color({ source: state[0] })
   const textSizeProps: InputNS.TextSize = {
     small: size === 'small',
@@ -117,13 +136,13 @@ export const Select: FC<SelectNS.Props> = ({
   }
 
   const infoContainerClasses = classNames('info-container', { focus: isOpen })
-  const dropdownClasses = createClassName(props.dropdownProps?.className, 'dropdown')
-  const stateMessageClasses = createClassName(props.stateMessageProps?.className, 'state-message')
-  const classes = createClassName(props.containerProps?.className, '', {
+  const dropdownClasses = createClassName(dropdownProps?.className, 'dropdown')
+  const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
+  const classes = createClassName(className, '', {
     [createClassName('', size)]: true,
     [createClassName('', 'open')]: !!isOpen,
     [createClassName('', state[0])]: true,
-    [createClassName('', props.loading ? 'loading' : '')]: !!props.loading,
+    [createClassName('', loading ? 'loading' : '')]: !!loading,
     [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
   })
 
@@ -131,7 +150,7 @@ export const Select: FC<SelectNS.Props> = ({
     const options = { ...currentOptions }
     const { current: prevSelectedOptions } = selectedOptionRef
 
-    if (!props.multiSelect) {
+    if (!multiSelect) {
       if (prevSelectedOptions) {
         if (prevSelectedOptions[1]) {
           options[prevSelectedOptions[0]].options![prevSelectedOptions[1]].selected = false
@@ -188,11 +207,11 @@ export const Select: FC<SelectNS.Props> = ({
   }
 
   const onClose = () => {
-    props.onWillClose?.()
+    onWillClose?.()
   }
 
   const onOpen = () => {
-    props.onWillOpen?.()
+    onWillOpen?.()
     scrollToTop(containerRef, scrollOnOpen, sendLog)
     void focusSearchBox(inputRef, sendLog)
     void handleSetEmptyList()
@@ -227,32 +246,32 @@ export const Select: FC<SelectNS.Props> = ({
   }
 
   const handleOnChange = (options: SelectNS.SingleOption[]) => {
-    props.onChange?.(options)
-    props.onWrite?.(options.map(option => option.value))
+    onChange?.(options)
+    onWrite?.(options.map(option => option.value))
   }
 
   useOutsideClick(close, childRef, dropdownRef)
-  useEffect(() => setIsOpen(props.defaultIsOpen), [props.defaultIsOpen])
-  useEffect(() => setSearchQuery(props.searchQuery || ''), [props.searchQuery])
+  useEffect(() => setIsOpen(defaultIsOpen), [defaultIsOpen])
+  useEffect(() => setSearchQuery(searchQuery || ''), [searchQuery])
   useEffect(() => {
-    setOptions(groupOptions(providedOptions, props.defaultValue))
+    setOptions(groupOptions(providedOptions, defaultValue))
     void handleSetEmptyList()
-  }, [providedOptions, props.defaultValue])
+  }, [providedOptions, defaultValue])
 
   return (
-    <div {...props.containerProps} className={classes} ref={containerRef}>
+    <div {...rest} {...containerProps} className={classes} ref={containerRef}>
       <div className={infoContainerClasses} ref={childRef} onClick={open}>
-        {props.loading && <Spin size="small" className="select-spin" color={spinColor} />}
+        {loading && <Spin size="small" className="select-spin" color={spinColor} />}
 
         <Text common normal {...textSizeProps} className="select-label">
-          {props.label && `${props.label}${labelColon ? ':' : ''}`}
+          {label && `${label}${labelColon ? ':' : ''}`}
         </Text>
 
         <SelectValue
           options={options}
-          placeholder={props.placeholder}
+          placeholder={placeholder}
           size={size}
-          multiSelect={props.multiSelect}
+          multiSelect={multiSelect}
           onChange={handleOnChange}
         />
 
@@ -260,18 +279,18 @@ export const Select: FC<SelectNS.Props> = ({
       </div>
 
       {state[1] && (
-        <Text {...textSizeProps} {...props.stateMessageProps} className={stateMessageClasses}>
+        <Text {...textSizeProps} {...stateMessageProps} className={stateMessageClasses}>
           {state[1]}
         </Text>
       )}
 
       {isOpen && (
-        <div {...props.dropdownProps} className={dropdownClasses} ref={dropdownRef}>
+        <div {...dropdownProps} className={dropdownClasses} ref={dropdownRef}>
           {showSearch && emptyState !== 'empty-list' && (
             <div className="search-box">
               <Input
                 placeholder="جستجو بین موارد..."
-                {...props.searchInputProps}
+                {...searchInputProps}
                 labelContainerProps={{ className: 'search-input-container' }}
                 onInput={handleOnFilter}
                 inputRef={inputRef}
@@ -302,7 +321,7 @@ export const Select: FC<SelectNS.Props> = ({
                   {...option}
                   onSelect={value => handleSelectOptions(value)}
                   onSelectAll={values => handleSelectOptions(values)}
-                  multiSelect={!!props.multiSelect}
+                  multiSelect={!!multiSelect}
                   selectAllText={selectAllText}
                   deselectAllText={deselectAllText}
                   searchQuery={searchQuery}

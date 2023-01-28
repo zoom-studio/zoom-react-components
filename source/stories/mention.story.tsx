@@ -48,7 +48,7 @@ export const Basic: FC = () => {
     <CommonStory
       containerStyles={{ marginTop: 260 }}
       component={Mention}
-      stories={[{ group: [{ name: 'Basic', props: { users, placeholder } }] }]}
+      stories={[{ group: [{ name: 'Basic', props: { users, textareaProps: { placeholder } } }] }]}
     />
   )
 }
@@ -64,9 +64,9 @@ export const CustomSymbol: FC = () => {
       stories={[
         {
           group: [
-            { name: '@ (Default)', props: { users, placeholder } },
-            { name: '#', props: { users, placeholder, symbol: '#' } },
-            { name: '%', props: { users, placeholder, symbol: '%' } },
+            { name: '@ (Default)', props: { users, textareaProps: { placeholder } } },
+            { name: '#', props: { users, textareaProps: { placeholder }, symbol: '#' } },
+            { name: '%', props: { users, textareaProps: { placeholder }, symbol: '%' } },
           ],
         },
       ]}
@@ -85,10 +85,13 @@ export const CustomListHeight: FC = () => {
       stories={[
         {
           group: [
-            { name: '200px (Default)', props: { users, placeholder } },
-            { name: '600px', props: { users, placeholder, maxHeight: '600px' } },
-            { name: '100px', props: { users, placeholder, maxHeight: 100 } },
-            { name: 'Half of the page', props: { users, placeholder, maxHeight: '50vh' } },
+            { name: '200px (Default)', props: { users, textareaProps: { placeholder } } },
+            { name: '600px', props: { users, textareaProps: { placeholder }, maxHeight: '600px' } },
+            { name: '100px', props: { users, textareaProps: { placeholder }, maxHeight: 100 } },
+            {
+              name: 'Half of the page',
+              props: { users, textareaProps: { placeholder }, maxHeight: '50vh' },
+            },
           ],
         },
       ]}
@@ -107,9 +110,12 @@ export const Sizes: FC = () => {
       stories={[
         {
           group: [
-            { name: 'Small', props: { users, placeholder, size: 'small' } },
-            { name: 'Normal (Default)', props: { users, placeholder, size: 'normal' } },
-            { name: 'Large', props: { users, placeholder, size: 'large' } },
+            { name: 'Small', props: { users, textareaProps: { placeholder, size: 'small' } } },
+            {
+              name: 'Normal (Default)',
+              props: { users, textareaProps: { placeholder, size: 'normal' } },
+            },
+            { name: 'Large', props: { users, textareaProps: { placeholder, size: 'large' } } },
           ],
         },
       ]}
@@ -128,8 +134,11 @@ export const CloseListOnBlur: FC = () => {
       stories={[
         {
           group: [
-            { name: 'Close on blur (Default)', props: { users, placeholder } },
-            { name: 'Stay on blur', props: { users, placeholder, closeUsersListOnBlur: false } },
+            { name: 'Close on blur (Default)', props: { users, textareaProps: { placeholder } } },
+            {
+              name: 'Stay on blur',
+              props: { users, textareaProps: { placeholder }, closeUsersListOnBlur: false },
+            },
           ],
         },
       ]}

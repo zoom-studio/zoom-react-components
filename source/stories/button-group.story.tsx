@@ -11,7 +11,12 @@ export default {
   component: ButtonGroup,
   args: {
     children: 'Global children',
-    buttons: [{ children: 'First button' }, { children: 'Second button' }, {}, {}],
+    buttons: [
+      { children: 'First button' },
+      { children: 'Second button' },
+      { children: 'Third button' },
+      { children: 'Fourth button' },
+    ],
   },
 } as ComponentMeta<typeof ButtonGroup>
 
@@ -86,7 +91,7 @@ export const MixedVariants: FC<ButtonGroupNS.Props> = () => {
               name: 'Secondary type',
               props: {
                 children: t('sampleTitle'),
-                type: 'secondary',
+                buttonsProps: { type: 'secondary' },
                 buttons: [
                   { variant: 'error' },
                   { variant: 'info' },

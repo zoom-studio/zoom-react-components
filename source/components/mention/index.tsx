@@ -1,7 +1,6 @@
 import React, {
   FC,
   FocusEvent,
-  HTMLAttributes,
   KeyboardEvent,
   MouseEvent,
   ReactNode,
@@ -15,6 +14,7 @@ import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 import { Avatar, ScrollView, Text, Textarea, TextareaNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
 import { logs } from '../../constants'
+import { BaseComponent } from '../../types'
 
 export namespace MentionNS {
   export const ReservedKeys = ['ArrowDown', 'ArrowUp', 'Enter'] as const
@@ -26,36 +26,38 @@ export namespace MentionNS {
     avatar: string
   }
 
-  export interface Props extends TextareaNS.Props {
+  export interface Props extends BaseComponent {
     users: User[]
-    mentionContainerProps?: HTMLAttributes<HTMLDivElement>
     maxHeight?: string | number
     usernameRegex?: RegExp
     symbol?: string
     closeUsersListOnBlur?: boolean
+    textareaProps?: TextareaNS.Props
   }
 }
 
 export const Mention: FC<MentionNS.Props> = ({
-  size: providedSize,
   users: providedUsers,
   maxHeight = 200,
   closeUsersListOnBlur = true,
   usernameRegex = /^[a-z0-9_.]+$/,
   symbol = '@',
-  mentionContainerProps,
-  ...textareaProps
+  containerProps,
+  className,
+  reference,
+  textareaProps,
+  ...rest
 }) => {
-  const textareaRef = textareaProps.textareaRef ?? useRef<HTMLTextAreaElement | null>(null)
+  const textareaRef = textareaProps?.textareaRef ?? useRef<HTMLTextAreaElement | null>(null)
   const usersListRef = useRef<HTMLUListElement | null>(null)
-  const size = useComponentSize(providedSize)
+  const size = useComponentSize(textareaProps?.size)
   const { createClassName, sendLog } = useZoomComponent('mention')
   const [activeUserIndex, setActiveUserIndex] = useState(0)
   const [isUsersListOpen, setIsUsersListOpen] = useState(false)
   const [mention, setMention] = useState<string>('')
   const [users, setUsers] = useState(providedUsers)
 
-  const classes = createClassName(mentionContainerProps?.className, '', {
+  const classes = createClassName(className, '', {
     [createClassName('', size)]: true,
   })
 
@@ -162,7 +164,7 @@ export const Mention: FC<MentionNS.Props> = ({
 
     textarea.value = value
     handleResetStates()
-    textareaProps.onWrite?.(value)
+    textareaProps?.onWrite?.(value)
     textarea.focus()
   }
 
@@ -186,12 +188,12 @@ export const Mention: FC<MentionNS.Props> = ({
     }
 
     void handleMention(evt.currentTarget)
-    textareaProps.onKeyDown?.(evt)
+    textareaProps?.onKeyDown?.(evt)
   }
 
   const handleOnMouseUp = (evt: MouseEvent<HTMLTextAreaElement>) => {
     void handleMention(evt.currentTarget)
-    textareaProps.onMouseUp?.(evt)
+    textareaProps?.onMouseUp?.(evt)
   }
 
   const handleOnUserClick = (userIndex: number) => () => {
@@ -203,7 +205,7 @@ export const Mention: FC<MentionNS.Props> = ({
     if (closeUsersListOnBlur) {
       handleResetStates()
     }
-    textareaProps.onBlur?.(evt)
+    textareaProps?.onBlur?.(evt)
   }
 
   const renderUsername = (username: string): ReactNode => {
@@ -228,9 +230,9 @@ export const Mention: FC<MentionNS.Props> = ({
   }, [providedUsers])
 
   return (
-    <div {...mentionContainerProps} className={classes}>
+    <div {...containerProps} {...rest} ref={reference} className={classes}>
       {isUsersListOpen && (
-        <ScrollView className="users-list-container" style={{ maxHeight }} autoHide>
+        <ScrollView className="users-list-container" maxHeight={maxHeight} autoHide>
           <ul className="users-list" ref={usersListRef}>
             {users.map((user, index) => (
               <li
@@ -242,7 +244,7 @@ export const Mention: FC<MentionNS.Props> = ({
                 <Avatar
                   avatars={[user.avatar]}
                   size="small"
-                  containerProps={{ className: 'user-avatar' }}
+                  className="user-avatar"
                   imageProps={{ erroredStateIconFontSize: '20px' }}
                 />
                 <Text

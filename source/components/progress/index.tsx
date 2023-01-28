@@ -77,9 +77,12 @@ export const Progress: FC<ProgressNS.Props> = ({
     info = 'percentage',
     showInfo,
     containerProps,
+    className,
     failed,
     dynamicColors,
     dynamicInfo,
+    reference,
+    style,
   } = props
   let steps = props.steps
 
@@ -92,9 +95,7 @@ export const Progress: FC<ProgressNS.Props> = ({
   const { createClassName } = useZoomComponent('progress')
 
   const waveClasses = createClassName('', 'wave')
-  const classes = createClassName(containerProps?.className, '', {
-    [type]: true,
-  })
+  const classes = createClassName(className, '', { [type]: true })
   const stepClasses = createClassName('', 'step', {
     [steps.length === 1 ? 'single-step' : 'multi-step']: true,
   })
@@ -111,7 +112,13 @@ export const Progress: FC<ProgressNS.Props> = ({
   })
 
   return (
-    <div className={classes} style={isVertical ? { height: verticalHeight } : undefined}>
+    <div
+      {...containerProps}
+      {...props}
+      className={classes}
+      ref={reference}
+      style={isVertical ? { ...style, height: verticalHeight } : { ...style }}
+    >
       <div className="progresses" style={getSizes()}>
         {steps.map((step, index) => (
           <div

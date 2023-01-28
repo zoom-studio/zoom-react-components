@@ -1,5 +1,6 @@
-import React, { FC, SVGAttributes } from 'react'
+import React, { ClassAttributes, FC, SVGAttributes } from 'react'
 import { useZoomComponent } from '../../hooks'
+import { BaseCustomComponent } from '../../types'
 
 import { Color } from '../../types/color'
 import { colorFnToColor, color as generateColor } from '../../utils'
@@ -8,7 +9,11 @@ export namespace SVGIconNS {
   export const SVGIconNames = ['empty-box', 'image'] as const
   export type SVGIconNames = typeof SVGIconNames[number]
 
-  export interface Props extends Omit<SVGAttributes<SVGSVGElement>, 'color' | 'size' | 'name'> {
+  export interface Props
+    extends BaseCustomComponent<
+      Omit<SVGAttributes<SVGSVGElement>, 'color' | 'size' | 'name'>,
+      SVGSVGElement
+    > {
     name: SVGIconNames
     size?: number | string
     color?: Color
@@ -20,16 +25,22 @@ export const SVGIcon: FC<SVGIconNS.Props> = ({
   size = 100,
   className,
   name,
+  containerProps,
+  reference,
+  ...rest
 }) => {
   const { createClassName } = useZoomComponent('svg-icon')
   color = colorFnToColor(color)
 
   const classes = createClassName(className)
 
-  const baseProps: SVGAttributes<SVGSVGElement> = {
+  const baseProps: SVGAttributes<SVGSVGElement> | ClassAttributes<SVGSVGElement> = {
+    ...containerProps,
+    ...rest,
     width: size,
     height: size,
     className: classes,
+    ref: reference,
   }
 
   switch (name) {

@@ -1,14 +1,14 @@
-import React, { FC, HTMLAttributes, MouseEvent } from 'react'
+import React, { FC, MouseEvent } from 'react'
 
 import { Button, Emoji, EmojiNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { CommonSize, Range } from '../../types'
+import { BaseComponent, CommonSize, Range } from '../../types'
 
 export namespace ReactionRateNS {
   export type EmojiName = EmojiNS.Emojis.Names
   export type SelectedRange = Range<1, 6>
 
-  export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onSelect'> {
+  export interface Props extends BaseComponent {
     type?: 'quintuple' | 'couple'
     selectedReaction?: SelectedRange
     loading?: boolean
@@ -34,6 +34,8 @@ export const ReactionRate: FC<ReactionRateNS.Props> = ({
   onSelect,
   loading,
   disabled,
+  containerProps,
+  reference,
   ...rest
 }) => {
   const size = useComponentSize(providedSize)
@@ -50,7 +52,7 @@ export const ReactionRate: FC<ReactionRateNS.Props> = ({
   const isLoading = (index: number): boolean | undefined => isSelected(index) && loading
 
   return (
-    <div className={classes} {...rest}>
+    <div {...containerProps} {...rest} className={classes} ref={reference}>
       {reactions.map((reaction, index) => (
         <Button
           key={index}

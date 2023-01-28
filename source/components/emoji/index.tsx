@@ -1,7 +1,8 @@
-import React, { FC, HTMLAttributes, useCallback, useMemo } from 'react'
+import React, { FC, useCallback, useMemo } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
+import { BaseComponent } from '../../types'
 import { EMOJIS, EMOJI_GROUP_NAMES, EMOJI_NAMES, EMOJI_SUBGROUP_NAMES } from './constants'
 
 export namespace EmojiNS {
@@ -12,7 +13,7 @@ export namespace EmojiNS {
     emojis: EMOJIS as Emojis.Emoji[],
   }
 
-  export interface Props extends Omit<HTMLAttributes<HTMLImageElement>, 'src'> {
+  export interface Props extends BaseComponent<HTMLImageElement> {
     name: Emojis.Names
   }
 
@@ -29,7 +30,13 @@ export namespace EmojiNS {
   }
 }
 
-export const Emoji: FC<EmojiNS.Props> = ({ name, className, ...rest }) => {
+export const Emoji: FC<EmojiNS.Props> = ({
+  name,
+  className,
+  containerProps,
+  reference,
+  ...rest
+}) => {
   const classes = classNames('zoomrc-emoji', {
     [className ?? '']: true,
   })
@@ -41,5 +48,14 @@ export const Emoji: FC<EmojiNS.Props> = ({ name, className, ...rest }) => {
 
   const emoji = useMemo<string>(() => findEmoji(name)?.data ?? '', [name])
 
-  return <img draggable={false} {...rest} src={emoji} className={classes} />
+  return (
+    <img
+      {...rest}
+      {...containerProps}
+      draggable={false}
+      ref={reference}
+      src={emoji}
+      className={classes}
+    />
+  )
 }

@@ -1,13 +1,12 @@
-import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes } from 'react'
+import React, { ChangeEvent, FC, FormEvent, HTMLAttributes } from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
 import { Icon, InputNS, Spin, Text, TypographyNS } from '..'
-import { CommonSize, DataEntriesState } from '../../types'
+import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types'
 
 export namespace CheckboxNS {
-  export interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
-    containerProps?: HTMLAttributes<HTMLDivElement>
+  export interface Props extends BaseInputComponent, BaseComponent {
     stateMessageProps?: TypographyNS.TextNS.Props
     size?: CommonSize
     disabled?: boolean
@@ -34,7 +33,13 @@ export const Checkbox: FC<CheckboxNS.Props> = ({
   loading,
   label,
   labelProps,
-  ...rest
+  reference,
+  id,
+  onClick,
+  style,
+  inputProps,
+  inputRef,
+  ...otherInputProps
 }) => {
   const { createClassName } = useZoomComponent('checkbox')
   const size = useComponentSize(providedSize)
@@ -43,7 +48,7 @@ export const Checkbox: FC<CheckboxNS.Props> = ({
 
   const labelClasses = createClassName(labelProps?.className, 'label')
 
-  const containerClasses = createClassName(containerProps?.className, '', {
+  const containerClasses = createClassName(className, '', {
     [createClassName('', size)]: true,
     [createClassName('', state[0])]: true,
     [createClassName('', loading ? 'loading' : '')]: !!loading,
@@ -69,15 +74,24 @@ export const Checkbox: FC<CheckboxNS.Props> = ({
   }
 
   return (
-    <div {...containerProps} className={containerClasses}>
+    <div
+      {...containerProps}
+      ref={reference}
+      onClick={onClick}
+      id={id}
+      style={style}
+      className={containerClasses}
+    >
       <label {...labelProps} className={labelClasses}>
         <input
-          {...rest}
+          {...inputProps}
+          {...otherInputProps}
           type="checkbox"
           className="native-checkbox"
           disabled={isDisabled}
           onInput={handleOnInput}
           onChange={handleOnChange}
+          ref={inputRef}
         />
 
         <span className="custom-checkbox">

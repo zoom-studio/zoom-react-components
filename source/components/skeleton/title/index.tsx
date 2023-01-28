@@ -17,6 +17,8 @@ export const TitleSkeleton: FC<TitleSkeletonNS.Props> = ({
   tagLevel = 4,
   width = '80%',
   className,
+  containerProps,
+  reference,
   ...baseProps
 }) => {
   const { animatedClasses } = useSkeleton(baseProps)
@@ -27,7 +29,7 @@ export const TitleSkeleton: FC<TitleSkeletonNS.Props> = ({
   })
 
   return (
-    <div {...baseProps} className={classes}>
+    <div {...baseProps} {...containerProps} className={classes} ref={reference}>
       <span className={animatedClasses} style={{ width }} />
     </div>
   )

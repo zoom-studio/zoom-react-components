@@ -25,6 +25,9 @@ export const FormSkeleton: FC<FormSkeletonNS.Props> = ({
   shape = 'default',
   className,
   customSize,
+  containerProps,
+  reference,
+  style,
   ...baseProps
 }) => {
   const { animatedClasses } = useSkeleton(baseProps)
@@ -37,12 +40,18 @@ export const FormSkeleton: FC<FormSkeletonNS.Props> = ({
   })
 
   const getSkeletonStyles = (): CSSProperties => {
-    const styles: CSSProperties = { ...customSize }
+    const styles: CSSProperties = { ...style, ...customSize }
     return styles
   }
 
   return (
-    <div {...baseProps} className={classes} style={getSkeletonStyles()}>
+    <div
+      {...baseProps}
+      {...containerProps}
+      className={classes}
+      ref={reference}
+      style={getSkeletonStyles()}
+    >
       <span className={animatedClasses} />
     </div>
   )

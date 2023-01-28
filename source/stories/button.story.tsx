@@ -68,7 +68,7 @@ export const Sizes: FC<ButtonNS.Props> = () => {
 export const VariantsAndTypes: FC<ButtonNS.Props> = () => {
   const { t } = useI18n('button')
   return (
-    <CommonStory component={Button} stories={generateVariantsAndTypes(t('disabledTitle'), false)} />
+    <CommonStory component={Button} stories={generateVariantsAndTypes(t('sampleTitle'), false)} />
   )
 }
 

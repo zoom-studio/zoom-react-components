@@ -49,7 +49,7 @@ export const WithNumberStory: FC<WithNumberStoryNS.Props> = ({
     <div className="with-number-story">
       <div className="handlers">
         <ButtonGroup
-          type="dashed"
+          buttonsProps={{ type: 'dashed' }}
           buttons={[
             { children: increaseTitle, onClick: () => setNumber(increase) },
             { children: decreaseTitle, onClick: () => setNumber(decrease) },

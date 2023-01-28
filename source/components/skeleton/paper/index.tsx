@@ -26,6 +26,9 @@ export const PaperSkeleton: FC<PaperSkeletonNS.Props> = ({
   className,
   size,
   icon,
+  containerProps,
+  reference,
+  style,
   ...baseProps
 }) => {
   const { animatedClasses } = useSkeleton(baseProps)
@@ -36,12 +39,18 @@ export const PaperSkeleton: FC<PaperSkeletonNS.Props> = ({
   })
 
   const getSkeletonStyles = (): CSSProperties => {
-    const styles: CSSProperties = { ...size }
+    const styles: CSSProperties = { ...style, ...size }
     return styles
   }
 
   return (
-    <div {...baseProps} className={classes} style={getSkeletonStyles()}>
+    <div
+      {...baseProps}
+      {...containerProps}
+      className={classes}
+      style={getSkeletonStyles()}
+      ref={reference}
+    >
       <span className={animatedClasses} />
 
       {icon && <Icon name={icon} className="skeleton-icon" style={{ fontSize: iconSize }} />}

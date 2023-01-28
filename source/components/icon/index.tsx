@@ -1,18 +1,26 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC } from 'react'
 
-import { ICON_NAMES } from './constants/icon-names'
 import { useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
+import { ICON_NAMES } from './constants/icon-names'
 
 export namespace IconNS {
   export type Names = typeof ICON_NAMES[number]
 
-  export interface Props extends HTMLAttributes<HTMLSpanElement> {
+  export interface Props extends BaseComponent<HTMLSpanElement> {
     name: Names
     flipOn?: 'rtl' | 'ltr'
   }
 }
 
-export const Icon: FC<IconNS.Props> = ({ name, className, flipOn, ...rest }) => {
+export const Icon: FC<IconNS.Props> = ({
+  name,
+  className,
+  flipOn,
+  containerProps,
+  reference,
+  ...rest
+}) => {
   const { createClassName } = useZoomComponent('icon')
 
   const classNames = createClassName(className, undefined, {
@@ -22,7 +30,7 @@ export const Icon: FC<IconNS.Props> = ({ name, className, flipOn, ...rest }) => 
   })
 
   return (
-    <span {...rest} className={classNames}>
+    <span {...rest} {...containerProps} ref={reference} className={classNames}>
       {name}
     </span>
   )

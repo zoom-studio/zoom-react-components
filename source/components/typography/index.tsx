@@ -1,8 +1,8 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { ClassAttributes, FC, HTMLAttributes } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { CommonSize, Range } from '../../types'
+import { BaseComponent, CommonSize, Range } from '../../types'
 
 export namespace TypographyNS {
   export namespace TextNS {
@@ -23,7 +23,7 @@ export namespace TypographyNS {
       large?: boolean
     }
 
-    export interface Props extends HTMLAttributes<HTMLParagraphElement>, TypeProps, SizeProps {}
+    export interface Props extends BaseComponent<HTMLParagraphElement>, TypeProps, SizeProps {}
   }
 
   export namespace TitleNS {
@@ -38,7 +38,7 @@ export namespace TypographyNS {
       h6?: boolean
     }
 
-    export interface Props extends HTMLAttributes<HTMLHeadElement>, HeadingProps {}
+    export interface Props extends BaseComponent<HTMLHeadingElement>, HeadingProps {}
   }
 }
 
@@ -53,6 +53,8 @@ export const Text: FC<TypographyNS.TextNS.Props> = ({
   large,
   className,
   children,
+  containerProps,
+  reference,
   ...rest
 }) => {
   const type: TypographyNS.TextNS.Types = common
@@ -74,7 +76,7 @@ export const Text: FC<TypographyNS.TextNS.Props> = ({
   })
 
   return (
-    <p {...rest} className={classes}>
+    <p {...rest} {...containerProps} ref={reference} className={classes}>
       {children}
     </p>
   )
@@ -89,6 +91,8 @@ export const Title: FC<TypographyNS.TitleNS.Props> = ({
   h6,
   className,
   children,
+  containerProps,
+  reference,
   ...rest
 }) => {
   const size: TypographyNS.TitleNS.Sizes = h1 ? 1 : h2 ? 2 : h3 ? 3 : h4 ? 4 : h5 ? 5 : h6 ? 6 : 4
@@ -97,45 +101,51 @@ export const Title: FC<TypographyNS.TitleNS.Props> = ({
     [className ?? '']: true,
   })
 
+  const props: HTMLAttributes<HTMLHeadingElement> | ClassAttributes<HTMLHeadingElement> = {
+    ...rest,
+    ...containerProps,
+    ref: reference,
+  }
+
   switch (size) {
     case 1: {
       return (
-        <h1 {...rest} className={classes}>
+        <h1 {...props} className={classes}>
           {children}
         </h1>
       )
     }
     case 2: {
       return (
-        <h2 {...rest} className={classes}>
+        <h2 {...props} className={classes}>
           {children}
         </h2>
       )
     }
     case 3: {
       return (
-        <h3 {...rest} className={classes}>
+        <h3 {...props} className={classes}>
           {children}
         </h3>
       )
     }
     case 4: {
       return (
-        <h4 {...rest} className={classes}>
+        <h4 {...props} className={classes}>
           {children}
         </h4>
       )
     }
     case 5: {
       return (
-        <h5 {...rest} className={classes}>
+        <h5 {...props} className={classes}>
           {children}
         </h5>
       )
     }
     case 6: {
       return (
-        <h6 {...rest} className={classes}>
+        <h6 {...props} className={classes}>
           {children}
         </h6>
       )

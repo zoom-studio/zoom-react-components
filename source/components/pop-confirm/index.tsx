@@ -20,7 +20,7 @@ export namespace PopConfirmNS {
     variant?: CommonVariants
     confirm?: Action
     cancel?: Action
-    popConfirmProps?: HTMLAttributes<HTMLDivElement>
+    containerProps?: HTMLAttributes<HTMLDivElement>
     description?: string
     trigger?: Exclude<PopoverNS.Trigger, 'focus'>
   }
@@ -37,14 +37,14 @@ export const PopConfirm: FC<PopConfirmNS.Props> = ({
   emoji,
   icon,
   noIconAndEmoji,
-  popConfirmProps,
+  containerProps,
   description,
   ...popoverProps
 }) => {
   const { createClassName } = useZoomComponent('pop-confirm')
   const [iconName, iconType] = useStatedIcon({ emoji, variant, icon, noIconAndEmoji })
 
-  const contentClasses = createClassName(popConfirmProps?.className, '', {
+  const contentClasses = createClassName(containerProps?.className, '', {
     [createClassName('', variant)]: true,
   })
 
@@ -53,7 +53,7 @@ export const PopConfirm: FC<PopConfirmNS.Props> = ({
       {...popoverProps}
       trigger={trigger}
       content={
-        <div {...popConfirmProps} className={contentClasses}>
+        <div {...containerProps} className={contentClasses}>
           <div className="title">
             <ConditionalWrapper
               condition={iconType !== 'nothing' && !!iconName}

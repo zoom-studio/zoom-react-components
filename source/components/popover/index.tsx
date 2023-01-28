@@ -4,7 +4,6 @@ import React, {
   HTMLAttributes,
   MouseEvent,
   ReactNode,
-  RefObject,
   useEffect,
   useRef,
 } from 'react'
@@ -12,6 +11,7 @@ import React, {
 import { Spin, SpinNS, Text, Title, TypographyNS } from '..'
 import { logs } from '../../constants'
 import { useOutsideClick, useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
 import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace PopoverNS {
@@ -34,10 +34,7 @@ export namespace PopoverNS {
     'left-end',
   ] as const
 
-  export interface Props
-    extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'width' | 'title'> {
-    children?: ReactNode
-    containerRef?: RefObject<HTMLDivElement>
+  export interface Props extends BaseComponent {
     title?: string | ReactNode
     titleProps?: TypographyNS.TitleNS.Props
     popoverProps?: HTMLAttributes<HTMLDivElement>
@@ -61,11 +58,11 @@ export namespace PopoverNS {
 }
 
 export const Popover: FC<PopoverNS.Props> = ({
+  reference: customContainerRef,
   trigger = 'hover',
   placement = 'top',
   showArrow = true,
   hoverDelay = 0,
-  containerRef: customContainerRef,
   children,
   className,
   title,
@@ -83,6 +80,7 @@ export const Popover: FC<PopoverNS.Props> = ({
   spinProps,
   width,
   autoCloseDelay,
+  containerProps,
   ...rest
 }) => {
   const OPEN = 'open'
@@ -151,8 +149,8 @@ export const Popover: FC<PopoverNS.Props> = ({
       if (isFocused) open()
       else close()
     }
-    if (isFocused) rest?.onFocus?.(evt)
-    else rest?.onBlur?.(evt)
+    if (isFocused) containerProps?.onFocus?.(evt)
+    else containerProps?.onBlur?.(evt)
   }
 
   const handleOnMouseEnterOrLeave = (evt: MouseEvent<HTMLDivElement>) => {
@@ -167,8 +165,8 @@ export const Popover: FC<PopoverNS.Props> = ({
         close()
       }
     }
-    if (isMouseEntered) rest?.onMouseEnter?.(evt)
-    else rest?.onMouseLeave?.(evt)
+    if (isMouseEntered) containerProps?.onMouseEnter?.(evt)
+    else containerProps?.onMouseLeave?.(evt)
   }
 
   const handleOnClick = (evt: MouseEvent<HTMLDivElement>) => {
@@ -199,6 +197,7 @@ export const Popover: FC<PopoverNS.Props> = ({
     >
       <div
         {...rest}
+        {...containerProps}
         className={classes}
         ref={containerRef}
         onFocus={handleOnFocusOrBlur}

@@ -1,6 +1,5 @@
 import React, {
   FC,
-  HTMLAttributes,
   MouseEvent,
   ReactElement,
   ReactNode,
@@ -29,6 +28,7 @@ import {
 } from '..'
 import { BREAKPOINTS } from '../../constants'
 import { useZoomComponent, useZoomContext } from '../../hooks'
+import { BaseComponent } from '../../types'
 
 export namespace ImageViewerNS {
   export interface ChildrenCallbackParams {
@@ -60,11 +60,10 @@ export namespace ImageViewerNS {
     content: (activeImage: Image) => ReactElement
   }
 
-  export interface Props {
+  export interface Props extends Omit<BaseComponent, 'children'> {
     children: (args: ChildrenCallbackParams) => ReactNode
     printSettings?: PrintSettings
     images: Image[]
-    containerProps?: HTMLAttributes<HTMLDivElement>
     showPrint?: boolean
     showDownload?: boolean
     showDelete?: boolean
@@ -107,6 +106,9 @@ export const ImageViewer: FC<ImageViewerNS.Props> = ({
   onWillClose,
   onWillDoubleClick,
   isDeleting,
+  className,
+  reference,
+  ...rest
 }) => {
   const MAXIMUM_ZOOM_SCALE = 8
 
@@ -146,7 +148,7 @@ export const ImageViewer: FC<ImageViewerNS.Props> = ({
     },
   })
 
-  const classes = createClassName(containerProps?.className)
+  const classes = createClassName(className)
 
   const controllerGroupClasses = (otherClasses?: string) => {
     return classNames('controller-group', {
@@ -350,7 +352,7 @@ export const ImageViewer: FC<ImageViewerNS.Props> = ({
           onZoomStart={() => onWillZoom?.('handy')}
         >
           {({ zoomIn, zoomOut, state, resetTransform, centerView }) => (
-            <div className={classes}>
+            <div {...rest} {...containerProps} ref={reference} className={classes}>
               <div className="header">
                 <Title h5 className="image-name">
                   {showName && images[activeImageIndex].name}
@@ -452,7 +454,6 @@ export const ImageViewer: FC<ImageViewerNS.Props> = ({
                             <Image
                               src={image.source}
                               className="slide"
-                              containerProps={{ className: 'slide' }}
                               lazy={false}
                               width={window.innerWidth <= BREAKPOINTS.md ? 30 : 48}
                               shape="square"

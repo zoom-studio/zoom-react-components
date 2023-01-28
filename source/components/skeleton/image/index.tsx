@@ -27,6 +27,9 @@ export const ImageSkeleton: FC<ImageSkeletonNS.Props> = ({
   icon,
   className,
   customSize,
+  containerProps,
+  reference,
+  style,
   ...baseProps
 }) => {
   const { animatedClasses } = useSkeleton(baseProps)
@@ -39,12 +42,18 @@ export const ImageSkeleton: FC<ImageSkeletonNS.Props> = ({
   })
 
   const getSkeletonStyles = (): CSSProperties => {
-    const styles: CSSProperties = { ...customSize }
+    const styles: CSSProperties = { ...style, ...customSize }
     return styles
   }
 
   return (
-    <div {...baseProps} className={classes} style={getSkeletonStyles()}>
+    <div
+      {...baseProps}
+      {...containerProps}
+      className={classes}
+      style={getSkeletonStyles()}
+      ref={reference}
+    >
       <span className={animatedClasses} />
 
       {icon ? (

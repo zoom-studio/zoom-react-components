@@ -1,12 +1,13 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC } from 'react'
 import { useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
 import { Button, ButtonNS } from '../button'
 
 export namespace ButtonGroupNS {
-  export interface Props extends ButtonNS.Props {
+  export interface Props extends BaseComponent {
+    buttonsProps?: ButtonNS.Props
     buttons: ButtonNS.Props[]
     direction?: 'column' | 'row'
-    containerProps?: Omit<HTMLAttributes<HTMLDivElement>, 'children'>
   }
 }
 
@@ -14,19 +15,29 @@ export const ButtonGroup: FC<ButtonGroupNS.Props> = ({
   direction = 'row',
   buttons,
   containerProps,
+  buttonsProps,
+  className,
+  reference,
+  children,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('button-group')
 
-  const classes = createClassName(containerProps?.className, '', {
+  const classes = createClassName(className, '', {
     [createClassName('', 'column')]: direction === 'column',
     [createClassName('', 'row')]: direction === 'row',
   })
 
   return (
-    <div {...containerProps} className={classes}>
+    <div {...containerProps} {...rest} ref={reference} className={classes}>
       {buttons.map((props, index) => (
-        <Button key={index} full={direction === 'column'} {...rest} {...props} />
+        <Button
+          key={index}
+          full={direction === 'column'}
+          children={props.children ?? children}
+          {...buttonsProps}
+          {...props}
+        />
       ))}
     </div>
   )

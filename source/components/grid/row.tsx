@@ -1,14 +1,22 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC } from 'react'
 
 import { useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
 
 export namespace RowNS {
-  export interface Props extends HTMLAttributes<HTMLDivElement> {
+  export interface Props extends BaseComponent {
     fixWidth?: boolean
   }
 }
 
-export const Row: FC<RowNS.Props> = ({ className, children, fixWidth = true, ...rest }) => {
+export const Row: FC<RowNS.Props> = ({
+  fixWidth = true,
+  className,
+  children,
+  containerProps,
+  reference,
+  ...rest
+}) => {
   const { createClassName } = useZoomComponent('row')
 
   const classNames = createClassName(className, '', {
@@ -16,7 +24,7 @@ export const Row: FC<RowNS.Props> = ({ className, children, fixWidth = true, ...
   })
 
   return (
-    <div {...rest} className={classNames}>
+    <div {...rest} {...containerProps} ref={reference} className={classNames}>
       {children}
     </div>
   )

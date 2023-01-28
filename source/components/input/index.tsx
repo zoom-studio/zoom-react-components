@@ -13,7 +13,7 @@ import React, {
 import { Button, Icon, LongPress, Spin, SpinNS, Text, TypographyNS } from '..'
 import { logs } from '../../constants'
 import { useComponentSize, useInputDirectionHandler, useZoomComponent } from '../../hooks'
-import { CommonSize, DataEntriesState } from '../../types'
+import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types'
 
 import { color } from '../../utils/color'
 
@@ -23,10 +23,9 @@ export namespace InputNS {
     | Exclude<HTMLInputTypeAttribute, 'button' | 'checkbox' | 'radio' | object>
     | 'numeral-keypad-text'
 
-  export interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'type'> {
+  export interface Props extends BaseInputComponent, BaseComponent {
     onWrite?: (value: string) => void
     onTogglePasswordVisibility?: (isVisible: boolean) => void
-    containerProps?: HTMLAttributes<HTMLDivElement>
     labelProps?: HTMLAttributes<HTMLSpanElement>
     labelContainerProps?: HTMLAttributes<HTMLLabelElement>
     labelTextProps?: TypographyNS.TextNS.Props
@@ -40,7 +39,6 @@ export namespace InputNS {
     loading?: boolean
     labelColon?: boolean
     disabledOnLoading?: boolean
-    inputRef?: RefObject<HTMLInputElement>
     type?: Type
     passwordToggleButton?: boolean
     searchClearButton?: boolean
@@ -78,7 +76,12 @@ export const Input: FC<InputNS.Props> = ({
   onChange,
   onBlur,
   onFocus,
-  ...rest
+  reference,
+  id,
+  onClick,
+  style,
+  inputProps,
+  ...otherInputProps
 }) => {
   const size = useComponentSize(providedSize)
   const inputRef = providedInputRef ?? useRef<HTMLInputElement>(null)
@@ -107,7 +110,7 @@ export const Input: FC<InputNS.Props> = ({
 
   const labelContainerClasses = createClassName(labelContainerProps?.className, 'label-container')
 
-  const containerClasses = createClassName(containerProps?.className, 'container', {
+  const containerClasses = createClassName(className, 'container', {
     [createClassName('', size)]: true,
     [createClassName('', state[0])]: true,
     [createClassName('', loading ? 'loading' : '')]: !!loading,
@@ -226,7 +229,14 @@ export const Input: FC<InputNS.Props> = ({
   }
 
   return (
-    <div {...containerProps} className={containerClasses}>
+    <div
+      {...containerProps}
+      ref={reference}
+      id={id}
+      onClick={onClick}
+      style={style}
+      className={containerClasses}
+    >
       <label {...labelContainerProps} className={labelContainerClasses} ref={labelRef}>
         {(label || loading) && (
           <span {...labelProps} className={labelClasses}>
@@ -240,7 +250,8 @@ export const Input: FC<InputNS.Props> = ({
         )}
 
         <input
-          {...rest}
+          {...inputProps}
+          {...otherInputProps}
           {...getNumeralKeyPadProps()}
           className={inputClasses}
           ref={inputRef}

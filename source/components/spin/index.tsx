@@ -1,14 +1,14 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC } from 'react'
 
-import { useComponentSize, useZoomComponent } from '../../hooks'
 import { Text, TypographyNS } from '..'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 
+import { BaseComponent, CommonSize } from '../../types'
 import { Color } from '../../types/color'
-import { colorFnToColor, color as generateColor } from '../../utils/color'
-import { CommonSize } from '../../types'
+import { color as generateColor, colorFnToColor } from '../../utils/color'
 
 export namespace SpinNS {
-  export interface Props extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
+  export interface Props extends BaseComponent<HTMLSpanElement> {
     size?: CommonSize
     speed?: string
     tip?: string
@@ -25,6 +25,8 @@ export const Spin: FC<SpinNS.Props> = ({
   color = generateColor({ source: 'text', tone: 2 }),
   className,
   children,
+  containerProps,
+  reference,
   ...rest
 }) => {
   const size = useComponentSize(providedSize)
@@ -35,7 +37,7 @@ export const Spin: FC<SpinNS.Props> = ({
   color = colorFnToColor(color)
 
   return (
-    <span {...rest} className={classes}>
+    <span {...rest} {...containerProps} ref={reference} className={classes}>
       <span className="spinner" style={{ animationDuration: speed, borderColor: color }} />
       {children ??
         (tip && (

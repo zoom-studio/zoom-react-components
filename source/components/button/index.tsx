@@ -1,11 +1,11 @@
-import React, { FC, HTMLAttributes, ReactNode, RefObject } from 'react'
+import React, { FC, ReactNode } from 'react'
 
 import { Link } from 'react-router-dom'
 
-import { useZoomComponent, useComponentSize } from '../../hooks'
-import { Spin, EmojiNS, Emoji, IconNS, Icon } from '..'
+import { Emoji, EmojiNS, Icon, IconNS, Spin } from '..'
+import { useComponentSize, useZoomComponent } from '../../hooks'
+import { BaseComponent, CommonSize, CommonVariants } from '../../types'
 import { ConditionalWrapper } from '../conditional-wrapper'
-import { CommonSize, CommonVariants } from '../../types'
 
 export namespace ButtonNS {
   export type HtmlType = 'submit' | 'reset' | 'button'
@@ -20,12 +20,11 @@ export namespace ButtonNS {
   export type MaterialIcon = IconNS.Names
   export type EmojiIcon = EmojiNS.Emojis.Names
 
-  export interface Props extends Omit<HTMLAttributes<HTMLButtonElement>, 'type'> {
+  export interface Props extends BaseComponent<HTMLButtonElement> {
     type?: Types
     htmlType?: HtmlType
     size?: CommonSize
     shape?: Shapes
-    containerRef?: RefObject<HTMLButtonElement>
     href?: string
     target?: HtmlTargets
     innerClassName?: string
@@ -69,8 +68,9 @@ export const Button: FC<ButtonNS.Props> = ({
   prefixMaterialIcon,
   suffixEmojiIcon,
   suffixMaterialIcon,
-  containerRef,
   useSpan,
+  containerProps,
+  reference,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('button')
@@ -133,17 +133,24 @@ export const Button: FC<ButtonNS.Props> = ({
     <ConditionalWrapper
       condition={useSpan}
       trueWrapper={children => (
-        <span {...rest} className={classNames} aria-disabled={isDisabled} ref={containerRef}>
+        <span
+          {...rest}
+          {...containerProps}
+          className={classNames}
+          aria-disabled={isDisabled}
+          ref={reference}
+        >
           {children}
         </span>
       )}
       falseWrapper={children => (
         <button
           {...rest}
+          {...containerProps}
           type={htmlType}
           className={classNames}
           disabled={isDisabled}
-          ref={containerRef}
+          ref={reference}
         >
           {children}
         </button>

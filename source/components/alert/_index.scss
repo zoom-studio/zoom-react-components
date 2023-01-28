@@ -1,0 +1,64 @@
+@import 'mixins';
+
+.zoomrc-alert {
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 6px;
+  user-select: none;
+
+  @each $variant in $common-variants {
+    @include zoomrc-generate-alert-variants($variant);
+  }
+
+  &-banner {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+
+  > .zoomrc-container {
+    display: flex;
+    column-gap: 6px;
+    align-items: flex-start;
+    padding: 6px;
+
+    > .symbol-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      min-height: 40px;
+      border-radius: 40%;
+
+      > .zoomrc-icon {
+        font-size: to-rem(40px);
+      }
+
+      > .zoomrc-emoji {
+        width: 32px;
+      }
+    }
+
+    > .content {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+
+      > .alert-title {
+        margin: 0;
+      }
+
+      > .alert-description {
+        margin: 0;
+      }
+    }
+
+    > .actions {
+      display: flex;
+      flex-direction: column;
+      min-width: fit-content;
+      row-gap: 4px;
+    }
+  }
+}

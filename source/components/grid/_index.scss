@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'sass:map';
 
 $columns-count: 24;
 $gutter: 10px;
@@ -38,5 +39,15 @@ $padding: #{math.div($gutter, 2)};
   &.with-width-fixer {
     width: calc(100% + $gutter);
     margin: 0 -#{math.div($gutter, 2)};
+  }
+}
+
+.zoomrc-container {
+  width: 100%;
+  height: auto;
+  margin: auto;
+
+  &-fluid {
+    max-width: #{map.get($breakpoints, xl) + 'px'};
   }
 }

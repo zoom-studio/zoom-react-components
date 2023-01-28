@@ -1,11 +1,12 @@
-import React, { FC, HTMLAttributes, MouseEvent, ReactNode, TouchEvent, useRef } from 'react'
+import React, { FC, MouseEvent, TouchEvent, useRef } from 'react'
+
 import { useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
 
 export namespace LongTapNS {
-  export interface Props extends HTMLAttributes<HTMLDivElement> {
+  export interface Props extends BaseComponent {
     timeout?: number
     callback?: (evt: MouseDownEvent) => void
-    children?: ReactNode
   }
 
   export type MouseDownEvent = MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
@@ -16,6 +17,8 @@ export const LongTap: FC<LongTapNS.Props> = ({
   callback = () => {},
   children,
   className,
+  containerProps,
+  reference,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('long-tap')
@@ -46,6 +49,8 @@ export const LongTap: FC<LongTapNS.Props> = ({
   return (
     <div
       {...rest}
+      {...containerProps}
+      ref={reference}
       tabIndex={1}
       className={containerClassNames}
       onMouseDown={handleMouseDown}

@@ -85,7 +85,7 @@ export const Sizes = () => {
         headerProps={{ className: 'my-dialog-header' }}
         bodyProps={{ className: 'my-dialog-body' }}
         footerProps={{ className: 'my-dialog-footer' }}
-        dialogRef={dialogRef}
+        reference={dialogRef}
         backdropRef={undefined}
       >
         {lorem(10)}

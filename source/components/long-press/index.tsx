@@ -1,8 +1,10 @@
-import React, { FC, HTMLAttributes, MouseEvent, useState } from 'react'
+import React, { FC, MouseEvent, useState } from 'react'
+
 import { useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
 
 export namespace LongPressNS {
-  export interface Props extends HTMLAttributes<HTMLDivElement> {
+  export interface Props extends BaseComponent {
     interval?: number
     callback?: () => void
     disabled?: boolean
@@ -15,6 +17,8 @@ export const LongPress: FC<LongPressNS.Props> = ({
   children,
   disabled,
   className,
+  containerProps,
+  reference,
   ...rest
 }) => {
   const { createClassName } = useZoomComponent('long-press')
@@ -57,6 +61,7 @@ export const LongPress: FC<LongPressNS.Props> = ({
 
   return (
     <div
+      {...containerProps}
       {...rest}
       onClick={handleClick}
       className={containerClassNames}
@@ -65,6 +70,7 @@ export const LongPress: FC<LongPressNS.Props> = ({
       onMouseUp={handleMouseUpOrLeave}
       onMouseLeave={handleMouseUpOrLeave}
       onTouchEnd={handleMouseUpOrLeave}
+      ref={reference}
     >
       {children}
     </div>

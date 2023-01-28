@@ -154,7 +154,7 @@ export const RealWorldExample: FC = () => {
                   checked={failToDispatch}
                   size="large"
                   onChange={evt => setFailToDispatch(evt.currentTarget.checked)}
-                  containerProps={{ style: { marginBottom: 10 } }}
+                  style={{ marginBottom: 0 }}
                 />
               ),
               props: { onSelect: dispatchRate, selectedReaction: rate, loading },

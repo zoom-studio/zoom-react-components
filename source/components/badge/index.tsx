@@ -1,16 +1,15 @@
-import React, { CSSProperties, FC, HTMLAttributes, ReactNode } from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
+
+import { Emoji, EmojiNS, Icon, IconNS, Text } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
-import { Color, CommonSize } from '../../types'
+import { BaseComponent, Color, CommonSize } from '../../types'
 import { colorFnToColor } from '../../utils'
-import { Emoji, EmojiNS } from '../emoji'
-import { Icon, IconNS } from '../icon'
-import { Text } from '../typography'
 
 export namespace BadgeNS {
   export const Direction = ['row', 'row-reverse', 'column', 'column-reverse'] as const
   export type Direction = typeof Direction[number]
 
-  export interface Props {
+  export interface Props extends BaseComponent {
     direction?: Direction
     showZero?: boolean
     count?: number | undefined | null
@@ -21,11 +20,9 @@ export namespace BadgeNS {
     background?: Color
     color?: Color
     dot?: boolean
-    onClick?: () => void
     size?: CommonSize
     text?: string
     children?: ReactNode
-    containerProps?: HTMLAttributes<HTMLSpanElement>
   }
 }
 
@@ -45,6 +42,10 @@ export const Badge: FC<BadgeNS.Props> = ({
   onClick,
   text,
   containerProps,
+  className,
+  reference,
+  style,
+  ...rest
 }) => {
   const { isRTL } = useZoomContext()
   const { createClassName } = useZoomComponent('badge')
@@ -55,7 +56,7 @@ export const Badge: FC<BadgeNS.Props> = ({
   const isTextMode = typeof text === 'string'
   const isCountProvided = typeof providedCount === 'number'
 
-  const classes = createClassName(containerProps?.className, '', {
+  const classes = createClassName(className, '', {
     [createClassName('', direction)]: true,
     [createClassName('', size)]: true,
     [createClassName('', 'dot-style')]: !!dot,
@@ -118,16 +119,17 @@ export const Badge: FC<BadgeNS.Props> = ({
     return styles
   }
 
-  const getContainerStyles: CSSProperties = isTextMode
-    ? {}
+  const containerStyles: CSSProperties = isTextMode
+    ? { ...style }
     : {
+        ...style,
         flexDirection: direction,
         alignItems: direction === 'column-reverse' ? 'flex-end' : 'flex-start',
         justifyContent: direction === 'column' ? 'flex-end' : 'flex-start',
       }
 
   return (
-    <div className={classes} style={getContainerStyles}>
+    <div {...containerProps} {...rest} ref={reference} className={classes} style={containerStyles}>
       {shouldInfoBeRendered && (
         <span className={badgeCountClasses} onClick={onClick} style={getBadgeStyles()}>
           {renderInfo()}

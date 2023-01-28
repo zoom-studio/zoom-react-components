@@ -1,28 +1,29 @@
 import React, { FC } from 'react'
 
 import { useZoomComponent } from '../../hooks'
-import { Color } from '../../types'
+import { BaseComponent, Color } from '../../types'
 import { Button, ButtonNS, Spin } from '..'
 import { colorFnToColor } from '../../utils'
 
 export namespace FilterButtonNS {
   export interface Props
-    extends Pick<
-      ButtonNS.Props,
-      | 'size'
-      | 'disabled'
-      | 'children'
-      | 'href'
-      | 'target'
-      | 'loading'
-      | 'active'
-      | 'disabledOnLoading'
-      | 'prefixMaterialIcon'
-      | 'prefixEmojiIcon'
-      | 'useSpan'
-      | 'className'
-      | 'onClick'
-    > {
+    extends BaseComponent<HTMLButtonElement>,
+      Pick<
+        ButtonNS.Props,
+        | 'size'
+        | 'disabled'
+        | 'children'
+        | 'href'
+        | 'target'
+        | 'loading'
+        | 'active'
+        | 'disabledOnLoading'
+        | 'prefixMaterialIcon'
+        | 'prefixEmojiIcon'
+        | 'useSpan'
+        | 'className'
+        | 'onClick'
+      > {
     color: Color
   }
 }
@@ -32,6 +33,8 @@ export const FilterButton: FC<FilterButtonNS.Props> = ({
   className,
   active,
   loading,
+  containerProps,
+  reference,
   ...rest
 }) => {
   color = colorFnToColor(color)
@@ -53,7 +56,9 @@ export const FilterButton: FC<FilterButtonNS.Props> = ({
       type="secondary"
       loading={loading}
       showSpinOnLoading={false}
+      {...containerProps}
       {...rest}
+      reference={reference}
     >
       <span className={innerChildClasses}>
         {loading ? (

@@ -1,7 +1,7 @@
-import { HTMLAttributes } from 'react'
+import { BaseComponent } from '../../types'
 
 export namespace SkeletonNS {
-  export interface BaseProps extends HTMLAttributes<HTMLDivElement> {
+  export interface BaseProps extends BaseComponent {
     animated?: boolean
   }
 }

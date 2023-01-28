@@ -12,7 +12,7 @@ import { useComponentSize, useZoomComponent } from '../../hooks'
 import { makeElementDraggable } from '../../utils'
 
 import { ButtonNS, Button, Icon, Title } from '..'
-import { CommonSize } from '../../types'
+import { BaseComponent, CommonSize } from '../../types'
 import { logs } from '../../constants'
 
 export namespace DialogNS {
@@ -24,7 +24,7 @@ export namespace DialogNS {
   export interface BodyProps extends HTMLAttributes<HTMLDivElement> {}
   export interface FooterProps extends HTMLAttributes<HTMLDivElement> {}
 
-  export interface Props extends HTMLAttributes<HTMLDivElement> {
+  export interface Props extends BaseComponent {
     isOpen?: boolean
     onClose?: () => void
     closable?: boolean
@@ -44,7 +44,6 @@ export namespace DialogNS {
     headerProps?: HeaderProps
     bodyProps?: BodyProps
     footerProps?: FooterProps
-    dialogRef?: RefObject<HTMLDivElement>
     backdropRef?: RefObject<HTMLDivElement>
   }
 }
@@ -56,7 +55,6 @@ export const Dialog: FC<DialogNS.Props> = ({
   cancelButton = 'انصراف',
   withFullscreenButton = true,
   closable = true,
-  dialogRef: customDialogRef,
   children,
   className,
   isOpen,
@@ -75,10 +73,12 @@ export const Dialog: FC<DialogNS.Props> = ({
   bodyProps,
   footerProps,
   backdropRef,
+  containerProps,
+  reference,
   ...rest
 }) => {
   const size = useComponentSize(providedSize)
-  const dialogRef = customDialogRef ?? useRef<HTMLDivElement>(null)
+  const dialogRef = reference ?? useRef<HTMLDivElement>(null)
   const [isFullscreen, setIsFullscreen] = useState(!!fullScreen)
   const { createClassName, sendLog } = useZoomComponent('dialog')
   const headerClasses = createClassName(headerProps?.className, 'header')
@@ -167,7 +167,7 @@ export const Dialog: FC<DialogNS.Props> = ({
         <>
           <div onClick={close} {...backdropProps} className={backdropClasses} ref={backdropRef} />
 
-          <div {...rest} className={dialogClasses} ref={dialogRef}>
+          <div {...containerProps} {...rest} className={dialogClasses} ref={dialogRef}>
             <div {...headerProps} className={headerClasses}>
               <Title h6 className="title draggable-area">
                 {title}

@@ -1,17 +1,15 @@
-import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes } from 'react'
+import React, { ChangeEvent, FC, FormEvent, HTMLAttributes } from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
 import { InputNS, Spin, Text, TypographyNS } from '..'
-import { CommonSize, DataEntriesState } from '../../types'
+import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types'
 
 export namespace RadioButtonNS {
   export type Value = number | string
 
-  export interface Props
-    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size' | 'name' | 'value'> {
+  export interface Props extends BaseInputComponent, BaseComponent {
     name: string
-    containerProps?: HTMLAttributes<HTMLDivElement>
     stateMessageProps?: TypographyNS.TextNS.Props
     size?: CommonSize
     disabled?: boolean
@@ -39,7 +37,13 @@ export const RadioButton: FC<RadioButtonNS.Props> = ({
   labelProps,
   onChange,
   onInput,
-  ...rest
+  reference,
+  id,
+  onClick,
+  style,
+  inputProps,
+  inputRef,
+  ...otherInputProps
 }) => {
   const size = useComponentSize(providedSize)
   const { createClassName } = useZoomComponent('radio')
@@ -47,7 +51,7 @@ export const RadioButton: FC<RadioButtonNS.Props> = ({
 
   const labelClasses = createClassName(labelProps?.className, 'label')
 
-  const containerClasses = createClassName(containerProps?.className, '', {
+  const containerClasses = createClassName(className, '', {
     [createClassName('', size)]: true,
     [createClassName('', state[0])]: true,
     [createClassName('', loading ? 'loading' : '')]: !!loading,
@@ -73,15 +77,24 @@ export const RadioButton: FC<RadioButtonNS.Props> = ({
   }
 
   return (
-    <div {...containerProps} className={containerClasses}>
+    <div
+      {...containerProps}
+      ref={reference}
+      id={id}
+      onClick={onClick}
+      style={style}
+      className={containerClasses}
+    >
       <label {...labelProps} className={labelClasses}>
         <input
-          {...rest}
+          {...otherInputProps}
+          {...inputProps}
           type="radio"
           className="native-radio"
           disabled={isDisabled}
           onInput={handleOnInput}
           onChange={handleOnChange}
+          ref={inputRef}
         />
 
         <span className="custom-radio">

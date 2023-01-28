@@ -1,12 +1,11 @@
-import React, { ChangeEvent, FC, FormEvent, HTMLAttributes, InputHTMLAttributes } from 'react'
+import React, { ChangeEvent, FC, FormEvent, HTMLAttributes } from 'react'
 
 import { InputNS, Spin, Text, TypographyNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { CommonSize, DataEntriesState } from '../../types'
+import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types'
 
 export namespace SwitchNS {
-  export interface Props extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
-    containerProps?: HTMLAttributes<HTMLDivElement>
+  export interface Props extends BaseInputComponent, BaseComponent {
     stateMessageProps?: TypographyNS.TextNS.Props
     size?: CommonSize
     disabled?: boolean
@@ -33,7 +32,13 @@ export const Switch: FC<SwitchNS.Props> = ({
   onWrite,
   onChange,
   onInput,
-  ...rest
+  reference,
+  id,
+  onClick,
+  style,
+  inputProps,
+  inputRef,
+  ...otherInputProps
 }) => {
   const size = useComponentSize(providedSize)
   const { createClassName } = useZoomComponent('switch')
@@ -41,7 +46,7 @@ export const Switch: FC<SwitchNS.Props> = ({
 
   const labelClasses = createClassName(labelProps?.className, 'label')
 
-  const containerClasses = createClassName(containerProps?.className, '', {
+  const containerClasses = createClassName(className, '', {
     [createClassName('', size)]: true,
     [createClassName('', state[0])]: true,
     [createClassName('', loading ? 'loading' : '')]: !!loading,
@@ -67,15 +72,24 @@ export const Switch: FC<SwitchNS.Props> = ({
   }
 
   return (
-    <div {...containerProps} className={containerClasses}>
+    <div
+      {...containerProps}
+      id={id}
+      onClick={onClick}
+      style={style}
+      ref={reference}
+      className={containerClasses}
+    >
       <label {...labelProps} className={labelClasses}>
         <input
-          {...rest}
+          {...otherInputProps}
+          {...inputProps}
           type="checkbox"
           className="native-switch"
           disabled={isDisabled}
           onInput={handleOnInput}
           onChange={handleOnChange}
+          ref={inputRef}
         />
 
         <div className="custom-switch">

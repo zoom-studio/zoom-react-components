@@ -5,23 +5,21 @@ import React, {
   FormEvent,
   HTMLAttributes,
   RefObject,
-  TextareaHTMLAttributes,
   useRef,
 } from 'react'
 
 import { Spin, SpinNS, Text, TypographyNS } from '..'
 import { logs } from '../../constants'
 import { useComponentSize, useInputDirectionHandler, useZoomComponent } from '../../hooks'
-import { CommonSize, DataEntriesState } from '../../types'
+import { BaseComponent, BaseTextareaComponent, CommonSize, DataEntriesState } from '../../types'
 
 import { color } from '../../utils/color'
 
 export namespace TextareaNS {
   export type TextSize = Pick<TypographyNS.TextNS.Props, 'small' | 'normal' | 'large'>
 
-  export interface Props extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
+  export interface Props extends BaseComponent, BaseTextareaComponent {
     onWrite?: (value: string) => void
-    containerProps?: HTMLAttributes<HTMLDivElement>
     labelProps?: HTMLAttributes<HTMLSpanElement>
     labelContainerProps?: HTMLAttributes<HTMLLabelElement>
     labelTextProps?: TypographyNS.TextNS.Props
@@ -34,7 +32,6 @@ export namespace TextareaNS {
     loading?: boolean
     labelColon?: boolean
     disabledOnLoading?: boolean
-    textareaRef?: RefObject<HTMLTextAreaElement>
     labelRef?: RefObject<HTMLLabelElement>
     autoHeight?: boolean
     minHeight?: number | string
@@ -69,7 +66,12 @@ export const Textarea: FC<TextareaNS.Props> = ({
   onChange,
   onBlur,
   onFocus,
-  ...rest
+  reference,
+  id,
+  onClick,
+  style,
+  textareaProps,
+  ...otherTextareaProps
 }) => {
   const size = useComponentSize(providedSize)
   const textareaRef = providedTextareaRef ?? useRef<HTMLTextAreaElement>(null)
@@ -92,7 +94,7 @@ export const Textarea: FC<TextareaNS.Props> = ({
 
   const labelContainerClasses = createClassName(labelContainerProps?.className, 'label-container')
 
-  const containerClasses = createClassName(containerProps?.className, 'container', {
+  const containerClasses = createClassName(className, 'container', {
     [createClassName('', size)]: true,
     [createClassName('', state[0])]: true,
     [createClassName('', loading ? 'loading' : '')]: !!loading,
@@ -156,7 +158,14 @@ export const Textarea: FC<TextareaNS.Props> = ({
   }
 
   return (
-    <div {...containerProps} className={containerClasses}>
+    <div
+      {...containerProps}
+      ref={reference}
+      onClick={onClick}
+      id={id}
+      style={style}
+      className={containerClasses}
+    >
       <label {...labelContainerProps} className={labelContainerClasses} ref={labelRef}>
         {(label || loading) && (
           <span {...labelProps} className={labelClasses}>
@@ -170,7 +179,8 @@ export const Textarea: FC<TextareaNS.Props> = ({
         )}
 
         <textarea
-          {...rest}
+          {...textareaProps}
+          {...otherTextareaProps}
           className={textareaClasses}
           ref={textareaRef}
           onChange={handleOnChange}

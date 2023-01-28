@@ -14,6 +14,8 @@ export namespace ParagraphSkeletonNS {
 export const ParagraphSkeleton: FC<ParagraphSkeletonNS.Props> = ({
   lines = 4,
   className,
+  containerProps,
+  reference,
   ...baseProps
 }) => {
   const { animatedClasses } = useSkeleton(baseProps)
@@ -26,7 +28,7 @@ export const ParagraphSkeleton: FC<ParagraphSkeletonNS.Props> = ({
   }
 
   return (
-    <div {...baseProps} className={classes}>
+    <div {...baseProps} {...containerProps} className={classes} ref={reference}>
       {Array.from(Array(lines)).map((_, index) => (
         <span key={index} className={animatedClasses} style={{ width: getLineLength() }} />
       ))}

@@ -1,17 +1,17 @@
-import React, { FC, HTMLAttributes, useMemo, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 
 import { chunk, drop, groupBy } from 'lodash'
 
 import { Emoji, EmojiNS, Icon, IconNS, Text, Tooltip, VirtualizedScrollView } from '..'
 import { useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
 
 export namespace EmojiPickerNS {
   export const CACHE_KEY = 'zoomrc-emoji-picker-history'
 
   export type Collection = EmojiNS.Emojis.GroupNames | 'History'
 
-  export interface Props {
-    containerProps?: HTMLAttributes<HTMLDivElement>
+  export interface Props extends BaseComponent {
     onSelect?: (emoji: EmojiNS.Emojis.Names) => void
     cacheLength?: number
     defaultMemoizedEmojis?: EmojiNS.Emojis.Names[]
@@ -51,6 +51,9 @@ export const EmojiPicker: FC<EmojiPickerNS.Props> = ({
   emojisPerRow = 10,
   containerProps,
   onSelect,
+  className,
+  reference,
+  ...rest
 }) => {
   const [collection, setCollection] = useState<EmojiPickerNS.Collection>(defaultActiveCollection)
   const [hoveredEmoji, setHoveredEmoji] = useState<EmojiNS.Emojis.Names | null>(null)
@@ -75,7 +78,7 @@ export const EmojiPicker: FC<EmojiPickerNS.Props> = ({
     return i18n?.emojiPicker?.emojis?.[emojiName] ?? emojiName
   }
 
-  const containerClasses = createClassName(containerProps?.className)
+  const containerClasses = createClassName(className)
 
   const headerItems: EmojiPickerNS.HeaderItem[] = [
     { collection: 'History', icon: 'history' },
@@ -149,7 +152,7 @@ export const EmojiPicker: FC<EmojiPickerNS.Props> = ({
   }, [collection, emojisPerRow])
 
   return (
-    <div {...containerProps} className={containerClasses}>
+    <div {...containerProps} {...rest} ref={reference} className={containerClasses}>
       <div className="header">
         {headerItems.map((item, index) => (
           <Tooltip key={index} title={getCollectionName(item.collection)}>

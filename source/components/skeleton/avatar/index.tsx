@@ -21,6 +21,8 @@ export const AvatarSkeleton: FC<AvatarSkeletonNS.Props> = ({
   groupLength = 3,
   className,
   customSize,
+  containerProps,
+  reference,
   ...baseProps
 }) => {
   const { animatedClasses } = useSkeleton(baseProps)
@@ -44,7 +46,7 @@ export const AvatarSkeleton: FC<AvatarSkeletonNS.Props> = ({
   }
 
   return (
-    <div {...baseProps} className={classes}>
+    <div {...baseProps} {...containerProps} className={classes} ref={reference}>
       {Array.from(Array(type === 'group' ? groupLength : 1)).map((_, index) => (
         <span key={index} className={animatedClasses} style={getSkeletonStyles()}>
           <span className="avatar-icon" />

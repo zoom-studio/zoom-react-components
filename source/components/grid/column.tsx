@@ -1,12 +1,12 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC } from 'react'
 
 import { useZoomComponent } from '../../hooks'
-import { Range } from '../../types'
+import { BaseComponent, Range } from '../../types'
 
 export namespace ColNS {
   export type ColumnsRange = Range<1, 25>
 
-  export interface Props extends HTMLAttributes<HTMLDivElement> {
+  export interface Props extends BaseComponent {
     xs?: ColumnsRange
     sm?: ColumnsRange
     md?: ColumnsRange
@@ -21,6 +21,8 @@ export const Col: FC<ColNS.Props> = ({
   lg,
   children,
   className,
+  containerProps,
+  reference,
   ...rest
 }): JSX.Element => {
   const { createClassName } = useZoomComponent('col')
@@ -33,7 +35,7 @@ export const Col: FC<ColNS.Props> = ({
   })
 
   return (
-    <div {...rest} className={classNames}>
+    <div {...rest} {...containerProps} ref={reference} className={classNames}>
       {children}
     </div>
   )

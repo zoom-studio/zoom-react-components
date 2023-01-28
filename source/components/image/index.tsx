@@ -1,15 +1,9 @@
-import React, {
-  FC,
-  HTMLAttributes,
-  ImgHTMLAttributes,
-  MouseEvent,
-  SyntheticEvent,
-  useState,
-} from 'react'
+import React, { FC, HTMLAttributes, MouseEvent, SyntheticEvent, useState } from 'react'
 
 import { ConditionalWrapper, Icon, ImageViewer, ImageViewerNS, Skeleton } from '..'
 import { logs } from '../../constants'
 import { useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
 
 export namespace ImageNS {
   export const Shapes = [
@@ -22,11 +16,7 @@ export namespace ImageNS {
   ] as const
   export type Shapes = typeof Shapes[number]
 
-  export interface Props
-    extends Omit<
-      ImgHTMLAttributes<HTMLImageElement>,
-      'loading' | 'src' | 'alt' | 'width' | 'height'
-    > {
+  export interface Props extends BaseComponent<HTMLImageElement> {
     src: string
     name?: string
     lazy?: boolean
@@ -38,7 +28,6 @@ export namespace ImageNS {
     imageViewerCustomImages?: ImageViewerNS.Image[]
     shape?: Shapes
     imageViewerProps?: Omit<ImageViewerNS.Props, 'images' | 'children'>
-    containerProps?: HTMLAttributes<HTMLPictureElement>
     erroredStateIconFontSize?: string
   }
 }
@@ -56,6 +45,10 @@ export const Image: FC<ImageNS.Props> = ({
   src,
   imageViewerCustomImages,
   alt,
+  className,
+  imageViewerProps,
+  reference,
+  onClick,
   ...rest
 }) => {
   const squarishShapes: ImageNS.Shapes[] = ['circle', 'semi-circle', 'sharp-square', 'square']
@@ -68,14 +61,14 @@ export const Image: FC<ImageNS.Props> = ({
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
 
-  const containerClasses = createClassName(providedContainerProps?.className, '', {
+  const containerClasses = createClassName(className, '', {
     loading: isLoading,
     errored: hasError,
     [createClassName('', shape)]: true,
   })
 
   const handleOnLoad = (evt: SyntheticEvent<HTMLImageElement>) => {
-    rest.onLoad?.(evt)
+    providedContainerProps?.onLoad?.(evt)
     setIsLoading(false)
     setHasError(false)
   }
@@ -84,11 +77,11 @@ export const Image: FC<ImageNS.Props> = ({
     sendLog(logs.imageNotLoaded, `Image source: ${src}`)
     setIsLoading(false)
     setHasError(true)
-    rest.onError?.(evt)
+    providedContainerProps?.onError?.(evt)
   }
 
   const handleOnClick = (evt: MouseEvent<HTMLImageElement>) => {
-    rest.onClick?.(evt)
+    onClick?.(evt)
   }
 
   const containerProps: HTMLAttributes<HTMLPictureElement> = {
@@ -103,6 +96,7 @@ export const Image: FC<ImageNS.Props> = ({
       falseWrapper={children => <picture {...containerProps}>{children}</picture>}
       trueWrapper={children => (
         <ImageViewer
+          {...imageViewerProps}
           images={imageViewerCustomImages ?? [{ name: name ?? alt ?? src, source: src }]}
         >
           {({ openImageViewer }) => (
@@ -125,6 +119,7 @@ export const Image: FC<ImageNS.Props> = ({
         onLoad={handleOnLoad}
         onError={handleOnError}
         onClick={handleOnClick}
+        ref={reference}
         src={src}
         {...rest}
       />

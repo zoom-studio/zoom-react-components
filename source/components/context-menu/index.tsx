@@ -2,7 +2,6 @@ import React, {
   createElement,
   FC,
   FunctionComponentElement,
-  HTMLAttributes,
   MouseEvent,
   ReactNode,
   RefObject,
@@ -14,15 +13,16 @@ import { useZoomComponent } from '../../hooks'
 
 import { Menu, MenuNS } from '..'
 import { logs } from '../../constants'
+import { BaseComponent } from '../../types'
 
 export namespace ContextMenuNS {
   export type Menu = FunctionComponentElement<MenuNS.Props> | null
 
-  export interface Props extends HTMLAttributes<HTMLDivElement> {
+  export interface Props extends Omit<BaseComponent, 'reference'> {
     children?: ReactNode
     items: MenuNS.Item[]
     menuProps?: Omit<MenuNS.Props, 'items'>
-    containerRef?: RefObject<HTMLDivElement> | ((element: HTMLDivElement | null) => void)
+    reference?: RefObject<HTMLDivElement> | ((element: HTMLDivElement | null) => void)
   }
 }
 
@@ -31,8 +31,9 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
   children,
   items,
   className,
-  containerRef,
   onClick,
+  containerProps,
+  reference,
   ...rest
 }) => {
   const [menuComponent, setMenuComponent] = useState<ContextMenuNS.Menu>(null)
@@ -61,16 +62,12 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
     }
   }
 
-  const handleClick = (evt: MouseEvent<HTMLDivElement>) => {
-    onClick?.(evt)
-  }
-
   const handleOnClicks = (evt: MouseEvent<HTMLDivElement>) => {
     evt.preventDefault()
     evt.stopPropagation()
 
     if (evt.type === 'click' || evt.nativeEvent.which === 1) {
-      handleClick(evt)
+      onClick?.(evt)
     } else if (evt.type === 'contextmenu' || evt.nativeEvent.which === 3) {
       handleContextMenu(evt)
     }
@@ -80,7 +77,7 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
     ...userMenuProps,
     items,
     onClose: () => setMenuComponent(null),
-    containerRef: menuButtonRef,
+    reference: menuButtonRef,
     style: { visibility: 'hidden', position: 'fixed' },
   }
 
@@ -90,7 +87,7 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
       className={containerClasses}
       onContextMenu={handleOnClicks}
       onClick={handleOnClicks}
-      ref={containerRef}
+      ref={reference}
     >
       {menuComponent}
       {children}

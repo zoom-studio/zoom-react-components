@@ -18,9 +18,13 @@ export const CircularProgress: FC<ProgressNS.Props> = ({
   dynamicColors,
   dynamicInfo,
   showInfo,
+  className,
+  reference,
+  style,
+  ...rest
 }) => {
   const { createClassName } = useZoomComponent('progress')
-  const classes = createClassName(containerProps?.className, 'circular')
+  const classes = createClassName(className, 'circular')
   const backgroundClasses = createClassName('', 'background')
   const progressClasses = createClassName('', 'bar')
   const defaultPercentage = 78
@@ -41,7 +45,13 @@ export const CircularProgress: FC<ProgressNS.Props> = ({
   }
 
   return (
-    <div className={classes} style={{ width: size, height: size }}>
+    <div
+      {...rest}
+      {...containerProps}
+      className={classes}
+      ref={reference}
+      style={{ ...style, width: size, height: size }}
+    >
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <circle {...circlesProps} strokeWidth={`${stroke}px`} className={backgroundClasses} />
         <circle

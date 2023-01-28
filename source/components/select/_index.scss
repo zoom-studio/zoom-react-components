@@ -1,7 +1,6 @@
 @use 'sass:math';
 @import 'mixins';
 
-$zoomrc-select-label-left-padding: 6px;
 $zoomrc-select-group-right-padding: 26px;
 $zoomrc-select-guide-line-color: color(border, 2, lighter, 1);
 $zoomrc-select-guide-line-transition: all 100ms linear;
@@ -54,6 +53,7 @@ div.zoomrc-select {
     cursor: pointer;
     background-color: color(layer, 3);
     transition: box-shadow 150ms linear;
+    column-gap: 6px;
 
     > .select-label,
     > .zoomrc-select-value,
@@ -61,7 +61,6 @@ div.zoomrc-select {
       @include truncate;
 
       margin: 0;
-      padding-left: $zoomrc-select-label-left-padding;
       direction: rtl;
       text-align: right;
     }
@@ -284,8 +283,6 @@ div.zoomrc-select {
       > .zoomrc-select-placeholder {
         direction: ltr;
         text-align: left;
-        padding-left: 0;
-        padding-right: $zoomrc-select-label-left-padding;
       }
     }
 

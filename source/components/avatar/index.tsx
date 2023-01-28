@@ -1,14 +1,13 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC } from 'react'
 
 import { Image, ImageNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { CommonSize } from '../../types'
+import { BaseComponent, CommonSize } from '../../types'
 
 export namespace AvatarNS {
-  export interface Props {
+  export interface Props extends BaseComponent {
     avatars: string[]
     size?: CommonSize
-    containerProps?: HTMLAttributes<HTMLDivElement>
     withImageViewer?: boolean
     imageProps?: Omit<ImageNS.Props, 'src'>
   }
@@ -20,17 +19,20 @@ export const Avatar: FC<AvatarNS.Props> = ({
   containerProps,
   withImageViewer,
   imageProps,
+  className,
+  reference,
+  ...rest
 }) => {
   const size = useComponentSize(providedSize)
   const { createClassName } = useZoomComponent('avatar')
 
-  const classes = createClassName(containerProps?.className, '', {
+  const classes = createClassName(className, '', {
     [createClassName('', size)]: true,
     [createClassName('', 'grouped')]: avatars.length > 1,
   })
 
   return (
-    <div className={classes}>
+    <div {...containerProps} {...rest} ref={reference} className={classes}>
       {avatars.map((avatar, index) => (
         <Image
           src={avatar}

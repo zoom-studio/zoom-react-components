@@ -1,12 +1,13 @@
-import React, { FC, HTMLAttributes, useEffect, useRef } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 
 import { InitializationTarget } from 'overlayscrollbars'
 import { useOverlayScrollbars } from 'overlayscrollbars-react'
 
 import { useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
 
 export namespace ScrollViewNS {
-  export interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onScroll'> {
+  export interface Props extends BaseComponent {
     onScroll?: (evt: Event) => void
     autoHide?: boolean
     maxWidth?: string | number
@@ -20,9 +21,12 @@ export const ScrollView: FC<ScrollViewNS.Props> = ({
   onScroll,
   maxWidth,
   maxHeight,
+  containerProps,
+  reference,
+  style,
   ...rest
 }) => {
-  const scrollViewRef = useRef<HTMLDivElement | null>(null)
+  const scrollViewRef = reference ?? useRef<HTMLDivElement | null>(null)
 
   const [initialize] = useOverlayScrollbars({
     defer: true,
@@ -56,9 +60,10 @@ export const ScrollView: FC<ScrollViewNS.Props> = ({
   return (
     <div
       {...rest}
+      {...containerProps}
       ref={scrollViewRef}
       className={classes}
-      style={{ ...rest.style, maxWidth, maxHeight }}
+      style={{ ...style, maxWidth, maxHeight }}
     />
   )
 }

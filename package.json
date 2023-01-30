@@ -71,7 +71,6 @@
   },
   "dependencies": {
     "@zoom-studio/zoom-js-ts-utils": "file:../zoom-web-utils/dist",
-    "add": "^2.0.6",
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.0.3",
     "overlayscrollbars-react": "^0.5.0",
@@ -81,8 +80,7 @@
     "react-to-print": "^2.14.11",
     "react-virtualized-auto-sizer": "^1.0.7",
     "react-window": "^1.8.8",
-    "react-zoom-pan-pinch": "^2.2.0",
-    "yarn": "^1.22.19"
+    "react-zoom-pan-pinch": "^2.2.0"
   },
   "peerDependencies": {
     "react": "^18.2.0",

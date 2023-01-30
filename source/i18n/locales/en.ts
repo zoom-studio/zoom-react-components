@@ -208,4 +208,10 @@ export const ENTranslations: typeof FATranslations = {
   mention: {
     placeholder: 'Type something or @mention folks',
   },
+
+  alert: {
+    title: 'An example title to put as the title of the alert component',
+    description:
+      'Some relatively longer descriptions so that it can be used as a description of the alert component and users can read it and use it and be alerted and be informed of something important to say.',
+  },
 }

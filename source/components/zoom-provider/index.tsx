@@ -9,9 +9,11 @@ import React, {
 } from 'react'
 
 import { Message } from '../message'
+import { AlertProvider } from '../alert/provider'
 
 import { CustomLinkNS } from '../custom-link'
 import { CommonSize } from '../../types'
+import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace ZoomProviderNS {
   export const Themes = ['dark', 'dark-high-contrast', 'light', 'light-high-contrast'] as const
@@ -33,6 +35,7 @@ export namespace ZoomProviderNS {
   export interface Props extends Omit<ProviderValue, 'setIsDarwin'> {
     children?: ReactNode
     withMessage?: boolean
+    withAlert?: boolean
   }
 }
 
@@ -58,8 +61,14 @@ export const ZoomProvider: FC<ZoomProviderNS.Props> = props => {
 
   return (
     <ZoomContext.Provider value={{ ...props, isDarwin, setIsDarwin, defaultComponentsSize }}>
-      {props.withMessage && <Message />}
-      {props.children}
+      <ConditionalWrapper
+        condition={props.withAlert}
+        trueWrapper={children => <AlertProvider>{children}</AlertProvider>}
+        falseWrapper={children => <>{children}</>}
+      >
+        {props.withMessage && <Message />}
+        {props.children}
+      </ConditionalWrapper>
     </ZoomContext.Provider>
   )
 }

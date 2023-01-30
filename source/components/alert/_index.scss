@@ -1,13 +1,58 @@
 @import 'mixins';
 
+$symbol-size: 40px;
+
+@keyframes zoomrc-show-alert-animation {
+  from {
+    transform: rotateX(40deg);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes zoomrc-show-alert-background-disabler-animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.zoomrc-alert-document-disabler {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 99;
+  background-color: color(backdrop);
+  animation: zoomrc-show-alert-background-disabler-animation 400ms ease;
+}
+
 .zoomrc-alert {
   border-width: 2px;
   border-style: solid;
   border-radius: 6px;
   user-select: none;
+  animation: zoomrc-show-alert-animation 400ms ease;
 
   @each $variant in $common-variants {
     @include zoomrc-generate-alert-variants($variant);
+  }
+
+  &-document-disabled {
+    position: relative;
+    z-index: 100;
   }
 
   &-banner {
@@ -27,8 +72,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-width: 40px;
-      min-height: 40px;
+      min-width: $symbol-size;
+      min-height: $symbol-size;
       border-radius: 40%;
 
       > .zoomrc-icon {
@@ -44,9 +89,14 @@
       display: flex;
       flex-direction: column;
       row-gap: 10px;
+      flex: 1;
 
-      > .alert-title {
+      > .zoomrc-alert-title {
         margin: 0;
+
+        &.with-more-content {
+          min-height: $symbol-size;
+        }
       }
 
       > .alert-description {
@@ -59,6 +109,17 @@
       flex-direction: column;
       min-width: fit-content;
       row-gap: 4px;
+    }
+
+    > .content,
+    > .closer,
+    > .actions,
+    > .zoomrc-spin {
+      padding: 8px 0;
+    }
+
+    > .zoomrc-spin {
+      margin: 4px 2px;
     }
   }
 }

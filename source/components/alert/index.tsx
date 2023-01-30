@@ -11,30 +11,35 @@ import {
   EmojiNS,
   Icon,
   IconNS,
+  Spin,
   Text,
   Title,
+  useAlert,
 } from '..'
 
 export namespace AlertNS {
-  export interface ChildrenCallbackParams extends Pick<Props, 'identifier'> {
-    close: () => void
+  export type Identifier = string | number
+
+  export interface HandlerCallbackParams extends Pick<Props, 'identifier'> {
+    destroy: () => void
   }
 
   export interface Props
     extends Omit<BaseComponent, 'children'>,
       Omit<UseStatedIcon.Params, 'variant'> {
+    identifier: Identifier
     title?: string
     description?: string
     variant?: CommonVariants
-    actions?: ButtonNS.Props[]
+    actions?: ButtonNS.Props[] | ((params: HandlerCallbackParams) => ButtonNS.Props[])
     closable?: boolean
-    onWillClose?: () => void
+    onWillClose?: (identifier: Identifier) => void
     banner?: boolean
-    identifier: number
-    children?: ReactNode | ((params: ChildrenCallbackParams) => ReactNode)
+    children?: ReactNode | ((params: HandlerCallbackParams) => ReactNode)
     disableDocument?: boolean
-    isOpen?: boolean
     fluidContent?: boolean
+    openByDefault?: boolean
+    loading?: boolean
   }
 }
 
@@ -42,6 +47,8 @@ export const Alert: FC<AlertNS.Props> = ({
   variant = 'neutral',
   closable = true,
   fluidContent = true,
+  openByDefault = true,
+  loading,
   disableDocument,
   className,
   containerProps,
@@ -56,12 +63,10 @@ export const Alert: FC<AlertNS.Props> = ({
   description,
   children,
   title,
-  isOpen,
   ...rest
 }) => {
-  if (!isOpen) {
-    return <></>
-  }
+  const alert = useAlert()
+  const isOpen = alert.isOpen(identifier)
 
   const { createClassName } = useZoomComponent('alert')
   const [iconName, iconType] = useStatedIcon({ emoji, variant, icon, noIconAndEmoji })
@@ -69,76 +74,101 @@ export const Alert: FC<AlertNS.Props> = ({
   const classes = createClassName(className, '', {
     [createClassName('', variant)]: true,
     [createClassName('', 'banner')]: !!banner,
+    [createClassName('', 'document-disabled')]: !!disableDocument,
+  })
+
+  const documentDisabledClasses = createClassName('', 'document-disabler')
+
+  const titleClasses = createClassName('', 'title', {
+    'with-more-content': !!children || !!description,
   })
 
   const handleCloseAlert = () => {
     if (!closable) {
       return null
     }
-    onWillClose?.()
+    onWillClose?.(identifier)
+    alert.destroy(identifier)
   }
 
-  const handleDisableDocument = () => {}
-
-  const handleEnableDocument = () => {}
-
   useEffect(() => {
-    if (disableDocument) {
-      handleDisableDocument()
-    } else {
-      handleEnableDocument()
+    if (openByDefault) {
+      alert.show(identifier)
     }
-  }, [disableDocument])
+  }, [])
 
-  return (
-    <div {...containerProps} {...rest} ref={reference} className={classes}>
-      <Container fluid={fluidContent}>
-        <ConditionalWrapper
-          condition={iconType !== 'nothing' && !!iconName}
-          trueWrapper={child => <div className="symbol-container">{child}</div>}
-        >
-          {iconType === 'icon' ? (
-            <Icon name={iconName as IconNS.Names} />
-          ) : (
-            <Emoji className="emoji" name={iconName as EmojiNS.Emojis.Names} />
-          )}
-        </ConditionalWrapper>
+  return isOpen ? (
+    <>
+      {disableDocument && <div className={documentDisabledClasses} />}
 
-        <div className="content">
-          {title && <Title className="alert-title">{title}</Title>}
+      <div
+        {...containerProps}
+        {...rest}
+        ref={reference}
+        className={classes}
+        data-identifier={identifier}
+      >
+        <Container fluid={fluidContent}>
+          <ConditionalWrapper
+            condition={iconType !== 'nothing' && !!iconName}
+            trueWrapper={child => <div className="symbol-container">{child}</div>}
+          >
+            {iconType === 'icon' ? (
+              <Icon name={iconName as IconNS.Names} />
+            ) : (
+              <Emoji className="emoji" name={iconName as EmojiNS.Emojis.Names} />
+            )}
+          </ConditionalWrapper>
 
-          {description && <Text className="alert-description">{description}</Text>}
+          <div className="content">
+            {title && <Title className={titleClasses}>{title}</Title>}
 
-          {children && (
-            <div className="children">
-              {typeof children === 'function'
-                ? children({ close: handleCloseAlert, identifier })
-                : children}
+            {description && <Text className="alert-description">{description}</Text>}
+
+            {children && (
+              <div className="children">
+                {typeof children === 'function'
+                  ? children({ destroy: handleCloseAlert, identifier })
+                  : children}
+              </div>
+            )}
+          </div>
+
+          {actions && (
+            <div className="actions">
+              {[
+                typeof actions === 'function'
+                  ? actions({ destroy: handleCloseAlert, identifier })
+                  : actions,
+              ][0].map((action, index) => (
+                <Button key={index} size="small" {...action} />
+              ))}
             </div>
           )}
-        </div>
 
-        {actions && (
-          <div className="actions">
-            {actions.map((action, index) => (
-              <Button key={index} size="small" {...action} />
-            ))}
-          </div>
-        )}
-
-        {closable && (
-          <div className="closer">
-            <Button
-              suffixMaterialIcon="close"
-              size="large"
-              shape="circle"
-              onClick={handleCloseAlert}
-              type="link"
-              variant={variant}
+          {loading ? (
+            <Spin
+              size="small"
+              color={color => color({ source: variant === 'neutral' ? 'text' : variant, tone: 2 })}
             />
-          </div>
-        )}
-      </Container>
-    </div>
+          ) : (
+            closable && (
+              <div className="closer">
+                <Button
+                  suffixMaterialIcon="close"
+                  size="large"
+                  shape="circle"
+                  onClick={handleCloseAlert}
+                  type="link"
+                  variant={variant}
+                />
+              </div>
+            )
+          )}
+        </Container>
+      </div>
+    </>
+  ) : (
+    <></>
   )
 }

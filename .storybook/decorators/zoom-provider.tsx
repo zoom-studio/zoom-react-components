@@ -38,6 +38,7 @@ export const ZoomProvider = (
       theme={theme}
       isRTL={localeDirection === 'rtl'}
       withMessage
+      withAlert
       defaultComponentsSize="normal"
     >
       <ZoomLogProvider

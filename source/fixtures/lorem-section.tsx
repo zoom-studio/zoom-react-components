@@ -42,45 +42,70 @@ export const useCreateLoremSectionRefs = () => {
   const imageRef2 = useRef<HTMLImageElement | null>(null)
   const imageRef3 = useRef<HTMLImageElement | null>(null)
   const imageRef4 = useRef<HTMLImageElement | null>(null)
+  const imageRef5 = useRef<HTMLImageElement | null>(null)
+  const imageRef6 = useRef<HTMLImageElement | null>(null)
+
   const titleRef1 = useRef<HTMLHeadingElement | null>(null)
   const titleRef2 = useRef<HTMLHeadingElement | null>(null)
   const titleRef3 = useRef<HTMLHeadingElement | null>(null)
   const titleRef4 = useRef<HTMLHeadingElement | null>(null)
+  const titleRef5 = useRef<HTMLHeadingElement | null>(null)
+  const titleRef6 = useRef<HTMLHeadingElement | null>(null)
+
   const descriptionRef1 = useRef<HTMLParagraphElement | null>(null)
   const descriptionRef2 = useRef<HTMLParagraphElement | null>(null)
   const descriptionRef3 = useRef<HTMLParagraphElement | null>(null)
   const descriptionRef4 = useRef<HTMLParagraphElement | null>(null)
+  const descriptionRef5 = useRef<HTMLParagraphElement | null>(null)
+  const descriptionRef6 = useRef<HTMLParagraphElement | null>(null)
+
   const buttonRef1 = useRef<HTMLButtonElement | null>(null)
   const buttonRef2 = useRef<HTMLButtonElement | null>(null)
   const buttonRef3 = useRef<HTMLButtonElement | null>(null)
   const buttonRef4 = useRef<HTMLButtonElement | null>(null)
+  const buttonRef5 = useRef<HTMLButtonElement | null>(null)
+  const buttonRef6 = useRef<HTMLButtonElement | null>(null)
+
   return {
-    imgRef1: imageRef1,
-    imgRef2: imageRef2,
-    imgRef3: imageRef3,
-    imgRef4: imageRef4,
-    ttlRef1: titleRef1,
-    ttlRef2: titleRef2,
-    ttlRef3: titleRef3,
-    ttlRef4: titleRef4,
-    dcpRef1: descriptionRef1,
-    dcpRef2: descriptionRef2,
-    dcpRef3: descriptionRef3,
-    dcpRef4: descriptionRef4,
-    btnRef1: buttonRef1,
-    btnRef2: buttonRef2,
-    btnRef3: buttonRef3,
-    btnRef4: buttonRef4,
+    img1: imageRef1,
+    img2: imageRef2,
+    img3: imageRef3,
+    img4: imageRef4,
+    img5: imageRef5,
+    img6: imageRef6,
+
+    ttl1: titleRef1,
+    ttl2: titleRef2,
+    ttl3: titleRef3,
+    ttl4: titleRef4,
+    ttl5: titleRef5,
+    ttl6: titleRef6,
+
+    dcp1: descriptionRef1,
+    dcp2: descriptionRef2,
+    dcp3: descriptionRef3,
+    dcp4: descriptionRef4,
+    dcp5: descriptionRef5,
+    dcp6: descriptionRef6,
+
+    btn1: buttonRef1,
+    btn2: buttonRef2,
+    btn3: buttonRef3,
+    btn4: buttonRef4,
+    btn5: buttonRef5,
+    btn6: buttonRef6,
   }
 }
 
 export const LoremPage: FC<{ refs: ReturnType<typeof useCreateLoremSectionRefs> }> = ({ refs }) => {
   return (
     <Container>
-      {createLoremSection(true, refs.imgRef1, refs.ttlRef1, refs.dcpRef1, refs.btnRef1)}
-      {createLoremSection(false, refs.imgRef2, refs.ttlRef2, refs.dcpRef2, refs.btnRef2)}
-      {createLoremSection(true, refs.imgRef3, refs.ttlRef3, refs.dcpRef3, refs.btnRef3)}
-      {createLoremSection(false, refs.imgRef4, refs.ttlRef4, refs.dcpRef4, refs.btnRef4)}
+      {createLoremSection(true, refs.img1, refs.ttl1, refs.dcp1, refs.btn1)}
+      {createLoremSection(false, refs.img2, refs.ttl2, refs.dcp2, refs.btn2)}
+      {createLoremSection(true, refs.img3, refs.ttl3, refs.dcp3, refs.btn3)}
+      {createLoremSection(false, refs.img4, refs.ttl4, refs.dcp4, refs.btn4)}
+      {createLoremSection(true, refs.img5, refs.ttl5, refs.dcp5, refs.btn5)}
+      {createLoremSection(false, refs.img6, refs.ttl6, refs.dcp6, refs.btn6)}
     </Container>
   )
 }

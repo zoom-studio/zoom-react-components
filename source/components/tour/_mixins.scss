@@ -1,0 +1,46 @@
+@mixin zoomrc-tour-steps-container-positions {
+  &-top-end {
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  &-top-center {
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  &-top-start {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  &-center-end {
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &-center {
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-center-start {
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &-bottom-end {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  &-bottom-center {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  &-bottom-start {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+}

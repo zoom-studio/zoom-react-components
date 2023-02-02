@@ -144,9 +144,6 @@ export const Steps: FC<StepsNS.Props> = ({
       case 'ArrowLeft': {
         return handleNavigateTo('prev')
       }
-      case 'Escape': {
-        return handleStopTour()
-      }
     }
   }
 

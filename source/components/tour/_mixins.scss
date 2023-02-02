@@ -1,0 +1,25 @@
+@use 'sass:map';
+
+// $x-property: left | right;
+@mixin zoomrc-generate-tour-step-positions($x-property) {
+  @each $p in $zoomrc-tour-step-positions {
+    $positions: zoomrc-get-tour-step-position($p);
+    $x-axis: map.get($positions, x);
+    $y-axis: map.get($positions, y);
+    $translate-x: map.get($positions, translate-x);
+    $translate-y: map.get($positions, translate-y);
+    $anti-x-property: if($x-property == left, right, left);
+    $translate-x: if(
+      $translate-x == 0,
+      0,
+      if($x-property == right, $translate-x * -1, $translate-x)
+    );
+
+    &-#{$p} > .zoomrc-tour {
+      #{$anti-x-property}: unset;
+      #{$x-property}: $x-axis;
+      top: $y-axis;
+      transform: translate($translate-x, $translate-y);
+    }
+  }
+}

@@ -93,14 +93,18 @@ export const Image: FC<ImageNS.Props> = ({
   return (
     <ConditionalWrapper
       condition={withImageViewer}
-      falseWrapper={children => <picture {...containerProps}>{children}</picture>}
+      falseWrapper={children => (
+        <picture {...containerProps} ref={reference}>
+          {children}
+        </picture>
+      )}
       trueWrapper={children => (
         <ImageViewer
           {...imageViewerProps}
           images={imageViewerCustomImages ?? [{ name: name ?? alt ?? src, source: src }]}
         >
           {({ openImageViewer }) => (
-            <picture {...containerProps} onClick={openImageViewer}>
+            <picture {...containerProps} ref={reference} onClick={openImageViewer}>
               {children}
 
               {!isLoading && !hasError && (
@@ -119,7 +123,6 @@ export const Image: FC<ImageNS.Props> = ({
         onLoad={handleOnLoad}
         onError={handleOnError}
         onClick={handleOnClick}
-        ref={reference}
         src={src}
         {...rest}
       />

@@ -1,0 +1,26 @@
+@function zoomrc-get-tour-step-position($position) {
+  $p: $position;
+  $x-axis: 0;
+  $y-axis: 0;
+
+  @if $p == top-center or $p == center or $p == bottom-center {
+    $x-axis: 50%;
+  }
+
+  @if $p == top-start or $p == center-start or $p == bottom-start {
+    $x-axis: 100%;
+  }
+
+  @if $p == center-end or $p == center or $p == center-start {
+    $y-axis: 50%;
+  }
+
+  @if $p == bottom-end or $p == bottom-center or $p == bottom-start {
+    $y-axis: 100%;
+  }
+
+  $translate-x: if($x-axis == 0, 0, $x-axis * -1);
+  $translate-y: if($y-axis == 0, 0, $y-axis * -1);
+
+  @return (x: $x-axis, y: $y-axis, translate-x: $translate-x, translate-y: $translate-y);
+}

@@ -1,13 +1,14 @@
-import React, { FC, MutableRefObject, useEffect, useState } from 'react'
+import React, { FC, MutableRefObject, useContext, useEffect, useState } from 'react'
 
 import { TourNS } from '.'
-import { useZoomComponent } from '../../hooks'
-import { Container } from '../grid'
+import { Button, Container, Emoji, Icon, Spin, Text, Title, zoomLogContext } from '..'
+import { useZoomComponent, useZoomContext } from '../../hooks'
 
 export namespace StepsNS {
   export interface Props extends Omit<TourNS.Props, 'children'> {
     startTourRef: MutableRefObject<null | TourNS.ChildrenCallbackParams['startTour']>
     stopTourRef: MutableRefObject<null | TourNS.ChildrenCallbackParams['stopTour']>
+    navigateToRef: MutableRefObject<null | TourNS.ChildrenCallbackParams['navigateTo']>
   }
 }
 
@@ -23,40 +24,59 @@ export const Steps: FC<StepsNS.Props> = ({
   backdropProps,
   startTourRef,
   stopTourRef,
+  navigateToRef,
   ...rest
 }) => {
   const [isStarted, setIsStarted] = useState(false)
   const [activeStep, setActiveStep] = useState(defaultActiveStep)
   const { createClassName } = useZoomComponent('tour')
+  const { isRTL } = useZoomContext()
+  const { globalI18ns: i18n } = useContext(zoomLogContext)
 
   const step = steps[activeStep]
-  const stepPosition: TourNS.StepPosition = step.selfPosition ?? 'center'
+  const {
+    selfPosition = 'center',
+    closable = true,
+    content,
+    description,
+    emoji,
+    icon,
+    loading,
+    onClose,
+    title,
+  } = step
+
+  const nextButtonText = i18n?.tour?.nextButton ?? 'Next'
+  const backButtonText = i18n?.tour?.backButton ?? 'Back'
+  const skipButtonText = i18n?.tour?.skipButton ?? 'Skip'
+  const finishButtonText = i18n?.tour?.finishButton ?? 'Finish'
 
   const classes = createClassName(className)
 
   const containerClasses = createClassName('', 'steps-container', {
-    [createClassName('', `steps-container-${stepPosition}`)]: true,
+    [createClassName('', `steps-container-${selfPosition}`)]: true,
   })
 
   const backdropClasses = createClassName(backdropProps?.className, 'backdrop')
 
-  const raisedStepTargetClasses = createClassName('', 'raised-element', {
-    [createClassName('', 'raised-element-pulsed')]: !!(step.puls ?? true),
-  })
+  const raisedStepTargetClasses = createClassName('', 'raised-element')
+
+  const removeRaisedStepClasses = () => {
+    document.querySelector(`.${raisedStepTargetClasses}`)?.classList.remove(raisedStepTargetClasses)
+  }
 
   const raiseStepUp = (stepIndex: number) => {
-    const { reference, positionOnFocusReference = 'center' } = steps[stepIndex]
+    const { reference, positionOnFocusReference = 'center', onReach } = steps[stepIndex]
     const { current: stepTarget } = reference
 
     if (!stepTarget) {
       return null
     }
 
-    const tourClasses = raisedStepTargetClasses.replace(/ {2}/g, ' ').split(' ')
-    const jointTourClasses = tourClasses.join('.')
+    onReach?.()
 
-    document.querySelector(`.${jointTourClasses}`)?.classList.remove(...tourClasses)
-    stepTarget.classList.add(...tourClasses)
+    removeRaisedStepClasses()
+    stepTarget.classList.add(raisedStepTargetClasses)
 
     let { offsetTop, clientHeight: targetHeight } = stepTarget
     const { innerHeight: windowHeight } = window
@@ -83,19 +103,25 @@ export const Steps: FC<StepsNS.Props> = ({
     }
   }
 
-  const handleNavigateTo = (to: 'prev' | 'next') => {
+  const handleNavigateTo: TourNS.ChildrenCallbackParams['navigateTo'] = to => {
     setActiveStep(currentStep => {
       let newStep = currentStep
 
-      if (to === 'next') {
-        const nextStep = currentStep + 1
-        if (nextStep < steps.length) {
-          newStep = nextStep
+      if (typeof to === 'number') {
+        if (to < steps.length) {
+          newStep = to
         }
       } else {
-        const prevStep = currentStep - 1
-        if (prevStep >= 0) {
-          newStep = prevStep
+        if (to === 'next') {
+          const nextStep = currentStep + 1
+          if (nextStep < steps.length) {
+            newStep = nextStep
+          }
+        } else {
+          const prevStep = currentStep - 1
+          if (prevStep >= 0) {
+            newStep = prevStep
+          }
         }
       }
 
@@ -105,12 +131,21 @@ export const Steps: FC<StepsNS.Props> = ({
   }
 
   const handleKeyboardEvents = (evt: KeyboardEvent) => {
-    switch (evt.key) {
+    let { key } = evt
+
+    if (isRTL) {
+      key = key === 'ArrowRight' ? 'ArrowLeft' : key === 'ArrowLeft' ? 'ArrowRight' : key
+    }
+
+    switch (key) {
       case 'ArrowRight': {
         return handleNavigateTo('next')
       }
       case 'ArrowLeft': {
         return handleNavigateTo('prev')
+      }
+      case 'Escape': {
+        return handleStopTour()
       }
     }
   }
@@ -123,23 +158,26 @@ export const Steps: FC<StepsNS.Props> = ({
   }
 
   const handleStopTour = () => {
-    onEnd?.()
+    if (!closable) {
+      return null
+    }
+
+    onEnd?.(activeStep)
+    onClose?.()
     setIsStarted(false)
     removeEventListener('keyup', handleKeyboardEvents)
+    setActiveStep(defaultActiveStep)
+    removeRaisedStepClasses()
   }
 
   useEffect(() => {
     startTourRef.current = handleStartTour
     stopTourRef.current = handleStopTour
+    navigateToRef.current = handleNavigateTo
   }, [])
 
   return (
     <>
-      <div style={{ position: 'fixed', right: 0, top: 0, zIndex: 9999 }}>
-        <button onClick={() => handleNavigateTo('next')}>next</button>
-        <button onClick={() => handleNavigateTo('prev')}>prev</button>
-      </div>
-
       {isStarted && (
         <>
           <div {...backdropProps} className={backdropClasses} />
@@ -147,7 +185,70 @@ export const Steps: FC<StepsNS.Props> = ({
           <Container fluid={fluidContainer} className={containerClasses}>
             {step && (
               <div {...containerProps} {...rest} className={classes}>
-                {step.content?.({ stopTour: handleStopTour })}
+                <div className="step-content">
+                  <div className="content-header">
+                    {icon && <Icon className="step-icon" name={icon} />}
+
+                    {emoji && <Emoji className="step-emoji" name={emoji} />}
+
+                    <Title className="step-title">{title}</Title>
+
+                    {closable && (
+                      <Button
+                        suffixMaterialIcon="close"
+                        onClick={handleStopTour}
+                        shape="circle"
+                        type="link"
+                      />
+                    )}
+                  </div>
+
+                  {loading && <Spin className="step-spinner" size="large" />}
+
+                  {description && <Text className="step-description">{description}</Text>}
+
+                  {content && (
+                    <div className="step-custom-content">
+                      {content({
+                        stopTour: handleStopTour,
+                        navigateTo: handleNavigateTo,
+                        currentStep: activeStep,
+                      })}
+                    </div>
+                  )}
+
+                  <div className="step-footer">
+                    <div className="skip-button">
+                      {activeStep < steps.length && closable && (
+                        <Button onClick={handleStopTour} type="text">
+                          {skipButtonText}
+                        </Button>
+                      )}
+                    </div>
+
+                    <div className="navigate-buttons">
+                      {activeStep > 0 && (
+                        <Button
+                          onClick={() => handleNavigateTo('prev')}
+                          type="link"
+                          variant="success"
+                        >
+                          {backButtonText}
+                        </Button>
+                      )}
+
+                      {activeStep >= steps.length - 1 ? (
+                        <Button onClick={handleStopTour} variant="success">
+                          {finishButtonText}
+                        </Button>
+                      ) : (
+                        <Button onClick={() => handleNavigateTo('next')} variant="success">
+                          {nextButtonText} ({activeStep + 1}/{steps.length})
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
           </Container>

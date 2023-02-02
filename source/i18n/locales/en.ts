@@ -216,7 +216,14 @@ export const ENTranslations: typeof FATranslations = {
   },
 
   tour: {
-    content: 'This step involves some custom children',
+    content:
+      'This step contains some optional content. PropContent will give you functions that you can use to control the tour. Below this text there are some buttons that you can test these functions',
+    next: 'Next step',
+    prev: 'Prev step',
+    toStep3: 'To step 3',
+    stopTour: 'Stop tour',
+    switchMe: 'Switch me',
+    currentStep: 'Current step index',
     ttl: {
       sample: 'Sample title',
       everyThingTogether: 'Everything together',
@@ -231,10 +238,8 @@ export const ENTranslations: typeof FATranslations = {
       bottomStart: 'Bottom start',
       emoji: 'With emoji',
       icon: 'With material icon',
-      puls: 'Without puls animation',
       noneClosable: 'None closable',
       loading: 'Loading state',
-      withoutBadge: 'Without badge',
       onReach: 'On reach',
       onClose: 'On close',
       refPositionStart: 'Reference on start',
@@ -245,7 +250,7 @@ export const ENTranslations: typeof FATranslations = {
       sample:
         'Here are some sample descriptions. We use these texts to occupy more space. Otherwise, it is not a valuable content',
       everyThingTogether:
-        'In this step, we will have everything together. For example, badges, titles, descriptions, pulses, emojis, icons, loading, and everything that can have a step.',
+        'In this step, we will have everything together. For example, titles, descriptions, pulses, emojis, icons, loading, and everything that can have a step.',
       topEnd: 'This step is placed at the top of the page and at the end of the page',
       topCenter: 'This step is located at the top of the page and in the middle of it',
       topStart: 'This step is located at the top of the page and at the beginning of it',
@@ -259,12 +264,9 @@ export const ENTranslations: typeof FATranslations = {
       emoji:
         'In this step, we see an emoji. There is an emoji taken from the emoji component that we put here to make the step more attractive and to encourage people to read it.',
       icon: 'If necessary, we can use material icons instead of emojis. In this way, sometimes we put them here to have a more attractive step',
-      puls: "By default, all steps have a pulse animation on their reference. But if we don't need this animation, we disable it like this step",
       noneClosable:
         'This step cannot be closed in any way. It means that when we are on this step, we can no longer close the tour',
       loading: 'In this step, we have a loading mode. In this case, the step cannot be closed',
-      withoutBadge:
-        "All steps have a badge counter. If we don't like it, we can disable it in this way",
       onReach:
         'When we reached this step, a callback function was executed. We can use this feature for things like tracking users through tools like Google Analytics',
       onClose:

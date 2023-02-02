@@ -17,7 +17,7 @@ export const createLoremSection = (
   <Row
     style={{
       flexDirection: reverse ? 'row-reverse' : 'row',
-      color: color({ source: 'text', tone: 2 }),
+      color: color({ source: 'text', tone: 1 }),
     }}
   >
     <Col md={12} sm={24} xs={24}>

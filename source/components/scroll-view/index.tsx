@@ -1,21 +1,29 @@
-import React, { FC, useEffect, useRef } from 'react'
+import React, { FC, RefObject } from 'react'
 
-import { InitializationTarget } from 'overlayscrollbars'
-import { useOverlayScrollbars } from 'overlayscrollbars-react'
+import {
+  OverlayScrollbarsComponent,
+  OverlayScrollbarsComponentRef,
+  UseOverlayScrollbarsParams,
+} from 'overlayscrollbars-react'
 
 import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 
 export namespace ScrollViewNS {
-  export interface Props extends BaseComponent {
+  export type ContainerNode = OverlayScrollbarsComponentRef
+
+  export interface Props extends Omit<BaseComponent, 'reference'> {
     onScroll?: (evt: Event) => void
     autoHide?: boolean
     maxWidth?: string | number
-    maxHeight?: string | number
+    maxHeight: string | number
+    scrollbarSettings?: UseOverlayScrollbarsParams
+    reference?: RefObject<ContainerNode>
   }
 }
 
 export const ScrollView: FC<ScrollViewNS.Props> = ({
+  scrollbarSettings,
   autoHide,
   className,
   onScroll,
@@ -26,44 +34,39 @@ export const ScrollView: FC<ScrollViewNS.Props> = ({
   style,
   ...rest
 }) => {
-  const scrollViewRef = reference ?? useRef<HTMLDivElement | null>(null)
-
-  const [initialize] = useOverlayScrollbars({
-    defer: true,
-    events: {
-      scroll: (_, evt) => onScroll?.(evt),
-    },
-    options: {
-      scrollbars: {
-        autoHide: autoHide ? 'leave' : 'never',
-        autoHideDelay: 100,
-        clickScroll: true,
-        dragScroll: true,
-        pointers: ['mouse', 'touch', 'pen'],
-      },
-      overflow: {
-        x: 'scroll',
-        y: 'scroll',
-      },
-      paddingAbsolute: false,
-      showNativeOverlaidScrollbars: false,
-    },
-  })
+  const scrollbarOptions =
+    typeof scrollbarSettings?.options === 'object' ? scrollbarSettings?.options : {}
 
   const { createClassName } = useZoomComponent('scroll-view')
   const classes = createClassName(className)
 
-  useEffect(() => {
-    initialize(scrollViewRef.current as InitializationTarget)
-  }, [initialize])
-
   return (
-    <div
-      {...rest}
+    <OverlayScrollbarsComponent
       {...containerProps}
-      ref={scrollViewRef}
+      {...scrollbarSettings}
+      {...rest}
       className={classes}
-      style={{ ...style, maxWidth, maxHeight }}
+      ref={reference}
+      style={{ ...style, maxHeight, maxWidth }}
+      defer={scrollbarSettings?.defer ?? true}
+      events={{ scroll: (_, evt) => onScroll?.(evt), ...scrollbarSettings?.events }}
+      options={{
+        scrollbars: {
+          autoHide: autoHide ? 'leave' : 'never',
+          autoHideDelay: 100,
+          clickScroll: true,
+          dragScroll: true,
+          pointers: ['mouse', 'touch', 'pen'],
+          ...scrollbarOptions?.scrollbars,
+        },
+        overflow: {
+          x: 'scroll',
+          y: 'scroll',
+          ...scrollbarOptions?.overflow,
+        },
+        paddingAbsolute: scrollbarOptions?.paddingAbsolute ?? false,
+        showNativeOverlaidScrollbars: scrollbarOptions?.showNativeOverlaidScrollbars ?? false,
+      }}
     />
   )
 }

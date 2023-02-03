@@ -20,4 +20,7 @@ export enum logs {
   imageNotLoaded = 'ZOOMRC/IMAG_LOADER/COULD_NOT_LOAD_IMAGE',
 
   mentionNotFoundTextareaRef = 'ZOOMRC/MENTION/NOT_FOUND_TEXTAREA_REF',
+
+  infiniteScrollViewElementNotFound = 'ZOOMRC/INFINITE_SCROLL_VIEW/ELEMENTS_NOT_FOUND',
+  infiniteScrollViewScrollableTargetNotFound = 'ZOOMRC/INFINITE_SCROLL_VIEW/SCROLLABLE_TARGET_NOT_FOUND',
 }

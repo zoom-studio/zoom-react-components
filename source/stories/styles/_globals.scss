@@ -22,3 +22,16 @@ html {
 .sb-preparing-docs {
   background-color: color(layer, 1);
 }
+
+.infinite-scroll-data {
+  color: color(text, 2);
+  border: 1px solid color(border, 2);
+  background-color: color(layer, 1);
+  margin: 2px 0;
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  &:nth-child(odd) {
+    color: color(text, 3);
+  }
+}

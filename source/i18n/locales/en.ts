@@ -279,4 +279,9 @@ export const ENTranslations: typeof FATranslations = {
         'When we reached this step, the reference was placed at the bottom of the page',
     },
   },
+
+  infiniteScrollView: {
+    endMessage: "You've reached the end of the list :)",
+    loadingMessage: 'Loading more data...',
+  },
 }

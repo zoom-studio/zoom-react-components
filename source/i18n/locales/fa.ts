@@ -274,4 +274,9 @@ export const FATranslations = {
       refPositionEnd: 'وقتی به این استپ رسیدیم، رفرنس در پایین صفحه قرار گرفت',
     },
   },
+
+  infiniteScrollView: {
+    endMessage: 'به انتهای لیست رسیدی :)',
+    loadingMessage: 'در حال بارگذاری دیتای بیشتر...',
+  },
 }

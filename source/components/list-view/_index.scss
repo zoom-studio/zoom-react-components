@@ -1,0 +1,146 @@
+.zoomrc-list-view {
+  .zoomrc-list-view-items {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .zoomrc-list-view-item {
+    width: 100%;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid color(border, 2);
+    }
+
+    > .context-content {
+      width: 100%;
+
+      > .badge-content-container {
+        > .badge-content {
+          width: 100%;
+
+          > .link-content {
+            width: 100%;
+            text-decoration: none;
+
+            > .zoomrc-list-view-item-content {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              row-gap: 6px;
+              padding: 10px;
+              cursor: pointer;
+
+              &.hover {
+                transition: all 70ms linear;
+                border-radius: 4px;
+
+                &:hover {
+                  background-color: color(layer, 2, lighter, 1);
+                }
+              }
+
+              > .header {
+                display: flex;
+                width: 100%;
+                column-gap: 6px;
+
+                @include respect(phone) {
+                  flex-direction: column;
+                  row-gap: 6px;
+                }
+
+                > .image {
+                  > .zoomrc-image {
+                    @include respect(lg-phone) {
+                      width: 100px !important;
+                    }
+
+                    @include respect(phone) {
+                      &,
+                      & .zoomrc-skeleton-image {
+                        width: 100% !important;
+                      }
+                    }
+                  }
+                }
+
+                > .meta-data-and-texts {
+                  display: flex;
+                  column-gap: 6px;
+
+                  > .meta-data {
+                    display: flex;
+                    align-items: flex-start;
+                    column-gap: 6px;
+
+                    > .icon {
+                      font-size: to-rem(38px);
+                      height: 26px;
+                      color: color(text);
+                      margin-top: -2px;
+                    }
+
+                    > .emoji {
+                      width: 26px;
+                    }
+                  }
+
+                  > .texts {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 6px;
+
+                    > .title {
+                      margin: 0;
+                      color: color(text);
+                    }
+
+                    > .description {
+                      margin: 0;
+                      color: color(text, 2);
+                    }
+                  }
+                }
+              }
+
+              > .footer {
+                display: flex;
+                flex-direction: column;
+                row-gap: 6px;
+
+                > .data-entries {
+                  display: flex;
+                  flex-direction: column;
+                  row-gap: 6px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include on-theme(lights) {
+  .zoomrc-list-view {
+    .zoomrc-list-view-item {
+      > .context-content {
+        > .badge-content-container {
+          > .badge-content {
+            > .link-content {
+              > .zoomrc-list-view-item-content {
+                &.hover {
+                  &:hover {
+                    background-color: color(layer, 2, darker, 1);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -105,50 +105,21 @@ export const Title: FC<TypographyNS.TitleNS.Props> = ({
     ...rest,
     ...containerProps,
     ref: reference,
+    className: classes,
   }
 
   switch (size) {
-    case 1: {
-      return (
-        <h1 {...props} className={classes}>
-          {children}
-        </h1>
-      )
-    }
-    case 2: {
-      return (
-        <h2 {...props} className={classes}>
-          {children}
-        </h2>
-      )
-    }
-    case 3: {
-      return (
-        <h3 {...props} className={classes}>
-          {children}
-        </h3>
-      )
-    }
-    case 4: {
-      return (
-        <h4 {...props} className={classes}>
-          {children}
-        </h4>
-      )
-    }
-    case 5: {
-      return (
-        <h5 {...props} className={classes}>
-          {children}
-        </h5>
-      )
-    }
-    case 6: {
-      return (
-        <h6 {...props} className={classes}>
-          {children}
-        </h6>
-      )
-    }
+    case 1:
+      return <h1 {...props} children={children} />
+    case 2:
+      return <h2 {...props} children={children} />
+    case 3:
+      return <h3 {...props} children={children} />
+    case 4:
+      return <h4 {...props} children={children} />
+    case 5:
+      return <h5 {...props} children={children} />
+    case 6:
+      return <h6 {...props} children={children} />
   }
 }

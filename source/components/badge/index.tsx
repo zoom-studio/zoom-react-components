@@ -23,6 +23,7 @@ export namespace BadgeNS {
     size?: CommonSize
     text?: string
     children?: ReactNode
+    childrenContainerProps?: Omit<BaseComponent, 'children'>
   }
 }
 
@@ -42,6 +43,7 @@ export const Badge: FC<BadgeNS.Props> = ({
   onClick,
   text,
   containerProps,
+  childrenContainerProps,
   className,
   reference,
   style,
@@ -50,7 +52,7 @@ export const Badge: FC<BadgeNS.Props> = ({
   const { isRTL } = useZoomContext()
   const { createClassName } = useZoomComponent('badge')
 
-  const childrenClasses = createClassName('', 'content')
+  const childrenClasses = createClassName(childrenContainerProps?.className, 'content')
   const badgeCountClasses = createClassName('', 'info')
 
   const isTextMode = typeof text === 'string'
@@ -146,7 +148,9 @@ export const Badge: FC<BadgeNS.Props> = ({
           {text}
         </Text>
       ) : (
-        <div className={childrenClasses}>{children}</div>
+        <div {...childrenContainerProps} className={childrenClasses}>
+          {children}
+        </div>
       )}
     </div>
   )

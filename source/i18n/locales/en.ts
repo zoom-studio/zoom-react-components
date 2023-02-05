@@ -284,4 +284,22 @@ export const ENTranslations: typeof FATranslations = {
     endMessage: "You've reached the end of the list :)",
     loadingMessage: 'Loading more data...',
   },
+
+  listView: {
+    age: 'Age',
+    rate: 'Rate this folk',
+    action1: 'Follow',
+    action2: 'Like',
+    action3: 'Dislike',
+    checkbox: 'A checkbox in ListView component',
+    radio: 'A radio button in ListView component',
+    switch: 'A switch in ListView component',
+    ctx1: 'Follow',
+    ctx2: 'Delete',
+    ctx3: 'Like',
+    title:
+      'A tile to be placed in the ListView component. A tile to be placed in the ListView component',
+    description:
+      'Here are some sample descriptions. We use these texts to occupy more space. Otherwise, it is not a valuable content. Here are some sample descriptions. We use these texts to occupy more space. Otherwise, it is not a valuable content',
+  },
 }

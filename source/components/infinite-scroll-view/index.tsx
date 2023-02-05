@@ -1,4 +1,4 @@
-import React, { cloneElement, ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 
 import { ScrollView, ScrollViewNS, Spin, SpinNS, Title } from '..'
 import { logs } from '../../constants'
@@ -26,10 +26,15 @@ export namespace InfiniteScrollViewNS {
     threshold?: number
     spinProps?: SpinNS.Props
     endMessage?: string | ReactNode
+    itemsContainerProps?: Omit<BaseComponent, 'children'>
+    itemContainerProps?: Omit<BaseComponent, 'children'>
+    itemsReferenceKey?: string
+    handleSetProps?: (index: number, reference: null | undefined) => { [prop: string]: any }
   }
 }
 
 export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
+  itemsReferenceKey = 'ref',
   reverseScroll = false,
   loadOnMount = true,
   threshold = 5,
@@ -38,6 +43,7 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
   className,
   children,
   spinProps,
+  handleSetProps,
   containerProps,
   reference,
   dataset,
@@ -47,6 +53,8 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
   handleOnLoadMore,
   maxDatasetLength,
   autoHide,
+  itemsContainerProps,
+  itemContainerProps,
   ...rest
 }: InfiniteScrollViewNS.Props<DataType>): JSX.Element => {
   const scrollViewRef = useRef<ScrollViewNS.ContainerNode | null>(null)
@@ -85,6 +93,9 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
   const classes = createClassName(className, '', {
     reversed: !!reverseScroll,
   })
+
+  const contentContainerClasses = createClassName(itemsContainerProps?.className, 'content')
+  const itemContainerClasses = createClassName(itemContainerProps?.className, 'item')
 
   const handleOnScroll = (evt: Event) => {
     const scrollableTarget = evt.target as HTMLDivElement | null
@@ -128,15 +139,17 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
         maxWidth={maxWidth}
         onScroll={handleOnScroll}
       >
-        <div className="infinite-scroll-content">
-          {dataset.map((data, index) =>
-            cloneElement(children(data, { index }), {
-              key: index,
-              style: { color: dataset.length === index + threshold ? 'red' : '' },
-              ref: (node: HTMLElement | null) =>
-                dataset.length === index + threshold ? lastDataRef(node) : undefined,
-            }),
-          )}
+        <div {...itemsContainerProps} className={contentContainerClasses}>
+          {dataset.map((data, index) => (
+            <div
+              {...itemContainerProps}
+              key={index}
+              ref={node => (dataset.length === index + threshold ? lastDataRef(node) : undefined)}
+              className={itemContainerClasses}
+            >
+              {children(data, { index })}
+            </div>
+          ))}
 
           {isMoreDataRemaining ? (
             <div className="loading-message">{isLoading && <Spin {...spinProps} />}</div>

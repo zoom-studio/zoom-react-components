@@ -1,7 +1,7 @@
 .zoomrc-infinite-scroll-view {
   > .zoomrc-scroll-view {
     > .os-viewport {
-      > .infinite-scroll-content {
+      > .zoomrc-infinite-scroll-view-content {
         display: flex;
         flex-direction: column;
 
@@ -40,7 +40,7 @@
   &.reversed {
     > .zoomrc-scroll-view {
       > .os-viewport {
-        > .infinite-scroll-content {
+        > .zoomrc-infinite-scroll-view-content {
           flex-direction: column-reverse;
         }
       }

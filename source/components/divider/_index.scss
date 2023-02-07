@@ -1,0 +1,74 @@
+@import 'mixins';
+
+.zoomrc-divider {
+  align-items: center;
+  color: color(text);
+  padding: 6px 0;
+  user-select: none;
+
+  &-vertical {
+    @include zoomrc-divider-border-styles;
+
+    display: inline-block;
+    margin: 0 12px;
+    vertical-align: middle;
+    width: 1px;
+  }
+
+  &-horizontal {
+    display: flex;
+
+    &::after,
+    &::before {
+      content: '';
+      @include zoomrc-divider-border-styles;
+
+      flex: 1;
+    }
+  }
+
+  &-dashed {
+    &.zoomrc-divider-vertical,
+    &::after,
+    &::before {
+      border-style: dashed;
+    }
+  }
+
+  &-start {
+    &::before {
+      max-width: 4%;
+    }
+  }
+
+  &-end {
+    &::after {
+      max-width: 4%;
+    }
+  }
+
+  &-selectable {
+    user-select: unset;
+  }
+
+  &-title {
+    margin: 0;
+  }
+
+  &-truncate {
+    > .title-container {
+      &,
+      & > * {
+        @include truncate;
+      }
+    }
+  }
+
+  > .title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    max-width: 84%;
+  }
+}

@@ -15,6 +15,7 @@ export const createLoremSection = (
   buttonRef?: RefObject<HTMLButtonElement>,
 ) => (
   <Row
+    fixWidth={false}
     style={{
       flexDirection: reverse ? 'row-reverse' : 'row',
       color: color({ source: 'text', tone: 1 }),

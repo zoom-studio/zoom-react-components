@@ -55,6 +55,22 @@ export const ENTranslations: typeof FATranslations = {
     title: 'Sample title for dialog component',
   },
 
+  bottomSheet: {
+    open: 'Open Bottom sheet',
+    openSizeOf: {
+      small: 'Open small Bottom sheet',
+      normal: 'Open normal Bottom sheet',
+      large: 'Open large Bottom sheet',
+    },
+    actions: {
+      addCategory: 'Add category',
+      prevLevel: 'Prev level',
+      close: 'Close',
+      cancel: 'Cancel',
+    },
+    title: 'Sample title for Bottom sheet component',
+  },
+
   button: {
     sizingTitle: 'Variant size of button',
     disabledTitle: 'Disabled button',

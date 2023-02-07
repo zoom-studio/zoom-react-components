@@ -5,7 +5,7 @@ import { ButtonGroup, ButtonNS } from '../../../components'
 export namespace WithButtonsStoryNS {
   export interface Props {
     buttons: ButtonNS.Props[]
-    children: ReactNode
+    children?: ReactNode
   }
 }
 

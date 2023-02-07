@@ -1,0 +1,107 @@
+@use 'sass:math';
+
+$zoomrc-bottom-sheet-gutter: 12px;
+
+@function zoomrc-bottom-sheet-animation($animation-name) {
+  @return $animation-name + ' ' + 150ms ease;
+}
+
+@keyframes open-zoomrc-bottom-sheet-backdrop-animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes open-zoomrc-bottom-sheet-animation {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.zoomrc-bottom-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: math.div($zoomrc-bottom-sheet-gutter, 2);
+  z-index: 5;
+  border: 1px solid color(border, 2);
+  margin: auto;
+  animation: zoomrc-dialog-animation(open-zoomrc-bottom-sheet-animation);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  max-width: calc(100% - $zoomrc-bottom-sheet-gutter * 2);
+
+  &-small {
+    width: 400px;
+  }
+
+  &-normal {
+    width: 600px;
+  }
+
+  &-large {
+    width: 800px;
+  }
+
+  &-backdrop {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: color(backdrop);
+    z-index: 4;
+    animation: zoomrc-dialog-animation(open-zoomrc-bottom-sheet-backdrop-animation);
+  }
+
+  > .header {
+    background-color: color(layer, 2);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    padding: 6px;
+    user-select: none;
+
+    > .title {
+      @include truncate;
+
+      color: color(text);
+      margin: 0;
+      flex: 1;
+    }
+  }
+
+  > .body {
+    background-color: color(layer, 1);
+  }
+
+  > .footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px;
+    background-color: color(layer, 2);
+
+    > .actions {
+      display: flex;
+      column-gap: 4px;
+      align-items: center;
+    }
+  }
+}

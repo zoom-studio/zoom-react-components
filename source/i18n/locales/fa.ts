@@ -53,6 +53,22 @@ export const FATranslations = {
     title: 'عنوان نمونه برای کامپوننت دیالوگ',
   },
 
+  bottomSheet: {
+    open: 'باز کردن باتم شیت',
+    openSizeOf: {
+      small: 'باز کردن باتم شیت کوچیک',
+      normal: 'بازکردن باتم شیت نرمال',
+      large: 'باز کردن باتم شیت بزرگ',
+    },
+    actions: {
+      addCategory: 'افزودن دسته بندی',
+      prevLevel: 'مرحله قبل',
+      close: 'بستن',
+      cancel: 'منصرف شدم',
+    },
+    title: 'عنوان نمونه برای کامپوننت باتم شیت',
+  },
+
   button: {
     sizingTitle: 'سایزهای مختلف دکمه',
     disabledTitle: 'دکمه غیر فعال',

@@ -318,4 +318,8 @@ export const ENTranslations: typeof FATranslations = {
     description:
       'Here are some sample descriptions. We use these texts to occupy more space. Otherwise, it is not a valuable content. Here are some sample descriptions. We use these texts to occupy more space. Otherwise, it is not a valuable content',
   },
+
+  divider: {
+    textualChildren: 'Some textual children that is supposed to be dividers title',
+  },
 }

@@ -1,0 +1,40 @@
+@mixin zoomrc-generate-stack-directions {
+  @each $direction in $zoomrc-stack-directions {
+    &-direction-#{$direction} {
+      flex-direction: $direction;
+    }
+  }
+}
+
+@mixin zoomrc-generate-stack-aligns {
+  @each $align in $zoomrc-stack-aligns {
+    &-align-#{$align} {
+      align-items: $align;
+    }
+  }
+}
+
+@mixin zoomrc-generate-stack-justifies {
+  @each $justify in $zoomrc-stack-justifies {
+    &-justify-#{$justify} {
+      justify-content: $justify;
+    }
+  }
+}
+
+@mixin zoomrc-generate-stack-item-aligns {
+  @each $align in $zoomrc-stack-aligns {
+    &-align-#{$align} {
+      align-self: $align;
+      align-items: $align;
+    }
+  }
+}
+
+@mixin zoomrc-generate-stack-item-justifies {
+  @each $justify in $zoomrc-stack-justifies {
+    &-justify-#{$justify} {
+      justify-content: $justify;
+    }
+  }
+}

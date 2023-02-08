@@ -1,0 +1,25 @@
+@import 'variables';
+@import 'mixins';
+
+.zoomrc-stack {
+  @include zoomrc-generate-stack-directions;
+  @include zoomrc-generate-stack-justifies;
+  @include zoomrc-generate-stack-aligns;
+
+  display: flex;
+
+  &-broken {
+    flex-wrap: wrap;
+  }
+
+  &-inline {
+    display: inline-flex;
+  }
+}
+
+.zoomrc-stack-item {
+  @include zoomrc-generate-stack-item-aligns;
+  @include zoomrc-generate-stack-item-justifies;
+
+  display: flex;
+}

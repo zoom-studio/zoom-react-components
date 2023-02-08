@@ -1,0 +1,12 @@
+$zoomrc-stack-directions: (row, row-reverse, column, column-reverse, initial, unset, inherit);
+$zoomrc-stack-aligns: (flex-start, center, flex-end, stretch, baseline, initial, unset, inherit);
+$zoomrc-stack-justifies: (
+  flex-start,
+  center,
+  flex-end,
+  space-between,
+  space-around,
+  initial,
+  unset,
+  inherit
+);

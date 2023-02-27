@@ -1,7 +1,5 @@
 @import 'mixins';
 
-$zoomrc-checkbox-label-text-right-margin: 8px;
-
 @keyframes check-zoomrc-checkbox-animation {
   from {
     transform: scale(0.5) rotate(-50deg);
@@ -36,6 +34,8 @@ div.zoomrc-checkbox {
     height: auto;
     display: flex;
     cursor: pointer;
+    gap: 8px;
+    align-items: center;
 
     > .native-checkbox {
       width: 0;
@@ -89,7 +89,6 @@ div.zoomrc-checkbox {
     > .label-text {
       margin: 0;
       user-select: none;
-      margin-right: $zoomrc-checkbox-label-text-right-margin;
       direction: rtl;
       text-align: right;
     }
@@ -109,7 +108,6 @@ div.zoomrc-checkbox {
     > .zoomrc-checkbox-label {
       > .label-text {
         margin-right: 0;
-        margin-left: $zoomrc-checkbox-label-text-right-margin;
         direction: ltr;
         text-align: left;
       }

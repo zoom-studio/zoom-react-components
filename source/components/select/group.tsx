@@ -6,15 +6,15 @@ import { SelectOption, SelectOptionNS } from './option'
 import { filterLabel } from './utils'
 
 export namespace SelectGroupNS {
-  export interface Props {
-    options?: SelectOptionNS.Props[]
+  export interface Props<Values extends SelectOptionNS.Value> {
+    options?: SelectOptionNS.Props<Values>[]
     label: string
     disabled?: boolean
     selected?: boolean
     value: SelectOptionNS.Value
   }
 
-  export interface GroupedProps extends Omit<Props, 'options'> {
+  export interface GroupedProps extends Omit<Props<SelectOptionNS.Value>, 'options'> {
     options?: SelectOptionNS.GroupedOptions
   }
 

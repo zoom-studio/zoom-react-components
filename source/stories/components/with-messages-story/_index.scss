@@ -1,0 +1,68 @@
+@keyframes update-message-value-animation {
+  from {
+    filter: invert(1);
+  }
+
+  to {
+    filter: none;
+  }
+}
+
+.with-messages-story {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > .story {
+    display: block;
+    width: 100%;
+  }
+
+  > .messages {
+    direction: ltr;
+    color: color(text, 3);
+    padding: 4px 8px;
+    border: 2px dashed color(border, 2);
+    border-radius: 6px;
+    user-select: none;
+
+    * {
+      direction: ltr;
+    }
+
+    > .zoomrc-stack-item {
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 70ms linear;
+
+      > .zoomrc-typography {
+        margin: 0;
+
+        > span {
+          &:nth-child(2) {
+            background-color: color(layer, 2);
+            transition: all 70ms linear;
+            border-radius: 6px;
+            border: 1px solid color(border, 2);
+            padding: 2px 4px 0;
+            display: inline-block;
+            animation: update-message-value-animation 500ms linear;
+          }
+        }
+      }
+
+      &:hover {
+        background-color: color(layer, 2);
+
+        > .zoomrc-typography {
+          > span {
+            &:nth-child(2) {
+              background-color: color(layer, 1);
+            }
+          }
+        }
+      }
+    }
+  }
+}

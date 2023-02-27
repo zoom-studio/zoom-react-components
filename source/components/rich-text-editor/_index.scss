@@ -1,0 +1,136 @@
+@import '~draft-js/dist/Draft.css';
+@import 'content_styles';
+
+.zoomrc-rich-text-editor {
+  color: color(text);
+  background-color: color(layer, 2);
+  border-radius: 4px;
+  border: 1px solid color(border, 2);
+  padding: 4px;
+
+  > .editor-handlers {
+    .text-size-selector {
+      min-width: 140px;
+    }
+
+    .action-button {
+      background-color: color(layer, 1);
+      color: color(text, 3);
+
+      &:not(:hover) {
+        border-color: color(border, 2);
+      }
+
+      > .zoomrc-button-inner-child {
+        padding: 5px;
+
+        > .material-icons {
+          font-size: to-rem(26px);
+        }
+
+        > .zoomrc-typography {
+          margin: 0;
+        }
+      }
+
+      &.active {
+        border-color: color(accent, 1, glassy, 8);
+        color: color(accent);
+      }
+    }
+
+    .zoomrc-popover {
+      z-index: 2;
+    }
+
+    .emoji-picker-popover {
+      > .zoomrc-popover-container {
+        max-width: 350px;
+
+        > .container-children {
+          padding: 0;
+
+          > .zoomrc-popover-content {
+            margin: 0;
+
+            .zoomrc-emoji-picker {
+              border: none;
+            }
+          }
+        }
+      }
+    }
+
+    .insert-link-popover {
+      > .zoomrc-popover-container {
+        max-width: 350px;
+
+        > .container-children {
+          padding: 6px;
+
+          > .zoomrc-popover-content {
+            margin: 0;
+
+            .confirm-link-button {
+              width: 32px;
+              height: 32px;
+              font-size: to-rem(28px) !important;
+            }
+          }
+        }
+      }
+    }
+
+    .get-link-form {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+  > .rich-text-editor {
+    width: 100%;
+    height: auto;
+    padding: 4px;
+
+    .link-popover-content {
+      .zoomrc-popover-content {
+        margin-top: 0 !important;
+
+        .link-url {
+          margin: 0;
+        }
+
+        .link-popover-action {
+          font-size: to-rem(24px) !important;
+        }
+      }
+    }
+
+    .editor-scroll-view {
+      .os-viewport {
+        padding: 4px !important;
+        border: 1px solid color(border, 2);
+        border-radius: 4px;
+
+        .DraftEditor-root {
+          @include zoomrc-rich-text-editor-content-styles;
+
+          height: 100%;
+
+          .public-DraftEditorPlaceholder-root {
+            color: color(placeholder);
+          }
+
+          .public-DraftEditor-content {
+            * {
+              &::selection {
+                background-color: color(accent, 1, glassy, 4);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

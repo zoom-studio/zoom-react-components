@@ -1,11 +1,11 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC } from 'react'
 
 import { Popover, PopoverNS } from '../popover'
 
 export namespace TooltipNS {
   export interface Props extends Pick<PopoverNS.Props, 'placement' | 'hoverDelay'> {
     title: string
-    children?: ReactNode
+    children?: PopoverNS.Props['children']
   }
 }
 

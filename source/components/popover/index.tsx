@@ -1,9 +1,11 @@
 import React, {
+  cloneElement,
   FC,
   FocusEvent,
   HTMLAttributes,
   MouseEvent,
   ReactNode,
+  RefObject,
   useEffect,
   useRef,
 } from 'react'
@@ -34,7 +36,12 @@ export namespace PopoverNS {
     'left-end',
   ] as const
 
-  export interface Props extends BaseComponent {
+  export interface ChildrenCallback {
+    openPopover: () => void
+    closePopover: () => void
+  }
+
+  export interface Props extends Omit<BaseComponent, 'children'> {
     title?: string | ReactNode
     titleProps?: TypographyNS.TitleNS.Props
     popoverProps?: HTMLAttributes<HTMLDivElement>
@@ -54,11 +61,14 @@ export namespace PopoverNS {
     hoverDelay?: number
     width?: string | number
     autoCloseDelay?: number
+    childRef?: RefObject<HTMLElement | null>
+    children?: JSX.Element | ((handlers: ChildrenCallback) => JSX.Element)
   }
 }
 
 export const Popover: FC<PopoverNS.Props> = ({
   reference: customContainerRef,
+  childRef: customChildRef,
   trigger = 'hover',
   placement = 'top',
   showArrow = true,
@@ -85,6 +95,7 @@ export const Popover: FC<PopoverNS.Props> = ({
 }) => {
   const OPEN = 'open'
   const containerRef = customContainerRef ?? useRef<HTMLDivElement>(null)
+  const childRef = customChildRef ?? useRef<HTMLElement | null>(null)
   const timeout = useRef<number | null>(null)
   const { createClassName, sendLog } = useZoomComponent('popover')
   const isValidPopover = !!title || !!description || !!content || loading
@@ -171,9 +182,21 @@ export const Popover: FC<PopoverNS.Props> = ({
 
   const handleOnClick = (evt: MouseEvent<HTMLDivElement>) => {
     if (trigger === 'click') {
-      toggle()
+      if (evt.target === childRef.current) {
+        toggle()
+      } else {
+        open()
+      }
     }
     rest?.onClick?.(evt)
+  }
+
+  const getChildren = (): JSX.Element => {
+    return (
+      (typeof children === 'function'
+        ? children({ openPopover: open, closePopover: close })
+        : children) || <></>
+    )
   }
 
   useEffect(() => {
@@ -193,7 +216,7 @@ export const Popover: FC<PopoverNS.Props> = ({
     <ConditionalWrapper
       condition={isValidPopover}
       trueWrapper={child => <>{child}</>}
-      falseWrapper={() => <>{children}</>}
+      falseWrapper={() => <>{getChildren()}</>}
     >
       <div
         {...rest}
@@ -243,7 +266,7 @@ export const Popover: FC<PopoverNS.Props> = ({
             )}
           </div>
         </div>
-        {children}
+        {children && cloneElement(getChildren(), { reference: childRef })}
       </div>
     </ConditionalWrapper>
   )

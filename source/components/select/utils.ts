@@ -5,10 +5,11 @@ import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 import { SelectNS } from '.'
 import { ZoomLogProviderNS } from '../zoom-log-provider'
 import { logs } from '../../constants'
+import { SelectOptionNS } from './option'
 
 export const groupOptions = (
-  options?: SelectNS.Option[],
-  defaultValue?: SelectNS.Props['defaultValue'],
+  options?: SelectNS.Option<SelectOptionNS.Value>[],
+  defaultValue?: SelectNS.Props<SelectOptionNS.Value>['defaultValue'],
 ): SelectNS.GroupedOptions => {
   const groupedOptions: SelectNS.GroupedOptions = {}
 
@@ -103,7 +104,7 @@ export const focusSearchBox = async (
   searchBox.focus()
 }
 
-export const defaultEmpty = (options?: SelectNS.Option[]) => {
+export const defaultEmpty = (options?: SelectNS.Option<SelectOptionNS.Value>[]) => {
   return (options || []).length === 0 ? 'empty-list' : false
 }
 

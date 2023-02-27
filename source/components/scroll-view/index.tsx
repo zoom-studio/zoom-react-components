@@ -17,6 +17,8 @@ export namespace ScrollViewNS {
     autoHide?: boolean
     maxWidth?: string | number
     maxHeight: string | number
+    minHeight?: string | number
+    minWidth?: string | number
     scrollbarSettings?: UseOverlayScrollbarsParams
     reference?: RefObject<ContainerNode>
   }
@@ -29,6 +31,8 @@ export const ScrollView: FC<ScrollViewNS.Props> = ({
   onScroll,
   maxWidth,
   maxHeight,
+  minHeight,
+  minWidth,
   containerProps,
   reference,
   style,
@@ -47,7 +51,7 @@ export const ScrollView: FC<ScrollViewNS.Props> = ({
       {...rest}
       className={classes}
       ref={reference}
-      style={{ ...style, maxHeight, maxWidth }}
+      style={{ ...style, maxHeight, maxWidth, minHeight, minWidth }}
       defer={scrollbarSettings?.defer ?? true}
       events={{ scroll: (_, evt) => onScroll?.(evt), ...scrollbarSettings?.events }}
       options={{

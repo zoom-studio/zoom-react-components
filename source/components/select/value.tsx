@@ -4,10 +4,14 @@ import { InputNS, Text } from '..'
 import { useZoomComponent } from '../../hooks'
 import { getSelectedOptions } from './utils'
 import { SelectNS } from '.'
+import { SelectOptionNS } from './option'
 
 export namespace SelectValueNS {
   export interface Props
-    extends Pick<SelectNS.Props, 'placeholder' | 'size' | 'multiSelect' | 'onChange'> {
+    extends Pick<
+      SelectNS.Props<SelectOptionNS.Value>,
+      'placeholder' | 'size' | 'multiSelect' | 'onChange'
+    > {
     options: SelectNS.GroupedOptions
   }
 }

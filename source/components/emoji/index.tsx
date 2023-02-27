@@ -15,6 +15,7 @@ export namespace EmojiNS {
 
   export interface Props extends BaseComponent<HTMLImageElement> {
     name: Emojis.Names
+    asSpan?: boolean
   }
 
   export namespace Emojis {
@@ -35,10 +36,13 @@ export const Emoji: FC<EmojiNS.Props> = ({
   className,
   containerProps,
   reference,
+  asSpan,
+  style,
   ...rest
 }) => {
   const classes = classNames('zoomrc-emoji', {
     [className ?? '']: true,
+    'as-span': !!asSpan,
   })
 
   const findEmoji = useCallback(
@@ -48,7 +52,16 @@ export const Emoji: FC<EmojiNS.Props> = ({
 
   const emoji = useMemo<string>(() => findEmoji(name)?.data ?? '', [name])
 
-  return (
+  return asSpan ? (
+    <span
+      {...rest}
+      {...containerProps}
+      draggable={false}
+      ref={reference}
+      className={classes}
+      style={{ ...style, backgroundImage: `url(${emoji})` }}
+    />
+  ) : (
     <img
       {...rest}
       {...containerProps}
@@ -56,6 +69,7 @@ export const Emoji: FC<EmojiNS.Props> = ({
       ref={reference}
       src={emoji}
       className={classes}
+      style={style}
     />
   )
 }

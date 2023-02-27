@@ -1,6 +1,7 @@
 export * from './use-audio'
 export * from './use-component-size'
 export * from './use-input-direction-handler'
+export * from './use-objected-state'
 export * from './use-outside-click'
 export * from './use-stated-icon'
 export * from './use-variable'

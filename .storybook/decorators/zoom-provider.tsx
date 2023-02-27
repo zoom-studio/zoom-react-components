@@ -57,6 +57,26 @@ export const ZoomProvider = (
             deletePopConfirmSubmitButton: ti('imageViewer.deletePopConfirmSubmitButton'),
             deletePopConfirmDescription: ti('imageViewer.deletePopConfirmDescription'),
           },
+          richTextEditor: {
+            normalText: ti('richTextEditor.normalText'),
+            heading1: ti('richTextEditor.heading1'),
+            heading2: ti('richTextEditor.heading2'),
+            heading3: ti('richTextEditor.heading3'),
+            heading4: ti('richTextEditor.heading4'),
+            bold: ti('richTextEditor.bold'),
+            strikethrough: ti('richTextEditor.strikethrough'),
+            italic: ti('richTextEditor.italic'),
+            link: ti('richTextEditor.link'),
+            ol: ti('richTextEditor.ol'),
+            ul: ti('richTextEditor.ul'),
+            emoji: ti('richTextEditor.emoji'),
+            icon: ti('richTextEditor.icon'),
+            image: ti('richTextEditor.image'),
+            file: ti('richTextEditor.file'),
+            copy: ti('richTextEditor.copy'),
+            cut: ti('richTextEditor.cut'),
+            paste: ti('richTextEditor.paste'),
+          },
         }}
       >
         <Story />

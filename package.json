@@ -71,6 +71,7 @@
   },
   "dependencies": {
     "@zoom-studio/zoom-js-ts-utils": "file:../zoom-web-utils/dist",
+    "draft-js": "^0.11.7",
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.0.3",
     "overlayscrollbars-react": "^0.5.0",
@@ -109,6 +110,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/draft-js": "^0.11.10",
     "@types/jest": "^29.1.2",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
@@ -137,6 +139,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.1.1",
+    "react-json-view": "^1.21.3",
     "rimraf": "^3.0.2",
     "rollup": "^3.1.0",
     "rollup-plugin-babel": "^4.4.0",

@@ -1,6 +1,5 @@
 import React, {
   CSSProperties,
-  FC,
   FormEvent,
   HTMLAttributes,
   RefObject,
@@ -23,11 +22,18 @@ import { SelectValue } from './value'
 
 export namespace SelectNS {
   export type EmptyState = 'nothing-found' | 'empty-list' | false
-  export type Option = SelectGroupNS.Props & SelectOptionNS.Props
-  export type SingleOption = Pick<SelectOptionNS.Props, 'value' | 'label'>
+
+  export type Option<Values extends SelectOptionNS.Value> = SelectGroupNS.Props<Values> &
+    SelectOptionNS.Props<Values>
+
+  export type SingleOption = Pick<SelectOptionNS.Props<SelectOptionNS.Value>, 'value' | 'label'>
+
   export type SelectedOption = SelectOptionNS.Value | SelectGroupNS.GroupedSelectedOptions
-  export type SingleSelectedOption = [SelectOptionNS.Value, SelectOptionNS.Value?]
-  export type SelectValue = Pick<Option, 'label' | 'value'>
+
+  export type SingleSelectedOption<Values extends SelectOptionNS.Value> = [Values, Values?]
+
+  export type SelectValue = Pick<Option<SelectOptionNS.Value>, 'label' | 'value'>
+
   export type SelectOptions = (
     currentOptions: SelectNS.GroupedOptions,
     selectedOptions: SelectNS.SelectedOption,
@@ -37,8 +43,8 @@ export namespace SelectNS {
     [value: SelectOptionNS.Value]: SelectGroupNS.GroupedProps
   }
 
-  export interface Props extends BaseComponent {
-    options?: Option[]
+  export interface Props<Values extends SelectOptionNS.Value> extends BaseComponent {
+    options?: Option<Values>[]
     multiSelect?: boolean
     label?: string
     placeholder?: string
@@ -64,14 +70,14 @@ export namespace SelectNS {
     emptyListText?: string
     scrollOnOpen?: boolean
     onChange?: (options: SingleOption[]) => void
-    defaultValue?: SelectOptionNS.Value | SelectOptionNS.Value[]
+    defaultValue?: Values | Values[]
     onWillOpen?: () => void
     onWillClose?: () => void
-    onWrite?: (values: SelectOptionNS.Value[]) => void
+    onWrite?: (values: Values[]) => void
   }
 }
 
-export const Select: FC<SelectNS.Props> = ({
+export const Select = <Values extends SelectOptionNS.Value>({
   size: providedSize,
   options: providedOptions,
   childRef: providedChildRef,
@@ -106,7 +112,7 @@ export const Select: FC<SelectNS.Props> = ({
   searchInputProps,
   stateMessageProps,
   ...rest
-}) => {
+}: SelectNS.Props<Values>) => {
   const size = useComponentSize(providedSize)
   const { createClassName, sendLog } = useZoomComponent('select')
 
@@ -115,7 +121,9 @@ export const Select: FC<SelectNS.Props> = ({
   const containerRef = reference ?? useRef<HTMLInputElement>(null)
   const optionsListRef = useRef<HTMLDivElement>(null)
   const childRef = providedChildRef ?? useRef<HTMLDivElement>(null)
-  const selectedOptionRef = useRef<SelectNS.SingleSelectedOption | null>(null)
+  const selectedOptionRef = useRef<SelectNS.SingleSelectedOption<SelectOptionNS.Value> | null>(
+    defaultValue ? ([defaultValue] as SelectNS.SingleSelectedOption<SelectOptionNS.Value>) : null,
+  )
 
   const [searchQuery, setSearchQuery] = useState(providedSearchQuery || '')
   const [isOpen, setIsOpen] = useState(defaultIsOpen)
@@ -179,7 +187,9 @@ export const Select: FC<SelectNS.Props> = ({
       })
     }
 
-    void focusSearchBox(inputRef, sendLog)
+    if (showSearch || emptyState !== false) {
+      void focusSearchBox(inputRef, sendLog)
+    }
     return options
   }
 
@@ -213,7 +223,11 @@ export const Select: FC<SelectNS.Props> = ({
   const onOpen = () => {
     onWillOpen?.()
     scrollToTop(containerRef, scrollOnOpen, sendLog)
-    void focusSearchBox(inputRef, sendLog)
+
+    if (showSearch || emptyState !== false) {
+      void focusSearchBox(inputRef, sendLog)
+    }
+
     void handleSetEmptyList()
   }
 
@@ -247,7 +261,7 @@ export const Select: FC<SelectNS.Props> = ({
 
   const handleOnChange = (options: SelectNS.SingleOption[]) => {
     onChange?.(options)
-    onWrite?.(options.map(option => option.value))
+    onWrite?.(options.map(option => option.value as Values))
   }
 
   useOutsideClick(close, childRef, dropdownRef)

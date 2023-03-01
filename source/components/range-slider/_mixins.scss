@@ -1,0 +1,124 @@
+@mixin zoomrc-generate-range-slider-sizes($size) {
+  $height: if($size == small, 29px, if($size == normal, 36px, 47px));
+  $padding: if($size == small, 0 6px, if($size == normal, 0 6px, 0 6px));
+  $with-masks-padding: if(
+    $size == small,
+    8px 6px 26px 6px,
+    if($size == normal, 8px 6px 26px 6px, 8px 6px 26px 6px)
+  );
+  $slider-height: if($size == small, 8px, if($size == normal, 10px, 12px));
+  $handle-border-size: if($size == small, 4px, if($size == normal, 4px, 6px));
+  $handle-with-content-border-size: if($size == small, 1px, if($size == normal, 1px, 1px));
+  $handle-size: if($size == small, 16px, if($size == normal, 20px, 24px));
+  $handle-with-content-size: if($size == small, 18px, if($size == normal, 22px, 26px));
+  $handle-font-size: if($size == small, 14px, if($size == normal, 18px, 20px));
+  $slider-with-masks-margin: if($size == small, 32px, if($size == normal, 32px, 32px));
+  $mask-dot-top: if($size == small, -13px, if($size == normal, -15px, -16px));
+  $mask-dot-size: if($size == small, 2px, if($size == normal, 4px, 4px));
+  $spinner-size: if($size == small, 12px, if($size == normal, 14px, 18px));
+
+  &-#{$size} {
+    > .slider-container {
+      min-height: $height;
+      padding: $padding;
+
+      > .rangeslider {
+        &.rangeslider-horizontal {
+          height: $slider-height;
+        }
+
+        > .rangeslider__handle {
+          border-width: $handle-border-size;
+          width: $handle-size;
+          height: $handle-size;
+        }
+
+        > .rangeslider__labels {
+          > .rangeslider__label-item {
+            @include text(common, #{$size});
+
+            &::after {
+              top: $mask-dot-top;
+              width: $mask-dot-size;
+              height: $mask-dot-size;
+            }
+          }
+        }
+      }
+    }
+
+    &.zoomrc-range-slider-with-thumb-content {
+      > .slider-container {
+        > .rangeslider {
+          > .rangeslider__handle {
+            border-width: $handle-with-content-border-size;
+            width: $handle-with-content-size;
+            height: $handle-with-content-size;
+            font-size: $handle-font-size;
+
+            > .rangeslider__handle-label {
+              > .zoomrc-spin {
+                > .spinner {
+                  width: $spinner-size;
+                  height: $spinner-size;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &.zoomrc-range-slider-with-masks {
+      > .slider-container {
+        padding: $with-masks-padding;
+      }
+    }
+  }
+}
+
+@mixin zoomrc-generate-range-slider-variants($variant) {
+  $is-neutral: $variant == neutral;
+  $color: if($is-neutral, color(text, 1), color($variant));
+  $border-color: if($is-neutral, color(border, 2), color($variant, glassy, 4));
+  $label-color: $color;
+  $thumb-color: white;
+
+  @if $variant == warning {
+    $thumb-color: black;
+  }
+
+  @if $is-neutral {
+    $label-color: color(accent);
+  }
+
+  &-#{$variant} {
+    color: $color;
+
+    > .slider-container {
+      border-color: $border-color;
+
+      > .label {
+        color: $label-color;
+      }
+
+      > .rangeslider {
+        > .rangeslider__fill {
+          background-color: $label-color;
+        }
+
+        > .rangeslider__handle {
+          background-color: $label-color;
+
+          > .rangeslider__handle-label {
+            color: $thumb-color;
+          }
+        }
+      }
+    }
+
+    > .zoomrc-range-slider-state-message {
+      color: $color;
+    }
+  }
+}

@@ -4,7 +4,8 @@
     "font-family-no-missing-generic-family-keyword": null,
     "no-descending-specificity": null,
     "property-no-vendor-prefix": null,
-    "value-keyword-case": null
+    "value-keyword-case": null,
+    "selector-class-pattern": null
   },
   "ignoreFiles": ["dist"]
 }

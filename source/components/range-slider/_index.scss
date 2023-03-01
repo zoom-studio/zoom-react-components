@@ -1,0 +1,151 @@
+@import '~react-rangeslider/lib/index.css';
+@import 'mixins';
+
+@keyframes zoomrc-show-slider-popover-animation {
+  from {
+    margin-top: -10px;
+    opacity: 0;
+  }
+
+  to {
+    margin-top: 0;
+    opacity: 1;
+  }
+}
+
+.zoomrc-range-slider {
+  @each $variant in $common-variants {
+    @include zoomrc-generate-range-slider-variants($variant);
+  }
+
+  @each $size in $common-sizes {
+    @include zoomrc-generate-range-slider-sizes($size);
+  }
+
+  display: flex;
+  flex-direction: column;
+
+  > .slider-container {
+    user-select: none;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    align-items: center;
+    background-color: color(layer, 3);
+    column-gap: 6px;
+    display: flex;
+
+    > .label {
+      margin: 0;
+    }
+
+    > .rangeslider {
+      direction: ltr;
+      box-shadow: none;
+      background-color: color(layer, 2);
+      border: 2px solid color(border, 2);
+      margin: 0;
+      flex: 1;
+
+      > .rangeslider__fill {
+        box-shadow: none;
+      }
+
+      > .rangeslider__handle {
+        box-shadow: none;
+        border-style: solid;
+        border-color: color(text);
+        z-index: 1;
+
+        > .rangeslider__handle-tooltip {
+          width: fit-content;
+          height: auto;
+          display: flex;
+          background-color: color(layer, 2);
+          border: 1px solid color(border, 2);
+          animation: zoomrc-show-slider-popover-animation 150ms linear;
+
+          > span {
+            width: max-content;
+            height: auto;
+            display: flex;
+            margin: 10px 4px 4px;
+            padding: 4px 8px;
+            align-items: center;
+          }
+
+          &::after {
+            border-top-color: color(layer, 2);
+          }
+        }
+
+        &::after {
+          content: unset;
+        }
+      }
+
+      > .rangeslider__labels {
+        color: color(text, 2);
+        display: block;
+        margin: 0;
+        width: 100%;
+        height: auto;
+
+        > .rangeslider__label-item {
+          &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            border-radius: 100%;
+            background-color: color(text);
+            margin: auto;
+          }
+        }
+      }
+    }
+  }
+
+  > .zoomrc-range-slider-state-message {
+    color: inherit;
+    margin-top: 4px;
+    direction: rtl;
+    text-align: right;
+  }
+
+  &-disabled {
+    > .slider-container {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+
+  &-with-thumb-content {
+    > .slider-container {
+      > .rangeslider {
+        > .rangeslider__handle {
+          > .rangeslider__handle-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+
+            > .zoomrc-emoji {
+              width: 70%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include ltr {
+  .zoomrc-range-slider {
+    > .zoomrc-range-slider-state-message {
+      direction: ltr;
+      text-align: left;
+    }
+  }
+}

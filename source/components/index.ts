@@ -1,6 +1,7 @@
 export * from './alert'
 export * from './alert/use-alert'
 export * from './avatar'
+export * from './avatar-editor'
 export * from './badge'
 export * from './bottom-sheet'
 export * from './button'

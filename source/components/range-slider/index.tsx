@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { FC, ReactNode, useEffect, useState } from 'react'
 
 import Slider from 'react-rangeslider'
 
@@ -102,6 +102,12 @@ export const RangeSlider: FC<RangeSliderNS.Props> = ({
     normal: size === 'normal',
     large: size === 'large',
   }
+
+  useEffect(() => {
+    if (providedValue) {
+      setValue(providedValue)
+    }
+  }, [providedValue])
 
   return (
     <div {...rest} {...containerProps} ref={reference} className={classes}>

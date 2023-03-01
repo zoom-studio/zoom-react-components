@@ -12,6 +12,7 @@
     "languagedetector",
     "overlayscrollbars",
     "pluginutils",
+    "rangeslider",
     "virtualizers"
   ],
   "yaml.schemas": {

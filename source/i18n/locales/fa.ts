@@ -337,4 +337,8 @@ export const FATranslations = {
   divider: {
     textualChildren: 'مقداری چیلدرن متنی که قرار است بعنوان تاتیل کامپوننت دیوایدر استفاده شود',
   },
+
+  rangeSlider: {
+    label: 'عنوان رینج اسلایدر',
+  },
 }

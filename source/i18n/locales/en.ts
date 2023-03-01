@@ -342,4 +342,8 @@ export const ENTranslations: typeof FATranslations = {
   divider: {
     textualChildren: 'Some textual children that is supposed to be dividers title',
   },
+
+  rangeSlider: {
+    label: 'Range slider title',
+  },
 }

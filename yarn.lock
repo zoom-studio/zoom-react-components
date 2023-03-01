@@ -10641,7 +10641,15 @@ raw-loader@^4.0.2:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-<<<<<<< HEAD
+react-avatar-editor@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/react-avatar-editor/-/react-avatar-editor-13.0.0.tgz#55013625ee9ae715c1fe2dc553b8079994d8a5f2"
+  integrity sha512-0xw63MbRRQdDy7YI1IXU9+7tTFxYEFLV8CABvryYOGjZmXRTH2/UA0mafe57ns62uaEFX181kA4XlGlxCaeXKA==
+  dependencies:
+    "@babel/plugin-transform-runtime" "^7.12.1"
+    "@babel/runtime" "^7.12.5"
+    prop-types "^15.7.2"
+
 react-base16-styling@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/react-base16-styling/-/react-base16-styling-0.6.0.tgz#ef2156d66cf4139695c8a167886cb69ea660792c"
@@ -10651,16 +10659,6 @@ react-base16-styling@^0.6.0:
     lodash.curry "^4.0.1"
     lodash.flow "^3.3.0"
     pure-color "^1.2.0"
-=======
-react-avatar-editor@^13.0.0:
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/react-avatar-editor/-/react-avatar-editor-13.0.0.tgz#55013625ee9ae715c1fe2dc553b8079994d8a5f2"
-  integrity sha512-0xw63MbRRQdDy7YI1IXU9+7tTFxYEFLV8CABvryYOGjZmXRTH2/UA0mafe57ns62uaEFX181kA4XlGlxCaeXKA==
-  dependencies:
-    "@babel/plugin-transform-runtime" "^7.12.1"
-    "@babel/runtime" "^7.12.5"
-    prop-types "^15.7.2"
->>>>>>> main
 
 react-docgen-typescript@^2.1.1:
   version "2.2.2"

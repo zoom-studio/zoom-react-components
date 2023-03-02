@@ -1,3 +1,8 @@
+@import '~react-advanced-cropper/dist/themes/compact.css';
+@import '~react-advanced-cropper/dist/style.css';
+
 .zoomrc-image-editor {
-  color: red;
+  max-width: 500px;
+  display: block;
+  margin: auto;
 }

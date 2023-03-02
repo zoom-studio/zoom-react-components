@@ -10,7 +10,7 @@ import { useSettings } from './hooks/use-settings'
 import { useZoomContext } from '../hooks'
 
 export default {
-  title: 'Menu/Menu',
+  title: 'Navigation/Menu',
   component: Menu,
   args: {
     items: enMenuItems,

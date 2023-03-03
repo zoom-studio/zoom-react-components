@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, ReactNode } from 'react'
+import React, { FC, HTMLAttributes, MouseEvent, ReactNode } from 'react'
 
 import { Button, ButtonNS, Emoji, EmojiNS, Icon, IconNS, Popover, PopoverNS, Text, Title } from '..'
 import { UseStatedIcon, useStatedIcon, useZoomComponent } from '../../hooks'
@@ -6,7 +6,7 @@ import { CommonVariants } from '../../types'
 import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace PopConfirmNS {
-  export type Action = ButtonNS.Props
+  export type Action = ButtonNS.Props | ((handlers: PopoverNS.Handlers) => ButtonNS.Props)
 
   export interface Props
     extends Omit<UseStatedIcon.Params, 'variant'>,
@@ -27,10 +27,10 @@ export namespace PopConfirmNS {
 }
 
 export const PopConfirm: FC<PopConfirmNS.Props> = ({
+  cancel: providedCancel = { children: 'Cancel' },
+  confirm: providedConfirm = { children: 'Confirm' },
   trigger = 'click',
   variant = 'neutral',
-  cancel = { text: 'Cancel' },
-  confirm = { text: 'Confirm' },
   title,
   children,
   buttonProps,
@@ -48,41 +48,55 @@ export const PopConfirm: FC<PopConfirmNS.Props> = ({
     [createClassName('', variant)]: true,
   })
 
-  return (
-    <Popover
-      {...popoverProps}
-      trigger={trigger}
-      content={
-        <div {...containerProps} className={contentClasses}>
-          <div className="title">
-            <ConditionalWrapper
-              condition={iconType !== 'nothing' && !!iconName}
-              trueWrapper={child => <div className="icon">{child}</div>}
-            >
-              {iconType === 'icon' ? (
-                <Icon name={iconName as IconNS.Names} />
-              ) : (
-                <Emoji className="emoji" name={iconName as EmojiNS.Emojis.Names} />
-              )}
-            </ConditionalWrapper>
+  const renderContent = (handlers: PopoverNS.Handlers) => {
+    const cancel = typeof providedCancel === 'function' ? providedCancel(handlers) : providedCancel
+    const confirm =
+      typeof providedConfirm === 'function' ? providedConfirm(handlers) : providedConfirm
 
-            <Title h5>{title}</Title>
-          </div>
+    const handleOnCancel = (evt: MouseEvent<HTMLButtonElement>) => {
+      evt.stopPropagation()
+      cancel.onClick?.(evt)
+    }
 
-          {description && <Text className="description">{description}</Text>}
+    const handleOnConfirm = (evt: MouseEvent<HTMLButtonElement>) => {
+      evt.stopPropagation()
+      confirm.onClick?.(evt)
+    }
 
-          <div className="actions">
-            <Button size="small" type="primary" {...confirm}>
-              {confirm.children}
-            </Button>
+    return (
+      <div {...containerProps} className={contentClasses}>
+        <div className="title">
+          <ConditionalWrapper
+            condition={iconType !== 'nothing' && !!iconName}
+            trueWrapper={child => <div className="icon">{child}</div>}
+          >
+            {iconType === 'icon' ? (
+              <Icon name={iconName as IconNS.Names} />
+            ) : (
+              <Emoji className="emoji" name={iconName as EmojiNS.Emojis.Names} />
+            )}
+          </ConditionalWrapper>
 
-            <Button size="small" type="secondary" {...cancel}>
-              {cancel.children}
-            </Button>
-          </div>
+          <Title h5>{title}</Title>
         </div>
-      }
-    >
+
+        {description && <Text className="description">{description}</Text>}
+
+        <div className="actions">
+          <Button size="small" type="primary" {...confirm} onClick={handleOnConfirm}>
+            {confirm.children}
+          </Button>
+
+          <Button size="small" type="secondary" {...cancel} onClick={handleOnCancel}>
+            {cancel.children}
+          </Button>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <Popover {...popoverProps} trigger={trigger} content={renderContent}>
       <Button {...buttonProps}>{children}</Button>
     </Popover>
   )

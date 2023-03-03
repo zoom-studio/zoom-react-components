@@ -10,7 +10,7 @@ export default {
   title: 'Data entry/Image editor',
   component: ImageEditor,
   args: {
-    src: image(800, 800, 'cats'),
+    src: image(500, 800, 'cats'),
     // aspectRatio: 1,
   },
 } as ComponentMeta<typeof ImageEditor>

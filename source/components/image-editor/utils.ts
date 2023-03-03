@@ -2,7 +2,14 @@ import { RawAspectRatio } from 'react-advanced-cropper'
 
 import { ImageEditorNS } from '.'
 
-export const getHandlers = (aspectRatio?: RawAspectRatio): ImageEditorNS.Handlers => {
+export const getHandlers = (
+  isOnCropMode: boolean,
+  aspectRatio?: RawAspectRatio,
+): ImageEditorNS.Handlers => {
+  if (!isOnCropMode) {
+    return false
+  }
+
   if (
     aspectRatio &&
     (typeof aspectRatio === 'number' || aspectRatio.maximum === aspectRatio.minimum)

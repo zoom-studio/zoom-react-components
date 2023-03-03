@@ -8,10 +8,10 @@ import React, {
   RefObject,
   useEffect,
   useRef,
+  useState,
 } from 'react'
 
 import { Spin, SpinNS, Text, Title, TypographyNS } from '..'
-import { logs } from '../../constants'
 import { useOutsideClick, useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 import { ConditionalWrapper } from '../conditional-wrapper'
@@ -36,7 +36,7 @@ export namespace PopoverNS {
     'left-end',
   ] as const
 
-  export interface ChildrenCallback {
+  export interface Handlers {
     openPopover: () => void
     closePopover: () => void
   }
@@ -45,7 +45,7 @@ export namespace PopoverNS {
     title?: string | ReactNode
     titleProps?: TypographyNS.TitleNS.Props
     popoverProps?: HTMLAttributes<HTMLDivElement>
-    content?: ReactNode
+    content?: ReactNode | ((handlers: Handlers) => ReactNode)
     contentProps?: HTMLAttributes<HTMLDivElement>
     description?: string
     descriptionProps?: TypographyNS.TextNS.Props
@@ -62,7 +62,7 @@ export namespace PopoverNS {
     width?: string | number
     autoCloseDelay?: number
     childRef?: RefObject<HTMLElement | null>
-    children?: JSX.Element | ((handlers: ChildrenCallback) => JSX.Element)
+    children?: JSX.Element | ((handlers: Handlers) => JSX.Element)
   }
 }
 
@@ -93,11 +93,11 @@ export const Popover: FC<PopoverNS.Props> = ({
   containerProps,
   ...rest
 }) => {
-  const OPEN = 'open'
+  const [isOpen, setIsOpen] = useState(!!defaultIsOpen)
   const containerRef = customContainerRef ?? useRef<HTMLDivElement>(null)
   const childRef = customChildRef ?? useRef<HTMLElement | null>(null)
   const timeout = useRef<number | null>(null)
-  const { createClassName, sendLog } = useZoomComponent('popover')
+  const { createClassName } = useZoomComponent('popover')
   const isValidPopover = !!title || !!description || !!content || loading
 
   const titleClasses = createClassName(titleProps?.className, 'title')
@@ -111,47 +111,30 @@ export const Popover: FC<PopoverNS.Props> = ({
     'with-arrow': !!showArrow,
   })
 
-  const isOpen = (): boolean => {
-    const { current: container } = containerRef
-    if (!container) {
-      if (isValidPopover) {
-        sendLog(logs.popoverNotFoundContainerRef, 'isOpen function')
+  const toggle = () => {
+    setIsOpen(currentIsOpen => {
+      if (currentIsOpen) {
+        onClose?.()
+        return false
+      } else {
+        onOpen?.()
+        return true
       }
-      return false
-    }
-    return container.classList.contains(OPEN)
+    })
   }
 
-  const toggle = () => (isOpen() ? close : open)()
-
-  const open = (): boolean => {
+  const open = () => {
     onOpen?.()
-    const { current: container } = containerRef
-    if (!container) {
-      if (isValidPopover) {
-        sendLog(logs.popoverNotFoundContainerRef, 'open function')
-      }
-      return isOpen()
-    }
-    container.classList.add(OPEN)
+    setIsOpen(true)
+
     if (autoCloseDelay) {
       setTimeout(close, autoCloseDelay)
     }
-    return true
   }
 
-  const close = (): boolean => {
+  const close = () => {
     onClose?.()
-    const { current: container } = containerRef
-    if (!container) {
-      if (isValidPopover) {
-        sendLog(logs.popoverNotFoundContainerRef, 'close function')
-      }
-      return isOpen()
-    }
-    container.classList.remove(OPEN)
-    container.blur()
-    return false
+    setIsOpen(false)
   }
 
   const handleOnFocusOrBlur = (evt: FocusEvent<HTMLDivElement>) => {
@@ -229,43 +212,52 @@ export const Popover: FC<PopoverNS.Props> = ({
         onMouseLeave={handleOnMouseEnterOrLeave}
         onClick={handleOnClick}
       >
-        <div {...popoverProps} className={popoverClasses} style={{ width: width ?? 'max-content' }}>
-          <div className="container-children">
-            {showArrow && <span className="arrow" />}
+        {isOpen && (
+          <div
+            {...popoverProps}
+            className={popoverClasses}
+            style={{ width: width ?? 'max-content' }}
+          >
+            <div className="container-children">
+              {showArrow && <span className="arrow" />}
 
-            {loading ? (
-              <div className="popover-loader">
-                <Spin {...spinProps} tip={loadingTitle || spinProps?.tip} />
-              </div>
-            ) : (
-              <>
-                <ConditionalWrapper
-                  condition={typeof title === 'string'}
-                  falseWrapper={children => <>{children}</>}
-                  trueWrapper={children => (
-                    <Title h5 {...titleProps} className={titleClasses}>
-                      {children}
-                    </Title>
+              {loading ? (
+                <div className="popover-loader">
+                  <Spin {...spinProps} tip={loadingTitle || spinProps?.tip} />
+                </div>
+              ) : (
+                <>
+                  <ConditionalWrapper
+                    condition={typeof title === 'string'}
+                    falseWrapper={children => <>{children}</>}
+                    trueWrapper={children => (
+                      <Title h5 {...titleProps} className={titleClasses}>
+                        {children}
+                      </Title>
+                    )}
+                  >
+                    {title}
+                  </ConditionalWrapper>
+
+                  {description && (
+                    <Text {...descriptionProps} className={descriptionClasses}>
+                      {description}
+                    </Text>
                   )}
-                >
-                  {title}
-                </ConditionalWrapper>
 
-                {description && (
-                  <Text {...descriptionProps} className={descriptionClasses}>
-                    {description}
-                  </Text>
-                )}
-
-                {content && (
-                  <div {...contentProps} className={contentClasses}>
-                    {content}
-                  </div>
-                )}
-              </>
-            )}
+                  {content && (
+                    <div {...contentProps} className={contentClasses}>
+                      {typeof content === 'function'
+                        ? content({ closePopover: close, openPopover: open })
+                        : content}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        )}
+
         {children && cloneElement(getChildren(), { reference: childRef })}
       </div>
     </ConditionalWrapper>

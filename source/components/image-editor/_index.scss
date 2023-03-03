@@ -1,8 +1,125 @@
-@import '~react-advanced-cropper/dist/themes/compact.css';
 @import '~react-advanced-cropper/dist/style.css';
+@import '~react-advanced-cropper/dist/themes/compact.css';
+
+@keyframes zoomrc-show-image-editor-range-control-animation {
+  from {
+    bottom: -100%;
+  }
+}
 
 .zoomrc-image-editor {
-  max-width: 500px;
-  display: block;
-  margin: auto;
+  display: flex;
+  width: 100%;
+  background-color: black;
+  position: relative;
+  flex-direction: column;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid color(border, 2);
+
+  > .canvas-container {
+    position: relative;
+    width: 100%;
+
+    > .advanced-cropper {
+      height: 500px;
+      width: 100%;
+      max-height: 100vh;
+      background: transparent;
+      position: relative;
+
+      .cropper-overlay {
+        transition: 0.5s;
+
+        &.faded {
+          color: #000000b3;
+        }
+      }
+    }
+
+    > .range-control {
+      position: absolute;
+      left: 0;
+      right: 0;
+      animation: zoomrc-show-image-editor-range-control-animation 150ms ease;
+      width: 500px;
+      margin: auto;
+      bottom: 10px;
+      max-width: 90%;
+    }
+
+    > .reset-all {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+
+      .reset-all-button {
+        > .zoomrc-button-inner-child {
+          font-size: to-rem(24px);
+          padding: 10px;
+        }
+      }
+    }
+  }
+
+  > .editor-preview {
+    height: 60px;
+    width: 60px;
+    background: black;
+    border: 1px solid #2b2a30;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+
+    &.circular {
+      border-radius: 50%;
+    }
+  }
+
+  > .editor-actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: color(layer, 2);
+    padding: 20px 0;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid color(border, 2);
+
+    > .zoomrc-stack {
+      > .zoomrc-stack-item {
+        gap: 4px;
+
+        .editor-action-button {
+          &:not(.active) {
+            color: color(text, 2);
+          }
+
+          &.active {
+            color: color(accent);
+            border-color: color(accent);
+          }
+
+          > .zoomrc-button-inner-child {
+            font-size: to-rem(24px);
+            padding: 10px;
+          }
+
+          &.horizontal {
+            > .zoomrc-button-inner-child {
+              > .zoomrc-icon {
+                transform: rotate(90deg);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.adjustable-image-source {
+  display: none;
 }

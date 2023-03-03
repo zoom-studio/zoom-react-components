@@ -9,7 +9,7 @@ import { useI18n } from './hooks/use-i18n'
 import { useSettings } from './hooks/use-settings'
 
 export default {
-  title: 'Menu/Context menu',
+  title: 'Navigation/Context menu',
   component: ContextMenu,
   args: {
     items: enMenuItems,

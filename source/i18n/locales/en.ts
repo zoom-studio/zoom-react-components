@@ -346,4 +346,17 @@ export const ENTranslations: typeof FATranslations = {
   rangeSlider: {
     label: 'Range slider title',
   },
+
+  tab: {
+    everythingTogether: 'Everything together',
+    withoutChild: 'Without child',
+    noneClosable: 'None closable',
+    disabled: 'Disabled',
+    loading: 'Loading',
+    emoji: 'Emoji',
+    icon: 'Icon',
+    iconOnly: 'Icon only',
+    emojiOnly: 'Emoji only',
+    withoutLink: 'Without link',
+  },
 }

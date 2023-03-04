@@ -75,6 +75,7 @@
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.0.3",
     "overlayscrollbars-react": "^0.5.0",
+    "react-advanced-cropper": "^0.18.0",
     "react-avatar-editor": "^13.0.0",
     "react-hot-toast": "^2.4.0",
     "react-menu-list": "https://github.com/zoom-studio/react-menu-list.git",

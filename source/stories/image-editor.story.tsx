@@ -1,49 +1,57 @@
 import React, { FC } from 'react'
 
+import { faker } from '@faker-js/faker'
 import { ComponentMeta } from '@storybook/react'
 
-import { AvatarEditor, AvatarEditorNS } from '../components'
+import { ImageEditor, ImageEditorNS } from '../components'
 import { image } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 
 export default {
-  title: 'Data entry/Avatar editor',
-  component: AvatarEditor,
+  title: 'Data entry/Image editor',
+  component: ImageEditor,
   args: {
-    src: image(undefined, undefined, 'cats'),
-    borderRadius: 2000,
-    borderColor: [0, 0, 0, 0.8],
-    borderWidth: 6,
-    size: 250,
-    defaultScale: 1,
-    minScaleOut: 0.1,
-    maxScale: 6,
-    scaleStep: 0.1,
-    rotateStep: 90,
-    allowScaleOut: true,
-    noBounds: false,
-    fitCanvasSize: true,
+    src: faker.image.image(),
+    grid: true,
+    circleStencil: false,
+    aspectRatio: undefined,
+    defaultFlips: { flipHorizontally: false, flipVertically: false },
+    defaultRotation: 0,
+    defaultAdjustments: {
+      brightness: 0,
+      contrast: 0,
+      hue: 0,
+      saturation: 0,
+    },
+    confirmBeforeReset: true,
+    showReset: true,
+    showPreview: true,
+    disabled: false,
     loading: false,
-    crossOrigin: 'anonymous',
+    className: 'my-image-editor',
+    id: 'my-image-editor',
+    containerProps: undefined,
+    onClick: undefined,
+    reference: undefined,
+    style: undefined,
   },
-} as ComponentMeta<typeof AvatarEditor>
+} as ComponentMeta<typeof ImageEditor>
 
-const useAvatarEditorStory = () => {
+const useImageEditorStory = () => {
   const src = image(undefined, undefined, 'cats')
   return { src }
 }
 
-export const LoadingAndError: FC = () => {
-  const { src } = useAvatarEditorStory()
+export const StencilType: FC = () => {
+  const { src } = useImageEditorStory()
   return (
     <CommonStory
-      component={AvatarEditor}
+      component={ImageEditor}
       stories={[
         {
           group: [
-            { name: 'Normal', props: { src } },
-            { name: 'Loading', props: { src, loading: true } },
-            { name: 'Errored', props: { src: src + 'dd' } },
+            { name: 'Rectangle (Default)', props: { src } },
+            { name: 'Circle', props: { circleStencil: true, src } },
           ],
         },
       ]}
@@ -51,18 +59,20 @@ export const LoadingAndError: FC = () => {
   )
 }
 
-export const CustomBorder: FC = () => {
-  const { src } = useAvatarEditorStory()
+export const AspectRatio: FC = () => {
+  const { src } = useImageEditorStory()
   return (
     <CommonStory
-      component={AvatarEditor}
+      component={ImageEditor}
       stories={[
         {
           group: [
-            { name: 'Default', props: { src } },
+            { name: 'Free (Default)', props: { src } },
+            { name: '1:1', props: { src, aspectRatio: 1 / 1 } },
+            { name: '6:9', props: { src, aspectRatio: 6 / 9 } },
             {
-              name: 'Custom',
-              props: { src, borderColor: [63, 189, 121, 0.9], borderRadius: 30, borderWidth: 20 },
+              name: 'Minimum 1:1 & Maximum 6:9',
+              props: { src, aspectRatio: { minimum: 2 / 4, maximum: 6 / 9 } },
             },
           ],
         },
@@ -71,16 +81,16 @@ export const CustomBorder: FC = () => {
   )
 }
 
-export const AllowScaleOut: FC = () => {
-  const { src } = useAvatarEditorStory()
+export const Grids: FC = () => {
+  const { src } = useImageEditorStory()
   return (
     <CommonStory
-      component={AvatarEditor}
+      component={ImageEditor}
       stories={[
         {
           group: [
-            { name: 'Allowed scale out (Default)', props: { src, allowScaleOut: true } },
-            { name: 'Without scale out', props: { src, allowScaleOut: false } },
+            { name: 'With grids (Default)', props: { src } },
+            { name: 'Without grids', props: { src, grid: false } },
           ],
         },
       ]}
@@ -88,16 +98,22 @@ export const AllowScaleOut: FC = () => {
   )
 }
 
-export const DefaultScale: FC = () => {
-  const { src } = useAvatarEditorStory()
+export const DefaultSettings: FC = () => {
+  const { src } = useImageEditorStory()
   return (
     <CommonStory
-      component={AvatarEditor}
+      component={ImageEditor}
       stories={[
         {
           group: [
-            { name: 'default=1', props: { src } },
-            { name: 'custom: 4', props: { src, defaultScale: 4 } },
+            {
+              props: {
+                src,
+                defaultAdjustments: { brightness: 20, contrast: 30, hue: 40, saturation: 50 },
+                defaultFlips: { flipHorizontally: true, flipVertically: true },
+                defaultRotation: 90,
+              },
+            },
           ],
         },
       ]}
@@ -105,16 +121,22 @@ export const DefaultScale: FC = () => {
   )
 }
 
-export const CustomScaleRange: FC = () => {
-  const { src } = useAvatarEditorStory()
+export const ConfirmBeforeReset: FC = () => {
+  const { src } = useImageEditorStory()
   return (
     <CommonStory
-      component={AvatarEditor}
+      component={ImageEditor}
       stories={[
         {
           group: [
-            { name: 'min:0.1 | max:6 (Default)', props: { src } },
-            { name: 'min:1 | max:20', props: { src, minScaleOut: 1, maxScale: 20 } },
+            {
+              name: 'With confirmation (Default)',
+              props: { src, defaultAdjustments: { hue: 10 } },
+            },
+            {
+              name: 'Without confirmation',
+              props: { src, confirmBeforeReset: false, defaultAdjustments: { hue: 10 } },
+            },
           ],
         },
       ]}
@@ -122,16 +144,22 @@ export const CustomScaleRange: FC = () => {
   )
 }
 
-export const ScaleSteps: FC = () => {
-  const { src } = useAvatarEditorStory()
+export const ShowResetButton: FC = () => {
+  const { src } = useImageEditorStory()
   return (
     <CommonStory
-      component={AvatarEditor}
+      component={ImageEditor}
       stories={[
         {
           group: [
-            { name: 'step:0.1 (Default)', props: { src } },
-            { name: 'step:2', props: { src, scaleStep: 2, minScaleOut: 1, maxScale: 20 } },
+            {
+              name: 'With reset button (Default)',
+              props: { src, defaultAdjustments: { hue: 10 } },
+            },
+            {
+              name: 'Without reset button',
+              props: { src, showReset: false, defaultAdjustments: { hue: 10 } },
+            },
           ],
         },
       ]}
@@ -139,16 +167,22 @@ export const ScaleSteps: FC = () => {
   )
 }
 
-export const RotateSteps: FC = () => {
-  const { src } = useAvatarEditorStory()
+export const ShowPreview: FC = () => {
+  const { src } = useImageEditorStory()
   return (
     <CommonStory
-      component={AvatarEditor}
+      component={ImageEditor}
       stories={[
         {
           group: [
-            { name: 'step:90 (Default)', props: { src } },
-            { name: 'step:10', props: { src, rotateStep: 10 } },
+            {
+              name: 'Show preview (Default)',
+              props: { src },
+            },
+            {
+              name: 'Without preview',
+              props: { src, showPreview: false },
+            },
           ],
         },
       ]}
@@ -156,16 +190,17 @@ export const RotateSteps: FC = () => {
   )
 }
 
-export const Bounds: FC = () => {
-  const { src } = useAvatarEditorStory()
+export const DisabledAndLoading: FC = () => {
+  const { src } = useImageEditorStory()
   return (
     <CommonStory
-      component={AvatarEditor}
+      component={ImageEditor}
       stories={[
         {
           group: [
-            { name: 'Respect bounds (Default)', props: { src } },
-            { name: 'No bounds', props: { src, noBounds: true } },
+            { name: 'Normal', props: { src } },
+            { name: 'Loading', props: { src, loading: true } },
+            { name: 'Disabled', props: { src, disabled: true } },
           ],
         },
       ]}
@@ -173,6 +208,13 @@ export const Bounds: FC = () => {
   )
 }
 
-export const Playground: FC<AvatarEditorNS.Props> = props => {
-  return <StoryPlayground component={AvatarEditor} props={props} />
+export const Errored: FC = () => {
+  const { src } = useImageEditorStory()
+  return (
+    <CommonStory component={ImageEditor} stories={[{ group: [{ props: { src: src + 'dd' } }] }]} />
+  )
+}
+
+export const Playground: FC<ImageEditorNS.Props> = props => {
+  return <StoryPlayground component={ImageEditor} props={props} />
 }

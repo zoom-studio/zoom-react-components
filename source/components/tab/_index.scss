@@ -1,0 +1,141 @@
+.zoomrc-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &-fit-content {
+    .tabs {
+      .os-viewport {
+        > .tabs-container {
+          > .tab {
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+
+  .tabs {
+    .os-viewport {
+      > .tabs-container {
+        display: flex;
+        border-bottom: 1px solid color(accent, 1);
+        flex-wrap: no-wrap;
+        padding: 0 10px !important;
+        gap: 6px;
+        margin-bottom: 10px !important;
+
+        > .tab {
+          color: color(text, 2);
+          display: flex;
+          align-items: center;
+          position: relative;
+          padding: 6px 10px 8px;
+          gap: 6px;
+          user-select: none;
+          text-decoration: none;
+          justify-content: center;
+          border: 1px solid color(border, 2);
+          border-radius: 8px 8px 0 0;
+          border-bottom: none;
+
+          &::after {
+            content: '';
+            position: absolute;
+            background-color: color(accent, 1);
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+          }
+
+          &:hover {
+            color: color(text, 1);
+          }
+
+          > .tab-info {
+            @include truncate;
+
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            justify-content: flex-start;
+            flex: 1;
+
+            > .tab-title {
+              @include text(common, normal);
+              @include truncate;
+
+              margin: 0;
+            }
+
+            > .tab-icon {
+              font-size: 18px;
+            }
+
+            > .tab-emoji {
+              width: 16px;
+            }
+          }
+
+          > .tab-action {
+            > .tab-spin {
+              > .spinner {
+                width: 14px;
+                height: 14px;
+              }
+            }
+
+            > .tab-close-icon {
+              cursor: pointer;
+              border-radius: 50%;
+              font-size: 14px;
+              width: 18px;
+              height: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 75ms linear;
+
+              &:hover {
+                background-color: color(text, 1, glassy, 1);
+              }
+            }
+          }
+
+          &.active {
+            color: color(accent);
+            border-color: color(accent, 1);
+
+            &::after {
+              background-color: inherit;
+            }
+
+            > .tab-action {
+              > .tab-spin {
+                > .spinner {
+                  border-color: color(accent) !important;
+                }
+              }
+            }
+          }
+
+          &.disabled {
+            pointer-events: none;
+
+            > .tab-info,
+            > .tab-action {
+              filter: grayscale(1);
+              opacity: 0.5;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .tab-children {
+    width: 100%;
+    height: auto;
+  }
+}

@@ -25,12 +25,6 @@ div.zoomrc-popover {
   display: inline-flex;
   direction: rtl;
 
-  &:not(.open) {
-    > .zoomrc-popover-container {
-      display: none;
-    }
-  }
-
   > .zoomrc-popover-container {
     position: absolute;
     max-width: 260px;

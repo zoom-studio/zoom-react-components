@@ -1,0 +1,148 @@
+@import '~react-advanced-cropper/dist/style.css';
+@import '~react-advanced-cropper/dist/themes/compact.css';
+
+@keyframes zoomrc-show-image-editor-range-control-animation {
+  from {
+    bottom: -100%;
+  }
+}
+
+.zoomrc-image-editor {
+  display: flex;
+  width: 100%;
+  background-color: black;
+  position: relative;
+  flex-direction: column;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid color(border, 2);
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  > .canvas-container {
+    position: relative;
+    width: 100%;
+
+    > .image-skeleton {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+    }
+
+    > .advanced-cropper {
+      height: 500px;
+      width: 100%;
+      max-height: 100vh;
+      background: transparent;
+      position: relative;
+
+      .cropper-overlay {
+        transition: 0.5s;
+
+        &.faded {
+          color: #000000b3;
+        }
+      }
+    }
+
+    > .range-control {
+      position: absolute;
+      left: 0;
+      right: 0;
+      animation: zoomrc-show-image-editor-range-control-animation 150ms ease;
+      width: 500px;
+      margin: auto;
+      bottom: 10px;
+      max-width: 90%;
+    }
+
+    > .reset-all {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+
+      .reset-all-button {
+        > .zoomrc-button-inner-child {
+          font-size: to-rem(24px);
+          padding: 10px;
+        }
+      }
+    }
+  }
+
+  > .editor-preview {
+    height: 60px;
+    width: 60px;
+    background: black;
+    border: 1px solid #2b2a30;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+
+    &.circular {
+      border-radius: 50%;
+    }
+  }
+
+  > .editor-actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: color(layer, 2);
+    padding: 20px 0;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid color(border, 2);
+
+    &.loading {
+      pointer-events: none;
+    }
+
+    > .zoomrc-stack {
+      > .zoomrc-stack-item {
+        gap: 4px;
+
+        .editor-action-button {
+          &:disabled {
+            opacity: 0.4;
+          }
+
+          &:not(.active) {
+            color: color(text, 2);
+          }
+
+          &.active {
+            color: color(accent);
+            border-color: color(accent);
+          }
+
+          > .zoomrc-button-inner-child {
+            font-size: to-rem(24px);
+            padding: 10px;
+          }
+
+          &.horizontal {
+            > .zoomrc-button-inner-child {
+              > .zoomrc-icon {
+                transform: rotate(90deg);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.adjustable-image-source {
+  display: none;
+}

@@ -74,3 +74,10 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child) {
     @include generate-text-variants;
   }
 }
+
+.zoomrc-button-inner-child {
+  &,
+  & * {
+    pointer-events: none;
+  }
+}

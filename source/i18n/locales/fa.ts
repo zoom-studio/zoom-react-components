@@ -341,4 +341,17 @@ export const FATranslations = {
   rangeSlider: {
     label: 'عنوان رینج اسلایدر',
   },
+
+  tab: {
+    everythingTogether: 'همه چیز با هم',
+    withoutChild: 'بدون چیلدرن',
+    noneClosable: 'غیر قابل بسته‌شدن',
+    disabled: 'غیر فعال',
+    loading: 'لودینگ',
+    emoji: 'ایموجی',
+    icon: 'آیکن',
+    iconOnly: 'فقط آیکن',
+    emojiOnly: 'فقط ایموجی',
+    withoutLink: 'بدون لینک',
+  },
 }

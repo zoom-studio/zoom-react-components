@@ -2,7 +2,7 @@ import React, { Dispatch, FC, RefObject, SetStateAction } from 'react'
 
 import { CropperRef } from 'react-advanced-cropper'
 
-import { PopConfirm } from '..'
+import { Button, ButtonNS, PopConfirm, Tooltip } from '..'
 import { logs } from '../../constants'
 import { ZoomLogProviderNS } from '../zoom-log-provider'
 
@@ -14,6 +14,9 @@ export namespace ResetChangesNS {
     sendLog: ZoomLogProviderNS.Log
     i18n: Required<ImageEditorNS.I18n>
     setAdjustments: Dispatch<SetStateAction<ImageEditorNS.Adjustments>>
+    confirmBeforeReset: boolean
+    defaultAdjustments: ImageEditorNS.Adjustments
+    disabled: boolean
   }
 }
 
@@ -22,37 +25,48 @@ export const ResetChanges: FC<ResetChangesNS.Props> = ({
   i18n,
   sendLog,
   setAdjustments,
+  confirmBeforeReset,
+  defaultAdjustments,
+  disabled,
 }) => {
-  const handleResetChanges = (closePopover: () => void) => () => {
+  const handleResetChanges = (closePopover?: () => void) => () => {
     const { current: cropper } = cropperRef
     if (!cropper) {
       return sendLog(logs.imageEditorNotFoundCropperRef, 'handleResetChanges fn')
     }
 
     cropper.reset()
-    setAdjustments(ImageEditorNS.DEFAULT_ADJUSTMENTS)
-    closePopover()
+    setAdjustments(defaultAdjustments)
+    closePopover?.()
+  }
+
+  const resetButtonProps: ButtonNS.Props = {
+    prefixMaterialIcon: 'restart_alt',
+    shape: 'circle',
+    type: 'secondary',
+    size: 'large',
+    className: 'reset-all-button',
   }
 
   return (
     <div className="reset-all">
-      <PopConfirm
-        placement="left-start"
-        title={i18n.reset}
-        description={i18n.resetMessage}
-        confirm={({ closePopover }) => ({
-          children: i18n.confirmReset,
-          onClick: handleResetChanges(closePopover),
-        })}
-        cancel={({ closePopover }) => ({ children: i18n.cancelReset, onClick: closePopover })}
-        buttonProps={{
-          prefixMaterialIcon: 'restart_alt',
-          shape: 'circle',
-          type: 'secondary',
-          size: 'large',
-          className: 'reset-all-button',
-        }}
-      />
+      {confirmBeforeReset ? (
+        <PopConfirm
+          placement="left-start"
+          title={i18n.reset}
+          description={i18n.resetMessage}
+          confirm={({ closePopover }) => ({
+            children: i18n.confirmReset,
+            onClick: handleResetChanges(closePopover),
+          })}
+          cancel={({ closePopover }) => ({ children: i18n.cancelReset, onClick: closePopover })}
+          buttonProps={resetButtonProps}
+        />
+      ) : (
+        <Tooltip title={i18n.reset} placement="left-start">
+          <Button disabled={disabled} {...resetButtonProps} onClick={handleResetChanges()} />
+        </Tooltip>
+      )}
     </div>
   )
 }

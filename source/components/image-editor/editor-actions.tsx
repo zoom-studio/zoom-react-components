@@ -1,4 +1,5 @@
-import React, { FC, RefObject } from 'react'
+import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import React, { FC, RefObject, useEffect } from 'react'
 
 import { CropperRef } from 'react-advanced-cropper'
 
@@ -14,15 +15,26 @@ export namespace EditorActionsNS {
     mode: ImageEditorNS.EditorMode | ImageEditorNS.Flip | ImageEditorNS.Rotate
   }
 
-  export interface Props {
+  export interface Props extends Pick<ImageEditorNS.Props, 'defaultFlips' | 'defaultRotation'> {
     i18n: Required<ImageEditorNS.I18n>
     mode: UseObjectedStateNS.ReturnType<ImageEditorNS.EditorMode>
     cropperRef: RefObject<CropperRef>
     sendLog: ZoomLogProviderNS.Log
+    disabled: boolean
+    loading: boolean
   }
 }
 
-export const EditorActions: FC<EditorActionsNS.Props> = ({ i18n, mode, cropperRef, sendLog }) => {
+export const EditorActions: FC<EditorActionsNS.Props> = ({
+  i18n,
+  mode,
+  cropperRef,
+  sendLog,
+  defaultFlips,
+  defaultRotation,
+  disabled,
+  loading,
+}) => {
   const handleOnActionButtonClick = (targetMode: ImageEditorNS.EditorMode) => () => {
     mode.set(currentMode => {
       if (currentMode === targetMode) {
@@ -41,13 +53,15 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({ i18n, mode, cropperRe
     cropper.flipImage(flipType === 'flipVertically', flipType === 'flipHorizontally')
   }
 
-  const handleRotate = (rotateType: ImageEditorNS.Rotate) => () => {
+  const handleRotate = (rotation: ImageEditorNS.Rotate | number) => () => {
     const { current: cropper } = cropperRef
     if (!cropper) {
       return sendLog(logs.imageEditorNotFoundCropperRef, 'handleRotate fn')
     }
 
-    cropper.rotateImage(rotateType === 'rotateLeft' ? -90 : 90)
+    cropper.rotateImage(
+      typeof rotation === 'number' ? rotation : rotation === 'rotateLeft' ? -90 : 90,
+    )
   }
 
   const FILTERS: EditorActionsNS.Action[] = [
@@ -67,8 +81,29 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({ i18n, mode, cropperRe
     { icon: 'rotate_left', mode: 'rotateLeft' },
   ]
 
+  const classes = classNames('editor-actions', {
+    loading: disabled,
+  })
+
+  useEffect(() => {
+    if (!loading) {
+      if (defaultRotation) {
+        handleRotate(defaultRotation)()
+      }
+
+      if (defaultFlips) {
+        if (defaultFlips.flipHorizontally) {
+          handleFlip('flipHorizontally')()
+        }
+        if (defaultFlips.flipVertically) {
+          handleFlip('flipVertically')()
+        }
+      }
+    }
+  }, [loading])
+
   return (
-    <div className="editor-actions">
+    <div className={classes}>
       <Stack dividers={<Divider vertical />} spacing={0}>
         <>
           {ROTATES.map((rotate, index) => (
@@ -77,6 +112,7 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({ i18n, mode, cropperRe
               icon={rotate.icon}
               title={i18n[rotate.mode]}
               onClick={handleRotate(rotate.mode as ImageEditorNS.Rotate)}
+              disabled={disabled}
             />
           ))}
 
@@ -87,6 +123,7 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({ i18n, mode, cropperRe
               title={i18n[flip.mode]}
               onClick={handleFlip(flip.mode as ImageEditorNS.Flip)}
               className={flip.mode === 'flipVertically' ? 'vertical' : 'horizontal'}
+              disabled={disabled}
             />
           ))}
         </>
@@ -96,6 +133,7 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({ i18n, mode, cropperRe
           title={i18n.crop}
           isActive={mode.val === 'crop'}
           onClick={handleOnActionButtonClick('crop')}
+          disabled={disabled}
         />
 
         <>
@@ -106,6 +144,7 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({ i18n, mode, cropperRe
               title={i18n[filter.mode]}
               isActive={mode.val === filter.mode}
               onClick={handleOnActionButtonClick(filter.mode as ImageEditorNS.EditorMode)}
+              disabled={disabled}
             />
           ))}
         </>

@@ -10,6 +10,7 @@ export namespace EditorActionButtonNS {
     isActive?: boolean
     onClick: () => void
     className?: string
+    disabled?: boolean
   }
 }
 
@@ -19,6 +20,7 @@ export const EditorActionButton: FC<EditorActionButtonNS.Props> = ({
   isActive,
   onClick,
   className,
+  disabled,
 }) => {
   const classes = classNames(className || '', {
     'editor-action-button': true,
@@ -30,6 +32,7 @@ export const EditorActionButton: FC<EditorActionButtonNS.Props> = ({
         className={classes}
         active={isActive}
         onClick={onClick}
+        disabled={disabled}
         prefixMaterialIcon={icon}
         shape="circle"
         type="secondary"

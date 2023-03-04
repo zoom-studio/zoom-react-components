@@ -37,3 +37,12 @@ export const getHandlers = (
     }
   }
 }
+
+export const requireDefaultAdjustments = (
+  defaultAdjustments: Partial<ImageEditorNS.Adjustments>,
+): ImageEditorNS.Adjustments => ({
+  brightness: defaultAdjustments.brightness ?? 0,
+  contrast: defaultAdjustments.contrast ?? 0,
+  hue: defaultAdjustments.hue ?? 0,
+  saturation: defaultAdjustments.saturation ?? 0,
+})

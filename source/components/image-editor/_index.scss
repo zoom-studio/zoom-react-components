@@ -17,9 +17,24 @@
   overflow: hidden;
   border: 1px solid color(border, 2);
 
+  &.disabled {
+    pointer-events: none;
+  }
+
   > .canvas-container {
     position: relative;
     width: 100%;
+
+    > .image-skeleton {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+    }
 
     > .advanced-cropper {
       height: 500px;
@@ -88,11 +103,19 @@
     z-index: 1;
     border-top: 1px solid color(border, 2);
 
+    &.loading {
+      pointer-events: none;
+    }
+
     > .zoomrc-stack {
       > .zoomrc-stack-item {
         gap: 4px;
 
         .editor-action-button {
+          &:disabled {
+            opacity: 0.4;
+          }
+
           &:not(.active) {
             color: color(text, 2);
           }

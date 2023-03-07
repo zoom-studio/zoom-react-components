@@ -2,13 +2,14 @@ import React, { FC } from 'react'
 
 import { useObjectedState, useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
-import { AlertNS, ButtonNS } from '..'
+import { AlertNS, ButtonNS, ImageEditorNS } from '..'
 import { ExplorerContent } from './content'
 
 import { ExplorerHeader } from './header'
 import { ExplorerSidebar } from './sidebar'
 import { UseExplorerI18n, UseExplorerI18nNS } from './use-i18n'
-import { customizeFileTypeColors } from './utils'
+import { customizeFileTypeColors, isImage } from './utils'
+import { findIndex } from 'lodash'
 
 export namespace ExplorerNS {
   export const ViewMode = ['grid', 'row'] as const
@@ -118,7 +119,7 @@ export namespace ExplorerNS {
     onDeleteFiles?: (fileIDs: ID[]) => void
     onRenameFile?: (fileID: ID, newName: string) => void
     onSearch?: (parameters: Partial<SearchParameters>) => void
-    onEditImage?: (newImage: File) => void
+    onEditImage?: (newImageResult: ImageEditorNS.ResultType) => Promise<void>
     onUploadFiles?: (files: File[]) => void
     onSelectItems?: (items: FileInterface[]) => void
     onSelectionChange?: (items: ID[]) => void
@@ -163,9 +164,14 @@ export const Explorer: FC<ExplorerNS.Props> = ({
   const classes = createClassName(className)
 
   const viewMode = useObjectedState(providedViewMode)
-  const selectedFiles = useObjectedState<number[]>([])
+  // const selectedFiles = useObjectedState<number[]>([])
+  const selectedFiles = useObjectedState<number[]>([findIndex(files, file => isImage(file.type))])
   const typeQuery = useObjectedState<ExplorerNS.MaybeAllFileTypesWithAll>('all')
   const searchQuery = useObjectedState('')
+
+  const handleOnSelectionChange = (selectedIndexes: number[]) => {
+    selectedFiles.set(selectedIndexes)
+  }
 
   return (
     <div className={classes} {...containerProps} ref={reference}>
@@ -185,6 +191,7 @@ export const Explorer: FC<ExplorerNS.Props> = ({
           selectedFiles={selectedFiles}
           viewMode={viewMode.val!}
           alert={alert}
+          onSelectionChange={handleOnSelectionChange}
         />
 
         <ExplorerSidebar
@@ -192,6 +199,7 @@ export const Explorer: FC<ExplorerNS.Props> = ({
           i18n={i18n}
           selectedFiles={selectedFiles.val!}
           files={files}
+          onEditImage={onEditImage}
         />
       </div>
     </div>

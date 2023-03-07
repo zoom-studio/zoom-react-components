@@ -1,4 +1,4 @@
-import React, { ComponentProps, FC, useRef, useState } from 'react'
+import React, { ComponentProps, FC, MutableRefObject, useRef, useState } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 import {
@@ -24,6 +24,8 @@ import { EditorActions } from './editor-actions'
 import { ResetChanges } from './reset-changes'
 import { useImageEditorI18n, UseImageEditorI18nNS } from './use-i18n'
 import { getHandlers, requireDefaultAdjustments } from './utils'
+import { logs } from '../../constants'
+import { CanvasUtils, FileUtils } from '../../utils'
 
 export namespace ImageEditorNS {
   export const EditorMode = ['crop', 'saturation', 'brightness', 'contrast', 'hue'] as const
@@ -49,6 +51,14 @@ export namespace ImageEditorNS {
     [keu in Flip]?: boolean
   }
 
+  export interface ResultType {
+    blobURL: string
+    file: File
+    base64: string
+  }
+
+  export type GetResult = () => Promise<ResultType | undefined>
+
   export const DEFAULT_ADJUSTMENTS: Adjustments = {
     brightness: 0,
     hue: 0,
@@ -63,6 +73,9 @@ export namespace ImageEditorNS {
     grid?: boolean
     confirmBeforeReset?: boolean
     showPreview?: boolean
+    getResultRef?: MutableRefObject<GetResult | null | undefined>
+    onGettingResultStart?: () => void
+    onGettingResultEnd?: () => void
     showReset?: boolean
     defaultAdjustments?: Partial<Adjustments>
     defaultRotation?: number
@@ -87,7 +100,10 @@ export const ImageEditor: FC<ImageEditorNS.Props> = ({
   defaultFlips,
   defaultRotation,
   loading,
+  getResultRef,
   disabled,
+  onGettingResultEnd,
+  onGettingResultStart,
   ...rest
 }) => {
   const cropperRef = useRef<CropperRef>(null)
@@ -130,8 +146,32 @@ export const ImageEditor: FC<ImageEditorNS.Props> = ({
     circular: circleStencil,
   })
 
+  const handleGetResult: ImageEditorNS.GetResult = async () => {
+    const { current: cropper } = cropperRef
+
+    if (!cropper) {
+      return sendLog(logs.imageEditorNotFoundCropperRef, 'handleGetResult fn')
+    }
+
+    onGettingResultStart?.()
+    const canvas = cropper.getCanvas()
+    if (!canvas) {
+      return sendLog(logs.imageEditorNotFoundCanvasElement, 'handleGetResult fn')
+    }
+
+    const base64 = canvas.toDataURL()
+    const blobURL = await CanvasUtils.toBlobURL(canvas)
+    const file = await FileUtils.Base64ToFile(base64)
+    onGettingResultEnd?.()
+    return { base64, blobURL, file }
+  }
+
   const handleOnUpdate = () => {
     previewRef.current?.refresh()
+
+    if (getResultRef) {
+      getResultRef.current = handleGetResult
+    }
 
     if (cropperRef.current) {
       cropperState.set(cropperRef.current.getState()!)

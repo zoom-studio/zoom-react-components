@@ -55,6 +55,7 @@
       border-right: 1px solid color(border, 2);
       max-height: 100%;
       display: flex;
+      position: relative;
 
       > .preview-message {
         height: 100%;
@@ -68,84 +69,94 @@
 
       > .sidebar-scroll-view {
         > .os-viewport {
-          > .actions {
-            width: 100%;
-            padding: 6px 12px;
-
-            .sidebar-action {
-              > .zoomrc-button-inner-child {
-                font-size: to-rem(20px);
-              }
-            }
-          }
-
-          > .file-preview {
-            width: 100%;
-            height: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 0;
-
-            > .unknown-file-preview {
-              position: relative;
-              height: fit-content;
-
-              > .format {
-                @include truncate;
-
-                width: 70px;
-                text-align: center;
-                height: 20px;
-                user-select: none;
-                position: absolute;
-                margin: auto;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                direction: ltr;
-                top: 0;
-              }
-            }
-          }
-
-          > .file-name {
-            @include truncate;
-
-            color: color(text);
-            text-align: center;
-            user-select: none;
-            margin: 0;
-            padding: 0 20px;
-          }
-
-          > .file-info {
-            width: 100%;
+          > .sidebar-content {
             display: flex;
             flex-direction: column;
-            padding: 0 10px;
-            margin-top: 30px;
+            row-gap: 20px;
+            padding: 20px 0;
 
-            > .info {
+            > .file-actions {
+              padding: 0 6px;
+
+              > .zoomrc-row {
+                > .zoomrc-col {
+                  .zoomrc-popover {
+                    width: 100%;
+                  }
+
+                  .sidebar-action {
+                    width: 100%;
+                  }
+                }
+              }
+            }
+
+            > .file-preview {
+              width: 100%;
+              height: auto;
               display: flex;
-              padding: 6px 4px;
+              align-items: center;
+              justify-content: center;
+
+              > .unknown-file-preview {
+                position: relative;
+                height: fit-content;
+
+                > .format {
+                  @include truncate;
+
+                  width: 70px;
+                  text-align: center;
+                  height: 20px;
+                  user-select: none;
+                  position: absolute;
+                  margin: auto;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  direction: ltr;
+                  top: 0;
+                }
+              }
+            }
+
+            > .file-name {
+              @include truncate;
+
+              color: color(text);
+              text-align: center;
               user-select: none;
+              margin: 0;
+              padding: 0 20px;
+            }
 
-              &:not(:last-child) {
-                border-bottom: 1px solid color(border, 2);
-              }
+            > .file-info {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              padding: 0 10px;
 
-              > .title {
-                color: color(text, 2);
-                margin: 0;
-                flex: 1;
-              }
+              > .info {
+                display: flex;
+                padding: 6px 4px;
+                user-select: none;
 
-              > .value {
-                @include truncate;
+                &:not(:last-child) {
+                  border-bottom: 1px solid color(border, 2);
+                }
 
-                color: color(text, 3);
-                margin: 0;
+                > .title {
+                  color: color(text, 2);
+                  margin: 0;
+                  flex: 1;
+                }
+
+                > .value {
+                  @include truncate;
+
+                  color: color(text, 3);
+                  margin: 0;
+                }
               }
             }
           }

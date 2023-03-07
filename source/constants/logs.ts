@@ -25,4 +25,5 @@ export enum logs {
   infiniteScrollViewScrollableTargetNotFound = 'ZOOMRC/INFINITE_SCROLL_VIEW/SCROLLABLE_TARGET_NOT_FOUND',
 
   imageEditorNotFoundCropperRef = 'ZOOMRC/IMAGE_EDITOR/CROPPER_REF_NOT_FOUND',
+  imageEditorNotFoundCanvasElement = 'ZOOMRC/IMAGE_EDITOR/CANVAS_ELEMENT_NOT_FOUND',
 }

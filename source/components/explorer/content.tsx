@@ -16,6 +16,7 @@ export namespace ExplorerContentNS {
     viewMode: ExplorerNS.ViewMode
     typeColors: ExplorerNS.TypeColors
     alert?: AlertNS.Props
+    onSelectionChange: (selectedIndexes: number[]) => void
   }
 }
 
@@ -27,6 +28,7 @@ export const ExplorerContent: FC<ExplorerContentNS.Props> = ({
   viewMode,
   typeColors,
   alert,
+  onSelectionChange,
 }) => {
   const selectableClasses = classNames('selectable-container', {
     [`${viewMode}-view-mode`]: true,
@@ -45,7 +47,7 @@ export const ExplorerContent: FC<ExplorerContentNS.Props> = ({
           className={selectableClasses}
           itemComponent={ExplorerFile}
           dataset={files}
-          onSelect={selectedFiles.set}
+          onSelect={onSelectionChange}
           disabled={!selectable}
           multiSelect={multiSelect}
         >

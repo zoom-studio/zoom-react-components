@@ -154,6 +154,35 @@
   }
 }
 
+@mixin generate-bordered-variants {
+  @each $variant in $common-variants {
+    $color-name: translate-variant($variant);
+    $text-color: if($variant == 'warning', 'black', 'white');
+
+    @include var($variant) {
+      background-color: transparent;
+      border-color: variant-border($variant);
+      color: variant-color($variant);
+
+      @include hover-and-active {
+        background-color: color(#{$color-name});
+        color: #{$text-color};
+      }
+
+      @include active {
+        background-color: color(#{$color-name});
+        color: #{$text-color};
+      }
+
+      @include disabled {
+        background-color: transparent;
+        color: color(text, 3);
+        border-color: color(border, 2);
+      }
+    }
+  }
+}
+
 @mixin generate-size($size) {
   $padding: 4px 10px;
   $spin-width: 17px;

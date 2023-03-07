@@ -11,10 +11,10 @@ export default {
   component: Explorer,
   args: {
     files: generateExplorerFiles(100),
-    alert: {
-      title: 'یک فایل را انتخاب کنید',
-      description: 'برای افزودن تصویر یک عکس را انتخاب کنید یا عکس جدیدی بارگذاری کنید',
-    },
+    // alert: {
+    //   title: 'یک فایل را انتخاب کنید',
+    //   description: 'برای افزودن تصویر یک عکس را انتخاب کنید یا عکس جدیدی بارگذاری کنید',
+    // },
   },
 } as ComponentMeta<typeof Explorer>
 

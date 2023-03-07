@@ -11,7 +11,7 @@ export namespace ButtonNS {
   export type HtmlType = 'submit' | 'reset' | 'button'
   export type HtmlTargets = '_self' | '_blank' | '_parent' | '_top'
 
-  export const Types = ['primary', 'secondary', 'dashed', 'link', 'text'] as const
+  export const Types = ['primary', 'secondary', 'dashed', 'link', 'text', 'bordered'] as const
   export type Types = typeof Types[number]
 
   export const Shapes = ['default', 'circle', 'sharp', 'square', 'sharp-square', 'rounded'] as const

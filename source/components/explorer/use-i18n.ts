@@ -10,6 +10,13 @@ export namespace UseExplorerI18nNS {
     fileSize?: string
     createdAt?: string
     updatedAt?: string
+    editImage?: string
+    delete?: string
+    rename?: string
+    download?: string
+    saveImage?: string
+    cancelEditingImage?: string
+    imageEditorTitle?: string
   }
 }
 
@@ -27,5 +34,12 @@ export const UseExplorerI18n = (
     createdAt: i18n?.createdAt ?? 'Created',
     updatedAt: i18n?.updatedAt ?? 'Updated',
     moreThanOneFileSelectedMessage: i18n?.moreThanOneFileSelectedMessage ?? 'Files selected',
+    editImage: i18n?.editImage ?? 'Edit image',
+    delete: i18n?.delete ?? 'Delete',
+    rename: i18n?.rename ?? 'Rename',
+    download: i18n?.download ?? 'Download',
+    saveImage: i18n?.saveImage ?? 'Save image changes',
+    cancelEditingImage: i18n?.cancelEditingImage ?? 'Discard changes',
+    imageEditorTitle: i18n?.imageEditorTitle ?? 'Edit image',
   }
 }

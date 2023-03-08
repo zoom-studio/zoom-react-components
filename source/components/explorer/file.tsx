@@ -3,39 +3,56 @@ import React, { FC, MouseEvent } from 'react'
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
 import { ContextMenu, Text } from '..'
+import { MenuItemNS } from '../menu/menu-item'
 
 import { ExplorerNS } from '.'
+import { useDownload } from '../../hooks'
 import { ExplorerFilePreview } from './file-preview'
+import { UseExplorerI18nNS } from './use-i18n'
 
 export namespace ExplorerFileNS {
   export interface Props extends ExplorerNS.FileInterface {
     isSelected: boolean
     typeColors: ExplorerNS.TypeColors
-    onClick: (evt: MouseEvent) => void
+    onClick?: (evt: MouseEvent) => void
     viewMode: ExplorerNS.ViewMode
+    selectedFiles: number[]
+    i18n: Required<UseExplorerI18nNS.I18n>
+    rename: () => void
   }
 }
 
 export const ExplorerFile: FC<ExplorerFileNS.Props> = ({
-  id,
   name,
-  size,
   type,
-  moreInfo,
   isSelected,
   link,
   typeColors,
   createdAt,
-  updatedAt,
   onClick,
   viewMode,
+  selectedFiles,
+  i18n,
+  rename,
 }) => {
+  const { handleDownload } = useDownload({ link, fileName: name })
+
   const classes = classNames('file-context-menu', {
     selected: isSelected,
   })
 
+  const handleOnMenuItemsClick = (callBack: () => void) => (evt: MouseEvent<HTMLSpanElement>) => {
+    callBack()
+    onClick?.(evt)
+  }
+
+  const contextMenuItems: MenuItemNS.Item[] = [
+    { title: i18n.fileContextMenuDownload, onClick: handleOnMenuItemsClick(handleDownload) },
+    { title: i18n.fileContextMenuRename, onClick: handleOnMenuItemsClick(rename) },
+  ]
+
   return (
-    <ContextMenu items={[{ title: 'sss' }]} className={classes} onClick={onClick}>
+    <ContextMenu items={contextMenuItems} className={classes} onClick={onClick}>
       <div className="explorer-file">
         <ExplorerFilePreview viewMode={viewMode} link={link} type={type} typeColors={typeColors} />
 

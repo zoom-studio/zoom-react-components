@@ -1,15 +1,14 @@
-import React, { FC } from 'react'
+import React, { FC, FormEvent } from 'react'
 
-import { useObjectedState, useZoomComponent } from '../../hooks'
+import { AlertNS, ButtonNS, Dialog, ImageEditorNS, Input } from '..'
+import { useFutureEffect, useObjectedState, useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
-import { AlertNS, ButtonNS, ImageEditorNS } from '..'
 import { ExplorerContent } from './content'
 
 import { ExplorerHeader } from './header'
 import { ExplorerSidebar } from './sidebar'
 import { UseExplorerI18n, UseExplorerI18nNS } from './use-i18n'
-import { customizeFileTypeColors, isImage } from './utils'
-import { findIndex } from 'lodash'
+import { customizeFileTypeColors, excludeFileExtension } from './utils'
 
 export namespace ExplorerNS {
   export const ViewMode = ['grid', 'row'] as const
@@ -104,25 +103,28 @@ export namespace ExplorerNS {
     viewMode?: ViewMode
     typeColors?: Partial<TypeColors>
     filterTypes?: ((file: FileInterface) => boolean) | MaybeAllFileTypes[]
+    defaultTypeQuery?: MaybeAllFileTypesWithAll
     files?: FileInterface[]
     selectable?: boolean
     multiSelect?: boolean
     alert?: AlertNS.Props
     isDeletingFiles?: boolean
-    isRenamingFiles?: boolean
+    isRenamingFile?: boolean
     loading?: boolean
     disabled?: boolean
-    typeSelectIsDisabled?: boolean
-    searchInputIsDisabled?: boolean
-    showFooter?: boolean
+    isTypeSelectDisabled?: boolean
+    isSearchInputDisabled?: boolean
     footerActions?: ButtonNS.Props
-    onDeleteFiles?: (fileIDs: ID[]) => void
-    onRenameFile?: (fileID: ID, newName: string) => void
+    isSavingEditedImage?: boolean
+    onDeleteFiles?: (fileIDs: ID[], closePopConfirm: () => void) => void
+    onRenameFile?: (fileID: ID, newName: string, closeModal: () => void) => void
     onSearch?: (parameters: Partial<SearchParameters>) => void
-    onEditImage?: (newImageResult: ImageEditorNS.ResultType) => Promise<void>
+    onEditImage?: (
+      newImageResult: ImageEditorNS.ResultType | undefined,
+      closeModal: () => void,
+    ) => void
     onUploadFiles?: (files: File[]) => void
-    onSelectItems?: (items: FileInterface[]) => void
-    onSelectionChange?: (items: ID[]) => void
+    onSelectItems?: (selectedIndexes: number[]) => void
   }
 }
 
@@ -132,7 +134,9 @@ export const Explorer: FC<ExplorerNS.Props> = ({
   selectable = true,
   multiSelect = true,
   files = [],
+  defaultTypeQuery = 'all',
   className,
+  isSavingEditedImage,
   containerProps,
   reference,
   alert,
@@ -142,16 +146,15 @@ export const Explorer: FC<ExplorerNS.Props> = ({
   onSearch,
   onSelectItems,
   onUploadFiles,
-  onSelectionChange,
   filterTypes,
   isDeletingFiles,
-  isRenamingFiles,
+  isRenamingFile,
   disabled,
   loading,
-  searchInputIsDisabled,
-  typeSelectIsDisabled,
-  showFooter,
+  isSearchInputDisabled,
+  isTypeSelectDisabled,
   footerActions,
+  // ...rest
 }) => {
   const typeColors: ExplorerNS.TypeColors = customizeFileTypeColors(
     ExplorerNS.DefaultTypeColors,
@@ -164,22 +167,84 @@ export const Explorer: FC<ExplorerNS.Props> = ({
   const classes = createClassName(className)
 
   const viewMode = useObjectedState(providedViewMode)
-  // const selectedFiles = useObjectedState<number[]>([])
-  const selectedFiles = useObjectedState<number[]>([findIndex(files, file => isImage(file.type))])
-  const typeQuery = useObjectedState<ExplorerNS.MaybeAllFileTypesWithAll>('all')
+  const selectedFiles = useObjectedState<number[]>([])
+  const typeQuery = useObjectedState<ExplorerNS.MaybeAllFileTypesWithAll>(defaultTypeQuery)
   const searchQuery = useObjectedState('')
+  const isRenameModalOpen = useObjectedState(false)
+  const selectedFileName = useObjectedState('')
+  const selectedFileToRename = useObjectedState<ExplorerNS.FileInterface | null>(null)
 
   const handleOnSelectionChange = (selectedIndexes: number[]) => {
     selectedFiles.set(selectedIndexes)
+    onSelectItems?.(selectedIndexes)
   }
+
+  const handleOpenRenameModal = (selectedFile: ExplorerNS.FileInterface) => () => {
+    isRenameModalOpen.set(true)
+    selectedFileName.set(excludeFileExtension(selectedFile.name))
+    selectedFileToRename.set(selectedFile)
+  }
+
+  const handleCloseRenameModal = () => {
+    isRenameModalOpen.set(false)
+    selectedFileName.set('')
+    selectedFileToRename.set(null)
+  }
+
+  const handleRenameFile = (evt?: FormEvent) => {
+    evt?.preventDefault()
+
+    if (excludeFileExtension(selectedFileToRename.val?.name ?? '') === selectedFileName.val) {
+      handleCloseRenameModal()
+    } else {
+      if (selectedFileToRename.val && selectedFileName.val) {
+        onRenameFile?.(selectedFileToRename.val.id, selectedFileName.val, handleCloseRenameModal)
+      }
+    }
+  }
+
+  useFutureEffect(() => {
+    onSearch?.({ query: searchQuery.val, type: typeQuery.val })
+  }, [searchQuery.val, typeQuery.val])
 
   return (
     <div className={classes} {...containerProps} ref={reference}>
+      <Dialog
+        size="small"
+        isOpen={isRenameModalOpen.val}
+        onClose={handleCloseRenameModal}
+        withFullscreenButton={false}
+        title={i18n.renameDialogTitle}
+        cancelButton={i18n.cancelRename}
+        closable={!isRenamingFile}
+        cancelButtonProps={{ disabled: isRenamingFile }}
+        actions={[
+          {
+            children: i18n.confirmRename,
+            onClick: () => handleRenameFile(),
+            loading: isRenamingFile,
+          },
+        ]}
+      >
+        <form className="rename-file" onSubmit={handleRenameFile}>
+          <Input
+            autoFocus
+            label={i18n.renameFileLabel}
+            value={selectedFileName.val}
+            onWrite={selectedFileName.set}
+            disabled={isRenamingFile}
+          />
+        </form>
+      </Dialog>
+
       <ExplorerHeader
         viewMode={viewMode}
         i18n={i18n}
         typeQuery={typeQuery}
         searchQuery={searchQuery}
+        isSearchInputDisabled={isSearchInputDisabled}
+        isTypeSelectDisabled={isTypeSelectDisabled}
+        disabled={disabled}
       />
 
       <div className="content">
@@ -188,18 +253,27 @@ export const Explorer: FC<ExplorerNS.Props> = ({
           multiSelect={multiSelect}
           selectable={selectable}
           files={files}
-          selectedFiles={selectedFiles}
+          filterTypes={filterTypes}
           viewMode={viewMode.val!}
+          selectedFiles={selectedFiles.val!}
           alert={alert}
           onSelectionChange={handleOnSelectionChange}
+          disabled={disabled}
+          i18n={i18n}
+          openRenameModal={handleOpenRenameModal}
         />
 
         <ExplorerSidebar
+          isDeletingFiles={isDeletingFiles}
           typeColors={typeColors}
           i18n={i18n}
           selectedFiles={selectedFiles.val!}
           files={files}
+          handleOpenRenameModal={handleOpenRenameModal}
           onEditImage={onEditImage}
+          onDeleteFiles={onDeleteFiles}
+          isSavingEditedImage={isSavingEditedImage}
+          isRenamingFile={isRenamingFile}
         />
       </div>
     </div>

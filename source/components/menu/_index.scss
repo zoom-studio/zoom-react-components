@@ -42,6 +42,10 @@ span.zoomrc-menu {
   }
 }
 
+.react-float-anchor {
+  z-index: 20;
+}
+
 div.menu-list-inspector {
   background-color: color(layer, 2);
   border: 1px solid color(border, 2);

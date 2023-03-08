@@ -7,7 +7,6 @@ export namespace UseExplorerI18nNS {
     allTypes?: string
     previewMessage?: string
     moreThanOneFileSelectedMessage?: string
-    fileSize?: string
     createdAt?: string
     updatedAt?: string
     editImage?: string
@@ -17,6 +16,16 @@ export namespace UseExplorerI18nNS {
     saveImage?: string
     cancelEditingImage?: string
     imageEditorTitle?: string
+    cancelDelete?: string
+    confirmDelete?: string
+    confirmDeleteTitle?: string
+    confirmDeleteDescription?: string
+    renameDialogTitle?: string
+    cancelRename?: string
+    confirmRename?: string
+    renameFileLabel?: string
+    fileContextMenuDownload?: string
+    fileContextMenuRename?: string
   }
 }
 
@@ -30,7 +39,6 @@ export const UseExplorerI18n = (
     searchPlaceholder: i18n?.searchPlaceholder ?? 'Search items',
     allTypes: i18n?.allTypes ?? 'All types',
     previewMessage: i18n?.previewMessage ?? 'Select files to read more detail',
-    fileSize: i18n?.fileSize ?? 'File size',
     createdAt: i18n?.createdAt ?? 'Created',
     updatedAt: i18n?.updatedAt ?? 'Updated',
     moreThanOneFileSelectedMessage: i18n?.moreThanOneFileSelectedMessage ?? 'Files selected',
@@ -41,5 +49,15 @@ export const UseExplorerI18n = (
     saveImage: i18n?.saveImage ?? 'Save image changes',
     cancelEditingImage: i18n?.cancelEditingImage ?? 'Discard changes',
     imageEditorTitle: i18n?.imageEditorTitle ?? 'Edit image',
+    cancelDelete: i18n?.cancelDelete ?? 'Cancel',
+    confirmDelete: i18n?.confirmDelete ?? 'Delete',
+    confirmDeleteTitle: i18n?.confirmDeleteTitle ?? 'Delete file',
+    confirmDeleteDescription: i18n?.confirmDeleteDescription ?? 'Are you sure to delete this file?',
+    renameDialogTitle: i18n?.renameDialogTitle ?? 'Rename file',
+    cancelRename: i18n?.cancelRename ?? 'Cancel',
+    confirmRename: i18n?.confirmRename ?? 'Save new name',
+    renameFileLabel: i18n?.renameFileLabel ?? 'File name',
+    fileContextMenuDownload: i18n?.fileContextMenuDownload ?? 'Download this file',
+    fileContextMenuRename: i18n?.fileContextMenuRename ?? 'Rename this file',
   }
 }

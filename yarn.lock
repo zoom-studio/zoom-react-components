@@ -10752,10 +10752,9 @@ react-element-to-jsx-string@^14.3.4:
     is-plain-object "5.0.0"
     react-is "17.0.2"
 
-react-float-anchor@^3.2.0:
+"react-float-anchor@https://github.com/zoom-studio/react-float-anchor.git":
   version "3.4.0"
-  resolved "https://registry.yarnpkg.com/react-float-anchor/-/react-float-anchor-3.4.0.tgz#0fe5f835f34461a332ab70ae0d041b1f63fa6d40"
-  integrity sha512-nB0QHoyeqFIBIUfgHMHhJmQk2WUMCmCasofMWigruuJesPtUiKeu1I5DCu5C5FvvrnnW4CXUzSbur9ajBbW+iA==
+  resolved "https://github.com/zoom-studio/react-float-anchor.git#c659651eec2bf66ee68347ed02efebeba649bc6c"
   dependencies:
     "@babel/runtime" "^7.0.0"
     contain-by-screen "^1.0.4"
@@ -10821,7 +10820,7 @@ react-lifecycles-compat@^3.0.4:
 
 "react-menu-list@https://github.com/zoom-studio/react-menu-list.git":
   version "7.2.1"
-  resolved "https://github.com/zoom-studio/react-menu-list.git#5a2d3afa8502bc3bd4c917e186c31b2c473b00fc"
+  resolved "https://github.com/zoom-studio/react-menu-list.git#410c8d8f550e43940a070da63523b2b42e568b62"
   dependencies:
     "@babel/runtime" "^7.0.0"
     array-find-index "1.0.2"
@@ -10829,7 +10828,7 @@ react-lifecycles-compat@^3.0.4:
     kefir-bus "^2.2.0"
     kefir-stopper "^2.1.0"
     prop-types "^15.6.0"
-    react-float-anchor "^3.2.0"
+    react-float-anchor "https://github.com/zoom-studio/react-float-anchor.git"
 
 react-merge-refs@^1.0.0:
   version "1.1.0"

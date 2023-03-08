@@ -1,4 +1,5 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react'
+import React, { FC, ReactNode } from 'react'
+import { useDownload, UseDownloadNS } from '../../hooks'
 
 export namespace DownloadNS {
   export interface ChildrenCallbackParams {
@@ -6,59 +7,12 @@ export namespace DownloadNS {
     startDownload: () => void
   }
 
-  export interface Props {
-    link: string
-    fileName?: string
+  export interface Props extends UseDownloadNS.Params {
     children?: (params: ChildrenCallbackParams) => ReactNode
-    downloadOnMount?: boolean
-    onFailure?: (error?: any) => void
-    onSuccess?: () => void
-    requestOptions?: RequestInit
   }
 }
 
-export const Download: FC<DownloadNS.Props> = ({
-  link,
-  downloadOnMount,
-  children,
-  fileName,
-  onFailure,
-  onSuccess,
-  requestOptions,
-}) => {
-  const [isDownloading, setIsDownloading] = useState(false)
-
-  const handleDownload = async (): Promise<void> => {
-    setIsDownloading(true)
-
-    try {
-      const response = await fetch(link, requestOptions)
-      const blob = await response.blob()
-      const objectURL = window.URL.createObjectURL(blob)
-
-      const anchor = document.createElement('a')
-      anchor.style.display = 'none'
-      anchor.href = objectURL
-      anchor.download =
-        fileName ?? link.split('/').pop()?.split('?')?.[0] ?? new Date().toISOString()
-
-      document.body.appendChild(anchor)
-      anchor.click()
-      window.URL.revokeObjectURL(objectURL)
-
-      onSuccess?.()
-    } catch (error) {
-      onFailure?.(error)
-    } finally {
-      setIsDownloading(false)
-    }
-  }
-
-  useEffect(() => {
-    if (downloadOnMount) {
-      void handleDownload()
-    }
-  }, [])
-
+export const Download: FC<DownloadNS.Props> = ({ children, ...rest }) => {
+  const { handleDownload, isDownloading } = useDownload({ ...rest })
   return <>{children?.({ isDownloading, startDownload: handleDownload })}</>
 }

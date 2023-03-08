@@ -7,7 +7,8 @@ import { ExplorerNS } from '.'
 import { getFileTypesFilterOptions } from './utils'
 
 export namespace ExplorerHeaderNS {
-  export interface Props {
+  export interface Props
+    extends Pick<ExplorerNS.Props, 'isSearchInputDisabled' | 'isTypeSelectDisabled' | 'disabled'> {
     viewMode: UseObjectedStateNS.ReturnType<ExplorerNS.ViewMode>
     i18n: Required<ExplorerNS.I18n>
     typeQuery: UseObjectedStateNS.ReturnType<ExplorerNS.MaybeAllFileTypesWithAll>
@@ -20,6 +21,9 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
   i18n,
   typeQuery,
   searchQuery,
+  isSearchInputDisabled,
+  isTypeSelectDisabled,
+  disabled,
 }) => {
   const handleToggleViewMode = () => {
     viewMode.set(currentViewMode => (currentViewMode === 'grid' ? 'row' : 'grid'))
@@ -35,6 +39,7 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
           className="file-type-select"
           defaultValue={typeQuery.val}
           onWrite={values => typeQuery.set(values[0])}
+          disabled={isTypeSelectDisabled || disabled}
         />
 
         <Input
@@ -43,6 +48,7 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
           onWrite={searchQuery.set}
           size="small"
           className="search-input"
+          disabled={isSearchInputDisabled || disabled}
         />
       </div>
 
@@ -53,10 +59,16 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
           type="link"
           shape="square"
           size="large"
+          disabled={disabled}
           className="toggle-view-mode"
         />
 
-        <Button suffixMaterialIcon="add" size="small" className="upload-content">
+        <Button
+          disabled={disabled}
+          suffixMaterialIcon="add"
+          size="small"
+          className="upload-content"
+        >
           {i18n.uploadNewFile}
         </Button>
       </div>

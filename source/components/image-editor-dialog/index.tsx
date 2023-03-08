@@ -20,7 +20,7 @@ export namespace ImageEditorDialogNS {
     dialogProps?: Omit<DialogNS.Props, PickedDialogProps | OmittedDialogProps>
     saveButton?: string
     saveButtonProps?: ButtonNS.Props
-    onSave?: (result: ImageEditorNS.ResultType) => Promise<void>
+    onSave?: (result: ImageEditorNS.ResultType | undefined) => void
   }
 }
 
@@ -49,6 +49,7 @@ export const ImageEditorDialog: FC<ImageEditorDialogNS.Props> = ({
   const handleOnSave = async (evt: MouseEvent<HTMLButtonElement>) => {
     saveButtonProps?.onClick?.(evt)
     const result = await getResultRef.current?.()
+    onSave?.(result)
     return result
   }
 
@@ -74,12 +75,12 @@ export const ImageEditorDialog: FC<ImageEditorDialogNS.Props> = ({
       title={title}
       cancelButton={cancelButton}
       cancelButtonProps={{
-        disabled,
+        disabled: disabled || loading,
         ...dialogProps?.cancelButtonProps,
       }}
       actions={[
         {
-          disabled,
+          disabled: disabled || loading,
           children: saveButton,
           loading: saveButtonProps?.loading || isGettingResult,
           onClick: handleOnSave,
@@ -92,6 +93,8 @@ export const ImageEditorDialog: FC<ImageEditorDialogNS.Props> = ({
         getResultRef={getResultRef}
         onGettingResultStart={handleOnGettingResultStart}
         onGettingResultEnd={handleOnGettingResultEnd}
+        loading={loading}
+        disabled={disabled}
       />
     </Dialog>
   )

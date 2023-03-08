@@ -9,6 +9,7 @@ import {
   ExplorerNS,
   Image,
   ImageEditorDialog,
+  ImageEditorNS,
   PopConfirm,
   Row,
   ScrollView,
@@ -16,15 +17,21 @@ import {
   Text,
 } from '..'
 import { useZoomContext } from '../../hooks'
+
 import { ExplorerFileInfo } from './file-info'
 import { getFileTypeColors, isImage } from './utils'
 
 export namespace ExplorerSidebarNS {
-  export interface Props extends Pick<ExplorerNS.Props, 'onEditImage'> {
+  export interface Props
+    extends Pick<
+      ExplorerNS.Props,
+      'onEditImage' | 'onDeleteFiles' | 'isSavingEditedImage' | 'isDeletingFiles' | 'isRenamingFile'
+    > {
     i18n: Required<ExplorerNS.I18n>
     files: ExplorerNS.FileInterface[]
     selectedFiles: number[]
     typeColors: ExplorerNS.TypeColors
+    handleOpenRenameModal: (selectedFile: ExplorerNS.FileInterface) => () => void
   }
 }
 
@@ -34,7 +41,14 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
   files,
   typeColors,
   onEditImage,
+  onDeleteFiles,
+  handleOpenRenameModal,
+  isSavingEditedImage,
+  isDeletingFiles,
+  isRenamingFile,
 }) => {
+  const actionsPopoverWidth = '176px'
+
   const { isRTL } = useZoomContext()
 
   const [isImageEditorOpen, setIsImageEditorOpen] = useState(false)
@@ -59,6 +73,22 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
     setIsImageEditorOpen(false)
   }
 
+  const getSelectedFilesIDs = (): ExplorerNS.ID[] => {
+    const IDs: ExplorerNS.ID[] = []
+    selectedFiles.forEach((_, fileIndex) => {
+      IDs.push(files[fileIndex].id)
+    })
+    return IDs
+  }
+
+  const handleDeleteFile = (closePopConfirm: () => void) => {
+    onDeleteFiles?.(getSelectedFilesIDs(), closePopConfirm)
+  }
+
+  const handleOnEditImage = (result: ImageEditorNS.ResultType | undefined) => {
+    onEditImage?.(result, closeImageEditor)
+  }
+
   return (
     <div className="sidebar">
       {isImage(firstSelectedFile?.type) && (
@@ -66,10 +96,13 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
           src={firstSelectedFile.link}
           isOpen={isImageEditorOpen}
           onClose={closeImageEditor}
-          onSave={onEditImage}
+          onSave={handleOnEditImage}
           saveButton={i18n.saveImage}
           cancelButton={i18n.cancelEditingImage}
+          saveButtonProps={{ loading: isSavingEditedImage }}
           title={i18n.imageEditorTitle}
+          disabled={isSavingEditedImage}
+          closable={!isSavingEditedImage}
         />
       )}
 
@@ -116,12 +149,22 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
                 </Col>
 
                 <Col {...dualActionColProps}>
-                  <Button {...actionProps}>{i18n.rename}</Button>
+                  <Button
+                    {...actionProps}
+                    disabled={isRenamingFile}
+                    onClick={handleOpenRenameModal(firstSelectedFile)}
+                  >
+                    {i18n.rename}
+                  </Button>
                 </Col>
 
                 {isImage(firstSelectedFile.type) && (
                   <Col {...dualActionColProps}>
-                    <Button {...actionProps} onClick={openImageEditor}>
+                    <Button
+                      {...actionProps}
+                      disabled={isSavingEditedImage}
+                      onClick={openImageEditor}
+                    >
                       {i18n.editImage}
                     </Button>
                   </Col>
@@ -131,14 +174,26 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
                   {...(isImage(firstSelectedFile.type) ? dualActionColProps : singleActionColProps)}
                 >
                   <PopConfirm
-                    title="delete"
+                    title={i18n.confirmDeleteTitle}
+                    description={i18n.confirmDeleteDescription}
+                    width={actionsPopoverWidth}
+                    variant="error"
+                    buttonProps={{ ...actionProps, variant: 'error', disabled: isDeletingFiles }}
                     placement={
                       isImage(firstSelectedFile.type) ? (isRTL ? 'top-start' : 'top-end') : 'top'
                     }
-                    buttonProps={{ ...actionProps, variant: 'error' }}
+                    confirm={handlers => ({
+                      onClick: () => handleDeleteFile(handlers.closePopover),
+                      children: i18n.confirmDelete,
+                      variant: 'error',
+                      loading: isDeletingFiles,
+                    })}
                     cancel={handlers => ({
                       onClick: () => handlers.closePopover(),
-                      children: 'Cancel',
+                      children: i18n.cancelDelete,
+                      variant: 'success',
+                      type: 'link',
+                      disabled: isDeletingFiles,
                     })}
                   >
                     {i18n.delete}

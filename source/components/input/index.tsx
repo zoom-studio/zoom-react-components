@@ -260,6 +260,7 @@ export const Input: FC<InputNS.Props> = ({
           onChange={handleOnChange}
           onInput={handleOnInput}
           onBlur={handleOnToggleFocus}
+          disabled={disabled}
           onFocus={handleOnToggleFocus}
         />
 

@@ -1,4 +1,4 @@
-import { SelectNS } from '../select'
+import { SelectNS } from '..'
 
 import { ExplorerNS } from '.'
 
@@ -43,4 +43,8 @@ export const getFileTypeColors = (
     return colors[type]
   }
   return colors.unknowns
+}
+
+export const excludeFileExtension = (fileName: string): string => {
+  return fileName.split('.')[0]
 }

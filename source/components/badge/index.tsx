@@ -77,7 +77,13 @@ export const Badge: FC<BadgeNS.Props> = ({
       return <Emoji name={emoji} className="badge-emoji" />
     }
     if (icon) {
-      return <Icon name={icon} className="badge-icon" />
+      return (
+        <Icon
+          name={icon}
+          className="badge-icon"
+          style={{ backgroundColor: colorFnToColor(background) }}
+        />
+      )
     }
     if (isCountProvided) {
       let count = providedCount.toString()

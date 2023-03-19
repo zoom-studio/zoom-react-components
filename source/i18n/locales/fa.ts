@@ -354,4 +354,9 @@ export const FATranslations = {
     emojiOnly: 'فقط ایموجی',
     withoutLink: 'بدون لینک',
   },
+
+  uploader: {
+    title: 'بارگذاری فایل‌ها',
+    description: 'فایل‌هایی را که میخواهید با هم‌تیمی‌های خود به اشتراک بگذارید، بارگذاری کنید',
+  },
 }

@@ -1,3 +1,4 @@
+export * from './async-function'
 export * from './base-component'
 export * from './color'
 export * from './common-sizes'

@@ -9,6 +9,7 @@ import {
   RichTextEditorNS,
   ImageEditorNS,
   ExplorerNS,
+  UploaderNS,
 } from '..'
 
 export namespace ZoomLogProviderNS {
@@ -33,6 +34,7 @@ export namespace ZoomLogProviderNS {
       richTextEditor?: RichTextEditorNS.I18n
       imageEditor?: ImageEditorNS.I18n
       explorer?: ExplorerNS.I18n
+      uploader?: UploaderNS.I18n
     }
   }
 }

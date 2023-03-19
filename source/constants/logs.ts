@@ -26,4 +26,6 @@ export enum logs {
 
   imageEditorNotFoundCropperRef = 'ZOOMRC/IMAGE_EDITOR/CROPPER_REF_NOT_FOUND',
   imageEditorNotFoundCanvasElement = 'ZOOMRC/IMAGE_EDITOR/CANVAS_ELEMENT_NOT_FOUND',
+
+  uploaderNotFoundFileInputRef = 'ZOOMRC/UPLOADER/FILE_INPUT_REF_NOT_FOUND',
 }

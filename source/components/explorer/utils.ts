@@ -1,6 +1,7 @@
 import { SelectNS } from '..'
 
 import { ExplorerNS } from '.'
+import { color } from '../../utils'
 
 export const getFileTypesFilterOptions = (i18n: Required<ExplorerNS.I18n>) => {
   const options: SelectNS.Option<ExplorerNS.MaybeAllFileTypesWithAll>[] = [
@@ -41,6 +42,9 @@ export const getFileTypeColors = (
 ): ExplorerNS.TypeColorInfo => {
   if (type in colors) {
     return colors[type]
+  }
+  if (isImage(type)) {
+    return { background: color({ source: 'accent' }), foreground: 'white' }
   }
   return colors.unknowns
 }

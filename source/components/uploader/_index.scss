@@ -1,0 +1,210 @@
+@import 'mixins';
+
+@keyframes zoomrc-render-uploaded-files-animation {
+  from {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.zoomrc-uploader {
+  background-color: color(layer, 1);
+  border: 1px solid color(border, 2);
+  display: inline-flex;
+  flex-direction: column;
+  border-radius: 4px;
+  user-select: none;
+  padding: 10px 20px;
+  width: 300px;
+  max-width: 100%;
+  gap: 10px;
+
+  @each $variant in $common-variants {
+    @include generate-uploader-variants($variant);
+  }
+
+  &-disabled {
+    > .uploader-dnd {
+      pointer-events: none;
+      opacity: 0.9;
+    }
+  }
+
+  > .uploader-titles {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    > .uploader-title {
+      margin: 0;
+      color: color(text);
+    }
+
+    > .uploader-description {
+      color: color(text, 2);
+      margin: 0;
+    }
+  }
+
+  > .uploader-dnd {
+    display: flex;
+    flex-direction: column;
+    border-width: 2px;
+    border-style: dashed;
+    border-color: inherit;
+    padding: 20px 4px;
+    align-items: center;
+    border-radius: 8px;
+    color: color(text, 2);
+    gap: 6px;
+    transition: all 150ms ease;
+
+    &:hover,
+    &.dragged-over {
+      background-color: color(layer, 2, glassy, 5);
+    }
+
+    > .uploader-dnd-icon {
+      font-size: to-rem(70px);
+    }
+
+    > .uploader-dnd-title {
+      margin: 0;
+    }
+
+    > .uploader-dnd-or {
+      margin: 0;
+      color: color(text, 3);
+    }
+  }
+
+  > .uploaded-files {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > .uploaded-files-title {
+      margin: 0;
+      color: color(text, 3);
+    }
+
+    > .files {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      > .uploader-file {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation-name: zoomrc-render-uploaded-files-animation;
+        animation-duration: 150ms;
+        animation-delay: 300ms;
+        animation-timing-function: ease;
+        animation-fill-mode: backwards;
+
+        > .uploader-file-preview {
+          > .unknown-preview {
+            width: inherit;
+            height: inherit;
+            position: relative;
+
+            > .file-type {
+              @include truncate;
+
+              direction: ltr !important;
+              position: absolute;
+              color: color(text);
+              text-align: center;
+              left: 0;
+              right: 0;
+              top: 10px;
+              bottom: 0;
+              margin: auto;
+              width: 24px;
+              height: 20px;
+            }
+          }
+        }
+
+        > .file-info-container {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: calc(100% - 80px);
+          gap: 2px;
+
+          > .file-name-container {
+            display: flex;
+            justify-content: space-between;
+            color: color(text, 2);
+            width: 100%;
+            gap: 20%;
+            direction: ltr;
+
+            > .file-name {
+              @include truncate;
+
+              margin: 0;
+              direction: ltr;
+            }
+
+            > .upload-size {
+              margin: 0;
+              max-width: 100%;
+              direction: ltr;
+            }
+          }
+        }
+
+        > .file-actions {
+          display: flex;
+          align-items: center;
+
+          .zoomrc-popover-container {
+            margin-left: -12px;
+
+            > .container-children {
+              background-color: color(layer, 2);
+
+              > .arrow {
+                &::before {
+                  background-color: color(layer, 2);
+                }
+              }
+            }
+          }
+
+          .action-button {
+            .zoomrc-button-inner-child {
+              font-size: to-rem(22px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include ltr {
+  .zoomrc-uploader {
+    > .uploaded-files {
+      > .files {
+        > .uploader-file {
+          > .file-actions {
+            .zoomrc-popover-container {
+              margin-left: unset;
+              margin-right: -12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

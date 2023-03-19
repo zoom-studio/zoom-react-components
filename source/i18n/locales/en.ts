@@ -359,4 +359,9 @@ export const ENTranslations: typeof FATranslations = {
     emojiOnly: 'Emoji only',
     withoutLink: 'Without link',
   },
+
+  uploader: {
+    title: 'Upload files',
+    description: 'Upload files you want to share with your friends',
+  },
 }

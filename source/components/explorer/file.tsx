@@ -16,7 +16,6 @@ export namespace ExplorerFileNS {
     typeColors: ExplorerNS.TypeColors
     onClick?: (evt: MouseEvent) => void
     viewMode: ExplorerNS.ViewMode
-    selectedFiles: number[]
     i18n: Required<UseExplorerI18nNS.I18n>
     rename: () => void
   }
@@ -31,8 +30,8 @@ export const ExplorerFile: FC<ExplorerFileNS.Props> = ({
   createdAt,
   onClick,
   viewMode,
-  selectedFiles,
   i18n,
+  id,
   rename,
 }) => {
   const { handleDownload } = useDownload({ link, fileName: name })

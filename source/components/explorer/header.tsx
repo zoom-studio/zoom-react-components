@@ -13,6 +13,7 @@ export namespace ExplorerHeaderNS {
     i18n: Required<ExplorerNS.I18n>
     typeQuery: UseObjectedStateNS.ReturnType<ExplorerNS.MaybeAllFileTypesWithAll>
     searchQuery: UseObjectedStateNS.ReturnType<string>
+    openUploaderDialog: () => void
   }
 }
 
@@ -24,9 +25,14 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
   isSearchInputDisabled,
   isTypeSelectDisabled,
   disabled,
+  openUploaderDialog,
 }) => {
   const handleToggleViewMode = () => {
-    viewMode.set(currentViewMode => (currentViewMode === 'grid' ? 'row' : 'grid'))
+    viewMode.set(currentViewMode => {
+      const newViewMode = currentViewMode === 'grid' ? 'row' : 'grid'
+      localStorage.setItem(ExplorerNS.VIEW_MODE_STORE_KEY, newViewMode)
+      return newViewMode
+    })
   }
 
   return (
@@ -48,6 +54,7 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
           onWrite={searchQuery.set}
           size="small"
           className="search-input"
+          type="search"
           disabled={isSearchInputDisabled || disabled}
         />
       </div>
@@ -68,6 +75,7 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
           suffixMaterialIcon="add"
           size="small"
           className="upload-content"
+          onClick={openUploaderDialog}
         >
           {i18n.uploadNewFile}
         </Button>

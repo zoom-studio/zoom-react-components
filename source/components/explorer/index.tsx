@@ -1,6 +1,14 @@
-import React, { FC, FormEvent } from 'react'
+import React, { FC, FormEvent, useState } from 'react'
 
-import { AlertNS, ButtonNS, Dialog, ImageEditorNS, Input } from '..'
+import {
+  AlertNS,
+  Dialog,
+  ImageEditorNS,
+  Input,
+  UploaderDialog,
+  UploaderDialogNS,
+  UploaderNS,
+} from '..'
 import { useFutureEffect, useObjectedState, useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 import { ExplorerContent } from './content'
@@ -8,9 +16,11 @@ import { ExplorerContent } from './content'
 import { ExplorerHeader } from './header'
 import { ExplorerSidebar } from './sidebar'
 import { UseExplorerI18n, UseExplorerI18nNS } from './use-i18n'
-import { customizeFileTypeColors, excludeFileExtension } from './utils'
+import { customizeFileTypeColors, excludeFileExtension, getDefaultViewMode } from './utils'
 
 export namespace ExplorerNS {
+  export const VIEW_MODE_STORE_KEY = 'zoomrc-explorer-view-mode'
+
   export const ViewMode = ['grid', 'row'] as const
   export type ViewMode = typeof ViewMode[number]
 
@@ -99,6 +109,12 @@ export namespace ExplorerNS {
     moreInfo?: MoreInfo[]
   }
 
+  export interface UploaderProps
+    extends Omit<UploaderNS.Props, 'title'>,
+      Pick<UploaderDialogNS.Props, 'isUploadingFiles'> {
+    handleClearFiles: () => void
+  }
+
   export interface Props extends Omit<BaseComponent, 'children'> {
     viewMode?: ViewMode
     typeColors?: Partial<TypeColors>
@@ -114,23 +130,27 @@ export namespace ExplorerNS {
     disabled?: boolean
     isTypeSelectDisabled?: boolean
     isSearchInputDisabled?: boolean
-    footerActions?: ButtonNS.Props
     isSavingEditedImage?: boolean
-    onDeleteFiles?: (fileIDs: ID[], closePopConfirm: () => void) => void
+    uploaderProps?: UploaderProps
+    onDeleteFiles?: (
+      fileIDs: ID[],
+      closePopConfirm: () => void,
+      clearSelectedFiles: () => void,
+    ) => void
     onRenameFile?: (fileID: ID, newName: string, closeModal: () => void) => void
     onSearch?: (parameters: Partial<SearchParameters>) => void
     onEditImage?: (
+      imageID: ID,
       newImageResult: ImageEditorNS.ResultType | undefined,
       closeModal: () => void,
     ) => void
-    onUploadFiles?: (files: File[]) => void
     onSelectItems?: (selectedIndexes: number[]) => void
   }
 }
 
 export const Explorer: FC<ExplorerNS.Props> = ({
   typeColors: providedTypeColors,
-  viewMode: providedViewMode = 'grid',
+  viewMode: providedViewMode,
   selectable = true,
   multiSelect = true,
   files = [],
@@ -145,7 +165,7 @@ export const Explorer: FC<ExplorerNS.Props> = ({
   onRenameFile,
   onSearch,
   onSelectItems,
-  onUploadFiles,
+  uploaderProps,
   filterTypes,
   isDeletingFiles,
   isRenamingFile,
@@ -153,8 +173,7 @@ export const Explorer: FC<ExplorerNS.Props> = ({
   loading,
   isSearchInputDisabled,
   isTypeSelectDisabled,
-  footerActions,
-  // ...rest
+  ...rest
 }) => {
   const typeColors: ExplorerNS.TypeColors = customizeFileTypeColors(
     ExplorerNS.DefaultTypeColors,
@@ -165,8 +184,10 @@ export const Explorer: FC<ExplorerNS.Props> = ({
   const i18n = UseExplorerI18n(globalI18ns)
 
   const classes = createClassName(className)
+  const isDisabled = disabled || loading
 
-  const viewMode = useObjectedState(providedViewMode)
+  const [isUploaderDialogOpen, setIsUploaderDialogOpen] = useState(false)
+  const viewMode = useObjectedState(getDefaultViewMode(providedViewMode))
   const selectedFiles = useObjectedState<number[]>([])
   const typeQuery = useObjectedState<ExplorerNS.MaybeAllFileTypesWithAll>(defaultTypeQuery)
   const searchQuery = useObjectedState('')
@@ -203,12 +224,21 @@ export const Explorer: FC<ExplorerNS.Props> = ({
     }
   }
 
+  const handleCloseUploaderDialog = () => {
+    setIsUploaderDialogOpen(false)
+    uploaderProps?.handleClearFiles()
+  }
+
+  const handleOpenUploaderDialog = () => {
+    setIsUploaderDialogOpen(true)
+  }
+
   useFutureEffect(() => {
     onSearch?.({ query: searchQuery.val, type: typeQuery.val })
   }, [searchQuery.val, typeQuery.val])
 
   return (
-    <div className={classes} {...containerProps} ref={reference}>
+    <div {...rest} {...containerProps} className={classes} ref={reference}>
       <Dialog
         size="small"
         isOpen={isRenameModalOpen.val}
@@ -237,14 +267,22 @@ export const Explorer: FC<ExplorerNS.Props> = ({
         </form>
       </Dialog>
 
+      <UploaderDialog
+        isOpen={isUploaderDialogOpen}
+        onClose={handleCloseUploaderDialog}
+        title={i18n.uploadNewFile}
+        {...uploaderProps}
+      />
+
       <ExplorerHeader
         viewMode={viewMode}
         i18n={i18n}
+        openUploaderDialog={handleOpenUploaderDialog}
         typeQuery={typeQuery}
         searchQuery={searchQuery}
         isSearchInputDisabled={isSearchInputDisabled}
         isTypeSelectDisabled={isTypeSelectDisabled}
-        disabled={disabled}
+        disabled={isDisabled}
       />
 
       <div className="content">
@@ -254,11 +292,12 @@ export const Explorer: FC<ExplorerNS.Props> = ({
           selectable={selectable}
           files={files}
           filterTypes={filterTypes}
+          loading={loading}
           viewMode={viewMode.val!}
           selectedFiles={selectedFiles.val!}
           alert={alert}
           onSelectionChange={handleOnSelectionChange}
-          disabled={disabled}
+          disabled={isDisabled}
           i18n={i18n}
           openRenameModal={handleOpenRenameModal}
         />
@@ -267,7 +306,9 @@ export const Explorer: FC<ExplorerNS.Props> = ({
           isDeletingFiles={isDeletingFiles}
           typeColors={typeColors}
           i18n={i18n}
-          selectedFiles={selectedFiles.val!}
+          loading={loading}
+          selectedFiles={selectedFiles}
+          disabled={isDisabled}
           files={files}
           handleOpenRenameModal={handleOpenRenameModal}
           onEditImage={onEditImage}

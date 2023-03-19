@@ -26,6 +26,7 @@ export namespace UseExplorerI18nNS {
     renameFileLabel?: string
     fileContextMenuDownload?: string
     fileContextMenuRename?: string
+    loadingFiles?: string
   }
 }
 
@@ -59,5 +60,6 @@ export const UseExplorerI18n = (
     renameFileLabel: i18n?.renameFileLabel ?? 'File name',
     fileContextMenuDownload: i18n?.fileContextMenuDownload ?? 'Download this file',
     fileContextMenuRename: i18n?.fileContextMenuRename ?? 'Rename this file',
+    loadingFiles: i18n?.loadingFiles ?? 'Loading files...',
   }
 }

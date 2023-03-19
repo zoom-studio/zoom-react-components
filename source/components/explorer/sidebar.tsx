@@ -16,7 +16,7 @@ import {
   SVGIcon,
   Text,
 } from '..'
-import { useZoomContext } from '../../hooks'
+import { UseObjectedStateNS, useZoomContext } from '../../hooks'
 
 import { ExplorerFileInfo } from './file-info'
 import { getFileTypeColors, isImage } from './utils'
@@ -29,9 +29,11 @@ export namespace ExplorerSidebarNS {
     > {
     i18n: Required<ExplorerNS.I18n>
     files: ExplorerNS.FileInterface[]
-    selectedFiles: number[]
+    selectedFiles: UseObjectedStateNS.ReturnType<number[]>
     typeColors: ExplorerNS.TypeColors
     handleOpenRenameModal: (selectedFile: ExplorerNS.FileInterface) => () => void
+    disabled?: boolean
+    loading?: boolean
   }
 }
 
@@ -44,8 +46,10 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
   onDeleteFiles,
   handleOpenRenameModal,
   isSavingEditedImage,
+  disabled,
   isDeletingFiles,
   isRenamingFile,
+  loading,
 }) => {
   const actionsPopoverWidth = '176px'
 
@@ -62,7 +66,7 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
     variant: 'info',
   }
 
-  const firstSelectedFile = files[selectedFiles[0]]
+  const firstSelectedFile = files[selectedFiles.val![0]]
   const firstSelectedFileColors = getFileTypeColors(firstSelectedFile?.type, typeColors)
 
   const openImageEditor = () => {
@@ -75,18 +79,20 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
 
   const getSelectedFilesIDs = (): ExplorerNS.ID[] => {
     const IDs: ExplorerNS.ID[] = []
-    selectedFiles.forEach((_, fileIndex) => {
-      IDs.push(files[fileIndex].id)
-    })
+    selectedFiles.val!.forEach(fileIndex => IDs.push(files[fileIndex].id))
     return IDs
   }
 
+  const handleClearSelectedFiles = () => {
+    selectedFiles.set([])
+  }
+
   const handleDeleteFile = (closePopConfirm: () => void) => {
-    onDeleteFiles?.(getSelectedFilesIDs(), closePopConfirm)
+    onDeleteFiles?.(getSelectedFilesIDs(), closePopConfirm, handleClearSelectedFiles)
   }
 
   const handleOnEditImage = (result: ImageEditorNS.ResultType | undefined) => {
-    onEditImage?.(result, closeImageEditor)
+    onEditImage?.(firstSelectedFile.id, result, closeImageEditor)
   }
 
   return (
@@ -106,7 +112,7 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
         />
       )}
 
-      {selectedFiles.length === 1 ? (
+      {selectedFiles.val!.length === 1 ? (
         <ScrollView
           maxHeight="100%"
           minHeight="100%"
@@ -214,11 +220,15 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
         </ScrollView>
       ) : (
         <div className="preview-message">
-          <Text>
-            {selectedFiles.length === 0
-              ? i18n.previewMessage
-              : `${selectedFiles.length} ${i18n.moreThanOneFileSelectedMessage}`}
-          </Text>
+          {(!disabled || loading) && (
+            <Text>
+              {loading
+                ? i18n.loadingFiles
+                : selectedFiles.val!.length === 0
+                ? i18n.previewMessage
+                : `${selectedFiles.val!.length} ${i18n.moreThanOneFileSelectedMessage}`}
+            </Text>
+          )}
         </div>
       )}
     </div>

@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
+import { pullAt } from 'lodash'
+import { faker } from '@faker-js/faker'
 
 import { Uploader, UploaderNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
-import { pullAt } from 'lodash'
-import { faker } from '@faker-js/faker'
 import { useI18n } from './hooks/use-i18n'
 
 export default {
@@ -55,14 +55,12 @@ const useUploaderStory = (withInitialFiles = false) => {
 
   const handleOnRemoveFiles: UploaderNS.Props['onRemove'] = (fileIndex, closePopConfirm) => {
     setIsRemovingFile(true)
-
     setTimeout(() => {
       setFiles(files => {
         const newFiles = [...files]
         pullAt(newFiles, fileIndex)
         return newFiles
       })
-
       closePopConfirm()
       setIsRemovingFile(false)
     }, 300)

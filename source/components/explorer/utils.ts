@@ -52,3 +52,16 @@ export const getFileTypeColors = (
 export const excludeFileExtension = (fileName: string): string => {
   return fileName.split('.')[0]
 }
+
+export const getDefaultViewMode = (providedViewMode?: ExplorerNS.ViewMode): ExplorerNS.ViewMode => {
+  if (providedViewMode) {
+    return providedViewMode
+  }
+
+  const storedViewMode = <ExplorerNS.ViewMode>localStorage.getItem(ExplorerNS.VIEW_MODE_STORE_KEY)
+  if (ExplorerNS.ViewMode.includes(storedViewMode)) {
+    return storedViewMode
+  }
+
+  return 'grid'
+}

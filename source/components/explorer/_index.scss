@@ -188,6 +188,25 @@
 
       > .explorer-scroll-view {
         > .os-viewport {
+          > .files-skeletons {
+            display: flex;
+            flex-wrap: wrap;
+
+            &.grid {
+              > .zoomrc-skeleton-paper {
+                margin: 6px;
+              }
+            }
+
+            &.row {
+              padding: 10px 16px;
+
+              > .zoomrc-skeleton-paper {
+                margin: 2px 0;
+              }
+            }
+          }
+
           > .explorer-alert {
             width: 100%;
 

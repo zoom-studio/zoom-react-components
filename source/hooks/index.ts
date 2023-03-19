@@ -1,5 +1,7 @@
 export * from './use-audio'
 export * from './use-component-size'
+export * from './use-download'
+export * from './use-future-effect'
 export * from './use-input-direction-handler'
 export * from './use-objected-state'
 export * from './use-outside-click'

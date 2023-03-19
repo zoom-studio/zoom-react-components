@@ -11,7 +11,7 @@ export namespace MenuItemNS {
   export interface Item {
     title?: string
     className?: string
-    onClick?: () => void
+    onClick?: (evt: MouseEvent<HTMLSpanElement>) => void
     link?: string
     isActive?: boolean
     children?: Props[]
@@ -61,7 +61,7 @@ export const MenuItem: FC<MenuItemNS.Props & MenuItemNS.InnerProps> = ({
     if (!closeOnItemClick) {
       evt.stopPropagation()
     }
-    onClick?.()
+    onClick?.(evt)
   }
 
   return (

@@ -2,7 +2,15 @@ import React, { createContext, FC, ReactNode } from 'react'
 
 import { logs } from '../../constants'
 
-import { ImageViewerNS, EmojiPickerNS, TourNS, RichTextEditorNS, ImageEditorNS } from '..'
+import {
+  ImageViewerNS,
+  EmojiPickerNS,
+  TourNS,
+  RichTextEditorNS,
+  ImageEditorNS,
+  ExplorerNS,
+  UploaderNS,
+} from '..'
 
 export namespace ZoomLogProviderNS {
   export type Error = string | object
@@ -25,6 +33,8 @@ export namespace ZoomLogProviderNS {
       tour?: TourNS.I18n
       richTextEditor?: RichTextEditorNS.I18n
       imageEditor?: ImageEditorNS.I18n
+      explorer?: ExplorerNS.I18n
+      uploader?: UploaderNS.I18n
     }
   }
 }

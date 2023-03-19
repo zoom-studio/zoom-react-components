@@ -1,5 +1,17 @@
 @import 'mixins';
 
+@keyframes zoomrc-show-badge-animation {
+  from {
+    opacity: 0;
+    top: -20px;
+  }
+
+  to {
+    opacity: 1;
+    top: 0;
+  }
+}
+
 .zoomrc-badge {
   display: inline-flex;
   position: relative;
@@ -11,6 +23,8 @@
   > .zoomrc-badge-info {
     position: absolute;
     pointer-events: none;
+    z-index: 1;
+    animation: zoomrc-show-badge-animation 150ms ease;
 
     > .badge-count {
       justify-content: center;
@@ -26,6 +40,11 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
+    }
+
+    > .badge-icon {
+      border-radius: 100px;
+      padding: 2px;
     }
   }
 

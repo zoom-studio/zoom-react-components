@@ -16,11 +16,13 @@ $zoomrc-dialog-header-title-left-padding: 20px;
 
 @keyframes open-zoomrc-dialog-animation {
   from {
-    transform: scale(1.01);
+    transform: scale(0.95);
+    opacity: 0;
   }
 
   to {
     transform: none;
+    opacity: 1;
   }
 }
 

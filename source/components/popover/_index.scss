@@ -28,6 +28,7 @@ div.zoomrc-popover {
   > .zoomrc-popover-container {
     position: absolute;
     max-width: 260px;
+    z-index: 1;
 
     > .container-children {
       position: relative;

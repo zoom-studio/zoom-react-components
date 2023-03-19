@@ -64,6 +64,7 @@ export const ContextMenu: FC<ContextMenuNS.Props> = ({
 
   const handleOnClicks = (evt: MouseEvent<HTMLDivElement>) => {
     evt.preventDefault()
+    evt.stopPropagation()
 
     if (evt.type === 'click' || evt.nativeEvent.which === 1) {
       onClick?.(evt)

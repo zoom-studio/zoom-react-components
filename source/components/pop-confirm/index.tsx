@@ -12,7 +12,13 @@ export namespace PopConfirmNS {
     extends Omit<UseStatedIcon.Params, 'variant'>,
       Pick<
         PopoverNS.Props,
-        'onOpen' | 'onClose' | 'defaultIsOpen' | 'placement' | 'autoCloseDelay' | 'hoverDelay'
+        | 'onOpen'
+        | 'onClose'
+        | 'defaultIsOpen'
+        | 'placement'
+        | 'autoCloseDelay'
+        | 'hoverDelay'
+        | 'width'
       > {
     title: string
     buttonProps?: Omit<ButtonNS.Props, 'onClick'>

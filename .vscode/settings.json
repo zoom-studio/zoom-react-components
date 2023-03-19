@@ -12,6 +12,8 @@
     "languagedetector",
     "overlayscrollbars",
     "pluginutils",
+    "downloadjs",
+    "datetime",
     "rangeslider",
     "virtualizers"
   ],

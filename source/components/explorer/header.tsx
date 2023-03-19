@@ -76,6 +76,7 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
           size="small"
           className="upload-content"
           onClick={openUploaderDialog}
+          type="bordered"
         >
           {i18n.uploadNewFile}
         </Button>

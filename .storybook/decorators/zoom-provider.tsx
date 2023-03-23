@@ -58,7 +58,6 @@ export const ZoomProvider = (
             deletePopConfirmDescription: ti('imageViewer.deletePopConfirmDescription'),
           },
           richTextEditor: {
-            normalText: ti('richTextEditor.normalText'),
             heading1: ti('richTextEditor.heading1'),
             heading2: ti('richTextEditor.heading2'),
             heading3: ti('richTextEditor.heading3'),
@@ -76,6 +75,7 @@ export const ZoomProvider = (
             copy: ti('richTextEditor.copy'),
             cut: ti('richTextEditor.cut'),
             paste: ti('richTextEditor.paste'),
+            images: ti('richTextEditor.images'),
           },
         }}
       >

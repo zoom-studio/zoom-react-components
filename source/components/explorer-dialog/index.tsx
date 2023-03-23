@@ -60,7 +60,6 @@ export const ExplorerDialog: FC<ExplorerDialogNS.Props> = ({
           disabled: disabled || loading,
           children: selectButton,
           loading: selectButtonProps?.loading,
-          onClick: onClose,
           ...selectButtonProps,
         },
       ]}

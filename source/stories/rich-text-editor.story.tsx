@@ -11,6 +11,7 @@ import {
   RichTextEditorNS,
   Stack,
 } from '../components'
+import { generateExplorerFiles } from '../fixtures'
 import { StoryJSONResult, StoryPlayground, WithButtonsStory, WithMessagesStory } from './components'
 
 export default {
@@ -19,7 +20,9 @@ export default {
   args: {
     placeholder: 'شروع به نوشتن متن جدید...',
     autoFocus: true,
-    headlessEditor: true,
+    imageExplorerProps: {
+      files: generateExplorerFiles(100),
+    },
   },
 } as ComponentMeta<typeof RichTextEditor>
 

@@ -26,6 +26,7 @@ export namespace EditorActionsNS {
     linkURL: UseObjectedStateNS.ReturnType<string>
     blankedLink: UseObjectedStateNS.ReturnType<boolean>
     noFollowedLink: UseObjectedStateNS.ReturnType<boolean>
+    isImageDialogOpen: UseObjectedStateNS.ReturnType<boolean>
     toggleBlockStyle: (blockType: RichTextEditorNS.BlockTypes) => void
     toggleInlineStyle: (inlineType: RichTextEditorNS.InlineTypes) => void
     handleCreateEmoji: (emojiName: EmojiNS.Emojis.Names) => void
@@ -46,6 +47,7 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({
   blankedLink,
   linkURL,
   noFollowedLink,
+  isImageDialogOpen,
 }) => {
   const HEADINGS: EditorActionsNS.Action<RichTextEditorNS.BlockTypes, string>[] = [
     { label: i18n.heading1, style: 'header-one', content: 'H1' },
@@ -169,7 +171,11 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({
           <ActionButton title={i18n.emoji} icon="sentiment_satisfied_alt" />
         </Popover>
 
-        <ActionButton title={i18n.image} icon="insert_photo" />
+        <ActionButton
+          title={i18n.image}
+          icon="insert_photo"
+          onClick={() => isImageDialogOpen.set(true)}
+        />
 
         <ActionButton title={i18n.file} icon="folder" />
       </>

@@ -8,7 +8,10 @@ import { getFileTypesFilterOptions } from './utils'
 
 export namespace ExplorerHeaderNS {
   export interface Props
-    extends Pick<ExplorerNS.Props, 'isSearchInputDisabled' | 'isTypeSelectDisabled' | 'disabled'> {
+    extends Pick<
+      ExplorerNS.Props,
+      'isSearchInputDisabled' | 'isTypeSelectDisabled' | 'disabled' | 'defaultTypeQuery'
+    > {
     viewMode: UseObjectedStateNS.ReturnType<ExplorerNS.ViewMode>
     i18n: Required<ExplorerNS.I18n>
     typeQuery: UseObjectedStateNS.ReturnType<ExplorerNS.MaybeAllFileTypesWithAll>
@@ -26,6 +29,7 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
   isTypeSelectDisabled,
   disabled,
   openUploaderDialog,
+  defaultTypeQuery,
 }) => {
   const handleToggleViewMode = () => {
     viewMode.set(currentViewMode => {
@@ -39,7 +43,7 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
     <div className="header">
       <div className="filters">
         <Select
-          options={getFileTypesFilterOptions(i18n)}
+          options={getFileTypesFilterOptions(i18n, defaultTypeQuery)}
           showSearch={false}
           size="small"
           className="file-type-select"

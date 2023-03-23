@@ -54,6 +54,7 @@ export const FATranslations = {
       copy: 'کپی',
       cut: 'برش',
       paste: 'الصاق',
+      images: 'تصاویر',
     },
   },
 

@@ -283,6 +283,7 @@ export const Explorer: FC<ExplorerNS.Props> = ({
         isSearchInputDisabled={isSearchInputDisabled}
         isTypeSelectDisabled={isTypeSelectDisabled}
         disabled={isDisabled}
+        defaultTypeQuery={defaultTypeQuery}
       />
 
       <div className="content">

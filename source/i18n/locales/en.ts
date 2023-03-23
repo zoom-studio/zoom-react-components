@@ -56,6 +56,7 @@ export const ENTranslations: typeof FATranslations = {
       copy: 'Copy',
       cut: 'Cut',
       paste: 'Paste',
+      images: 'Images',
     },
   },
 

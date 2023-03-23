@@ -1249,6 +1249,34 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
 
+"@draft-js-plugins/editor@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/editor/-/editor-4.1.3.tgz#460d70d3b639d17f4e1f15b7d180b8c8698b1ec1"
+  integrity sha512-Mxr1GUFzN0VcVVP6XClvWS2o33Rh8ZG3l41h9l27hJoLRYVywpuzI6TXD0UFYDIHX50fz6n70sQCdoHmkBsfKQ==
+  dependencies:
+    immutable "~3.7.4"
+    prop-types "^15.8.1"
+
+"@draft-js-plugins/focus@^4.1.4":
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/focus/-/focus-4.1.4.tgz#9b1be8ce5c2e0a36b6044b16dd3b17be6408fbcb"
+  integrity sha512-yzOTp6PyszMM/EjQ6EArMU25FVVf7Q4lXIs9RAO74R+MUH+ROcmMdemINMHujLD84/SL9GmDjmA9VTwgXuMPpw==
+  dependencies:
+    clsx "^1.2.1"
+    immutable "~3.7.4"
+
+"@draft-js-plugins/image@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/image/-/image-4.1.3.tgz#2a90f9629b5784fb01ad4bc92c2b8125598dc5b5"
+  integrity sha512-/+E/dx/6GvcWiw7ViIaeKkVTLJm9cDejZu1tpinb53Cl4iwMT7hN3pwLE270MYcctj5ZdwjleRuMDnx4l/mDtw==
+  dependencies:
+    clsx "^1.0.4"
+
+"@draft-js-plugins/resizeable@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@draft-js-plugins/resizeable/-/resizeable-5.0.3.tgz#e4ff0a1b733bb1f6ce9a9aa32b5f2fca7c756f8e"
+  integrity sha512-aqhIRIL17C+MqMrZJgNakVrbNTeVsiNtIQszP6VcoPiVPm9RUO12aQAX1c0MfVeKbh9qk0JwNpHglSGd9LIUeA==
+
 "@emotion/is-prop-valid@^1.1.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.2.0.tgz#7f2d35c97891669f7e276eb71c83376a5dc44c83"

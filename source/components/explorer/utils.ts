@@ -3,7 +3,10 @@ import { SelectNS } from '..'
 import { ExplorerNS } from '.'
 import { color } from '../../utils'
 
-export const getFileTypesFilterOptions = (i18n: Required<ExplorerNS.I18n>) => {
+export const getFileTypesFilterOptions = (
+  i18n: Required<ExplorerNS.I18n>,
+  defaultTypeQuery?: ExplorerNS.MaybeAllFileTypesWithAll,
+) => {
   const options: SelectNS.Option<ExplorerNS.MaybeAllFileTypesWithAll>[] = [
     { label: i18n.allTypes, value: 'all' },
   ]
@@ -12,6 +15,10 @@ export const getFileTypesFilterOptions = (i18n: Required<ExplorerNS.I18n>) => {
     if (option !== 'unknowns') {
       options.push({ label: option, value: option })
     }
+  }
+
+  if (defaultTypeQuery) {
+    options.push({ label: defaultTypeQuery, value: defaultTypeQuery })
   }
 
   return options

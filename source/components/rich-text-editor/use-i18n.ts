@@ -24,6 +24,7 @@ export namespace UseRichTextEditorI18nNS {
     copy?: string
     cut?: string
     paste?: string
+    images?: string
   }
 }
 
@@ -55,5 +56,6 @@ export const useRichTextEditorI18n = (
     copy: i18n?.copy ?? 'Copy',
     cut: i18n?.cut ?? 'Cut',
     paste: i18n?.paste ?? 'Paste',
+    images: i18n?.images ?? 'Images',
   }
 }

@@ -49,6 +49,7 @@ export const Image: FC<ImageNS.Props> = ({
   imageViewerProps,
   reference,
   onClick,
+  children,
   ...rest
 }) => {
   const squarishShapes: ImageNS.Shapes[] = ['circle', 'semi-circle', 'sharp-square', 'square']
@@ -126,6 +127,8 @@ export const Image: FC<ImageNS.Props> = ({
         src={src}
         {...rest}
       />
+
+      {children}
 
       {isLoading ? (
         <Skeleton.Image customSize={{ width, height }} />

@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { forwardRef, ReactNode } from 'react'
 
 import { Link } from 'react-router-dom'
 
@@ -45,124 +45,131 @@ export namespace ButtonNS {
   }
 }
 
-export const Button: FC<ButtonNS.Props> = ({
-  size: providedSize,
-  type = 'primary',
-  htmlType = 'button',
-  target = '_self',
-  full = false,
-  disabled = false,
-  loading,
-  active = false,
-  disabledOnLoading = true,
-  showSpinOnLoading = true,
-  variant = 'neutral',
-  shape = 'default',
-  children,
-  className,
-  href,
-  innerClassName,
-  suffixClassName,
-  prefixClassName,
-  prefixEmojiIcon,
-  prefixMaterialIcon,
-  suffixEmojiIcon,
-  suffixMaterialIcon,
-  useSpan,
-  containerProps,
-  reference,
-  ...rest
-}) => {
-  const { createClassName } = useZoomComponent('button')
-  const size = useComponentSize(providedSize)
-  const isDisabled = disabledOnLoading ? loading || disabled : disabled
+export const Button = forwardRef<HTMLButtonElement, ButtonNS.Props>(
+  (
+    {
+      size: providedSize,
+      type = 'primary',
+      htmlType = 'button',
+      target = '_self',
+      full = false,
+      disabled = false,
+      loading,
+      active = false,
+      disabledOnLoading = true,
+      showSpinOnLoading = true,
+      variant = 'neutral',
+      shape = 'default',
+      children,
+      className,
+      href,
+      innerClassName,
+      suffixClassName,
+      prefixClassName,
+      prefixEmojiIcon,
+      prefixMaterialIcon,
+      suffixEmojiIcon,
+      suffixMaterialIcon,
+      useSpan,
+      containerProps,
+      ...rest
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('button')
+    const size = useComponentSize(providedSize)
+    const isDisabled = disabledOnLoading ? loading || disabled : disabled
 
-  const classNames = createClassName(className, `${type}-${variant}`, {
-    [`${createClassName(undefined, size)}`]: true,
-    [`${createClassName(undefined, shape)}`]: true,
-    [`${createClassName(undefined, 'full')}`]: full,
-    active,
-  })
+    const classNames = createClassName(className, `${type}-${variant}`, {
+      [`${createClassName(undefined, size)}`]: true,
+      [`${createClassName(undefined, shape)}`]: true,
+      [`${createClassName(undefined, 'full')}`]: full,
+      active,
+    })
 
-  const innerChildClassnames = createClassName(
-    innerClassName,
-    `${size}-inner-child zoomrc-button-inner-child`,
-  )
-
-  const createIcon = (
-    type: 'suffix' | 'prefix',
-    materialIcon?: ButtonNS.MaterialIcon,
-    emojiIcon?: ButtonNS.EmojiIcon,
-  ): ReactNode => {
-    if (!Icon) {
-      return null
-    }
-    const classNames = createClassName(type === 'suffix' ? suffixClassName : prefixClassName, type)
-    if (materialIcon) {
-      return <Icon name={materialIcon} className={classNames} />
-    } else if (emojiIcon) {
-      return <Emoji name={emojiIcon} className={classNames} />
-    } else {
-      return <></>
-    }
-  }
-
-  const createChildren = (): ReactNode => {
-    const child = (
-      <>
-        {createIcon('suffix', suffixMaterialIcon, suffixEmojiIcon)}
-        {children}
-        {createIcon('prefix', prefixMaterialIcon, prefixEmojiIcon)}
-      </>
+    const innerChildClassnames = createClassName(
+      innerClassName,
+      `${size}-inner-child zoomrc-button-inner-child`,
     )
 
-    return loading ? (
-      showSpinOnLoading ? (
-        <Spin size={size} color="unset">
-          {child}
-        </Spin>
+    const createIcon = (
+      type: 'suffix' | 'prefix',
+      materialIcon?: ButtonNS.MaterialIcon,
+      emojiIcon?: ButtonNS.EmojiIcon,
+    ): ReactNode => {
+      if (!Icon) {
+        return null
+      }
+      const classNames = createClassName(
+        type === 'suffix' ? suffixClassName : prefixClassName,
+        type,
+      )
+      if (materialIcon) {
+        return <Icon name={materialIcon} className={classNames} />
+      } else if (emojiIcon) {
+        return <Emoji name={emojiIcon} className={classNames} />
+      } else {
+        return <></>
+      }
+    }
+
+    const createChildren = (): ReactNode => {
+      const child = (
+        <>
+          {createIcon('suffix', suffixMaterialIcon, suffixEmojiIcon)}
+          {children}
+          {createIcon('prefix', prefixMaterialIcon, prefixEmojiIcon)}
+        </>
+      )
+
+      return loading ? (
+        showSpinOnLoading ? (
+          <Spin size={size} color="unset">
+            {child}
+          </Spin>
+        ) : (
+          child
+        )
       ) : (
         child
       )
-    ) : (
-      child
-    )
-  }
+    }
 
-  return (
-    <ConditionalWrapper
-      condition={useSpan}
-      trueWrapper={children => (
-        <span
-          {...rest}
-          {...containerProps}
-          className={classNames}
-          aria-disabled={isDisabled}
-          ref={reference}
-        >
-          {children}
-        </span>
-      )}
-      falseWrapper={children => (
-        <button
-          {...rest}
-          {...containerProps}
-          type={htmlType}
-          className={classNames}
-          disabled={isDisabled}
-          ref={reference}
-        >
-          {children}
-        </button>
-      )}
-    >
-      {href ? (
-        <Link to={href} target={target} className={innerChildClassnames}>
-          {createChildren()}
-        </Link>
-      ) : (
-        <span className={innerChildClassnames}>{createChildren()}</span>
-      )}
-    </ConditionalWrapper>
-  )
-}
+    return (
+      <ConditionalWrapper
+        condition={useSpan}
+        trueWrapper={children => (
+          <span
+            {...rest}
+            {...containerProps}
+            className={classNames}
+            aria-disabled={isDisabled}
+            ref={reference}
+          >
+            {children}
+          </span>
+        )}
+        falseWrapper={children => (
+          <button
+            {...rest}
+            {...containerProps}
+            type={htmlType}
+            className={classNames}
+            disabled={isDisabled}
+            ref={reference}
+          >
+            {children}
+          </button>
+        )}
+      >
+        {href ? (
+          <Link to={href} target={target} className={innerChildClassnames}>
+            {createChildren()}
+          </Link>
+        ) : (
+          <span className={innerChildClassnames}>{createChildren()}</span>
+        )}
+      </ConditionalWrapper>
+    )
+  },
+)

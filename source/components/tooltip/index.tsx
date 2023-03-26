@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
 import { Popover, PopoverNS } from '../popover'
 
@@ -9,15 +9,18 @@ export namespace TooltipNS {
   }
 }
 
-export const Tooltip: FC<TooltipNS.Props> = ({
-  hoverDelay = 800,
-  title,
-  children,
-  ...popoverProps
-}) => {
-  return (
-    <Popover description={title} trigger="hover" hoverDelay={hoverDelay} {...popoverProps}>
-      {children}
-    </Popover>
-  )
-}
+export const Tooltip = forwardRef<HTMLDivElement, TooltipNS.Props>(
+  ({ hoverDelay = 800, title, children, ...popoverProps }, reference) => {
+    return (
+      <Popover
+        ref={reference}
+        description={title}
+        trigger="hover"
+        hoverDelay={hoverDelay}
+        {...popoverProps}
+      >
+        {children}
+      </Popover>
+    )
+  },
+)

@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
-import { UploaderNS, DialogNS, Dialog, Uploader, ButtonNS } from '..'
+import { ButtonNS, Dialog, DialogNS, Uploader, UploaderNS } from '..'
 import { useZoomComponent } from '../../hooks'
 
 export namespace UploaderDialogNS {
@@ -25,53 +25,59 @@ export namespace UploaderDialogNS {
   }
 }
 
-export const UploaderDialog: FC<UploaderDialogNS.Props> = ({
-  cancelButton = 'Cancel',
-  confirmButton = 'Confirm',
-  minFiles = 1,
-  confirmButtonProps,
-  dialogProps,
-  isOpen,
-  closable,
-  isUploadingFiles,
-  onClose,
-  title,
-  disabled,
-  loading,
-  ...uploaderProps
-}) => {
-  const { createClassName } = useZoomComponent('uploader-dialog')
+export const UploaderDialog = forwardRef<HTMLDivElement, UploaderDialogNS.Props>(
+  (
+    {
+      cancelButton = 'Cancel',
+      confirmButton = 'Confirm',
+      minFiles = 1,
+      confirmButtonProps,
+      dialogProps,
+      isOpen,
+      closable,
+      isUploadingFiles,
+      onClose,
+      title,
+      disabled,
+      loading,
+      ...uploaderProps
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('uploader-dialog')
 
-  const classes = createClassName(dialogProps?.className)
+    const classes = createClassName(dialogProps?.className)
 
-  const isConfirmable = !!uploaderProps.files && uploaderProps.files.length >= minFiles
+    const isConfirmable = !!uploaderProps.files && uploaderProps.files.length >= minFiles
 
-  return (
-    <Dialog
-      {...dialogProps}
-      className={classes}
-      withFullscreenButton={false}
-      size="small"
-      isOpen={isOpen}
-      closable={closable}
-      onClose={onClose}
-      title={title}
-      cancelButton={cancelButton}
-      cancelButtonProps={{
-        disabled: disabled || loading,
-        ...dialogProps?.cancelButtonProps,
-      }}
-      actions={[
-        {
-          disabled: disabled || isUploadingFiles || !isConfirmable,
-          children: confirmButton,
-          loading: confirmButtonProps?.loading || isUploadingFiles,
-          onClick: onClose,
-          ...confirmButtonProps,
-        },
-      ]}
-    >
-      <Uploader {...uploaderProps} loading={loading} disabled={disabled} />
-    </Dialog>
-  )
-}
+    return (
+      <Dialog
+        {...dialogProps}
+        ref={reference}
+        className={classes}
+        withFullscreenButton={false}
+        size="small"
+        isOpen={isOpen}
+        closable={closable}
+        onClose={onClose}
+        title={title}
+        cancelButton={cancelButton}
+        cancelButtonProps={{
+          disabled: disabled || loading,
+          ...dialogProps?.cancelButtonProps,
+        }}
+        actions={[
+          {
+            disabled: disabled || isUploadingFiles || !isConfirmable,
+            children: confirmButton,
+            loading: confirmButtonProps?.loading || isUploadingFiles,
+            onClick: onClose,
+            ...confirmButtonProps,
+          },
+        ]}
+      >
+        <Uploader {...uploaderProps} loading={loading} disabled={disabled} />
+      </Dialog>
+    )
+  },
+)

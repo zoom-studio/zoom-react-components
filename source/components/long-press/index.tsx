@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useState } from 'react'
+import React, { forwardRef, MouseEvent, useState } from 'react'
 
 import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
@@ -11,68 +11,64 @@ export namespace LongPressNS {
   }
 }
 
-export const LongPress: FC<LongPressNS.Props> = ({
-  interval = 100,
-  callback = () => {},
-  children,
-  disabled,
-  className,
-  containerProps,
-  reference,
-  ...rest
-}) => {
-  const { createClassName } = useZoomComponent('long-press')
-  const containerClassNames = createClassName(className)
-  const [intervalIDs, setIntervalIDs] = useState<number[]>([])
-  let isMouseDown = false
+export const LongPress = forwardRef<HTMLDivElement, LongPressNS.Props>(
+  (
+    { interval = 100, callback = () => {}, children, disabled, className, containerProps, ...rest },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('long-press')
+    const containerClassNames = createClassName(className)
+    const [intervalIDs, setIntervalIDs] = useState<number[]>([])
+    let isMouseDown = false
 
-  const cleatIntervalIDs = () => {
-    intervalIDs.forEach(clearInterval)
-    setIntervalIDs([])
-  }
-
-  const handleMouseDown = () => {
-    if (disabled) {
-      return
+    const cleatIntervalIDs = () => {
+      intervalIDs.forEach(clearInterval)
+      setIntervalIDs([])
     }
-    isMouseDown = true
 
-    setTimeout(() => {
-      if (isMouseDown) {
-        cleatIntervalIDs()
-        const id = window.setInterval(callback, interval)
-        setIntervalIDs(ids => [...ids, id])
+    const handleMouseDown = () => {
+      if (disabled) {
+        return
       }
-    }, interval)
-  }
+      isMouseDown = true
 
-  const handleMouseUpOrLeave = () => {
-    isMouseDown = false
-    cleatIntervalIDs()
-  }
-
-  const handleClick = (evt: MouseEvent<HTMLDivElement>) => {
-    evt.stopPropagation()
-    if (disabled) {
-      return
+      setTimeout(() => {
+        if (isMouseDown) {
+          cleatIntervalIDs()
+          const id = window.setInterval(callback, interval)
+          setIntervalIDs(ids => [...ids, id])
+        }
+      }, interval)
     }
-    callback()
-  }
 
-  return (
-    <div
-      {...containerProps}
-      {...rest}
-      onClick={handleClick}
-      className={containerClassNames}
-      onMouseDown={handleMouseDown}
-      onTouchStart={handleMouseDown}
-      onMouseUp={handleMouseUpOrLeave}
-      onMouseLeave={handleMouseUpOrLeave}
-      onTouchEnd={handleMouseUpOrLeave}
-      ref={reference}
-    >
-      {children}
-    </div>
-  )
-}
+    const handleMouseUpOrLeave = () => {
+      isMouseDown = false
+      cleatIntervalIDs()
+    }
+
+    const handleClick = (evt: MouseEvent<HTMLDivElement>) => {
+      evt.stopPropagation()
+      if (disabled) {
+        return
+      }
+      callback()
+    }
+
+    return (
+      <div
+        {...containerProps}
+        {...rest}
+        onClick={handleClick}
+        className={containerClassNames}
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleMouseDown}
+        onMouseUp={handleMouseUpOrLeave}
+        onMouseLeave={handleMouseUpOrLeave}
+        onTouchEnd={handleMouseUpOrLeave}
+        ref={reference}
+      >
+        {children}
+      </div>
+    )
+  },
+)

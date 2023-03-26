@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
-import { BaseComponent } from '../../types'
 import { useZoomComponent } from '../../hooks'
+import { BaseComponent } from '../../types'
 
 export namespace ContainerNS {
   export interface Props extends BaseComponent {
@@ -9,18 +9,14 @@ export namespace ContainerNS {
   }
 }
 
-export const Container: FC<ContainerNS.Props> = ({
-  fluid = true,
-  reference,
-  className,
-  containerProps,
-  ...rest
-}) => {
-  const { createClassName } = useZoomComponent('container')
+export const Container = forwardRef<HTMLDivElement, ContainerNS.Props>(
+  ({ fluid = true, className, containerProps, ...rest }, reference) => {
+    const { createClassName } = useZoomComponent('container')
 
-  const classes = createClassName(className, '', {
-    [createClassName('', 'fluid')]: !!fluid,
-  })
+    const classes = createClassName(className, '', {
+      [createClassName('', 'fluid')]: !!fluid,
+    })
 
-  return <div {...containerProps} {...rest} ref={reference} className={classes} />
-}
+    return <div {...containerProps} {...rest} ref={reference} className={classes} />
+  },
+)

@@ -1,6 +1,6 @@
 import React, {
   Dispatch,
-  FC,
+  forwardRef,
   KeyboardEvent,
   SetStateAction,
   useCallback,
@@ -106,231 +106,242 @@ const decorator = composeDecorators(resizeablePlugin.decorator, focusPlugin.deco
 const imagePlugin = createImagePlugin({ decorator })
 const plugins: EditorPlugin[] = [focusPlugin, resizeablePlugin, imagePlugin]
 
-export const RichTextEditor: FC<RichTextEditorNS.Props> = ({
-  maxHeight = 400,
-  minHeight = 400,
-  stripPastedStyles = false,
-  spellCheck = false,
-  validateURL = isValidURL,
-  headlessEditor,
-  className,
-  containerProps,
-  reference,
-  placeholder,
-  autoFocus,
-  setEditorHandlers,
-  imageExplorerProps,
-  ...rest
-}) => {
-  const { createClassName, globalI18ns } = useZoomComponent('rich-text-editor')
-  const { isRTL } = useZoomContext()
-  const i18n = useRichTextEditorI18n(globalI18ns)
-
-  const noFollowedLink = useObjectedState(false)
-  const blankedLink = useObjectedState(false)
-  const linkURL = useObjectedState('')
-  const isImageDialogOpen = useObjectedState(false)
-
-  const classes = createClassName(className)
-  const editorRef = useRef<Editor | null>(null)
-
-  const [updaterKey, setUpdaterKey] = useState(0)
-  const [editorState, setEditorState] = useState(
-    EditorState.createWithContent(convertFromRaw(JSON.parse(FULL_FEATURE_RICH_TEXT))),
-  )
-
-  const selection = editorState.getSelection()
-  const contentState = editorState.getCurrentContent()
-  const isCursorOverLink = RichUtils.currentBlockContainsLink(editorState)
-
-  const handleExportData = useExportData(contentState)
-
-  const handleKeyCommand = useCallback(
-    (command: string, editorState: EditorState) => {
-      const newState = RichUtils.handleKeyCommand(editorState, command)
-      if (newState) {
-        setEditorState(newState)
-        return 'handled'
-      }
-      return 'not-handled'
+export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>(
+  (
+    {
+      maxHeight = 400,
+      minHeight = 400,
+      stripPastedStyles = false,
+      spellCheck = false,
+      validateURL = isValidURL,
+      headlessEditor,
+      className,
+      containerProps,
+      placeholder,
+      autoFocus,
+      setEditorHandlers,
+      imageExplorerProps,
+      ...rest
     },
-    [editorState, setEditorState],
-  )
-
-  const mapKeyToEditorCommand = useCallback(
-    (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'Tab': {
-          const newEditorState = RichUtils.onTab(e, editorState, 4)
-          if (newEditorState !== editorState) {
-            setEditorState(newEditorState)
-          }
-          return null
-        }
-      }
-      return getDefaultKeyBinding(e)
-    },
-    [editorState, setEditorState],
-  )
-
-  const toggleBlockStyle = (blockType: RichTextEditorNS.BlockTypes) => {
-    setEditorState(RichUtils.toggleBlockType(editorState, blockType))
-    handleFocusEditor()
-  }
-
-  const toggleInlineStyle = (inlineType: RichTextEditorNS.InlineTypes) => {
-    setEditorState(RichUtils.toggleInlineStyle(editorState, inlineType))
-    handleFocusEditor()
-  }
-
-  const handleFocusEditor = () => {
-    setTimeout(() => {
-      editorRef.current?.focus()
-    }, 0)
-  }
-
-  const handleCreateEmoji = (emojiName: EmojiNS.Emojis.Names) => {
-    return createEmoji(editorState, setEditorState, emojiName, handleFocusEditor)
-  }
-
-  const handleCreateImage = (imageSource: string, alt?: string) => {
-    return setEditorState(currentEditorState =>
-      imagePlugin.addImage(currentEditorState, imageSource, { alt }),
-    )
-  }
-
-  const isInlineStyle = (style: RichTextEditorNS.InlineAndBlockTypes): boolean => {
-    switch (style) {
-      case 'BOLD':
-      case 'ITALIC':
-      case 'UNDERLINE':
-        return true
-      default:
-        return false
-    }
-  }
-
-  const handleToggleStyle = (style: RichTextEditorNS.InlineAndBlockTypes) => {
-    if (isInlineStyle(style)) {
-      return toggleInlineStyle(style as RichTextEditorNS.InlineTypes)
-    }
-    return toggleBlockStyle(style as RichTextEditorNS.BlockTypes)
-  }
-
-  const isSelectionContainsStyle = (style: RichTextEditorNS.InlineAndBlockTypes): boolean => {
-    if (isInlineStyle(style)) {
-      return editorState.getCurrentInlineStyle().has(style)
-    }
-
-    return (
-      editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType() === style
-    )
-  }
-
-  const handleInsertLink: RichTextEditorNS.Handlers['insertLink'] = (
-    URL,
-    openInNewTab,
-    noFollowed,
+    reference,
   ) => {
-    createLink(editorState, setEditorState, URL, !!noFollowed, !!openInNewTab, handleFocusEditor)
-    linkURL.set('')
-  }
+    const { createClassName, globalI18ns } = useZoomComponent('rich-text-editor')
+    const { isRTL } = useZoomContext()
+    const i18n = useRichTextEditorI18n(globalI18ns)
 
-  const handleRemoveLink = () => {
-    return removeLink(editorState, setEditorState)()
-  }
+    const noFollowedLink = useObjectedState(false)
+    const blankedLink = useObjectedState(false)
+    const linkURL = useObjectedState('')
+    const isImageDialogOpen = useObjectedState(false)
 
-  useEffect(() => {
-    setUpdaterKey(key => key + 1)
-  }, [selection.getFocusOffset()])
+    const classes = createClassName(className)
+    const editorRef = useRef<Editor | null>(null)
 
-  useEffect(() => {
-    setEditorHandlers?.({
-      editorState,
-      updaterKey,
-      focusEditor: handleFocusEditor,
-      insertEmoji: handleCreateEmoji,
-      toggleStyle: handleToggleStyle,
-      insertLink: handleInsertLink,
-      removeLink: handleRemoveLink,
-      insertImage: handleCreateImage,
-      insertFile: () => {},
-      containsStyle: isSelectionContainsStyle,
-      exportData: handleExportData,
-      rangeSelected: !selection.isCollapsed(),
-      selectionLink: {
-        containsLink: isCursorOverLink,
-        isBlanked: blankedLink,
-        isNoFollowed: noFollowedLink,
-        URL: linkURL,
+    const [updaterKey, setUpdaterKey] = useState(0)
+    const [editorState, setEditorState] = useState(
+      EditorState.createWithContent(convertFromRaw(JSON.parse(FULL_FEATURE_RICH_TEXT))),
+    )
+
+    const selection = editorState.getSelection()
+    const contentState = editorState.getCurrentContent()
+    const isCursorOverLink = RichUtils.currentBlockContainsLink(editorState)
+
+    const handleExportData = useExportData(contentState)
+
+    const handleKeyCommand = useCallback(
+      (command: string, editorState: EditorState) => {
+        const newState = RichUtils.handleKeyCommand(editorState, command)
+        if (newState) {
+          setEditorState(newState)
+          return 'handled'
+        }
+        return 'not-handled'
       },
-    })
-  }, [editorState, updaterKey, isCursorOverLink, blankedLink.val, noFollowedLink.val, linkURL.val])
+      [editorState, setEditorState],
+    )
 
-  useEffect(() => {
-    manageLinkOnEditorStateUpdates(editorState, linkURL, noFollowedLink, blankedLink)
-  }, [editorState])
+    const mapKeyToEditorCommand = useCallback(
+      (e: KeyboardEvent) => {
+        switch (e.key) {
+          case 'Tab': {
+            const newEditorState = RichUtils.onTab(e, editorState, 4)
+            if (newEditorState !== editorState) {
+              setEditorState(newEditorState)
+            }
+            return null
+          }
+        }
+        return getDefaultKeyBinding(e)
+      },
+      [editorState, setEditorState],
+    )
 
-  useEffect(() => {
-    if (autoFocus) {
+    const toggleBlockStyle = (blockType: RichTextEditorNS.BlockTypes) => {
+      setEditorState(RichUtils.toggleBlockType(editorState, blockType))
       handleFocusEditor()
     }
-  }, [])
 
-  return (
-    <div {...rest} {...containerProps} ref={reference} className={classes}>
-      <RichTextEditorImageExplorer
-        i18n={i18n}
-        imageExplorerProps={imageExplorerProps}
-        handleCreateImage={handleCreateImage}
-        isImageDialogOpen={isImageDialogOpen}
-      />
+    const toggleInlineStyle = (inlineType: RichTextEditorNS.InlineTypes) => {
+      setEditorState(RichUtils.toggleInlineStyle(editorState, inlineType))
+      handleFocusEditor()
+    }
 
-      {!headlessEditor && (
-        <EditorActions
-          editorState={editorState}
-          setEditorState={setEditorState}
+    const handleFocusEditor = () => {
+      setTimeout(() => {
+        editorRef.current?.focus()
+      }, 0)
+    }
+
+    const handleCreateEmoji = (emojiName: EmojiNS.Emojis.Names) => {
+      return createEmoji(editorState, setEditorState, emojiName, handleFocusEditor)
+    }
+
+    const handleCreateImage = (imageSource: string, alt?: string) => {
+      return setEditorState(currentEditorState =>
+        imagePlugin.addImage(currentEditorState, imageSource, { alt }),
+      )
+    }
+
+    const isInlineStyle = (style: RichTextEditorNS.InlineAndBlockTypes): boolean => {
+      switch (style) {
+        case 'BOLD':
+        case 'ITALIC':
+        case 'UNDERLINE':
+          return true
+        default:
+          return false
+      }
+    }
+
+    const handleToggleStyle = (style: RichTextEditorNS.InlineAndBlockTypes) => {
+      if (isInlineStyle(style)) {
+        return toggleInlineStyle(style as RichTextEditorNS.InlineTypes)
+      }
+      return toggleBlockStyle(style as RichTextEditorNS.BlockTypes)
+    }
+
+    const isSelectionContainsStyle = (style: RichTextEditorNS.InlineAndBlockTypes): boolean => {
+      if (isInlineStyle(style)) {
+        return editorState.getCurrentInlineStyle().has(style)
+      }
+
+      return (
+        editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType() === style
+      )
+    }
+
+    const handleInsertLink: RichTextEditorNS.Handlers['insertLink'] = (
+      URL,
+      openInNewTab,
+      noFollowed,
+    ) => {
+      createLink(editorState, setEditorState, URL, !!noFollowed, !!openInNewTab, handleFocusEditor)
+      linkURL.set('')
+    }
+
+    const handleRemoveLink = () => {
+      return removeLink(editorState, setEditorState)()
+    }
+
+    useEffect(() => {
+      setUpdaterKey(key => key + 1)
+    }, [selection.getFocusOffset()])
+
+    useEffect(() => {
+      setEditorHandlers?.({
+        editorState,
+        updaterKey,
+        focusEditor: handleFocusEditor,
+        insertEmoji: handleCreateEmoji,
+        toggleStyle: handleToggleStyle,
+        insertLink: handleInsertLink,
+        removeLink: handleRemoveLink,
+        insertImage: handleCreateImage,
+        insertFile: () => {},
+        containsStyle: isSelectionContainsStyle,
+        exportData: handleExportData,
+        rangeSelected: !selection.isCollapsed(),
+        selectionLink: {
+          containsLink: isCursorOverLink,
+          isBlanked: blankedLink,
+          isNoFollowed: noFollowedLink,
+          URL: linkURL,
+        },
+      })
+    }, [
+      editorState,
+      updaterKey,
+      isCursorOverLink,
+      blankedLink.val,
+      noFollowedLink.val,
+      linkURL.val,
+    ])
+
+    useEffect(() => {
+      manageLinkOnEditorStateUpdates(editorState, linkURL, noFollowedLink, blankedLink)
+    }, [editorState])
+
+    useEffect(() => {
+      if (autoFocus) {
+        handleFocusEditor()
+      }
+    }, [])
+
+    return (
+      <div {...rest} {...containerProps} ref={reference} className={classes}>
+        <RichTextEditorImageExplorer
           i18n={i18n}
-          updaterKey={updaterKey}
-          validateURL={validateURL}
-          toggleBlockStyle={toggleBlockStyle}
-          toggleInlineStyle={toggleInlineStyle}
-          handleCreateEmoji={handleCreateEmoji}
-          focusEditor={handleFocusEditor}
-          blankedLink={blankedLink}
-          linkURL={linkURL}
-          noFollowedLink={noFollowedLink}
+          imageExplorerProps={imageExplorerProps}
+          handleCreateImage={handleCreateImage}
           isImageDialogOpen={isImageDialogOpen}
         />
-      )}
 
-      <div className="rich-text-editor">
-        <ContextMenu items={[{ title: 'hey' }]}>
-          <ScrollView maxHeight={maxHeight} minHeight={minHeight} className="editor-scroll-view">
-            <Editor
-              decorators={[
-                { strategy: findLinkEntities, component: LinkComponent },
-                { strategy: findEmojiEntities, component: EmojiComponent },
-              ]}
-              plugins={plugins}
-              spellCheck={spellCheck}
-              stripPastedStyles={stripPastedStyles}
-              editorState={editorState}
-              onChange={setEditorState}
-              textAlignment={isRTL ? 'right' : 'left'}
-              handleKeyCommand={handleKeyCommand}
-              keyBindingFn={mapKeyToEditorCommand}
-              textDirectionality={isRTL ? 'RTL' : 'LTR'}
-              ref={editorRef}
-              placeholder={
-                contentState.getBlockMap().first().getType() === 'unstyled'
-                  ? placeholder
-                  : undefined
-              }
-            />
-          </ScrollView>
-        </ContextMenu>
+        {!headlessEditor && (
+          <EditorActions
+            editorState={editorState}
+            setEditorState={setEditorState}
+            i18n={i18n}
+            updaterKey={updaterKey}
+            validateURL={validateURL}
+            toggleBlockStyle={toggleBlockStyle}
+            toggleInlineStyle={toggleInlineStyle}
+            handleCreateEmoji={handleCreateEmoji}
+            focusEditor={handleFocusEditor}
+            blankedLink={blankedLink}
+            linkURL={linkURL}
+            noFollowedLink={noFollowedLink}
+            isImageDialogOpen={isImageDialogOpen}
+          />
+        )}
+
+        <div className="rich-text-editor">
+          <ContextMenu items={[{ title: 'hey' }]}>
+            <ScrollView maxHeight={maxHeight} minHeight={minHeight} className="editor-scroll-view">
+              <Editor
+                decorators={[
+                  { strategy: findLinkEntities, component: LinkComponent },
+                  { strategy: findEmojiEntities, component: EmojiComponent },
+                ]}
+                plugins={plugins}
+                spellCheck={spellCheck}
+                stripPastedStyles={stripPastedStyles}
+                editorState={editorState}
+                onChange={setEditorState}
+                textAlignment={isRTL ? 'right' : 'left'}
+                handleKeyCommand={handleKeyCommand}
+                keyBindingFn={mapKeyToEditorCommand}
+                textDirectionality={isRTL ? 'RTL' : 'LTR'}
+                ref={editorRef}
+                placeholder={
+                  contentState.getBlockMap().first().getType() === 'unstyled'
+                    ? placeholder
+                    : undefined
+                }
+              />
+            </ScrollView>
+          </ContextMenu>
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  },
+)

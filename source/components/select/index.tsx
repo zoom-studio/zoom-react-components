@@ -46,6 +46,7 @@ export namespace SelectNS {
   export interface Props<Values extends SelectOptionNS.Value> extends BaseComponent {
     options?: Option<Values>[]
     multiSelect?: boolean
+    reference?: RefObject<HTMLDivElement>
     label?: string
     placeholder?: string
     stateMessageProps?: TypographyNS.TextNS.Props

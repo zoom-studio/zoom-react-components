@@ -1,4 +1,10 @@
-import React, { FC, Children, ReactNode } from 'react'
+import React, {
+  Children,
+  forwardRef,
+  ForwardRefExoticComponent,
+  ReactNode,
+  RefAttributes,
+} from 'react'
 import { useZoomComponent } from '../../hooks'
 import { BaseComponent, MaybeArray } from '../../types'
 import { StackItem } from './stack-item'
@@ -33,67 +39,71 @@ export namespace StackNS {
     dividers?: MaybeArray<ReactNode>
   }
 
-  export interface StackComponent extends FC<StackNS.Props> {
+  export type StackComponent = ForwardRefExoticComponent<Props & RefAttributes<HTMLDivElement>> & {
     item: typeof StackItem
   }
 }
 
-export const Stack: StackNS.StackComponent = ({
-  align = 'center',
-  justify = 'flex-start',
-  direction = 'row',
-  spacing = 6,
-  dividerFirst,
-  dividers,
-  inline,
-  broken,
-  children,
-  className,
-  containerProps,
-  reference,
-  style,
-}: StackNS.Props) => {
-  const { createClassName } = useZoomComponent('stack')
+export const Stack = forwardRef<HTMLDivElement, StackNS.Props>(
+  (
+    {
+      align = 'center',
+      justify = 'flex-start',
+      direction = 'row',
+      spacing = 6,
+      dividerFirst,
+      dividers,
+      inline,
+      broken,
+      children,
+      className,
+      containerProps,
+      style,
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('stack')
 
-  const filterChildren = Children.toArray(children)
-  const childrenCount = filterChildren.length
+    const filterChildren = Children.toArray(children)
+    const childrenCount = filterChildren.length
 
-  const getDivider = (childIndex: number) => {
-    return dividers &&
-      typeof dividers !== 'string' &&
-      typeof dividers !== 'number' &&
-      typeof dividers !== 'boolean' &&
-      'length' in dividers
-      ? dividers[childIndex]
-      : dividers
-  }
+    const getDivider = (childIndex: number) => {
+      return dividers &&
+        typeof dividers !== 'string' &&
+        typeof dividers !== 'number' &&
+        typeof dividers !== 'boolean' &&
+        'length' in dividers
+        ? dividers[childIndex]
+        : dividers
+    }
 
-  const classes = createClassName(className, '', {
-    [createClassName('', `align-${align}`)]: true,
-    [createClassName('', `justify-${justify}`)]: true,
-    [createClassName('', `direction-${direction}`)]: true,
-    [createClassName('', 'broken')]: !!broken,
-    [createClassName('', 'inline')]: !!inline,
-  })
+    const classes = createClassName(className, '', {
+      [createClassName('', `align-${align}`)]: true,
+      [createClassName('', `justify-${justify}`)]: true,
+      [createClassName('', `direction-${direction}`)]: true,
+      [createClassName('', 'broken')]: !!broken,
+      [createClassName('', 'inline')]: !!inline,
+    })
 
-  return (
-    <div
-      {...containerProps}
-      ref={reference}
-      className={classes}
-      style={{ ...style, gap: style?.gap ?? spacing }}
-    >
-      {Children.map(filterChildren as React.ReactElement[], (child, index) => {
-        const childNode = child.type !== StackItem ? <StackItem>{child}</StackItem> : child
+    return (
+      <div
+        {...containerProps}
+        ref={reference}
+        className={classes}
+        style={{ ...style, gap: style?.gap ?? spacing }}
+      >
+        {Children.map(filterChildren as React.ReactElement[], (child, index) => {
+          const childNode = child.type !== StackItem ? <StackItem>{child}</StackItem> : child
 
-        return [
-          dividerFirst ? getDivider(index) : null,
-          childNode,
-          index < childrenCount - 1 && !dividerFirst ? getDivider(index) : null,
-        ]
-      })}
-    </div>
-  )
-}
+          return [
+            dividerFirst ? getDivider(index) : null,
+            childNode,
+            index < childrenCount - 1 && !dividerFirst ? getDivider(index) : null,
+          ]
+        })}
+      </div>
+    )
+  },
+) as StackNS.StackComponent
 
 Stack.item = StackItem

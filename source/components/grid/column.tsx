@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
 import { useZoomComponent } from '../../hooks'
 import { BaseComponent, Range } from '../../types'
@@ -14,29 +14,21 @@ export namespace ColNS {
   }
 }
 
-export const Col: FC<ColNS.Props> = ({
-  xs,
-  sm,
-  md,
-  lg,
-  children,
-  className,
-  containerProps,
-  reference,
-  ...rest
-}): JSX.Element => {
-  const { createClassName } = useZoomComponent('col')
+export const Col = forwardRef<HTMLDivElement, ColNS.Props>(
+  ({ xs, sm, md, lg, children, className, containerProps, ...rest }, reference) => {
+    const { createClassName } = useZoomComponent('col')
 
-  const classNames = createClassName(className, undefined, {
-    [xs ? `zoomrc-col-xs-${xs}` : '']: true,
-    [sm ? `zoomrc-col-sm-${sm}` : '']: true,
-    [md ? `zoomrc-col-md-${md}` : '']: true,
-    [lg ? `zoomrc-col-lg-${lg}` : '']: true,
-  })
+    const classNames = createClassName(className, undefined, {
+      [xs ? `zoomrc-col-xs-${xs}` : '']: true,
+      [sm ? `zoomrc-col-sm-${sm}` : '']: true,
+      [md ? `zoomrc-col-md-${md}` : '']: true,
+      [lg ? `zoomrc-col-lg-${lg}` : '']: true,
+    })
 
-  return (
-    <div {...rest} {...containerProps} ref={reference} className={classNames}>
-      {children}
-    </div>
-  )
-}
+    return (
+      <div {...rest} {...containerProps} ref={reference} className={classNames}>
+        {children}
+      </div>
+    )
+  },
+)

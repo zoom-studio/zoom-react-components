@@ -1,4 +1,4 @@
-import React, { cloneElement, FC, useMemo, useState, MouseEvent } from 'react'
+import React, { cloneElement, FC, MouseEvent, useMemo, useState } from 'react'
 
 import { createSelectable, ReactSelectableComponentProps, SelectableGroup } from 'react-selectable'
 

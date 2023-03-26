@@ -1,10 +1,10 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { CSSProperties, forwardRef } from 'react'
 
 import { useZoomComponent } from '../../../hooks'
 
 import { SkeletonNS } from '..'
-import { useSkeleton } from '../use-skeleton'
 import { Icon, IconNS } from '../../icon'
+import { useSkeleton } from '../use-skeleton'
 
 export namespace PaperSkeletonNS {
   export interface Size {
@@ -20,40 +20,35 @@ export namespace PaperSkeletonNS {
   }
 }
 
-export const PaperSkeleton: FC<PaperSkeletonNS.Props> = ({
-  iconSize = '80px',
-  circular,
-  className,
-  size,
-  icon,
-  containerProps,
-  reference,
-  style,
-  ...baseProps
-}) => {
-  const { animatedClasses } = useSkeleton(baseProps)
-  const { createClassName } = useZoomComponent('skeleton')
+export const PaperSkeleton = forwardRef<HTMLDivElement, PaperSkeletonNS.Props>(
+  (
+    { iconSize = '80px', circular, className, size, icon, containerProps, style, ...baseProps },
+    reference,
+  ) => {
+    const { animatedClasses } = useSkeleton(baseProps)
+    const { createClassName } = useZoomComponent('skeleton')
 
-  const classes = createClassName(className, 'paper', {
-    [createClassName('', 'paper-circular')]: !!circular,
-  })
+    const classes = createClassName(className, 'paper', {
+      [createClassName('', 'paper-circular')]: !!circular,
+    })
 
-  const getSkeletonStyles = (): CSSProperties => {
-    const styles: CSSProperties = { ...style, ...size }
-    return styles
-  }
+    const getSkeletonStyles = (): CSSProperties => {
+      const styles: CSSProperties = { ...style, ...size }
+      return styles
+    }
 
-  return (
-    <div
-      {...baseProps}
-      {...containerProps}
-      className={classes}
-      style={getSkeletonStyles()}
-      ref={reference}
-    >
-      <span className={animatedClasses} />
+    return (
+      <div
+        {...baseProps}
+        {...containerProps}
+        className={classes}
+        style={getSkeletonStyles()}
+        ref={reference}
+      >
+        <span className={animatedClasses} />
 
-      {icon && <Icon name={icon} className="skeleton-icon" style={{ fontSize: iconSize }} />}
-    </div>
-  )
-}
+        {icon && <Icon name={icon} className="skeleton-icon" style={{ fontSize: iconSize }} />}
+      </div>
+    )
+  },
+)

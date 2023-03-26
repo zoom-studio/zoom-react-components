@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import React, { ReactNode, RefObject, useCallback, useEffect, useRef, useState } from 'react'
 
 import { ScrollView, ScrollViewNS, Spin, SpinNS, Title } from '..'
 import { logs } from '../../constants'
@@ -24,6 +24,7 @@ export namespace InfiniteScrollViewNS {
     reverseScroll?: boolean
     loadOnMount?: boolean
     threshold?: number
+    reference?: RefObject<HTMLDivElement>
     spinProps?: SpinNS.Props
     endMessage?: string | ReactNode
     itemsContainerProps?: Omit<BaseComponent, 'children'>

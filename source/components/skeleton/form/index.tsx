@@ -1,11 +1,11 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { CSSProperties, forwardRef } from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../../hooks'
 
 import { SkeletonNS } from '..'
 import { ButtonNS } from '../..'
-import { useSkeleton } from '../use-skeleton'
 import { CommonSize } from '../../../types'
+import { useSkeleton } from '../use-skeleton'
 
 export namespace FormSkeletonNS {
   export interface Size {
@@ -20,39 +20,43 @@ export namespace FormSkeletonNS {
   }
 }
 
-export const FormSkeleton: FC<FormSkeletonNS.Props> = ({
-  size: providedSize,
-  shape = 'default',
-  className,
-  customSize,
-  containerProps,
-  reference,
-  style,
-  ...baseProps
-}) => {
-  const { animatedClasses } = useSkeleton(baseProps)
-  const { createClassName } = useZoomComponent('skeleton')
-  const size = useComponentSize(providedSize)
+export const FormSkeleton = forwardRef<HTMLDivElement, FormSkeletonNS.Props>(
+  (
+    {
+      size: providedSize,
+      shape = 'default',
+      className,
+      customSize,
+      containerProps,
+      style,
+      ...baseProps
+    },
+    reference,
+  ) => {
+    const { animatedClasses } = useSkeleton(baseProps)
+    const { createClassName } = useZoomComponent('skeleton')
+    const size = useComponentSize(providedSize)
 
-  const classes = createClassName(className, 'form', {
-    [createClassName('', `form-${size}`)]: true,
-    [createClassName('', `form-shape-${shape}`)]: true,
-  })
+    const classes = createClassName(className, 'form', {
+      [createClassName('', `form-${size}`)]: true,
+      [createClassName('', `form-shape-${shape}`)]: true,
+    })
 
-  const getSkeletonStyles = (): CSSProperties => {
-    const styles: CSSProperties = { ...style, ...customSize }
-    return styles
-  }
+    const getSkeletonStyles = (): CSSProperties => {
+      const styles: CSSProperties = { ...style, ...customSize }
+      return styles
+    }
 
-  return (
-    <div
-      {...baseProps}
-      {...containerProps}
-      className={classes}
-      ref={reference}
-      style={getSkeletonStyles()}
-    >
-      <span className={animatedClasses} />
-    </div>
-  )
-}
+    return (
+      <div
+        {...baseProps}
+        {...containerProps}
+        className={classes}
+        ref={reference}
+        style={getSkeletonStyles()}
+      >
+        <span className={animatedClasses} />
+      </div>
+    )
+  },
+)

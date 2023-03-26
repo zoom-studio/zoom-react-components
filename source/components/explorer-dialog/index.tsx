@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
 import { ButtonNS, Dialog, DialogNS, Explorer, ExplorerNS } from '..'
 import { useZoomComponent } from '../../hooks'
@@ -23,48 +23,54 @@ export namespace ExplorerDialogNS {
   }
 }
 
-export const ExplorerDialog: FC<ExplorerDialogNS.Props> = ({
-  selectButton = 'Select files',
-  cancelButton = 'Cancel',
-  dialogProps,
-  isOpen,
-  closable,
-  onClose,
-  title,
-  disabled,
-  selectButtonProps,
-  loading,
-  ...explorerProps
-}) => {
-  const { createClassName } = useZoomComponent('explorer-dialog')
+export const ExplorerDialog = forwardRef<HTMLDivElement, ExplorerDialogNS.Props>(
+  (
+    {
+      selectButton = 'Select files',
+      cancelButton = 'Cancel',
+      dialogProps,
+      isOpen,
+      closable,
+      onClose,
+      title,
+      disabled,
+      selectButtonProps,
+      loading,
+      ...explorerProps
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('explorer-dialog')
 
-  const classes = createClassName(dialogProps?.className)
+    const classes = createClassName(dialogProps?.className)
 
-  return (
-    <Dialog
-      {...dialogProps}
-      className={classes}
-      withFullscreenButton={false}
-      size="large"
-      isOpen={isOpen}
-      closable={closable}
-      onClose={onClose}
-      title={title}
-      cancelButton={cancelButton}
-      cancelButtonProps={{
-        disabled: disabled || loading,
-        ...dialogProps?.cancelButtonProps,
-      }}
-      actions={[
-        {
+    return (
+      <Dialog
+        {...dialogProps}
+        ref={reference}
+        className={classes}
+        withFullscreenButton={false}
+        size="large"
+        isOpen={isOpen}
+        closable={closable}
+        onClose={onClose}
+        title={title}
+        cancelButton={cancelButton}
+        cancelButtonProps={{
           disabled: disabled || loading,
-          children: selectButton,
-          loading: selectButtonProps?.loading,
-          ...selectButtonProps,
-        },
-      ]}
-    >
-      <Explorer {...explorerProps} loading={loading} disabled={disabled} />
-    </Dialog>
-  )
-}
+          ...dialogProps?.cancelButtonProps,
+        }}
+        actions={[
+          {
+            disabled: disabled || loading,
+            children: selectButton,
+            loading: selectButtonProps?.loading,
+            ...selectButtonProps,
+          },
+        ]}
+      >
+        <Explorer {...explorerProps} loading={loading} disabled={disabled} />
+      </Dialog>
+    )
+  },
+)

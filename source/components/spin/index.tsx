@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
 import { Text, TypographyNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
@@ -17,39 +17,43 @@ export namespace SpinNS {
   }
 }
 
-export const Spin: FC<SpinNS.Props> = ({
-  size: providedSize,
-  speed = '0.5s',
-  tip,
-  tipProps,
-  color = generateColor({ source: 'text', tone: 2 }),
-  className,
-  children,
-  containerProps,
-  reference,
-  ...rest
-}) => {
-  const size = useComponentSize(providedSize)
-  const { createClassName } = useZoomComponent('spin')
-  const classes = createClassName(className, '', {
-    [createClassName('', size)]: true,
-  })
-  color = colorFnToColor(color)
+export const Spin = forwardRef<HTMLSpanElement, SpinNS.Props>(
+  (
+    {
+      size: providedSize,
+      speed = '0.5s',
+      tip,
+      tipProps,
+      color = generateColor({ source: 'text', tone: 2 }),
+      className,
+      children,
+      containerProps,
+      ...rest
+    },
+    reference,
+  ) => {
+    const size = useComponentSize(providedSize)
+    const { createClassName } = useZoomComponent('spin')
+    const classes = createClassName(className, '', {
+      [createClassName('', size)]: true,
+    })
+    color = colorFnToColor(color)
 
-  return (
-    <span {...rest} {...containerProps} ref={reference} className={classes}>
-      <span className="spinner" style={{ animationDuration: speed, borderColor: color }} />
-      {children ??
-        (tip && (
-          <Text
-            {...tipProps}
-            small={size === 'small'}
-            normal={size === 'normal'}
-            large={size === 'large'}
-          >
-            {tip}
-          </Text>
-        ))}
-    </span>
-  )
-}
+    return (
+      <span {...rest} {...containerProps} ref={reference} className={classes}>
+        <span className="spinner" style={{ animationDuration: speed, borderColor: color }} />
+        {children ??
+          (tip && (
+            <Text
+              {...tipProps}
+              small={size === 'small'}
+              normal={size === 'normal'}
+              large={size === 'large'}
+            >
+              {tip}
+            </Text>
+          ))}
+      </span>
+    )
+  },
+)

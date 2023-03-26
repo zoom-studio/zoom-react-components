@@ -28,14 +28,12 @@ export namespace PopConfirmNS {
     cancel?: Action
     containerProps?: HTMLAttributes<HTMLDivElement>
     description?: string
-    trigger?: Exclude<PopoverNS.Trigger, 'focus'>
   }
 }
 
 export const PopConfirm: FC<PopConfirmNS.Props> = ({
   cancel: providedCancel = { children: 'Cancel' },
   confirm: providedConfirm = { children: 'Confirm' },
-  trigger = 'click',
   variant = 'neutral',
   title,
   children,
@@ -102,7 +100,7 @@ export const PopConfirm: FC<PopConfirmNS.Props> = ({
   }
 
   return (
-    <Popover {...popoverProps} trigger={trigger} content={renderContent}>
+    <Popover {...popoverProps} trigger="click" content={renderContent}>
       <Button {...buttonProps}>{children}</Button>
     </Popover>
   )

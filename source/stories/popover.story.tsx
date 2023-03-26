@@ -3,8 +3,8 @@ import React, { FC } from 'react'
 import { ComponentMeta } from '@storybook/react'
 
 import { Button, Emoji, Popover, PopoverNS } from '..'
-import { StoryPlayground, PlacementsStory, CommonStory } from './components'
 import { lorem } from '../fixtures'
+import { CommonStory, PlacementsStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
 const CustomContent: FC = () => (
@@ -25,7 +25,7 @@ export default {
     children: <Button>Trigger popover by me</Button>,
     trigger: 'click',
     content: <CustomContent />,
-    placement: 'top',
+    placement: 'top-end',
     defaultIsOpen: true,
   },
 } as ComponentMeta<typeof Popover>
@@ -134,7 +134,7 @@ export const Loading: FC = () => {
         {
           title: 'With some message',
           custom: (
-            <Popover loading loadingTitle={t('fetching')} defaultIsOpen trigger="click">
+            <Popover loading spinProps={{ tip: t('fetching') }} defaultIsOpen trigger="click">
               <Button>{t('triggers.click')}</Button>
             </Popover>
           ),

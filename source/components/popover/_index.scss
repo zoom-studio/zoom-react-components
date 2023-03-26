@@ -1,34 +1,20 @@
 @use 'sass:math';
+
 @import 'functions';
 @import 'mixins';
-
-@include create-popover-animation(top) {
-  transform: translateY(calc(-100% + 5px));
-}
-
-@include create-popover-animation(bottom) {
-  transform: translateY(calc(100% - 5px));
-}
-
-@include create-popover-animation(right) {
-  transform: translateX(calc(100% - 5px));
-}
-
-@include create-popover-animation(left) {
-  transform: translateX(calc(-100% + 5px));
-}
 
 div.zoomrc-popover {
   @include zoomrc-popover-placements;
 
-  position: relative;
-  display: inline-flex;
-  direction: rtl;
+  z-index: 100;
+
+  &,
+  & * {
+    outline: none !important;
+  }
 
   > .zoomrc-popover-container {
-    position: absolute;
     max-width: 260px;
-    z-index: 1;
 
     > .container-children {
       position: relative;
@@ -38,29 +24,6 @@ div.zoomrc-popover {
       padding: 6px 14px;
       border-radius: 6px;
       border: 1px solid color(border, 2);
-
-      > .arrow {
-        position: absolute;
-        width: 24px;
-        height: 10px;
-        display: block;
-        overflow: hidden;
-
-        &::before {
-          content: '';
-          position: absolute;
-          width: 20px;
-          height: 20px;
-          background-color: color(layer, 1);
-          transform: rotate(45deg);
-          border-radius: 6px 0 0;
-          top: 2px;
-          left: 0;
-          right: 0;
-          margin: auto;
-          border: 1px solid color(border, 2);
-        }
-      }
 
       > .zoomrc-popover-title {
         color: color(text, 1);
@@ -87,13 +50,14 @@ div.zoomrc-popover {
         align-items: center;
         justify-content: center;
         padding: 6px 0;
+        color: color(text, 2);
       }
     }
   }
 }
 
 @include ltr {
-  div.zoomrc-popover {
+  .zoomrc-popover {
     > .zoomrc-popover-container {
       > .container-children {
         > .zoomrc-popover-title,

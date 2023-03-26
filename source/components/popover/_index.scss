@@ -1,5 +1,76 @@
 @use 'sass:math';
 
+@import 'functions';
+@import 'mixins';
+
 div.zoomrc-popover {
-  color: red;
+  @include zoomrc-popover-placements;
+
+  z-index: 100;
+
+  &,
+  & * {
+    outline: none !important;
+  }
+
+  > .zoomrc-popover-container {
+    max-width: 260px;
+
+    > .container-children {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background-color: color(layer, 1);
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid color(border, 2);
+
+      > .zoomrc-popover-title {
+        color: color(text, 1);
+        margin: 0 0 6px;
+        text-align: right;
+        direction: rtl;
+      }
+
+      > .zoomrc-popover-description {
+        color: color(text, 2);
+        margin: 0;
+        text-align: right;
+        direction: rtl;
+      }
+
+      > .zoomrc-popover-content {
+        margin-top: 6px;
+        direction: rtl;
+      }
+
+      > .popover-loader {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 0;
+        color: color(text, 2);
+      }
+    }
+  }
+}
+
+@include ltr {
+  .zoomrc-popover {
+    > .zoomrc-popover-container {
+      > .container-children {
+        > .zoomrc-popover-title,
+        > .zoomrc-popover-description {
+          text-align: left;
+          direction: ltr;
+        }
+
+        > .zoomrc-popover-content,
+        > .popover-loader {
+          direction: ltr;
+        }
+      }
+    }
+  }
 }

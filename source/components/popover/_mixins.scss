@@ -1,0 +1,26 @@
+@use 'sass:math';
+
+@mixin zoomrc-popover-placements {
+  $placements: ('top', 'right', 'bottom', 'left');
+  $directions: ('-start', '-end', '');
+
+  @each $placement in $placements {
+    $transform-value: if($placement == 'top' or $placement == 'left', -10px, 10px);
+    $translate-dir: if($placement == 'top' or $placement == 'bottom', 'Y', 'X');
+
+    @keyframes #{popover-animation-name($placement)} {
+      from {
+        opacity: 0;
+        transform: translate#{$translate-dir }($transform-value);
+      }
+    }
+
+    @each $direction in $directions {
+      &-#{$placement + $direction} {
+        > .zoomrc-popover-container {
+          animation: popover-animation-name($placement) 150ms linear;
+        }
+      }
+    }
+  }
+}

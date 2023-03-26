@@ -1,4 +1,4 @@
-import React, { cloneElement, FC, FocusEvent, MouseEvent, useRef } from 'react'
+import React, { cloneElement, FC, FocusEvent, MouseEvent, useEffect, useRef } from 'react'
 
 import { useMergeRefs } from '@floating-ui/react'
 
@@ -68,6 +68,14 @@ export const PopoverTrigger: FC<PopoverTriggerNS.Props> = ({
     if (isMouseEntered) containerProps?.onMouseEnter?.(evt)
     else containerProps?.onMouseLeave?.(evt)
   }
+
+  useEffect(() => {
+    return () => {
+      if (timeout.current) {
+        clearTimeout(timeout.current)
+      }
+    }
+  }, [])
 
   return (
     <>

@@ -1,24 +1,32 @@
-import React, { FC } from 'react'
+import React, { FC, MutableRefObject } from 'react'
 
-import { FloatingPortal, FloatingFocusManager, useMergeRefs } from '@floating-ui/react'
+import {
+  FloatingArrow,
+  FloatingFocusManager,
+  FloatingPortal,
+  useMergeRefs,
+} from '@floating-ui/react'
 
 import { ConditionalWrapper, Spin, Text, Title } from '..'
-import { usePopoverContext } from './use-popover-context'
 import { useZoomComponent } from '../../hooks'
+import { usePopoverContext } from './use-popover-context'
 
 import { PopoverNS } from '.'
+import { color } from '../../utils'
 
 export namespace PopoverContentNS {
   export interface Props
-    extends Omit<PopoverNS.Props, 'isOpen' | 'onOpenChange' | 'onOpen' | 'onClose'> {}
+    extends Omit<PopoverNS.Props, 'isOpen' | 'onOpenChange' | 'onOpen' | 'onClose'> {
+    arrowRef: MutableRefObject<SVGSVGElement | null>
+    toggle: () => void
+    open: () => void
+    close: () => void
+  }
 }
 
 export const PopoverContent: FC<PopoverContentNS.Props> = ({
-  trigger = 'hover',
-  placement = 'top',
-  showArrow = true,
-  hoverDelay = 0,
-  children,
+  placement,
+  showArrow,
   className,
   title,
   reference,
@@ -28,13 +36,14 @@ export const PopoverContent: FC<PopoverContentNS.Props> = ({
   contentProps,
   description,
   descriptionProps,
-  defaultIsOpen,
   loading,
+  close,
+  open,
+  toggle,
   spinProps,
   width,
-  autoCloseDelay,
-  containerProps,
   style,
+  arrowRef,
 }) => {
   const { context: floatingContext, ...context } = usePopoverContext()
   const { createClassName } = useZoomComponent('popover')
@@ -73,7 +82,18 @@ export const PopoverContent: FC<PopoverContentNS.Props> = ({
               style={{ width: width ?? 'max-content' }}
             >
               <div className="container-children">
-                {showArrow && <span className="arrow" />}
+                {showArrow && (
+                  <FloatingArrow
+                    ref={arrowRef}
+                    context={floatingContext}
+                    width={24}
+                    height={10}
+                    tipRadius={4}
+                    strokeWidth={1}
+                    fill={color({ source: 'layer', tone: 1 })}
+                    stroke={color({ source: 'border', tone: 2 })}
+                  />
+                )}
 
                 {loading ? (
                   <div className="popover-loader">

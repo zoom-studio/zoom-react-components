@@ -25,7 +25,7 @@ export default {
     children: <Button>Trigger popover by me</Button>,
     trigger: 'click',
     content: <CustomContent />,
-    placement: 'top',
+    placement: 'top-end',
     defaultIsOpen: true,
   },
 } as ComponentMeta<typeof Popover>

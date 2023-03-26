@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { MutableRefObject, useMemo, useState } from 'react'
 
 import {
   autoUpdate,
@@ -10,6 +10,7 @@ import {
   useFloating,
   useInteractions,
   useRole,
+  arrow,
 } from '@floating-ui/react'
 
 import { PopoverNS } from '.'
@@ -25,7 +26,10 @@ export namespace UsePopoverNS {
       | 'onClose'
       | 'autoCloseDelay'
       | 'defaultIsOpen'
-    > {}
+      | 'showArrow'
+    > {
+    arrowRef: MutableRefObject<SVGSVGElement | null>
+  }
 }
 
 export const usePopover = ({
@@ -36,6 +40,8 @@ export const usePopover = ({
   autoCloseDelay,
   onOpen,
   defaultIsOpen,
+  arrowRef,
+  showArrow,
 }: UsePopoverNS.Params) => {
   const [uncontrolledIsOpen, setUncontrolledIsOpen] = useState(!!defaultIsOpen)
 
@@ -51,11 +57,12 @@ export const usePopover = ({
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(5),
+      offset(showArrow ? 12 : 6),
       flip({
         fallbackAxisSideDirection: 'end',
       }),
       shift({ padding: 5 }),
+      arrow({ element: arrowRef }),
     ],
   })
 

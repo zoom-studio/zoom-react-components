@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, ReactNode } from 'react'
+import React, { FC, HTMLAttributes, ReactNode, useRef } from 'react'
 
 import { SpinNS, TypographyNS } from '..'
 import { BaseComponent } from '../../types'
@@ -58,13 +58,27 @@ export namespace PopoverNS {
   }
 }
 
-export const Popover: FC<PopoverNS.Props> = props => {
-  const popover = usePopover(props)
+export const Popover: FC<PopoverNS.Props> = ({
+  trigger = 'hover',
+  placement = 'top',
+  showArrow = true,
+  ...props
+}) => {
+  const allProps = { ...props, trigger, placement, showArrow }
+  const arrowRef = useRef<SVGSVGElement | null>(null)
+  const popover = usePopover({ ...allProps, arrowRef })
+
   return (
     <PopoverContext.Provider value={popover}>
-      <PopoverContent {...props} />
+      <PopoverContent
+        {...allProps}
+        arrowRef={arrowRef}
+        close={popover.close}
+        open={popover.open}
+        toggle={popover.toggle}
+      />
       <PopoverTrigger
-        {...props}
+        {...allProps}
         close={popover.close}
         open={popover.open}
         toggle={popover.toggle}

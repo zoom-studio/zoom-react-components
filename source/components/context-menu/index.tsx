@@ -3,6 +3,7 @@ import React, {
   forwardRef,
   FunctionComponentElement,
   MouseEvent,
+  MutableRefObject,
   ReactNode,
   RefObject,
   useRef,
@@ -68,7 +69,7 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuNS.Props>(
       }
     }
 
-    const menuProps: MenuNS.Props = {
+    const menuProps: MenuNS.Props & { ref: MutableRefObject<HTMLButtonElement | null> } = {
       ...userMenuProps,
       items,
       onClose: () => setMenuComponent(null),

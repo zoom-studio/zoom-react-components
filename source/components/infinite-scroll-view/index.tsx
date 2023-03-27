@@ -135,7 +135,7 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
       <ScrollView
         {...scrollViewProps}
         autoHide={autoHide}
-        reference={scrollViewRef}
+        ref={scrollViewRef}
         maxHeight={maxHeight}
         maxWidth={maxWidth}
         onScroll={handleOnScroll}

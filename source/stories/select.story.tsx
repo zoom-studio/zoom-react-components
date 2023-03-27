@@ -301,6 +301,6 @@ export const DefaultValue: FC = () => {
   )
 }
 
-export const Playground: FC<SelectNS.Props> = props => {
+export const Playground: FC<SelectNS.Props<any>> = props => {
   return <StoryPlayground component={Select} props={props} />
 }

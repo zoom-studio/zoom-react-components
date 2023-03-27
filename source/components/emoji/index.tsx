@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo } from 'react'
+import React, { forwardRef, useCallback, useMemo } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
@@ -31,45 +31,39 @@ export namespace EmojiNS {
   }
 }
 
-export const Emoji: FC<EmojiNS.Props> = ({
-  name,
-  className,
-  containerProps,
-  reference,
-  asSpan,
-  style,
-  ...rest
-}) => {
-  const classes = classNames('zoomrc-emoji', {
-    [className ?? '']: true,
-    'as-span': !!asSpan,
-  })
+export const Emoji = forwardRef<HTMLImageElement, EmojiNS.Props>(
+  ({ name, className, containerProps, asSpan, style, ...rest }, reference) => {
+    const classes = classNames('zoomrc-emoji', {
+      [className ?? '']: true,
+      'as-span': !!asSpan,
+    })
 
-  const findEmoji = useCallback(
-    (name: EmojiNS.Emojis.Names) => EMOJIS.find(emoji => emoji.name === name),
-    [],
-  )
+    const findEmoji = useCallback(
+      (name: EmojiNS.Emojis.Names) => EMOJIS.find(emoji => emoji.name === name),
+      [],
+    )
 
-  const emoji = useMemo<string>(() => findEmoji(name)?.data ?? '', [name])
+    const emoji = useMemo<string>(() => findEmoji(name)?.data ?? '', [name])
 
-  return asSpan ? (
-    <span
-      {...rest}
-      {...containerProps}
-      draggable={false}
-      ref={reference}
-      className={classes}
-      style={{ ...style, backgroundImage: `url(${emoji})` }}
-    />
-  ) : (
-    <img
-      {...rest}
-      {...containerProps}
-      draggable={false}
-      ref={reference}
-      src={emoji}
-      className={classes}
-      style={style}
-    />
-  )
-}
+    return asSpan ? (
+      <span
+        {...rest}
+        {...containerProps}
+        draggable={false}
+        ref={reference}
+        className={classes}
+        style={{ ...style, backgroundImage: `url(${emoji})` }}
+      />
+    ) : (
+      <img
+        {...rest}
+        {...containerProps}
+        draggable={false}
+        ref={reference}
+        src={emoji}
+        className={classes}
+        style={style}
+      />
+    )
+  },
+)

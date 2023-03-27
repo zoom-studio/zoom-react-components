@@ -1,4 +1,4 @@
-import React, { DragEvent, FC, FormEvent, useRef, useState } from 'react'
+import React, { DragEvent, FormEvent, forwardRef, useRef, useState } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
@@ -46,182 +46,186 @@ export namespace UploaderNS {
   }
 }
 
-export const Uploader: FC<UploaderNS.Props> = ({
-  typeColors: providedTypeColors,
-  disabledOnLoading = true,
-  state = ['neutral'],
-  files = [],
-  maxFiles = 1,
-  className,
-  containerProps,
-  reference,
-  description,
-  stateMessageProps,
-  title,
-  accept,
-  disabled,
-  loading,
-  isRemovingFile,
-  onRemove,
-  onWrite,
-  ...rest
-}) => {
-  const { createClassName, globalI18ns, sendLog } = useZoomComponent('uploader')
-  const i18n = useUploaderI18n(globalI18ns)
-  const { isRTL } = useZoomContext()
-  const fileInputRef = useRef<HTMLInputElement | null>(null)
-  const [isDraggedOver, setIsDraggedOver] = useState(false)
+export const Uploader = forwardRef<HTMLDivElement, UploaderNS.Props>(
+  (
+    {
+      typeColors: providedTypeColors,
+      disabledOnLoading = true,
+      state = ['neutral'],
+      files = [],
+      maxFiles = 1,
+      className,
+      containerProps,
+      description,
+      stateMessageProps,
+      title,
+      accept,
+      disabled,
+      loading,
+      isRemovingFile,
+      onRemove,
+      onWrite,
+      ...rest
+    },
+    reference,
+  ) => {
+    const { createClassName, globalI18ns, sendLog } = useZoomComponent('uploader')
+    const i18n = useUploaderI18n(globalI18ns)
+    const { isRTL } = useZoomContext()
+    const fileInputRef = useRef<HTMLInputElement | null>(null)
+    const [isDraggedOver, setIsDraggedOver] = useState(false)
 
-  const isDisabled =
-    (disabledOnLoading ? loading || disabled : disabled) || files.length >= maxFiles
+    const isDisabled =
+      (disabledOnLoading ? loading || disabled : disabled) || files.length >= maxFiles
 
-  const typeColors: ExplorerNS.TypeColors = customizeFileTypeColors(
-    ExplorerNS.DefaultTypeColors,
-    providedTypeColors,
-  )
+    const typeColors: ExplorerNS.TypeColors = customizeFileTypeColors(
+      ExplorerNS.DefaultTypeColors,
+      providedTypeColors,
+    )
 
-  const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
-  const classes = createClassName(className, '', {
-    [createClassName('', state[0])]: true,
-    [createClassName('', loading ? 'loading' : '')]: !!loading,
-    [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
-  })
-  const uploaderDNDClasses = classNames('uploader-dnd', {
-    'dragged-over': isDraggedOver,
-  })
+    const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
+    const classes = createClassName(className, '', {
+      [createClassName('', state[0])]: true,
+      [createClassName('', loading ? 'loading' : '')]: !!loading,
+      [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
+    })
+    const uploaderDNDClasses = classNames('uploader-dnd', {
+      'dragged-over': isDraggedOver,
+    })
 
-  const handleOpenFileDialog = () => {
-    if (isDisabled) {
-      return
+    const handleOpenFileDialog = () => {
+      if (isDisabled) {
+        return
+      }
+
+      const { current: fileInput } = fileInputRef
+      if (!fileInput) {
+        return sendLog(logs.uploaderNotFoundFileInputRef, 'handleOpenFileDialog fn')
+      }
+
+      fileInput.click()
     }
 
-    const { current: fileInput } = fileInputRef
-    if (!fileInput) {
-      return sendLog(logs.uploaderNotFoundFileInputRef, 'handleOpenFileDialog fn')
+    const handleWriteFiles = (files: FileList | null) => {
+      let filesArray = FileUtils.fileListToArray(files)
+      filesArray = filesArray.slice(0, maxFiles)
+      onWrite?.(filesArray)
     }
 
-    fileInput.click()
-  }
+    const handleOnInputChange = (evt: FormEvent<HTMLInputElement>) => {
+      if (isDisabled) {
+        return
+      }
 
-  const handleWriteFiles = (files: FileList | null) => {
-    let filesArray = FileUtils.fileListToArray(files)
-    filesArray = filesArray.slice(0, maxFiles)
-    onWrite?.(filesArray)
-  }
+      const { files } = evt.currentTarget
+      handleWriteFiles(files)
 
-  const handleOnInputChange = (evt: FormEvent<HTMLInputElement>) => {
-    if (isDisabled) {
-      return
+      const { current: fileInput } = fileInputRef
+      if (!fileInput) {
+        return sendLog(logs.uploaderNotFoundFileInputRef, 'handleOnInputChange fn')
+      }
+      fileInput.value = ''
     }
 
-    const { files } = evt.currentTarget
-    handleWriteFiles(files)
+    const handleOnDragOver = (evt: DragEvent<HTMLDivElement>) => {
+      if (isDisabled) {
+        return
+      }
 
-    const { current: fileInput } = fileInputRef
-    if (!fileInput) {
-      return sendLog(logs.uploaderNotFoundFileInputRef, 'handleOnInputChange fn')
-    }
-    fileInput.value = ''
-  }
-
-  const handleOnDragOver = (evt: DragEvent<HTMLDivElement>) => {
-    if (isDisabled) {
-      return
+      evt.preventDefault()
+      setIsDraggedOver(true)
     }
 
-    evt.preventDefault()
-    setIsDraggedOver(true)
-  }
+    const handleOnDragLeave = () => {
+      if (isDisabled) {
+        return
+      }
 
-  const handleOnDragLeave = () => {
-    if (isDisabled) {
-      return
+      setIsDraggedOver(false)
     }
 
-    setIsDraggedOver(false)
-  }
+    const handleOnDrop = (evt: DragEvent<HTMLDivElement>) => {
+      if (isDisabled) {
+        return
+      }
 
-  const handleOnDrop = (evt: DragEvent<HTMLDivElement>) => {
-    if (isDisabled) {
-      return
+      evt.stopPropagation()
+      evt.preventDefault()
+      setIsDraggedOver(false)
+
+      const { files } = evt.dataTransfer
+      handleWriteFiles(files)
     }
 
-    evt.stopPropagation()
-    evt.preventDefault()
-    setIsDraggedOver(false)
+    return (
+      <div
+        {...rest}
+        {...containerProps}
+        ref={reference}
+        className={classes}
+        onDragOver={handleOnDragOver}
+        onDragLeave={handleOnDragLeave}
+        onDrop={handleOnDrop}
+      >
+        <input
+          hidden
+          type="file"
+          ref={fileInputRef}
+          onInput={handleOnInputChange}
+          accept={accept}
+          multiple={maxFiles > 1}
+          disabled={isDisabled}
+        />
 
-    const { files } = evt.dataTransfer
-    handleWriteFiles(files)
-  }
+        <div className="uploader-titles">
+          {title && <Title className="uploader-title">{title}</Title>}
+          {description && <Text className="uploader-description">{description}</Text>}
 
-  return (
-    <div
-      {...rest}
-      {...containerProps}
-      ref={reference}
-      className={classes}
-      onDragOver={handleOnDragOver}
-      onDragLeave={handleOnDragLeave}
-      onDrop={handleOnDrop}
-    >
-      <input
-        hidden
-        type="file"
-        ref={fileInputRef}
-        onInput={handleOnInputChange}
-        accept={accept}
-        multiple={maxFiles > 1}
-        disabled={isDisabled}
-      />
+          {state[1] && (
+            <Text {...stateMessageProps} className={stateMessageClasses}>
+              {state[1]}
+            </Text>
+          )}
+        </div>
 
-      <div className="uploader-titles">
-        {title && <Title className="uploader-title">{title}</Title>}
-        {description && <Text className="uploader-description">{description}</Text>}
+        <div className={uploaderDNDClasses} onClick={handleOpenFileDialog}>
+          <Icon className="uploader-dnd-icon" name="cloud_upload" />
 
-        {state[1] && (
-          <Text {...stateMessageProps} className={stateMessageClasses}>
-            {state[1]}
-          </Text>
+          <Title h6 className="uploader-dnd-title">
+            {i18n.dndTitle}
+          </Title>
+
+          <Text className="uploader-dnd-or">{i18n.or}</Text>
+
+          <Button className="uploader-dnd-button" disabled={isDisabled} loading={loading}>
+            {i18n.browseButton}
+          </Button>
+        </div>
+
+        {files.length > 0 && (
+          <div className="uploaded-files">
+            <Text className="uploaded-files-title">{i18n.uploadedFiles}</Text>
+
+            <div className="files">
+              {files.map((file, index) => (
+                <AsyncWrapper deps={[files]} key={index} processor={getFileInfo} processable={file}>
+                  {({ processed }) => (
+                    <UploaderFile
+                      {...processed}
+                      index={index}
+                      isRemovingFile={isRemovingFile}
+                      i18n={i18n}
+                      isRTL={isRTL}
+                      typeColors={typeColors}
+                      onRemove={onRemove}
+                    />
+                  )}
+                </AsyncWrapper>
+              ))}
+            </div>
+          </div>
         )}
       </div>
-
-      <div className={uploaderDNDClasses} onClick={handleOpenFileDialog}>
-        <Icon className="uploader-dnd-icon" name="cloud_upload" />
-
-        <Title h6 className="uploader-dnd-title">
-          {i18n.dndTitle}
-        </Title>
-
-        <Text className="uploader-dnd-or">{i18n.or}</Text>
-
-        <Button className="uploader-dnd-button" disabled={isDisabled} loading={loading}>
-          {i18n.browseButton}
-        </Button>
-      </div>
-
-      {files.length > 0 && (
-        <div className="uploaded-files">
-          <Text className="uploaded-files-title">{i18n.uploadedFiles}</Text>
-
-          <div className="files">
-            {files.map((file, index) => (
-              <AsyncWrapper deps={[files]} key={index} processor={getFileInfo} processable={file}>
-                {({ processed }) => (
-                  <UploaderFile
-                    {...processed}
-                    index={index}
-                    isRemovingFile={isRemovingFile}
-                    i18n={i18n}
-                    isRTL={isRTL}
-                    typeColors={typeColors}
-                    onRemove={onRemove}
-                  />
-                )}
-              </AsyncWrapper>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
+    )
+  },
+)

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
 import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
@@ -17,46 +17,50 @@ export namespace StackItemNS {
   }
 }
 
-export const StackItem: FC<StackItemNS.Props> = ({
-  align = 'initial',
-  justify = 'initial',
-  inline,
-  basis,
-  flex,
-  grow,
-  shrink,
-  children,
-  className,
-  containerProps,
-  reference,
-  style,
-  ...rest
-}) => {
-  const { createClassName } = useZoomComponent('stack-item')
+export const StackItem = forwardRef<HTMLDivElement, StackItemNS.Props>(
+  (
+    {
+      align = 'initial',
+      justify = 'initial',
+      inline,
+      basis,
+      flex,
+      grow,
+      shrink,
+      children,
+      className,
+      containerProps,
+      style,
+      ...rest
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('stack-item')
 
-  const classes = createClassName(className, '', {
-    [createClassName('', `align-${align}`)]: true,
-    [createClassName('', `justify-${justify}`)]: true,
-  })
+    const classes = createClassName(className, '', {
+      [createClassName('', `align-${align}`)]: true,
+      [createClassName('', `justify-${justify}`)]: true,
+    })
 
-  return (
-    <div
-      {...rest}
-      {...containerProps}
-      ref={reference}
-      className={classes}
-      style={{
-        ...style,
-        display:
-          flex || grow || shrink || basis || justify
-            ? inline
-              ? 'inline-flex'
-              : 'flex'
-            : style?.display,
-        ...(flex ? { flex } : { flexGrow: grow, flexShrink: shrink, flexBasis: basis }),
-      }}
-    >
-      {children}
-    </div>
-  )
-}
+    return (
+      <div
+        {...rest}
+        {...containerProps}
+        ref={reference}
+        className={classes}
+        style={{
+          ...style,
+          display:
+            flex || grow || shrink || basis || justify
+              ? inline
+                ? 'inline-flex'
+                : 'flex'
+              : style?.display,
+          ...(flex ? { flex } : { flexGrow: grow, flexShrink: shrink, flexBasis: basis }),
+        }}
+      >
+        {children}
+      </div>
+    )
+  },
+)

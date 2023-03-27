@@ -13,7 +13,6 @@ export interface BaseComponent<Container extends HTMLElement = HTMLDivElement> {
   children?: ReactNode
   className?: string
   id?: string
-  reference?: RefObject<Container>
   onClick?: (evt: MouseEvent<Container>) => void
   style?: CSSProperties
 }
@@ -63,8 +62,7 @@ export interface BaseTextareaComponent extends TextareaProps {
   textareaRef?: RefObject<HTMLTextAreaElement>
 }
 
-export interface BaseCustomComponent<ContainerProps, RefType>
+export interface BaseCustomComponent<ContainerProps>
   extends Omit<BaseComponent, 'containerProps' | 'reference'> {
   containerProps?: ContainerProps
-  reference?: RefObject<RefType>
 }

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
 import timeShifter, { Toast as TimeShiftType } from 'react-hot-toast'
 
@@ -24,68 +24,73 @@ export namespace TimeShiftNS {
   }
 }
 
-export const TimeShift: FC<TimeShiftNS.Props> = ({
-  duration = DEFAULT_TIME_SHIFT_DURATION,
-  closable = true,
-  onShiftButtonsProps,
-  onShiftTitle,
-  message,
-  onShift,
-  id,
-  moreActions,
-  thisTimeShift,
-}) => {
-  const { createClassName } = useZoomComponent('time-shift')
-  const classes = createClassName()
-  const timeShiftId = (id ?? thisTimeShift?.id) || '-1'
+export const TimeShift = forwardRef<HTMLDivElement, TimeShiftNS.Props>(
+  (
+    {
+      duration = DEFAULT_TIME_SHIFT_DURATION,
+      closable = true,
+      onShiftButtonsProps,
+      onShiftTitle,
+      message,
+      onShift,
+      id,
+      moreActions,
+      thisTimeShift,
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('time-shift')
+    const classes = createClassName()
+    const timeShiftId = (id ?? thisTimeShift?.id) || '-1'
 
-  const destroy = () => {
-    timeShifter.dismiss(timeShiftId)
-  }
-
-  const handleOnShift = () => {
-    onShift(destroy, timeShiftId)
-  }
-
-  const handleClose = () => {
-    if (closable) {
-      destroy()
+    const destroy = () => {
+      timeShifter.dismiss(timeShiftId)
     }
-  }
 
-  return (
-    <div className={classes}>
-      <TimeShiftProgress duration={duration} />
+    const handleOnShift = () => {
+      onShift(destroy, timeShiftId)
+    }
 
-      <Title h5 className="message">
-        {message}
-      </Title>
+    const handleClose = () => {
+      if (closable) {
+        destroy()
+      }
+    }
 
-      <div className="actions">
-        <Button
-          onClick={handleOnShift}
-          htmlType="button"
-          variant="warning"
-          children={onShiftTitle}
-          {...onShiftButtonsProps}
-        />
+    return (
+      <div ref={reference} className={classes}>
+        <TimeShiftProgress duration={duration} />
 
-        {moreActions?.map((action, index) => (
-          <Button htmlType="button" {...action} key={index} />
-        ))}
+        <Title h5 className="message">
+          {message}
+        </Title>
+
+        <div className="actions">
+          <Button
+            onClick={handleOnShift}
+            htmlType="button"
+            variant="warning"
+            children={onShiftTitle}
+            {...onShiftButtonsProps}
+          />
+
+          {moreActions?.map((action, index) => (
+            <Button htmlType="button" {...action} key={index} />
+          ))}
+        </div>
+
+        {closable && (
+          <Button
+            onClick={handleClose}
+            className="close-button"
+            shape="circle"
+            type="text"
+            size="large"
+          >
+            <Icon name="close" />
+          </Button>
+        )}
       </div>
-
-      {closable && (
-        <Button
-          onClick={handleClose}
-          className="close-button"
-          shape="circle"
-          type="text"
-          size="large"
-        >
-          <Icon name="close" />
-        </Button>
-      )}
-    </div>
-  )
-}
+    )
+  },
+)

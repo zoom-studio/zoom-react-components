@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, MouseEvent, SyntheticEvent, useState } from 'react'
+import React, { forwardRef, HTMLAttributes, MouseEvent, SyntheticEvent, useState } from 'react'
 
 import { ConditionalWrapper, Icon, ImageViewer, ImageViewerNS, Skeleton } from '..'
 import { logs } from '../../constants'
@@ -32,116 +32,120 @@ export namespace ImageNS {
   }
 }
 
-export const Image: FC<ImageNS.Props> = ({
-  containerProps: providedContainerProps,
-  imageViewerOpenerIconSize = 80,
-  lazy = true,
-  width = '100%',
-  shape = 'default',
-  erroredStateIconFontSize = '40px',
-  name,
-  withImageViewer,
-  height,
-  src,
-  imageViewerCustomImages,
-  alt,
-  className,
-  imageViewerProps,
-  reference,
-  onClick,
-  children,
-  ...rest
-}) => {
-  const squarishShapes: ImageNS.Shapes[] = ['circle', 'semi-circle', 'sharp-square', 'square']
+export const Image = forwardRef<HTMLImageElement, ImageNS.Props>(
+  (
+    {
+      containerProps: providedContainerProps,
+      imageViewerOpenerIconSize = 80,
+      lazy = true,
+      width = '100%',
+      shape = 'default',
+      erroredStateIconFontSize = '40px',
+      name,
+      withImageViewer,
+      height,
+      src,
+      imageViewerCustomImages,
+      alt,
+      className,
+      imageViewerProps,
+      onClick,
+      children,
+      ...rest
+    },
+    reference,
+  ) => {
+    const squarishShapes: ImageNS.Shapes[] = ['circle', 'semi-circle', 'sharp-square', 'square']
 
-  if (squarishShapes.includes(shape)) {
-    height = width
-  }
+    if (squarishShapes.includes(shape)) {
+      height = width
+    }
 
-  const { createClassName, sendLog } = useZoomComponent('image')
-  const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
+    const { createClassName, sendLog } = useZoomComponent('image')
+    const [isLoading, setIsLoading] = useState(true)
+    const [hasError, setHasError] = useState(false)
 
-  const containerClasses = createClassName(className, '', {
-    loading: isLoading,
-    errored: hasError,
-    [createClassName('', shape)]: true,
-  })
+    const containerClasses = createClassName(className, '', {
+      loading: isLoading,
+      errored: hasError,
+      [createClassName('', shape)]: true,
+    })
 
-  const handleOnLoad = (evt: SyntheticEvent<HTMLImageElement>) => {
-    providedContainerProps?.onLoad?.(evt)
-    setIsLoading(false)
-    setHasError(false)
-  }
+    const handleOnLoad = (evt: SyntheticEvent<HTMLImageElement>) => {
+      providedContainerProps?.onLoad?.(evt)
+      setIsLoading(false)
+      setHasError(false)
+    }
 
-  const handleOnError = (evt: SyntheticEvent<HTMLImageElement>) => {
-    sendLog(logs.imageNotLoaded, `Image source: ${src}`)
-    setIsLoading(false)
-    setHasError(true)
-    providedContainerProps?.onError?.(evt)
-  }
+    const handleOnError = (evt: SyntheticEvent<HTMLImageElement>) => {
+      sendLog(logs.imageNotLoaded, `Image source: ${src}`)
+      setIsLoading(false)
+      setHasError(true)
+      providedContainerProps?.onError?.(evt)
+    }
 
-  const handleOnClick = (evt: MouseEvent<HTMLImageElement>) => {
-    onClick?.(evt)
-  }
+    const handleOnClick = (evt: MouseEvent<HTMLImageElement>) => {
+      onClick?.(evt)
+    }
 
-  const containerProps: HTMLAttributes<HTMLPictureElement> = {
-    style: { width, height },
-    ...providedContainerProps,
-    className: containerClasses,
-  }
+    const containerProps: HTMLAttributes<HTMLPictureElement> = {
+      style: { width, height },
+      ...providedContainerProps,
+      className: containerClasses,
+    }
 
-  return (
-    <ConditionalWrapper
-      condition={withImageViewer}
-      falseWrapper={children => (
-        <picture {...containerProps} ref={reference}>
-          {children}
-        </picture>
-      )}
-      trueWrapper={children => (
-        <ImageViewer
-          {...imageViewerProps}
-          images={imageViewerCustomImages ?? [{ name: name ?? alt ?? src, source: src }]}
-        >
-          {({ openImageViewer }) => (
-            <picture {...containerProps} ref={reference} onClick={openImageViewer}>
-              {children}
+    return (
+      <ConditionalWrapper
+        condition={withImageViewer}
+        falseWrapper={children => (
+          <picture {...containerProps} ref={reference}>
+            {children}
+          </picture>
+        )}
+        trueWrapper={children => (
+          <ImageViewer
+            {...imageViewerProps}
+            images={imageViewerCustomImages ?? [{ name: name ?? alt ?? src, source: src }]}
+          >
+            {({ openImageViewer }) => (
+              <picture {...containerProps} ref={reference} onClick={openImageViewer}>
+                {children}
 
-              {!isLoading && !hasError && (
-                <span className="image-viewer-opener">
-                  <Icon name="image_search" style={{ fontSize: imageViewerOpenerIconSize }} />
-                </span>
-              )}
-            </picture>
-          )}
-        </ImageViewer>
-      )}
-    >
-      <img
-        loading={lazy ? 'lazy' : 'eager'}
-        alt={alt}
-        onLoad={handleOnLoad}
-        onError={handleOnError}
-        onClick={handleOnClick}
-        src={src}
-        {...rest}
-      />
+                {!isLoading && !hasError && (
+                  <span className="image-viewer-opener">
+                    <Icon name="image_search" style={{ fontSize: imageViewerOpenerIconSize }} />
+                  </span>
+                )}
+              </picture>
+            )}
+          </ImageViewer>
+        )}
+      >
+        <img
+          loading={lazy ? 'lazy' : 'eager'}
+          alt={alt}
+          onLoad={handleOnLoad}
+          onError={handleOnError}
+          onClick={handleOnClick}
+          src={src}
+          {...rest}
+        />
 
-      {children}
+        {children}
 
-      {isLoading ? (
-        <Skeleton.Image customSize={{ width, height }} />
-      ) : (
-        hasError && (
-          <Skeleton.Image
-            customSize={{ width, height }}
-            icon="image_not_supported"
-            animated={false}
-            iconSize={erroredStateIconFontSize}
-          />
-        )
-      )}
-    </ConditionalWrapper>
-  )
-}
+        {isLoading ? (
+          <Skeleton.Image customSize={{ width, height }} />
+        ) : (
+          hasError && (
+            <Skeleton.Image
+              customSize={{ width, height }}
+              icon="image_not_supported"
+              animated={false}
+              iconSize={erroredStateIconFontSize}
+            />
+          )
+        )}
+      </ConditionalWrapper>
+    )
+  },
+)

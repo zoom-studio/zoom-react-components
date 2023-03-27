@@ -1,4 +1,4 @@
-import React, { FC, FormEvent, useState } from 'react'
+import React, { FormEvent, forwardRef, useState } from 'react'
 
 import {
   AlertNS,
@@ -148,176 +148,180 @@ export namespace ExplorerNS {
   }
 }
 
-export const Explorer: FC<ExplorerNS.Props> = ({
-  typeColors: providedTypeColors,
-  viewMode: providedViewMode,
-  selectable = true,
-  multiSelect = true,
-  files = [],
-  defaultTypeQuery = 'all',
-  className,
-  isSavingEditedImage,
-  containerProps,
-  reference,
-  alert,
-  onDeleteFiles,
-  onEditImage,
-  onRenameFile,
-  onSearch,
-  onSelectItems,
-  uploaderProps,
-  filterTypes,
-  isDeletingFiles,
-  isRenamingFile,
-  disabled,
-  loading,
-  isSearchInputDisabled,
-  isTypeSelectDisabled,
-  ...rest
-}) => {
-  const typeColors: ExplorerNS.TypeColors = customizeFileTypeColors(
-    ExplorerNS.DefaultTypeColors,
-    providedTypeColors,
-  )
+export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
+  (
+    {
+      typeColors: providedTypeColors,
+      viewMode: providedViewMode,
+      selectable = true,
+      multiSelect = true,
+      files = [],
+      defaultTypeQuery = 'all',
+      className,
+      isSavingEditedImage,
+      containerProps,
+      alert,
+      onDeleteFiles,
+      onEditImage,
+      onRenameFile,
+      onSearch,
+      onSelectItems,
+      uploaderProps,
+      filterTypes,
+      isDeletingFiles,
+      isRenamingFile,
+      disabled,
+      loading,
+      isSearchInputDisabled,
+      isTypeSelectDisabled,
+      ...rest
+    },
+    reference,
+  ) => {
+    const typeColors: ExplorerNS.TypeColors = customizeFileTypeColors(
+      ExplorerNS.DefaultTypeColors,
+      providedTypeColors,
+    )
 
-  const { createClassName, globalI18ns } = useZoomComponent('explorer')
-  const i18n = UseExplorerI18n(globalI18ns)
+    const { createClassName, globalI18ns } = useZoomComponent('explorer')
+    const i18n = UseExplorerI18n(globalI18ns)
 
-  const classes = createClassName(className)
-  const isDisabled = disabled || loading
+    const classes = createClassName(className)
+    const isDisabled = disabled || loading
 
-  const [isUploaderDialogOpen, setIsUploaderDialogOpen] = useState(false)
-  const viewMode = useObjectedState(getDefaultViewMode(providedViewMode))
-  const selectedFiles = useObjectedState<number[]>([])
-  const typeQuery = useObjectedState<ExplorerNS.MaybeAllFileTypesWithAll>(defaultTypeQuery)
-  const searchQuery = useObjectedState('')
-  const isRenameModalOpen = useObjectedState(false)
-  const selectedFileName = useObjectedState('')
-  const selectedFileToRename = useObjectedState<ExplorerNS.FileInterface | null>(null)
+    const [isUploaderDialogOpen, setIsUploaderDialogOpen] = useState(false)
+    const viewMode = useObjectedState(getDefaultViewMode(providedViewMode))
+    const selectedFiles = useObjectedState<number[]>([])
+    const typeQuery = useObjectedState<ExplorerNS.MaybeAllFileTypesWithAll>(defaultTypeQuery)
+    const searchQuery = useObjectedState('')
+    const isRenameModalOpen = useObjectedState(false)
+    const selectedFileName = useObjectedState('')
+    const selectedFileToRename = useObjectedState<ExplorerNS.FileInterface | null>(null)
 
-  const handleOnSelectionChange = (selectedIndexes: number[]) => {
-    selectedFiles.set(selectedIndexes)
-    onSelectItems?.(selectedIndexes)
-  }
+    const handleOnSelectionChange = (selectedIndexes: number[]) => {
+      selectedFiles.set(selectedIndexes)
+      onSelectItems?.(selectedIndexes)
+    }
 
-  const handleOpenRenameModal = (selectedFile: ExplorerNS.FileInterface) => () => {
-    isRenameModalOpen.set(true)
-    selectedFileName.set(excludeFileExtension(selectedFile.name))
-    selectedFileToRename.set(selectedFile)
-  }
+    const handleOpenRenameModal = (selectedFile: ExplorerNS.FileInterface) => () => {
+      isRenameModalOpen.set(true)
+      selectedFileName.set(excludeFileExtension(selectedFile.name))
+      selectedFileToRename.set(selectedFile)
+    }
 
-  const handleCloseRenameModal = () => {
-    isRenameModalOpen.set(false)
-    selectedFileName.set('')
-    selectedFileToRename.set(null)
-  }
+    const handleCloseRenameModal = () => {
+      isRenameModalOpen.set(false)
+      selectedFileName.set('')
+      selectedFileToRename.set(null)
+    }
 
-  const handleRenameFile = (evt?: FormEvent) => {
-    evt?.preventDefault()
+    const handleRenameFile = (evt?: FormEvent) => {
+      evt?.preventDefault()
 
-    if (excludeFileExtension(selectedFileToRename.val?.name ?? '') === selectedFileName.val) {
-      handleCloseRenameModal()
-    } else {
-      if (selectedFileToRename.val && selectedFileName.val) {
-        onRenameFile?.(selectedFileToRename.val.id, selectedFileName.val, handleCloseRenameModal)
+      if (excludeFileExtension(selectedFileToRename.val?.name ?? '') === selectedFileName.val) {
+        handleCloseRenameModal()
+      } else {
+        if (selectedFileToRename.val && selectedFileName.val) {
+          onRenameFile?.(selectedFileToRename.val.id, selectedFileName.val, handleCloseRenameModal)
+        }
       }
     }
-  }
 
-  const handleCloseUploaderDialog = () => {
-    setIsUploaderDialogOpen(false)
-    uploaderProps?.handleClearFiles()
-  }
+    const handleCloseUploaderDialog = () => {
+      setIsUploaderDialogOpen(false)
+      uploaderProps?.handleClearFiles()
+    }
 
-  const handleOpenUploaderDialog = () => {
-    setIsUploaderDialogOpen(true)
-  }
+    const handleOpenUploaderDialog = () => {
+      setIsUploaderDialogOpen(true)
+    }
 
-  useFutureEffect(() => {
-    onSearch?.({ query: searchQuery.val, type: typeQuery.val })
-  }, [searchQuery.val, typeQuery.val])
+    useFutureEffect(() => {
+      onSearch?.({ query: searchQuery.val, type: typeQuery.val })
+    }, [searchQuery.val, typeQuery.val])
 
-  return (
-    <div {...rest} {...containerProps} className={classes} ref={reference}>
-      <Dialog
-        size="small"
-        isOpen={isRenameModalOpen.val}
-        onClose={handleCloseRenameModal}
-        withFullscreenButton={false}
-        title={i18n.renameDialogTitle}
-        cancelButton={i18n.cancelRename}
-        closable={!isRenamingFile}
-        cancelButtonProps={{ disabled: isRenamingFile }}
-        actions={[
-          {
-            children: i18n.confirmRename,
-            onClick: () => handleRenameFile(),
-            loading: isRenamingFile,
-          },
-        ]}
-      >
-        <form className="rename-file" onSubmit={handleRenameFile}>
-          <Input
-            autoFocus
-            label={i18n.renameFileLabel}
-            value={selectedFileName.val}
-            onWrite={selectedFileName.set}
-            disabled={isRenamingFile}
+    return (
+      <div {...rest} {...containerProps} className={classes} ref={reference}>
+        <Dialog
+          size="small"
+          isOpen={isRenameModalOpen.val}
+          onClose={handleCloseRenameModal}
+          withFullscreenButton={false}
+          title={i18n.renameDialogTitle}
+          cancelButton={i18n.cancelRename}
+          closable={!isRenamingFile}
+          cancelButtonProps={{ disabled: isRenamingFile }}
+          actions={[
+            {
+              children: i18n.confirmRename,
+              onClick: () => handleRenameFile(),
+              loading: isRenamingFile,
+            },
+          ]}
+        >
+          <form className="rename-file" onSubmit={handleRenameFile}>
+            <Input
+              autoFocus
+              label={i18n.renameFileLabel}
+              value={selectedFileName.val}
+              onWrite={selectedFileName.set}
+              disabled={isRenamingFile}
+            />
+          </form>
+        </Dialog>
+
+        <UploaderDialog
+          isOpen={isUploaderDialogOpen}
+          onClose={handleCloseUploaderDialog}
+          title={i18n.uploadNewFile}
+          {...uploaderProps}
+        />
+
+        <ExplorerHeader
+          viewMode={viewMode}
+          i18n={i18n}
+          openUploaderDialog={handleOpenUploaderDialog}
+          typeQuery={typeQuery}
+          searchQuery={searchQuery}
+          isSearchInputDisabled={isSearchInputDisabled}
+          isTypeSelectDisabled={isTypeSelectDisabled}
+          disabled={isDisabled}
+          defaultTypeQuery={defaultTypeQuery}
+        />
+
+        <div className="content">
+          <ExplorerContent
+            typeColors={typeColors}
+            multiSelect={multiSelect}
+            selectable={selectable}
+            files={files}
+            filterTypes={filterTypes}
+            loading={loading}
+            viewMode={viewMode.val!}
+            selectedFiles={selectedFiles.val!}
+            alert={alert}
+            onSelectionChange={handleOnSelectionChange}
+            disabled={isDisabled}
+            i18n={i18n}
+            openRenameModal={handleOpenRenameModal}
           />
-        </form>
-      </Dialog>
 
-      <UploaderDialog
-        isOpen={isUploaderDialogOpen}
-        onClose={handleCloseUploaderDialog}
-        title={i18n.uploadNewFile}
-        {...uploaderProps}
-      />
-
-      <ExplorerHeader
-        viewMode={viewMode}
-        i18n={i18n}
-        openUploaderDialog={handleOpenUploaderDialog}
-        typeQuery={typeQuery}
-        searchQuery={searchQuery}
-        isSearchInputDisabled={isSearchInputDisabled}
-        isTypeSelectDisabled={isTypeSelectDisabled}
-        disabled={isDisabled}
-        defaultTypeQuery={defaultTypeQuery}
-      />
-
-      <div className="content">
-        <ExplorerContent
-          typeColors={typeColors}
-          multiSelect={multiSelect}
-          selectable={selectable}
-          files={files}
-          filterTypes={filterTypes}
-          loading={loading}
-          viewMode={viewMode.val!}
-          selectedFiles={selectedFiles.val!}
-          alert={alert}
-          onSelectionChange={handleOnSelectionChange}
-          disabled={isDisabled}
-          i18n={i18n}
-          openRenameModal={handleOpenRenameModal}
-        />
-
-        <ExplorerSidebar
-          isDeletingFiles={isDeletingFiles}
-          typeColors={typeColors}
-          i18n={i18n}
-          loading={loading}
-          selectedFiles={selectedFiles}
-          disabled={isDisabled}
-          files={files}
-          handleOpenRenameModal={handleOpenRenameModal}
-          onEditImage={onEditImage}
-          onDeleteFiles={onDeleteFiles}
-          isSavingEditedImage={isSavingEditedImage}
-          isRenamingFile={isRenamingFile}
-        />
+          <ExplorerSidebar
+            isDeletingFiles={isDeletingFiles}
+            typeColors={typeColors}
+            i18n={i18n}
+            loading={loading}
+            selectedFiles={selectedFiles}
+            disabled={isDisabled}
+            files={files}
+            handleOpenRenameModal={handleOpenRenameModal}
+            onEditImage={onEditImage}
+            onDeleteFiles={onDeleteFiles}
+            isSavingEditedImage={isSavingEditedImage}
+            isRenamingFile={isRenamingFile}
+          />
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  },
+)

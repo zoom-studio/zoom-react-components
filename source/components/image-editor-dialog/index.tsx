@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent, useRef, useState } from 'react'
+import React, { forwardRef, MouseEvent, useRef, useState } from 'react'
 
 import { ButtonNS, Dialog, DialogNS, ImageEditor, ImageEditorNS } from '..'
 import { useZoomComponent } from '../../hooks'
@@ -24,78 +24,84 @@ export namespace ImageEditorDialogNS {
   }
 }
 
-export const ImageEditorDialog: FC<ImageEditorDialogNS.Props> = ({
-  getResultRef: providedGetResultRef,
-  saveButton = 'Save changes',
-  cancelButton = 'Cancel',
-  dialogProps,
-  isOpen,
-  closable,
-  onClose,
-  title,
-  disabled,
-  saveButtonProps,
-  loading,
-  onSave,
-  ...imageEditorProps
-}) => {
-  const { createClassName } = useZoomComponent('image-editor-dialog')
-  const getResultRef = providedGetResultRef ?? useRef<ImageEditorNS.GetResult>(null)
+export const ImageEditorDialog = forwardRef<HTMLDivElement, ImageEditorDialogNS.Props>(
+  (
+    {
+      getResultRef: providedGetResultRef,
+      saveButton = 'Save changes',
+      cancelButton = 'Cancel',
+      dialogProps,
+      isOpen,
+      closable,
+      onClose,
+      title,
+      disabled,
+      saveButtonProps,
+      loading,
+      onSave,
+      ...imageEditorProps
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('image-editor-dialog')
+    const getResultRef = providedGetResultRef ?? useRef<ImageEditorNS.GetResult>(null)
 
-  const [isGettingResult, setIsGettingResult] = useState(false)
+    const [isGettingResult, setIsGettingResult] = useState(false)
 
-  const classes = createClassName(dialogProps?.className)
+    const classes = createClassName(dialogProps?.className)
 
-  const handleOnSave = async (evt: MouseEvent<HTMLButtonElement>) => {
-    saveButtonProps?.onClick?.(evt)
-    const result = await getResultRef.current?.()
-    onSave?.(result)
-    return result
-  }
+    const handleOnSave = async (evt: MouseEvent<HTMLButtonElement>) => {
+      saveButtonProps?.onClick?.(evt)
+      const result = await getResultRef.current?.()
+      onSave?.(result)
+      return result
+    }
 
-  const handleOnGettingResultStart = () => {
-    imageEditorProps.onGettingResultStart?.()
-    setIsGettingResult(true)
-  }
+    const handleOnGettingResultStart = () => {
+      imageEditorProps.onGettingResultStart?.()
+      setIsGettingResult(true)
+    }
 
-  const handleOnGettingResultEnd = () => {
-    imageEditorProps.onGettingResultEnd?.()
-    setIsGettingResult(false)
-  }
+    const handleOnGettingResultEnd = () => {
+      imageEditorProps.onGettingResultEnd?.()
+      setIsGettingResult(false)
+    }
 
-  return (
-    <Dialog
-      {...dialogProps}
-      className={classes}
-      withFullscreenButton={false}
-      size="large"
-      isOpen={isOpen}
-      closable={closable}
-      onClose={onClose}
-      title={title}
-      cancelButton={cancelButton}
-      cancelButtonProps={{
-        disabled: disabled || loading,
-        ...dialogProps?.cancelButtonProps,
-      }}
-      actions={[
-        {
+    return (
+      <Dialog
+        {...dialogProps}
+        className={classes}
+        withFullscreenButton={false}
+        ref={reference}
+        size="large"
+        isOpen={isOpen}
+        closable={closable}
+        onClose={onClose}
+        title={title}
+        cancelButton={cancelButton}
+        cancelButtonProps={{
           disabled: disabled || loading,
-          children: saveButton,
-          loading: saveButtonProps?.loading || isGettingResult,
-          onClick: handleOnSave,
-          ...saveButtonProps,
-        },
-      ]}
-    >
-      <ImageEditor
-        {...imageEditorProps}
-        getResultRef={getResultRef}
-        onGettingResultStart={handleOnGettingResultStart}
-        onGettingResultEnd={handleOnGettingResultEnd}
-        loading={loading}
-        disabled={disabled}
-      />
-    </Dialog>
-  )
-}
+          ...dialogProps?.cancelButtonProps,
+        }}
+        actions={[
+          {
+            disabled: disabled || loading,
+            children: saveButton,
+            loading: saveButtonProps?.loading || isGettingResult,
+            onClick: handleOnSave,
+            ...saveButtonProps,
+          },
+        ]}
+      >
+        <ImageEditor
+          {...imageEditorProps}
+          getResultRef={getResultRef}
+          onGettingResultStart={handleOnGettingResultStart}
+          onGettingResultEnd={handleOnGettingResultEnd}
+          loading={loading}
+          disabled={disabled}
+        />
+      </Dialog>
+    )
+  },
+)

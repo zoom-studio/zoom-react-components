@@ -1,4 +1,4 @@
-import React, { ClassAttributes, FC, HTMLAttributes } from 'react'
+import React, { ClassAttributes, forwardRef, HTMLAttributes } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
@@ -42,84 +42,78 @@ export namespace TypographyNS {
   }
 }
 
-export const Text: FC<TypographyNS.TextNS.Props> = ({
-  common,
-  bold,
-  light,
-  underlined,
-  strikethrough,
-  small,
-  normal,
-  large,
-  className,
-  children,
-  containerProps,
-  reference,
-  ...rest
-}) => {
-  const type: TypographyNS.TextNS.Types = common
-    ? 'common'
-    : bold
-    ? 'bold'
-    : light
-    ? 'light'
-    : underlined
-    ? 'underlined'
-    : strikethrough
-    ? 'strikethrough'
-    : 'common'
+export const Text = forwardRef<HTMLParagraphElement, TypographyNS.TextNS.Props>(
+  (
+    {
+      common,
+      bold,
+      light,
+      underlined,
+      strikethrough,
+      small,
+      normal,
+      large,
+      className,
+      children,
+      containerProps,
+      ...rest
+    },
+    reference,
+  ) => {
+    const type: TypographyNS.TextNS.Types = common
+      ? 'common'
+      : bold
+      ? 'bold'
+      : light
+      ? 'light'
+      : underlined
+      ? 'underlined'
+      : strikethrough
+      ? 'strikethrough'
+      : 'common'
 
-  const size: CommonSize = small ? 'small' : normal ? 'normal' : large ? 'large' : 'normal'
+    const size: CommonSize = small ? 'small' : normal ? 'normal' : large ? 'large' : 'normal'
 
-  const classes = classNames(`zoomrc-text-${type}-${size} zoomrc-typography`, {
-    [className ?? '']: true,
-  })
+    const classes = classNames(`zoomrc-text-${type}-${size} zoomrc-typography`, {
+      [className ?? '']: true,
+    })
 
-  return (
-    <p {...rest} {...containerProps} ref={reference} className={classes}>
-      {children}
-    </p>
-  )
-}
+    return (
+      <p {...rest} {...containerProps} ref={reference} className={classes}>
+        {children}
+      </p>
+    )
+  },
+)
 
-export const Title: FC<TypographyNS.TitleNS.Props> = ({
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  className,
-  children,
-  containerProps,
-  reference,
-  ...rest
-}) => {
-  const size: TypographyNS.TitleNS.Sizes = h1 ? 1 : h2 ? 2 : h3 ? 3 : h4 ? 4 : h5 ? 5 : h6 ? 6 : 4
+export const Title = forwardRef<HTMLHeadingElement, TypographyNS.TitleNS.Props>(
+  ({ h1, h2, h3, h4, h5, h6, className, children, containerProps, ...rest }, reference) => {
+    const size: TypographyNS.TitleNS.Sizes = h1 ? 1 : h2 ? 2 : h3 ? 3 : h4 ? 4 : h5 ? 5 : h6 ? 6 : 4
 
-  const classes = classNames(`zoomrc-title-${size} zoomrc-typography`, {
-    [className ?? '']: true,
-  })
+    const classes = classNames(`zoomrc-title-${size} zoomrc-typography`, {
+      [className ?? '']: true,
+    })
 
-  const props: HTMLAttributes<HTMLHeadingElement> | ClassAttributes<HTMLHeadingElement> = {
-    ...rest,
-    ...containerProps,
-    ref: reference,
-    className: classes,
-  }
+    const props: HTMLAttributes<HTMLHeadingElement> | ClassAttributes<HTMLHeadingElement> = {
+      ...rest,
+      ...containerProps,
+      ref: reference,
+      className: classes,
+    }
 
-  switch (size) {
-    case 1:
-      return <h1 {...props} children={children} />
-    case 2:
-      return <h2 {...props} children={children} />
-    case 3:
-      return <h3 {...props} children={children} />
-    case 4:
-      return <h4 {...props} children={children} />
-    case 5:
-      return <h5 {...props} children={children} />
-    case 6:
-      return <h6 {...props} children={children} />
-  }
-}
+    switch (size) {
+      case 1:
+        return <h1 {...props} children={children} />
+      case 2:
+        return <h2 {...props} children={children} />
+      case 3:
+        return <h3 {...props} children={children} />
+      case 4:
+        return <h4 {...props} children={children} />
+      case 5:
+        return <h5 {...props} children={children} />
+      case 6:
+        return <h6 {...props} children={children} />
+    }
+  },
+)

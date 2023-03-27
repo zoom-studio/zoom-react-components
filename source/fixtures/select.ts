@@ -3,7 +3,7 @@ import { SelectNS } from '..'
 export const DYNAMIC_SIMPLE_SELECT = (
   count = 4,
   disabled?: (index: number) => boolean,
-): SelectNS.Option[] => {
+): SelectNS.Option<string>[] => {
   return Array.from(Array(count)).map((_, index) => ({
     label: `option ${index + 1}`,
     value: `value ${index + 1}`,
@@ -11,9 +11,9 @@ export const DYNAMIC_SIMPLE_SELECT = (
   }))
 }
 
-export const SIMPLE_SELECT_OPTIONS: SelectNS.Option[] = DYNAMIC_SIMPLE_SELECT()
+export const SIMPLE_SELECT_OPTIONS: SelectNS.Option<string>[] = DYNAMIC_SIMPLE_SELECT()
 
-export const SELECT_OPTIONS: SelectNS.Option[] = [
+export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
   {
     label: 'Turning a React app',
     disabled: true,

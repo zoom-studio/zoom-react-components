@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, { CSSProperties, forwardRef, ReactNode } from 'react'
 
 import { Emoji, EmojiNS, Icon, IconNS, Text } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
@@ -27,137 +27,149 @@ export namespace BadgeNS {
   }
 }
 
-export const Badge: FC<BadgeNS.Props> = ({
-  count: providedCount = 0,
-  offset = -30,
-  overflowCount = 999,
-  direction = 'row',
-  color = 'white',
-  background = color => color({ source: 'error' }),
-  size = 'normal',
-  showZero,
-  children,
-  dot,
-  emoji,
-  icon,
-  onClick,
-  text,
-  containerProps,
-  childrenContainerProps,
-  className,
-  reference,
-  style,
-  ...rest
-}) => {
-  const { isRTL } = useZoomContext()
-  const { createClassName } = useZoomComponent('badge')
+export const Badge = forwardRef<HTMLDivElement, BadgeNS.Props>(
+  (
+    {
+      count: providedCount = 0,
+      offset = -30,
+      overflowCount = 999,
+      direction = 'row',
+      color = 'white',
+      background = color => color({ source: 'error' }),
+      size = 'normal',
+      showZero,
+      children,
+      dot,
+      emoji,
+      icon,
+      onClick,
+      text,
+      containerProps,
+      childrenContainerProps,
+      className,
+      style,
+      ...rest
+    },
+    reference,
+  ) => {
+    const { isRTL } = useZoomContext()
+    const { createClassName } = useZoomComponent('badge')
 
-  const childrenClasses = createClassName(childrenContainerProps?.className, 'content')
-  const badgeCountClasses = createClassName('', 'info')
+    const childrenClasses = createClassName(childrenContainerProps?.className, 'content')
+    const badgeCountClasses = createClassName('', 'info')
 
-  const isTextMode = typeof text === 'string'
-  const isCountProvided = typeof providedCount === 'number'
+    const isTextMode = typeof text === 'string'
+    const isCountProvided = typeof providedCount === 'number'
 
-  const classes = createClassName(className, '', {
-    [createClassName('', direction)]: true,
-    [createClassName('', size)]: true,
-    [createClassName('', 'dot-style')]: !!dot,
-    [createClassName('', 'clickable')]: !!onClick,
-    [createClassName('', 'text-mode')]: isTextMode,
-  })
+    const classes = createClassName(className, '', {
+      [createClassName('', direction)]: true,
+      [createClassName('', size)]: true,
+      [createClassName('', 'dot-style')]: !!dot,
+      [createClassName('', 'clickable')]: !!onClick,
+      [createClassName('', 'text-mode')]: isTextMode,
+    })
 
-  const shouldInfoBeRendered: boolean =
-    !!dot || !!emoji || !!icon || !!(isCountProvided && (providedCount > 0 || showZero))
+    const shouldInfoBeRendered: boolean =
+      !!dot || !!emoji || !!icon || !!(isCountProvided && (providedCount > 0 || showZero))
 
-  const renderInfo = (): ReactNode => {
-    if (dot) {
-      return <span className="badge-dot" style={{ backgroundColor: colorFnToColor(background) }} />
-    }
-    if (emoji) {
-      return <Emoji name={emoji} className="badge-emoji" />
-    }
-    if (icon) {
-      return (
-        <Icon
-          name={icon}
-          className="badge-icon"
-          style={{ backgroundColor: colorFnToColor(background) }}
-        />
-      )
-    }
-    if (isCountProvided) {
-      let count = providedCount.toString()
-      if (providedCount > overflowCount) {
-        count = `+${overflowCount}`
+    const renderInfo = (): ReactNode => {
+      if (dot) {
+        return (
+          <span className="badge-dot" style={{ backgroundColor: colorFnToColor(background) }} />
+        )
       }
-      return (
-        <span className="badge-count" style={{ backgroundColor: colorFnToColor(background) }}>
-          {count}
-        </span>
-      )
+      if (emoji) {
+        return <Emoji name={emoji} className="badge-emoji" />
+      }
+      if (icon) {
+        return (
+          <Icon
+            name={icon}
+            className="badge-icon"
+            style={{ backgroundColor: colorFnToColor(background) }}
+          />
+        )
+      }
+      if (isCountProvided) {
+        let count = providedCount.toString()
+        if (providedCount > overflowCount) {
+          count = `+${overflowCount}`
+        }
+        return (
+          <span className="badge-count" style={{ backgroundColor: colorFnToColor(background) }}>
+            {count}
+          </span>
+        )
+      }
+      return <></>
     }
-    return <></>
-  }
 
-  const getBadgeStyles = (): CSSProperties => {
-    const styles: CSSProperties = {
-      color: colorFnToColor(color),
-    }
+    const getBadgeStyles = (): CSSProperties => {
+      const styles: CSSProperties = {
+        color: colorFnToColor(color),
+      }
 
-    if (isTextMode) {
+      if (isTextMode) {
+        return styles
+      }
+
+      offset = typeof offset === 'number' ? [offset, offset] : offset
+
+      if (
+        isRTL
+          ? direction === 'row' || direction === 'column'
+          : direction === 'row-reverse' || direction === 'column-reverse'
+      ) {
+        offset[0] = offset[0] * -1
+      }
+
+      if (direction === 'column' || direction === 'column-reverse') {
+        offset[1] = offset[1] * -1
+      }
+
+      styles.transform = `translate(${offset[0]}%, ${offset[1]}%)`
+
       return styles
     }
 
-    offset = typeof offset === 'number' ? [offset, offset] : offset
+    const containerStyles: CSSProperties = isTextMode
+      ? { ...style }
+      : {
+          ...style,
+          flexDirection: direction,
+          alignItems: direction === 'column-reverse' ? 'flex-end' : 'flex-start',
+          justifyContent: direction === 'column' ? 'flex-end' : 'flex-start',
+        }
 
-    if (
-      isRTL
-        ? direction === 'row' || direction === 'column'
-        : direction === 'row-reverse' || direction === 'column-reverse'
-    ) {
-      offset[0] = offset[0] * -1
-    }
+    return (
+      <div
+        {...containerProps}
+        {...rest}
+        ref={reference}
+        className={classes}
+        style={containerStyles}
+      >
+        {shouldInfoBeRendered && (
+          <span className={badgeCountClasses} onClick={onClick} style={getBadgeStyles()}>
+            {renderInfo()}
+          </span>
+        )}
 
-    if (direction === 'column' || direction === 'column-reverse') {
-      offset[1] = offset[1] * -1
-    }
-
-    styles.transform = `translate(${offset[0]}%, ${offset[1]}%)`
-
-    return styles
-  }
-
-  const containerStyles: CSSProperties = isTextMode
-    ? { ...style }
-    : {
-        ...style,
-        flexDirection: direction,
-        alignItems: direction === 'column-reverse' ? 'flex-end' : 'flex-start',
-        justifyContent: direction === 'column' ? 'flex-end' : 'flex-start',
-      }
-
-  return (
-    <div {...containerProps} {...rest} ref={reference} className={classes} style={containerStyles}>
-      {shouldInfoBeRendered && (
-        <span className={badgeCountClasses} onClick={onClick} style={getBadgeStyles()}>
-          {renderInfo()}
-        </span>
-      )}
-
-      {text ? (
-        <Text
-          className={childrenClasses}
-          small={size === 'small'}
-          normal={size === 'normal'}
-          large={size === 'large'}
-        >
-          {text}
-        </Text>
-      ) : (
-        <div {...childrenContainerProps} className={childrenClasses}>
-          {children}
-        </div>
-      )}
-    </div>
-  )
-}
+        {text ? (
+          <Text
+            className={childrenClasses}
+            small={size === 'small'}
+            normal={size === 'normal'}
+            large={size === 'large'}
+          >
+            {text}
+          </Text>
+        ) : (
+          <div {...childrenContainerProps} className={childrenClasses}>
+            {children}
+          </div>
+        )}
+      </div>
+    )
+  },
+)

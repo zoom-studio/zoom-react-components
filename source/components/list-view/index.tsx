@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactNode } from 'react'
+import React, { MouseEvent, ReactNode, RefObject } from 'react'
 
 import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
@@ -97,6 +97,7 @@ export namespace ListViewNS {
     badgeHolderGutterReversed?: boolean
     badgeProps?: BadgeProps
     actionsProps?: ButtonProps
+    reference?: RefObject<HTMLDivElement>
     infiniteScroll?: Omit<
       InfiniteScrollViewNS.Props,
       'children' | 'dataset' | 'maxHeight' | 'itemsContainerProps'
@@ -104,7 +105,9 @@ export namespace ListViewNS {
     scrollViewProps?: Omit<ScrollViewNS.Props, 'children' | 'maxHeight'>
     maxHeight: ScrollViewNS.Props['maxHeight']
     itemsContainerProps?: Omit<BaseComponent, 'children'>
-    itemsProps?: Omit<BaseComponent, 'children' | 'onClick'>
+    itemsProps?: Omit<BaseComponent, 'children' | 'onClick'> & {
+      reference?: RefObject<HTMLDivElement>
+    }
     linkComponent?: CustomLinkNS.Props['userLink']
     hover?: boolean
   }

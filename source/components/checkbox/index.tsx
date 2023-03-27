@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, HTMLAttributes } from 'react'
+import React, { ChangeEvent, FormEvent, forwardRef, HTMLAttributes } from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
@@ -19,97 +19,101 @@ export namespace CheckboxNS {
   }
 }
 
-export const Checkbox: FC<CheckboxNS.Props> = ({
-  size: providedSize,
-  state = ['neutral'],
-  disabledOnLoading = true,
-  onWrite,
-  onChange,
-  onInput,
-  containerProps,
-  stateMessageProps,
-  className,
-  disabled,
-  loading,
-  label,
-  labelProps,
-  reference,
-  id,
-  onClick,
-  style,
-  inputProps,
-  inputRef,
-  ...otherInputProps
-}) => {
-  const { createClassName } = useZoomComponent('checkbox')
-  const size = useComponentSize(providedSize)
+export const Checkbox = forwardRef<HTMLDivElement, CheckboxNS.Props>(
+  (
+    {
+      size: providedSize,
+      state = ['neutral'],
+      disabledOnLoading = true,
+      onWrite,
+      onChange,
+      onInput,
+      containerProps,
+      stateMessageProps,
+      className,
+      disabled,
+      loading,
+      label,
+      labelProps,
+      id,
+      onClick,
+      style,
+      inputProps,
+      inputRef,
+      ...otherInputProps
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('checkbox')
+    const size = useComponentSize(providedSize)
 
-  const isDisabled = disabledOnLoading ? loading || disabled : disabled
+    const isDisabled = disabledOnLoading ? loading || disabled : disabled
 
-  const labelClasses = createClassName(labelProps?.className, 'label')
+    const labelClasses = createClassName(labelProps?.className, 'label')
 
-  const containerClasses = createClassName(className, '', {
-    [createClassName('', size)]: true,
-    [createClassName('', state[0])]: true,
-    [createClassName('', loading ? 'loading' : '')]: !!loading,
-    [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
-  })
+    const containerClasses = createClassName(className, '', {
+      [createClassName('', size)]: true,
+      [createClassName('', state[0])]: true,
+      [createClassName('', loading ? 'loading' : '')]: !!loading,
+      [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
+    })
 
-  const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
+    const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
 
-  const textSizeProps: InputNS.TextSize = {
-    small: size === 'small',
-    normal: size === 'normal',
-    large: size === 'large',
-  }
+    const textSizeProps: InputNS.TextSize = {
+      small: size === 'small',
+      normal: size === 'normal',
+      large: size === 'large',
+    }
 
-  const handleOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    onWrite?.(evt.currentTarget.checked)
-    onChange?.(evt)
-  }
+    const handleOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
+      onWrite?.(evt.currentTarget.checked)
+      onChange?.(evt)
+    }
 
-  const handleOnInput = (evt: FormEvent<HTMLInputElement>) => {
-    onWrite?.(evt.currentTarget.checked)
-    onInput?.(evt)
-  }
+    const handleOnInput = (evt: FormEvent<HTMLInputElement>) => {
+      onWrite?.(evt.currentTarget.checked)
+      onInput?.(evt)
+    }
 
-  return (
-    <div
-      {...containerProps}
-      ref={reference}
-      onClick={onClick}
-      id={id}
-      style={style}
-      className={containerClasses}
-    >
-      <label {...labelProps} className={labelClasses}>
-        <input
-          {...inputProps}
-          {...otherInputProps}
-          type="checkbox"
-          className="native-checkbox"
-          disabled={isDisabled}
-          onInput={handleOnInput}
-          onChange={handleOnChange}
-          ref={inputRef}
-        />
+    return (
+      <div
+        {...containerProps}
+        ref={reference}
+        onClick={onClick}
+        id={id}
+        style={style}
+        className={containerClasses}
+      >
+        <label {...labelProps} className={labelClasses}>
+          <input
+            {...inputProps}
+            {...otherInputProps}
+            type="checkbox"
+            className="native-checkbox"
+            disabled={isDisabled}
+            onInput={handleOnInput}
+            onChange={handleOnChange}
+            ref={inputRef}
+          />
 
-        <span className="custom-checkbox">
-          {loading ? <Spin size="small" /> : <Icon name="done" className="checked-icon" />}
-        </span>
+          <span className="custom-checkbox">
+            {loading ? <Spin size="small" /> : <Icon name="done" className="checked-icon" />}
+          </span>
 
-        {label && (
-          <Text {...textSizeProps} className="label-text">
-            {label}
+          {label && (
+            <Text {...textSizeProps} className="label-text">
+              {label}
+            </Text>
+          )}
+        </label>
+
+        {state[1] && (
+          <Text {...textSizeProps} {...stateMessageProps} className={stateMessageClasses}>
+            {state[1]}
           </Text>
         )}
-      </label>
-
-      {state[1] && (
-        <Text {...textSizeProps} {...stateMessageProps} className={stateMessageClasses}>
-          {state[1]}
-        </Text>
-      )}
-    </div>
-  )
-}
+      </div>
+    )
+  },
+)

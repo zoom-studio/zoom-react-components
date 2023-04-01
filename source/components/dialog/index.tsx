@@ -8,6 +8,8 @@ import React, {
   useState,
 } from 'react'
 
+import { Portal } from 'react-portal'
+
 import { useComponentSize, useZoomComponent } from '../../hooks'
 import { makeElementDraggable } from '../../utils'
 
@@ -172,7 +174,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogNS.Props>(
     }, [fullScreen])
 
     return (
-      <>
+      <Portal node={document?.body}>
         {isOpen && (
           <>
             <div onClick={close} {...backdropProps} className={backdropClasses} ref={backdropRef} />
@@ -247,7 +249,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogNS.Props>(
             </div>
           </>
         )}
-      </>
+      </Portal>
     )
   },
 )

@@ -78,6 +78,11 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({
     .getBlockForKey(selection.getStartKey())
     .getType() as RichTextEditorNS.BlockTypes
 
+  const handleOnSelectEmoji = (closePopover: () => void) => (emojiName: EmojiNS.Emojis.Names) => {
+    handleCreateEmoji(emojiName)
+    closePopover()
+  }
+
   return (
     <Stack className="editor-handlers" dividers={<Divider vertical />} spacing={0} broken>
       <>
@@ -117,6 +122,7 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({
           placement="bottom"
           className="insert-link-popover"
           onClose={onCloseLinkPopover(linkURL, noFollowedLink, blankedLink)}
+          disabled={selection.isCollapsed()}
           content={
             !selection.isCollapsed() && (
               <LinkInserter
@@ -163,7 +169,9 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({
 
       <>
         <Popover
-          content={<EmojiPicker key={updaterKey} onSelect={handleCreateEmoji} />}
+          content={({ closePopover }) => (
+            <EmojiPicker onSelect={handleOnSelectEmoji(closePopover)} />
+          )}
           trigger="click"
           placement="bottom"
           className="emoji-picker-popover"

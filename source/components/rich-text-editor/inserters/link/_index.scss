@@ -1,0 +1,38 @@
+.insert-link-popover {
+  .container-children {
+    background-color: color(layer, 2) !important;
+
+    > svg {
+      fill: color(layer, 2) !important;
+
+      > path {
+        &:nth-child(2) {
+          stroke: color(border, 2) !important;
+        }
+      }
+    }
+
+    > .zoomrc-popover-content {
+      margin: 4px 0 !important;
+
+      .get-link-form {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .zoomrc-input {
+          direction: ltr !important;
+          text-align: left !important;
+        }
+
+        > .confirm-link-button {
+          max-width: unset;
+          min-width: unset;
+          width: 32px;
+          height: 32px;
+          font-size: to-rem(28px) !important;
+        }
+      }
+    }
+  }
+}

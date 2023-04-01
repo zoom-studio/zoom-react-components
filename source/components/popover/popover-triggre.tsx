@@ -1,4 +1,4 @@
-import React, { cloneElement, FC, FocusEvent, MouseEvent, useEffect, useRef } from 'react'
+import React, { FC, FocusEvent, MouseEvent, useEffect, useRef } from 'react'
 
 import { useMergeRefs } from '@floating-ui/react'
 
@@ -21,6 +21,7 @@ export const PopoverTrigger: FC<PopoverTriggerNS.Props> = ({
   toggle,
   trigger,
   containerProps,
+  disabled,
   ...rest
 }) => {
   const context = usePopoverContext()
@@ -28,15 +29,10 @@ export const PopoverTrigger: FC<PopoverTriggerNS.Props> = ({
   const ref = useMergeRefs([context.refs.setReference, childrenRef])
   const timeout = useRef<number | null>(null)
 
-  const getChildren = (): JSX.Element => {
-    return (
-      (typeof children === 'function'
-        ? children({ openPopover: open, closePopover: close })
-        : children) || <></>
-    )
-  }
-
   const handleOnClick = (evt: MouseEvent<HTMLDivElement>) => {
+    if (disabled) {
+      return
+    }
     if (trigger === 'click') {
       toggle()
     }
@@ -44,6 +40,9 @@ export const PopoverTrigger: FC<PopoverTriggerNS.Props> = ({
   }
 
   const handleOnFocusOrBlur = (evt: FocusEvent<HTMLDivElement>) => {
+    if (disabled) {
+      return
+    }
     const isFocused = evt.type === 'focus'
     if (trigger === 'focus') {
       if (isFocused) open()
@@ -54,6 +53,9 @@ export const PopoverTrigger: FC<PopoverTriggerNS.Props> = ({
   }
 
   const handleOnMouseEnterOrLeave = (evt: MouseEvent<HTMLDivElement>) => {
+    if (disabled) {
+      return
+    }
     const isMouseEntered = evt.type === 'mouseenter'
     if (trigger === 'hover') {
       if (isMouseEntered) {
@@ -78,16 +80,18 @@ export const PopoverTrigger: FC<PopoverTriggerNS.Props> = ({
   }, [])
 
   return (
-    <>
-      {cloneElement(getChildren(), {
-        ref,
-        reference: ref,
-        onClick: handleOnClick,
-        onMouseEnter: handleOnMouseEnterOrLeave,
-        onMouseLeave: handleOnMouseEnterOrLeave,
-        onFocus: handleOnFocusOrBlur,
-        onBlur: handleOnFocusOrBlur,
-      })}
-    </>
+    <div
+      className="zoomrc-popover"
+      ref={ref}
+      onMouseEnter={handleOnMouseEnterOrLeave}
+      onMouseLeave={handleOnMouseEnterOrLeave}
+      onFocus={handleOnFocusOrBlur}
+      onBlur={handleOnFocusOrBlur}
+      onClick={handleOnClick}
+    >
+      {(typeof children === 'function'
+        ? children({ openPopover: open, closePopover: close })
+        : children) || <></>}
+    </div>
   )
 }

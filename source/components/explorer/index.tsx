@@ -1,4 +1,4 @@
-import React, { FormEvent, forwardRef, useState } from 'react'
+import React, { FormEvent, forwardRef, useMemo, useState } from 'react'
 
 import {
   AlertNS,
@@ -178,6 +178,32 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
     },
     reference,
   ) => {
+    const filteredFiles = useMemo<ExplorerNS.FileInterface[]>(() => {
+      if (!filterTypes) {
+        return files
+      }
+
+      const filteredFiles: ExplorerNS.FileInterface[] = []
+
+      if (typeof filterTypes === 'function') {
+        files.forEach(file => {
+          if (filterTypes(file)) {
+            filteredFiles.push(file)
+          }
+        })
+
+        return filteredFiles
+      }
+
+      files.forEach(file => {
+        if (filterTypes.includes(file.type)) {
+          filteredFiles.push(file)
+        }
+      })
+
+      return filteredFiles
+    }, [files, filterTypes])
+
     const typeColors: ExplorerNS.TypeColors = customizeFileTypeColors(
       ExplorerNS.DefaultTypeColors,
       providedTypeColors,
@@ -294,7 +320,7 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
             typeColors={typeColors}
             multiSelect={multiSelect}
             selectable={selectable}
-            files={files}
+            files={filteredFiles}
             filterTypes={filterTypes}
             loading={loading}
             viewMode={viewMode.val!}
@@ -313,7 +339,7 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
             loading={loading}
             selectedFiles={selectedFiles}
             disabled={isDisabled}
-            files={files}
+            files={filteredFiles}
             handleOpenRenameModal={handleOpenRenameModal}
             onEditImage={onEditImage}
             onDeleteFiles={onDeleteFiles}

@@ -52,6 +52,7 @@ export namespace PopoverNS {
     contentProps?: HTMLAttributes<HTMLDivElement>
     popoverProps?: HTMLAttributes<HTMLDivElement>
     descriptionProps?: TypographyNS.TextNS.Props
+    disabled?: boolean
     onOpen?: () => void
     onClose?: () => void
     onOpenChange?: (isOpen: boolean) => void
@@ -66,14 +67,16 @@ export const Popover = forwardRef<HTMLDivElement, PopoverNS.Props>(
 
     return (
       <PopoverContext.Provider value={popover}>
-        <PopoverContent
-          {...allProps}
-          arrowRef={arrowRef}
-          close={popover.close}
-          open={popover.open}
-          toggle={popover.toggle}
-          ref={reference}
-        />
+        {!allProps.disabled && (
+          <PopoverContent
+            {...allProps}
+            arrowRef={arrowRef}
+            close={popover.close}
+            open={popover.open}
+            toggle={popover.toggle}
+            ref={reference}
+          />
+        )}
         <PopoverTrigger
           {...allProps}
           close={popover.close}

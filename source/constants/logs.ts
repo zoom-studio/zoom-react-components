@@ -28,4 +28,13 @@ export enum logs {
   imageEditorNotFoundCanvasElement = 'ZOOMRC/IMAGE_EDITOR/CANVAS_ELEMENT_NOT_FOUND',
 
   uploaderNotFoundFileInputRef = 'ZOOMRC/UPLOADER/FILE_INPUT_REF_NOT_FOUND',
+
+  resizableMakerComputedStylesNotFound = 'ZOOMRC/RESIZABLE_MAKER/COMPUTED_STYLES_NOT_FOUND',
+  resizableMakerResizableInfoRefNotFound = 'ZOOMRC/RESIZABLE_MAKER/RESIZABLE_INFO_REF_NOT_FOUND',
+
+  richTextEditorEditorContainerRefNotFound = 'ZOOMRC/RICH_TEXT_EDITOR/EDITOR_CONTAINER_REF_NOT_FOUND',
+  richTextEditorEditorScrollViewNotFound = 'ZOOMRC/RICH_TEXT_EDITOR/EDITOR_SCROLL_VIEW_NOT_FOUND',
+
+  richTextEditorMakerEditorRefNotFound = 'ZOOMRC/RICH_TEXT_EDITOR_MAKER/EDITOR_REF_NOT_FOUND',
+  richTextEditorMakerEditorRefIsFunction = 'ZOOMRC/RICH_TEXT_EDITOR_MAKER/EDITOR_REF_IS_FUNCTION',
 }

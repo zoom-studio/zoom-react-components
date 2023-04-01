@@ -1,5 +1,13 @@
 declare module '*.svg'
 
+declare module 'draft-js-divider-plugin' {
+  export default () => any
+}
+
+declare module 'draft-js-markdown-shortcuts-plugin' {
+  export default () => any
+}
+
 declare module 'react-rangeslider' {
   interface SliderProps {
     disabled?: boolean | undefined

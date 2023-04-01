@@ -34,11 +34,11 @@ $zoomrc-dialog-header-title-left-padding: 20px;
   bottom: 0;
   background-color: color(backdrop);
   animation: zoomrc-dialog-animation(open-zoomrc-dialog-backdrop-animation);
-  z-index: 18;
+  z-index: 101;
 }
 
 .zoomrc-dialog {
-  z-index: 20;
+  z-index: 102;
   position: fixed;
   animation: zoomrc-dialog-animation(open-zoomrc-dialog-animation);
   background-color: color(layer, 1);

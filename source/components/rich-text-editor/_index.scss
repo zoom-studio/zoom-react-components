@@ -1,136 +1,137 @@
-@import '~draft-js/dist/Draft.css';
-@import '~@draft-js-plugins/focus/lib/plugin.css';
-@import 'content_styles';
+@import '../rich-text-editor-maker/content_styles';
+@import 'inserters';
 
 .zoomrc-rich-text-editor {
-  color: color(text);
-  background-color: color(layer, 2);
-  border-radius: 4px;
+  width: 100%;
+  height: auto;
   border: 1px solid color(border, 2);
-  padding: 4px;
+  border-radius: 4px;
 
-  > .editor-handlers {
-    .text-size-selector {
-      min-width: 140px;
-    }
-
-    .action-button {
-      background-color: color(layer, 1);
-      color: color(text, 3);
-
-      &:not(:hover) {
-        border-color: color(border, 2);
-      }
-
-      > .zoomrc-button-inner-child {
-        padding: 5px;
-
-        > .material-icons {
-          font-size: to-rem(26px);
-        }
-
-        > .zoomrc-typography {
-          margin: 0;
-        }
-      }
-
-      &.active {
-        border-color: color(accent, 1, glassy, 8);
-        color: color(accent);
-      }
-    }
-
-    .zoomrc-popover {
-      z-index: 2;
-    }
-
-    .emoji-picker-popover {
-      > .zoomrc-popover-container {
-        max-width: 350px;
-
-        > .container-children {
-          padding: 0;
-
-          > .zoomrc-popover-content {
-            margin: 0;
-
-            .zoomrc-emoji-picker {
-              border: none;
-            }
-          }
-        }
-      }
-    }
-
-    .insert-link-popover {
-      > .zoomrc-popover-container {
-        max-width: 350px;
-
-        > .container-children {
-          padding: 6px;
-
-          > .zoomrc-popover-content {
-            margin: 0;
-
-            .confirm-link-button {
-              width: 32px;
-              height: 32px;
-              font-size: to-rem(28px) !important;
-            }
-          }
-        }
-      }
-    }
-
-    .get-link-form {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-  }
-
-  > .rich-text-editor {
+  > .editor-container {
     width: 100%;
     height: auto;
-    padding: 4px;
+    display: flex;
+    padding: 6px;
+    padding-top: 0;
+    flex-direction: column;
+    position: relative;
 
-    .link-popover-content {
-      .zoomrc-popover-content {
-        margin-top: 0 !important;
+    > .editor-actions {
+      width: 100%;
+      background-color: color(layer, 1);
+      z-index: 1;
+      border-bottom: 1px solid color(border, 2);
+      padding: 4px;
+      row-gap: 8px !important;
 
-        .link-url {
-          margin: 0;
-        }
-
-        .link-popover-action {
-          font-size: to-rem(24px) !important;
-        }
+      > .zoomrc-divider {
+        margin: 0 8px;
       }
-    }
 
-    .editor-scroll-view {
-      .os-viewport {
-        padding: 4px !important;
-        border: 1px solid color(border, 2);
-        border-radius: 4px;
+      > .zoomrc-stack-item {
+        > .editor-action {
+          height: 24px;
+          width: 24px;
+          margin: 0 2px;
 
-        .DraftEditor-root {
-          @include zoomrc-rich-text-editor-content-styles;
+          > .zoomrc-popover {
+            height: inherit;
+            width: inherit;
 
-          height: 100%;
+            .action-button {
+              height: inherit;
+              width: inherit;
 
-          .public-DraftEditorPlaceholder-root {
-            color: color(placeholder);
+              > .zoomrc-button-inner-child {
+                height: 100%;
+                width: 100%;
+                color: color(text, 2);
+                padding: 0;
+
+                > .zoomrc-button-prefix {
+                  height: 100%;
+                  width: 100%;
+                  font-size: to-rem(22px);
+                  color: inherit;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  padding-top: 2px;
+                }
+
+                > .action-button-text {
+                  font-size: to-rem(26px);
+                  color: inherit;
+                  margin: 0;
+                  padding-top: 2px;
+                }
+              }
+            }
           }
 
-          .public-DraftEditor-content {
-            * {
-              &::selection {
-                background-color: color(accent, 1, glassy, 4);
+          &.active {
+            .action-button {
+              border-color: color(accent, 1, glassy, 5);
+
+              > .zoomrc-button-inner-child {
+                color: color(accent);
               }
             }
           }
         }
+      }
+    }
+
+    > .editor {
+      flex: 1;
+      padding-top: 6px;
+
+      .DraftEditor-root {
+        @include zoomrc-rich-text-editor-content-styles;
+
+        color: color(text, 1);
+        height: 100%;
+      }
+    }
+
+    > .resize-editor-handle {
+      width: 100%;
+      height: 15px;
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      cursor: ns-resize;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        height: 2px;
+        width: calc(100% - 2px);
+        margin: auto;
+        border-radius: 100px;
+        transition: all 150ms linear;
+        background: color(accent, 1, glassy, 3);
+      }
+
+      &:hover {
+        &::after {
+          width: 100%;
+          background: color(accent, 1, glassy, 5);
+        }
+      }
+    }
+  }
+
+  &-sticky-actions {
+    > .editor-container {
+      > .editor-actions {
+        position: sticky;
+        top: 0;
       }
     }
   }

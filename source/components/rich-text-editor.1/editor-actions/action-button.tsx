@@ -28,19 +28,21 @@ export const ActionButton: FC<ActionButtonNS.Props> = ({
   })
 
   return (
-    <Tooltip title={title} hoverDelay={200}>
-      <Button
-        onClick={onClick}
-        className={classes}
-        disabled={disabled}
-        style={{ opacity: disabled ? 0.5 : 1 }}
-        shape="square"
-        size="large"
-        type="secondary"
-      >
-        {typeof content === 'string' ? <Text large>{content}</Text> : content}
-        {icon && <Icon name={icon} />}
-      </Button>
-    </Tooltip>
+    <div className="rich-text-editor-action-button">
+      <Tooltip title={title} hoverDelay={200}>
+        <Button
+          onClick={onClick}
+          className={classes}
+          disabled={disabled}
+          style={{ opacity: disabled ? 0.5 : 1 }}
+          shape="square"
+          size="large"
+          type="secondary"
+        >
+          {typeof content === 'string' ? <Text large>{content}</Text> : content}
+          {icon && <Icon name={icon} />}
+        </Button>
+      </Tooltip>
+    </div>
   )
 }

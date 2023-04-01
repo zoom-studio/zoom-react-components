@@ -1,11 +1,6 @@
 import React, { forwardRef, MutableRefObject } from 'react'
 
-import {
-  FloatingArrow,
-  FloatingFocusManager,
-  FloatingPortal,
-  useMergeRefs,
-} from '@floating-ui/react'
+import { FloatingArrow, FloatingPortal, useMergeRefs } from '@floating-ui/react'
 
 import { ConditionalWrapper, Spin, Text, Title } from '..'
 import { useZoomComponent } from '../../hooks'
@@ -40,7 +35,6 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentNS.Props>
       loading,
       close,
       open,
-      toggle,
       spinProps,
       width,
       style,
@@ -67,74 +61,72 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentNS.Props>
     return (
       <FloatingPortal>
         {context.isOpen && (
-          <FloatingFocusManager context={floatingContext}>
+          <div
+            className={classes}
+            ref={ref}
+            style={{
+              position: context.strategy,
+              top: context.y ?? 0,
+              left: context.x ?? 0,
+              width: 'max-content',
+              ...style,
+            }}
+          >
             <div
-              className={classes}
-              ref={ref}
-              style={{
-                position: context.strategy,
-                top: context.y ?? 0,
-                left: context.x ?? 0,
-                width: 'max-content',
-                ...style,
-              }}
+              {...popoverProps}
+              className={popoverClasses}
+              style={{ width: width ?? 'max-content' }}
             >
-              <div
-                {...popoverProps}
-                className={popoverClasses}
-                style={{ width: width ?? 'max-content' }}
-              >
-                <div className="container-children">
-                  {showArrow && (
-                    <FloatingArrow
-                      ref={arrowRef}
-                      context={floatingContext}
-                      width={24}
-                      height={10}
-                      tipRadius={4}
-                      strokeWidth={1}
-                      fill={color({ source: 'layer', tone: 1 })}
-                      stroke={color({ source: 'border', tone: 2 })}
-                    />
-                  )}
+              <div className="container-children">
+                {showArrow && (
+                  <FloatingArrow
+                    ref={arrowRef}
+                    context={floatingContext}
+                    width={24}
+                    height={10}
+                    tipRadius={4}
+                    strokeWidth={1}
+                    fill={color({ source: 'layer', tone: 1 })}
+                    stroke={color({ source: 'border', tone: 2 })}
+                  />
+                )}
 
-                  {loading ? (
-                    <div className="popover-loader">
-                      <Spin {...spinProps} />
-                    </div>
-                  ) : (
-                    <>
-                      <ConditionalWrapper
-                        condition={typeof title === 'string'}
-                        falseWrapper={children => <>{children}</>}
-                        trueWrapper={children => (
-                          <Title h5 {...titleProps} className={titleClasses}>
-                            {children}
-                          </Title>
-                        )}
-                      >
-                        {title}
-                      </ConditionalWrapper>
-
-                      {description && (
-                        <Text {...descriptionProps} className={descriptionClasses}>
-                          {description}
-                        </Text>
+                {loading ? (
+                  <div className="popover-loader">
+                    <Spin {...spinProps} />
+                  </div>
+                ) : (
+                  <>
+                    <ConditionalWrapper
+                      condition={typeof title === 'string'}
+                      falseWrapper={children => <>{children}</>}
+                      trueWrapper={children => (
+                        <Title h5 {...titleProps} className={titleClasses}>
+                          {children}
+                        </Title>
                       )}
+                    >
+                      {title}
+                    </ConditionalWrapper>
 
-                      {content && (
-                        <div {...contentProps} className={contentClasses}>
-                          {typeof content === 'function'
-                            ? content({ closePopover: close, openPopover: open })
-                            : content}
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
+                    {description && (
+                      <Text {...descriptionProps} className={descriptionClasses}>
+                        {description}
+                      </Text>
+                    )}
+
+                    {content && (
+                      <div {...contentProps} className={contentClasses}>
+                        {typeof content === 'function'
+                          ? content({ closePopover: close, openPopover: open })
+                          : content}
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             </div>
-          </FloatingFocusManager>
+          </div>
         )}
       </FloatingPortal>
     )

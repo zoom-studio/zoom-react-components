@@ -16,6 +16,8 @@
     "downloadjs",
     "datetime",
     "rangeslider",
+    "hashtagify",
+    "linkify",
     "virtualizers"
   ],
   "yaml.schemas": {

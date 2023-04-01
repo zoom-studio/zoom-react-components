@@ -64,23 +64,17 @@ export const ExplorerContent: FC<ExplorerContentNS.Props> = ({
             disabled={!selectable}
             multiSelect={multiSelect}
           >
-            {(File, { data, isSelected, select }) =>
-              !filterTypes ||
-              (typeof filterTypes === 'function' && filterTypes(data)) ||
-              (typeof filterTypes === 'object' && filterTypes.includes(data.type)) ? (
-                <File
-                  {...data}
-                  typeColors={typeColors}
-                  viewMode={viewMode}
-                  onClick={disabled ? undefined : select}
-                  isSelected={isSelected && selectedFiles.length > 0}
-                  i18n={i18n}
-                  rename={openRenameModal(data)}
-                />
-              ) : (
-                <></>
-              )
-            }
+            {(File, { data, isSelected, select }) => (
+              <File
+                {...data}
+                typeColors={typeColors}
+                viewMode={viewMode}
+                onClick={disabled ? undefined : select}
+                isSelected={isSelected && selectedFiles.length > 0}
+                i18n={i18n}
+                rename={openRenameModal(data)}
+              />
+            )}
           </Selectable>
         )}
       </ScrollView>

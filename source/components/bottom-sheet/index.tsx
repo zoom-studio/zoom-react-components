@@ -1,5 +1,7 @@
 import React, { forwardRef, HTMLAttributes, MouseEvent, ReactNode, useEffect } from 'react'
 
+import { Portal } from 'react-portal'
+
 import { useComponentSize, useZoomComponent } from '../../hooks'
 import { BaseComponent, CommonSize } from '../../types'
 
@@ -87,61 +89,63 @@ export const BottomSheet = forwardRef<HTMLDivElement, BottomSheetNS.Props>(
       }
     }, [isOpen])
 
-    return isOpen ? (
-      <>
-        <div {...backdropProps} className={backdropClasses} onClick={close} />
+    return (
+      <Portal node={document?.body}>
+        {isOpen && (
+          <>
+            <div {...backdropProps} className={backdropClasses} onClick={close} />
 
-        <div {...containerProps} {...rest} className={classes} ref={reference}>
-          <div className="header">
-            <Title className="title" h6>
-              {title}
-            </Title>
+            <div {...containerProps} {...rest} className={classes} ref={reference}>
+              <div className="header">
+                <Title className="title" h6>
+                  {title}
+                </Title>
 
-            {closable && (
-              <Button
-                prefixMaterialIcon="close"
-                shape="square"
-                size="large"
-                className="close"
-                type="link"
-                variant="error"
-                onClick={close}
-                {...closeButtonProps}
-              />
-            )}
-          </div>
+                {closable && (
+                  <Button
+                    prefixMaterialIcon="close"
+                    shape="square"
+                    size="large"
+                    className="close"
+                    type="link"
+                    variant="error"
+                    onClick={close}
+                    {...closeButtonProps}
+                  />
+                )}
+              </div>
 
-          <div className="body">
-            <ScrollView maxHeight="calc(100vh - 200px)">{children}</ScrollView>
-          </div>
+              <div className="body">
+                <ScrollView maxHeight="calc(100vh - 200px)">{children}</ScrollView>
+              </div>
 
-          <div className="footer">
-            <div className="actions secondary">
-              {cancelButton && closable && (
-                <Button
-                  type="link"
-                  variant="error"
-                  {...cancelButtonProps}
-                  onClick={handleOnCancelButtonClick}
-                >
-                  {cancelButton}
-                </Button>
-              )}
-              {secondaryActions?.map((action, index) => (
-                <Button size="small" type="dashed" {...action} key={index} />
-              ))}
+              <div className="footer">
+                <div className="actions secondary">
+                  {cancelButton && closable && (
+                    <Button
+                      type="link"
+                      variant="error"
+                      {...cancelButtonProps}
+                      onClick={handleOnCancelButtonClick}
+                    >
+                      {cancelButton}
+                    </Button>
+                  )}
+                  {secondaryActions?.map((action, index) => (
+                    <Button size="small" type="dashed" {...action} key={index} />
+                  ))}
+                </div>
+
+                <div className="actions">
+                  {actions?.map((action, index) => (
+                    <Button size="small" {...action} key={index} />
+                  ))}
+                </div>
+              </div>
             </div>
-
-            <div className="actions">
-              {actions?.map((action, index) => (
-                <Button size="small" {...action} key={index} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </>
-    ) : (
-      <></>
+          </>
+        )}
+      </Portal>
     )
   },
 )

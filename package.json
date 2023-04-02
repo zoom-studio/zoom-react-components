@@ -76,6 +76,7 @@
     "@draft-js-plugins/resizeable": "^5.0.3",
     "@draft-js-plugins/undo": "^4.1.2",
     "@floating-ui/react": "^0.22.0",
+    "@tanstack/react-table": "^8.8.4",
     "@zoom-studio/zoom-js-ts-utils": "file:../zoom-web-utils/dist",
     "draft-js": "^0.11.7",
     "draft-js-divider-plugin": "^0.2.1",

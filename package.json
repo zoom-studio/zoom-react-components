@@ -86,6 +86,7 @@
     "overlayscrollbars-react": "^0.5.0",
     "react-advanced-cropper": "^0.18.0",
     "react-avatar-editor": "^13.0.0",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-hot-toast": "^2.4.0",
     "react-menu-list": "https://github.com/zoom-studio/react-menu-list.git",
     "react-pdf": "^6.2.2",

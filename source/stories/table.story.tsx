@@ -3,6 +3,7 @@ import React, { FC } from 'react'
 import { ComponentMeta } from '@storybook/react'
 
 import { Table, TableNS } from '../components'
+import { lorem, makeTableData } from '../fixtures'
 
 export default {
   title: 'Data display/Table',
@@ -10,53 +11,114 @@ export default {
   args: {},
 } as ComponentMeta<typeof Table>
 
-type Person = {
-  name: {
-    first: string
-    last: string
-  }
-  age: number
-  visits: number
-  status: string
-  progress: number
-}
-
-const defaultData: Person[] = [
-  {
-    name: {
-      first: 'tanner',
-      last: 'linsley',
-    },
-    age: 24,
-    visits: 100,
-    status: 'In Relationship',
-    progress: 50,
-  },
-  {
-    name: {
-      first: 'tandy',
-      last: 'miller',
-    },
-    age: 40,
-    visits: 40,
-    status: 'Single',
-    progress: 80,
-  },
-  {
-    name: {
-      first: 'joe',
-      last: 'dirte',
-    },
-    age: 45,
-    visits: 20,
-    status: 'Complicated',
-    progress: 10,
-  },
-]
-
 export const Playground: FC<TableNS.Props> = props => {
   return (
-    <Table dataset={defaultData}>
+    <>
+      {lorem(10)}
+      <Table id="playground-table" renderFooter dataset={makeTableData(200)}>
+        {({ Cell, Column, FooterCell, HeaderCell, ColumnGroup }) => (
+          <>
+            <Column accessor="status">
+              <HeaderCell>Status</HeaderCell>
+            </Column>
+
+            <ColumnGroup>
+              <Column accessor="name.first">
+                <FooterCell>firstName</FooterCell>
+              </Column>
+            </ColumnGroup>
+
+            <ColumnGroup>
+              <HeaderCell>Hello</HeaderCell>
+              <Column accessor="name.first">
+                <FooterCell>firstName</FooterCell>
+              </Column>
+              <Column accessor="name.last">
+                <FooterCell>lastName</FooterCell>
+              </Column>
+            </ColumnGroup>
+
+            <ColumnGroup>
+              <Column accessor="name.first">
+                <FooterCell>firstName</FooterCell>
+              </Column>
+              <Column accessor="name.last">
+                <FooterCell>lastName</FooterCell>
+              </Column>
+            </ColumnGroup>
+
+            <ColumnGroup>
+              <HeaderCell>Info</HeaderCell>
+              <Column accessor="age">
+                <HeaderCell>Age</HeaderCell>
+                <FooterCell>age</FooterCell>
+              </Column>
+
+              <ColumnGroup>
+                <HeaderCell>More info</HeaderCell>
+                <Column accessor="visits">
+                  <HeaderCell>Visits</HeaderCell>
+                  <FooterCell>visits</FooterCell>
+                </Column>
+                <Column accessor="status">
+                  <HeaderCell>Status</HeaderCell>
+                  <FooterCell>status</FooterCell>
+                </Column>
+                <Column accessor="progress">
+                  <HeaderCell>Progress</HeaderCell>
+                  <FooterCell>progress</FooterCell>
+                </Column>
+              </ColumnGroup>
+            </ColumnGroup>
+          </>
+        )}
+      </Table>
+      {lorem(200)}
+    </>
+  )
+}
+
+/**
+ * <ColumnGroup>
+            <HeaderCell>Hello</HeaderCell>
+            <Column accessor="name.first">
+              <FooterCell>firstName</FooterCell>
+            </Column>
+            <Column accessor="name.last">
+              <HeaderCell>Last name</HeaderCell>
+              <FooterCell>lastName</FooterCell>
+            </Column>
+          </ColumnGroup>
+
+          <ColumnGroup>
+            <HeaderCell>Info</HeaderCell>
+            <FooterCell>info</FooterCell>
+
+            <Column accessor="age">
+              <HeaderCell>Age</HeaderCell>
+              <FooterCell>age</FooterCell>
+            </Column>
+
+            <ColumnGroup>
+              <HeaderCell>More info</HeaderCell>
+              <Column accessor="visits">
+                <HeaderCell>Visits</HeaderCell>
+                <FooterCell>visits</FooterCell>
+              </Column>
+              <Column accessor="status">
+                <HeaderCell>Status</HeaderCell>
+                <FooterCell>status</FooterCell>
+              </Column>
+              <Column accessor="progress">
+                <HeaderCell>Progress</HeaderCell>
+                <FooterCell>progress</FooterCell>
+              </Column>
+            </ColumnGroup>
+          </ColumnGroup>
+ */
+
+/**
+ *  <Table dataset={defaultData}>
       {({ Cell, Column, FooterCell, HeaderCell }) => (
         <>
           <Column width={200} accessor="name">
@@ -71,7 +133,6 @@ export const Playground: FC<TableNS.Props> = props => {
 
           <Column accessor="age">
             <HeaderCell>Age</HeaderCell>
-            <Cell />
           </Column>
 
           <Column accessor="status">
@@ -82,5 +143,4 @@ export const Playground: FC<TableNS.Props> = props => {
         </>
       )}
     </Table>
-  )
-}
+ */

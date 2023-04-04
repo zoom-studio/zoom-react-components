@@ -1,3 +1,101 @@
+@import 'mixins';
+
+$zoomrc-table-box-shadows-transitions: box-shadow 300ms linear;
+
 .zoomrc-table {
-  color: red;
+  color: color(text, 2);
+
+  &-sticky-header {
+    @include table {
+      > thead {
+        position: sticky;
+        top: 0;
+      }
+    }
+
+    &.zoomrc-table-scrolled {
+      @include table {
+        > thead {
+          box-shadow: 0 3px 6px 0 color(backdrop);
+          transition: $zoomrc-table-box-shadows-transitions;
+        }
+      }
+    }
+  }
+
+  &-sticky-footer {
+    @include table {
+      > tfoot {
+        position: sticky;
+        bottom: 0;
+      }
+    }
+
+    &:not(.zoomrc-table-scrolled-to-bottom) {
+      @include table {
+        > tfoot {
+          box-shadow: 0 -3px 6px 0 color(backdrop);
+          transition: $zoomrc-table-box-shadows-transitions;
+        }
+      }
+    }
+  }
+
+  @include table {
+    background-color: color(layer, 1);
+
+    > thead,
+    > tfoot {
+      background-color: color(layer, 1);
+      color: color(text);
+      z-index: 1;
+    }
+
+    > tbody {
+      > tr {
+        &:hover {
+          background-color: color(border, 2);
+        }
+      }
+    }
+
+    td {
+      border: 1px solid color(border, 1);
+    }
+
+    th {
+      border: 1px solid color(border, 2);
+      position: relative;
+
+      > .resizer {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: color(border, 2);
+        cursor: col-resize;
+        user-select: none;
+        touch-action: none;
+        opacity: 0;
+        transition: all 150ms linear, transform 0ms linear;
+
+        &.is-resizing {
+          background: color(accent);
+          opacity: 1;
+        }
+      }
+
+      &:hover {
+        > .resizer {
+          opacity: 1;
+        }
+      }
+    }
+
+    th,
+    td {
+      padding: 8px 12px 6px;
+    }
+  }
 }

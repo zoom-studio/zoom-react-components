@@ -40,7 +40,7 @@ export const createColumn = <Dataset extends unknown[]>({
 
       if (columnGroupChildren) {
         columnGroupChildren = ArrayUtils.toArray(columnGroupChildren)
-        const columnGroupOptions: GroupColumnDef<any, unknown> = {
+        const columnGroupOptions: GroupColumnDef<object> = {
           id: StringUtils.random(20),
           columns: [],
         }
@@ -86,7 +86,7 @@ export const createColumn = <Dataset extends unknown[]>({
 
     if (columnChildren) {
       const columnOptions: IdentifiedColumnDef<object, unknown> = {
-        id: StringUtils.random(20),
+        id: columnProps.id ?? StringUtils.random(20),
       }
 
       for (const columnChild of columnChildren) {
@@ -94,10 +94,10 @@ export const createColumn = <Dataset extends unknown[]>({
           case Cell: {
             const { children } = columnChild.props as CellNS.Props<Dataset>
             columnOptions.cell = context => {
-              const { original: rowData } = context.row
+              const { original: rowData, index } = context.row
               switch (typeof children) {
                 case 'function': {
-                  return children(rowData)
+                  return children(rowData, index)
                 }
                 case 'undefined': {
                   return get(rowData, columnProps.accessor)
@@ -129,10 +129,11 @@ export const createColumn = <Dataset extends unknown[]>({
       }
 
       result.push(
-        columnHelper.accessor(columnProps.accessor as string, columnOptions) as ColumnDef<
-          unknown,
-          any
-        >,
+        columnHelper.accessor(columnProps.accessor as string, {
+          ...columnOptions,
+          size: columnProps.width,
+          enableSorting: columnProps.sortable ?? true,
+        }) as ColumnDef<unknown, any>,
       )
     }
   }

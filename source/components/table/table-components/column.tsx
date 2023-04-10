@@ -4,9 +4,11 @@ import { DeepKeys, MaybeArray } from '../../../types'
 
 export namespace ColumnNS {
   export interface Props<Dataset extends unknown[]> {
-    width?: string | number
+    width?: number
+    sortable?: boolean
     accessor: DeepKeys<Dataset[0]>
     children: MaybeArray<JSX.Element>
+    id?: string
   }
 }
 

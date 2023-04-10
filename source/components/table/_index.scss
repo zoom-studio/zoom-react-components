@@ -1,24 +1,23 @@
 @import 'mixins';
 
-$zoomrc-table-box-shadows-transitions: box-shadow 300ms linear;
-
 .zoomrc-table {
   color: color(text, 2);
+  display: block;
+  width: 100%;
+
+  > .table-scroll-view {
+    @include scrollbar;
+
+    width: 100%;
+    display: block;
+    overflow: auto;
+  }
 
   &-sticky-header {
     @include table {
       > thead {
         position: sticky;
         top: 0;
-      }
-    }
-
-    &.zoomrc-table-scrolled {
-      @include table {
-        > thead {
-          box-shadow: 0 3px 6px 0 color(backdrop);
-          transition: $zoomrc-table-box-shadows-transitions;
-        }
       }
     }
   }
@@ -30,12 +29,49 @@ $zoomrc-table-box-shadows-transitions: box-shadow 300ms linear;
         bottom: 0;
       }
     }
+  }
 
-    &:not(.zoomrc-table-scrolled-to-bottom) {
-      @include table {
-        > tfoot {
-          box-shadow: 0 -3px 6px 0 color(backdrop);
-          transition: $zoomrc-table-box-shadows-transitions;
+  &-sticky-actions {
+    @include table {
+      > thead,
+      > tbody,
+      > tfoot {
+        > tr {
+          > th:last-child,
+          > td:last-child {
+            position: sticky;
+            right: 0;
+            z-index: 1;
+          }
+        }
+      }
+
+      > tbody > tr > td:last-child {
+        z-index: unset;
+        box-shadow: -3px 0 0 0 color(backdrop);
+      }
+    }
+  }
+
+  &-striped {
+    @include table {
+      > tbody {
+        > tr {
+          &:nth-child(odd) {
+            background-color: color(layer, 2);
+          }
+        }
+      }
+    }
+  }
+
+  &-hoverable {
+    @include table {
+      > tbody {
+        > tr {
+          &:hover {
+            background-color: color(border, 2);
+          }
         }
       }
     }
@@ -43,29 +79,80 @@ $zoomrc-table-box-shadows-transitions: box-shadow 300ms linear;
 
   @include table {
     background-color: color(layer, 1);
+    min-width: 100%;
 
     > thead,
     > tfoot {
-      background-color: color(layer, 1);
-      color: color(text);
+      color: color(text, 3);
       z-index: 1;
     }
 
+    > thead,
+    > tfoot,
     > tbody {
-      > tr {
+      background-color: color(layer, 1);
+    }
+
+    tr {
+      background-color: inherit;
+
+      &.selected {
+        background-color: color(accent, 1, glassy, 1);
+
         &:hover {
-          background-color: color(border, 2);
+          background-color: color(accent, 1, glassy, 2);
         }
       }
     }
 
     td {
       border: 1px solid color(border, 1);
+
+      > .expanded-row-section {
+        display: block;
+        padding: 10px;
+        background-color: color(border, 2);
+      }
     }
 
     th {
       border: 1px solid color(border, 2);
       position: relative;
+      user-select: none;
+
+      &.clickable {
+        cursor: pointer;
+      }
+
+      > .table-header-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 10px;
+        padding: 4px 0;
+
+        > .sort-icon {
+          width: 20px;
+          height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          > svg {
+            border: 1px solid transparent;
+            width: 100%;
+            height: 100%;
+            padding: 4px;
+            border-radius: 2px;
+
+            &:not(.initial-sort) {
+              border-color: color(accent, 1, glassy, 3);
+            }
+          }
+        }
+      }
 
       > .resizer {
         position: absolute;
@@ -95,7 +182,37 @@ $zoomrc-table-box-shadows-transitions: box-shadow 300ms linear;
 
     th,
     td {
-      padding: 8px 12px 6px;
+      padding: 0 4px;
+      background-color: inherit;
+
+      > .table-cell-checkbox {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transform: translateY(4px);
+
+        > .checkbox-option {
+          display: inline-flex;
+
+          > .options-button {
+            > .zoomrc-button-inner-child {
+              font-size: to-rem(24px);
+            }
+          }
+        }
+      }
+
+      > .table-cell-actions {
+        display: flex;
+        gap: 2px;
+        white-space: nowrap;
+      }
+
+      > .table-cell-expander {
+        display: inline-flex;
+        align-items: center;
+        transform: translateY(2px);
+      }
     }
   }
 }

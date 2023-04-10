@@ -6,7 +6,14 @@ import { Color } from '../../types/color'
 import { color as generateColor, colorFnToColor } from '../../utils'
 
 export namespace SVGIconNS {
-  export const SVGIconNames = ['empty-box', 'image', 'file'] as const
+  export const SVGIconNames = [
+    'empty-box',
+    'image',
+    'file',
+    'sort-descending',
+    'sort-ascending',
+    'not-sorted',
+  ] as const
   export type SVGIconNames = typeof SVGIconNames[number]
 
   export interface Props
@@ -79,6 +86,53 @@ export const SVGIcon = forwardRef<SVGSVGElement, SVGIconNS.Props>(
               d="M60 19H72.4999C72.7791 19 73.0164 18.7787 73 18.5C72.913 17.0206 72.1413 16.1489 72.0169 16.0174C72.007 16.007 71.9973 15.9973 71.9872 15.9872L71.9823 15.9823L57 1C57 1 56 0 54.5 0C54.2239 0 54 0.223858 54 0.5V13C54 16.3137 56.6863 19 60 19Z"
               fill="white"
               fillOpacity="0.5"
+            />
+          </svg>
+        )
+      }
+
+      case 'not-sorted': {
+        return (
+          <svg {...baseProps} viewBox="0 0 37 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M15.9545 2.48523C17.1466 1.15796 19.2265 1.15797 20.4185 2.48523L31.8785 15.2455C33.613 17.1767 32.2423 20.25 29.6465 20.25H6.72658C4.13076 20.25 2.76011 17.1767 4.49459 15.2454L15.9545 2.48523Z"
+              fill={color}
+            />
+            <path
+              d="M20.4185 43.7648C19.2265 45.092 17.1465 45.092 15.9545 43.7648L4.49457 31.0045C2.76008 29.0733 4.13074 26 6.72656 26H29.6465C32.2423 26 33.6129 29.0733 31.8785 31.0046L20.4185 43.7648Z"
+              fill={color}
+            />
+          </svg>
+        )
+      }
+
+      case 'sort-ascending': {
+        return (
+          <svg {...baseProps} viewBox="0 0 37 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M15.9545 2.48523C17.1466 1.15796 19.2265 1.15797 20.4185 2.48523L31.8785 15.2455C33.613 17.1767 32.2423 20.25 29.6465 20.25H6.72658C4.13076 20.25 2.76011 17.1767 4.49459 15.2454L15.9545 2.48523Z"
+              fill={color}
+            />
+            <path
+              d="M20.4185 43.7648C19.2265 45.092 17.1465 45.092 15.9545 43.7648L4.49457 31.0045C2.76008 29.0733 4.13074 26 6.72656 26H29.6465C32.2423 26 33.6129 29.0733 31.8785 31.0046L20.4185 43.7648Z"
+              fill={color}
+              fillOpacity="0.2"
+            />
+          </svg>
+        )
+      }
+
+      case 'sort-descending': {
+        return (
+          <svg {...baseProps} viewBox="0 0 37 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M15.9545 2.48523C17.1466 1.15796 19.2265 1.15797 20.4185 2.48523L31.8785 15.2455C33.613 17.1767 32.2423 20.25 29.6465 20.25H6.72658C4.13076 20.25 2.76011 17.1767 4.49459 15.2454L15.9545 2.48523Z"
+              fill={color}
+              fillOpacity="0.2"
+            />
+            <path
+              d="M20.4185 43.7648C19.2265 45.092 17.1465 45.092 15.9545 43.7648L4.49457 31.0045C2.76008 29.0733 4.13074 26 6.72656 26H29.6465C32.2423 26 33.6129 29.0733 31.8785 31.0046L20.4185 43.7648Z"
+              fill={color}
             />
           </svg>
         )

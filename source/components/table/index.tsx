@@ -1,15 +1,20 @@
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties, UIEvent, useState } from 'react'
 
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import {
+  SortingState,
+  getCoreRowModel,
+  getExpandedRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table'
 
-import { ScrollView } from '..'
-import { useZoomComponent } from '../../hooks'
+import { useFutureEffect, useZoomComponent } from '../../hooks'
 
-import { TableBody } from './table-body'
-import { TableFooter } from './table-footer'
-import { TableHeader } from './table-header'
+import { TableBody, TableFooter, TableHeader } from './section-components'
 import { TableNS } from './types'
 import { useGenerateColumns } from './use-generate-columns'
+import { useTableI18n } from './use-i18n'
+import { useTableRows } from './use-table-rows'
 
 export const Table = <Dataset extends unknown[]>({
   resizeColumnOnReleaseMouseButton: resizeOnEnd,
@@ -17,6 +22,12 @@ export const Table = <Dataset extends unknown[]>({
   stickyHeader = true,
   stickyFooter = true,
   resizableColumns = true,
+  stickyActions = true,
+  actions = [],
+  toggleSelectOnRowClick = true,
+  expandableRows,
+  striped,
+  hoverable,
   renderFooter,
   selectable,
   className,
@@ -27,61 +38,108 @@ export const Table = <Dataset extends unknown[]>({
   maxWidth,
   minHeight,
   minWidth,
+  onSelectionChange,
+  enableSelectCheckboxOptions,
+  actionsColumnWidth,
   id,
+  renderRowExpanded,
+  isRowExpandable,
+  virtualized,
+  onSortChange,
+  sortable,
 }: TableNS.Props<Dataset>) => {
-  const [{ isScrolled, isScrollAtBottom }, setScrollInfo] = useState<TableNS.ScrollInfo>({
-    isScrolled: false,
-    isScrollAtBottom: false,
+  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({})
+  const [sorting, setSorting] = useState<SortingState>([])
+
+  const { createClassName, globalI18ns } = useZoomComponent('table')
+  const i18n = useTableI18n(globalI18ns)
+  const columns = useGenerateColumns({
+    children,
+    selectable,
+    i18n,
+    enableSelectCheckboxOptions,
+    expandableRows,
+    actions,
+    actionsColumnWidth,
   })
 
-  const { createClassName } = useZoomComponent('table')
-  const columns = useGenerateColumns({ children })
   const table = useReactTable({
     columns,
+    state: { rowSelection, sorting },
     data: dataset,
     getCoreRowModel: getCoreRowModel(),
     columnResizeMode: resizeOnEnd ? 'onEnd' : 'onChange',
+    enableRowSelection:
+      typeof selectable === 'function' ? ({ original }) => selectable(original) : selectable,
+    onRowSelectionChange: setRowSelection,
+    getExpandedRowModel: getExpandedRowModel(),
+    getRowCanExpand: ({ original }) => (isRowExpandable ? isRowExpandable(original) : true),
+    enableSorting: !!sortable,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
   })
+  const { tableContainerRef, tableRows, virtualizedRowObservers } = useTableRows(table, virtualized)
+
+  const handleOnScroll = (evt: UIEvent<HTMLDivElement>) => {
+    if (virtualized) {
+      table.toggleAllRowsExpanded(false)
+    }
+  }
 
   const classes = createClassName(className, '', {
     [createClassName('', 'sticky-header')]: stickyHeader,
     [createClassName('', 'sticky-footer')]: stickyFooter,
-    [createClassName('', 'scrolled')]: isScrolled,
-    [createClassName('', 'scrolled-to-bottom')]: isScrollAtBottom,
+    [createClassName('', 'sticky-actions')]: stickyActions && actions.length > 0,
+    [createClassName('', 'hoverable')]: !!hoverable,
+    [createClassName('', 'striped')]: !!striped,
+    [createClassName('', 'selectable')]: !!selectable,
+    [createClassName('', 'expandable-rows')]: !!expandableRows,
   })
 
   const tableStyles: CSSProperties = {
     width: table.getCenterTotalSize(),
   }
 
-  const handleOnScrollTable = (evt: Event) => {
-    const { scrollTop, scrollHeight, clientHeight } = evt.currentTarget as HTMLDivElement
-    setScrollInfo({
-      isScrolled: scrollTop > 0,
-      isScrollAtBottom: Math.abs(scrollHeight - scrollTop - clientHeight) < 1,
-    })
-  }
+  useFutureEffect(() => {
+    onSelectionChange?.(Object.keys(rowSelection).map(rowIndex => parseInt(rowIndex)))
+  }, [rowSelection])
+
+  useFutureEffect(() => {
+    onSortChange?.(sorting[0])
+  }, [sorting])
 
   return (
     <div {...containerProps} ref={reference} id={id} className={classes}>
-      <ScrollView
+      <div
         className="table-scroll-view"
-        maxHeight={maxHeight}
-        maxWidth={maxWidth}
-        minHeight={minHeight}
-        minWidth={minWidth}
-        onScroll={handleOnScrollTable}
+        ref={tableContainerRef}
+        style={{ maxHeight, maxWidth, minHeight, minWidth }}
+        onScroll={handleOnScroll}
       >
         <table cellSpacing={0} style={tableStyles}>
           <TableHeader
             table={table}
             resizableColumns={resizableColumns}
             resizeColumnOnReleaseMouseButton={!!resizeOnEnd}
+            expandableRows={expandableRows}
+            selectable={selectable}
           />
-          <TableBody table={table} />
-          {renderFooter && <TableFooter table={table} />}
+
+          <TableBody
+            expandableRows={expandableRows}
+            selectable={selectable}
+            renderRowExpanded={renderRowExpanded}
+            rows={tableRows}
+            virtualized={virtualized}
+            virtualizedRowObservers={virtualizedRowObservers}
+            toggleSelectOnRowClick={toggleSelectOnRowClick}
+          />
+
+          {renderFooter && (
+            <TableFooter table={table} expandableRows={expandableRows} selectable={selectable} />
+          )}
         </table>
-      </ScrollView>
+      </div>
     </div>
   )
 }

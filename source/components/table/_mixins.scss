@@ -1,9 +1,7 @@
 @mixin table {
   > .table-scroll-view {
-    > .os-viewport {
-      > table {
-        @content;
-      }
+    > table {
+      @content;
     }
   }
 }

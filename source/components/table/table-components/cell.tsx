@@ -5,7 +5,7 @@ import { BaseComponent } from '../../../types'
 export namespace CellNS {
   export interface Props<Dataset extends unknown[]>
     extends Omit<BaseComponent<HTMLTableCellElement>, 'children'> {
-    children?: ReactNode | ((data: Dataset[0]) => ReactNode)
+    children?: ReactNode | ((data: Dataset[0], index: number) => ReactNode)
   }
 }
 

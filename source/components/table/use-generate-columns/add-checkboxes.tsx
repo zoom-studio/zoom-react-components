@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MutableRefObject } from 'react'
 
 import { ColumnDef, ColumnHelper } from '@tanstack/react-table'
 
@@ -7,10 +7,13 @@ import { UseTableI18nNS } from '../use-i18n'
 import { TableNS } from '../types'
 
 export namespace AddCheckBoxesNS {
-  export interface Params extends Pick<TableNS.Props, 'enableSelectCheckboxOptions'> {
+  export interface Params extends Pick<TableNS.Props, 'dragToSelect'> {
     columnHelper: ColumnHelper<object>
     result: ColumnDef<unknown, any>[]
     i18n: Required<UseTableI18nNS.I18n>
+    isStartedToSelectViaDragRef: MutableRefObject<boolean>
+    isClickedCheckboxCheckedRef: MutableRefObject<boolean>
+    isLoading: boolean
   }
 }
 
@@ -18,28 +21,29 @@ export const addCheckBoxes = ({
   columnHelper,
   result,
   i18n,
-  enableSelectCheckboxOptions,
+  isStartedToSelectViaDragRef,
+  isClickedCheckboxCheckedRef,
+  dragToSelect,
+  isLoading,
 }: AddCheckBoxesNS.Params) => {
   result.unshift(
     columnHelper.display({
       id: 'zoomrc-table-selectable-column',
-      size: enableSelectCheckboxOptions ? 40 : 20,
+      size: 20,
       maxSize: 40,
       enableResizing: false,
-      header: ({ table }) => (
-        <HeaderCellCheckbox
-          table={table}
-          i18n={i18n}
-          enableSelectCheckboxOptions={enableSelectCheckboxOptions}
-        />
-      ),
+      enableHiding: false,
+      header: ({ table }) => (isLoading ? <></> : <HeaderCellCheckbox table={table} i18n={i18n} />),
       cell: ({ row }) => (
         <CellCheckbox
-          enableDragToSelect
+          row={row}
+          dragToSelect={!!dragToSelect}
           checked={row.getIsSelected()}
           disabled={!row.getCanSelect()}
           indeterminate={row.getIsSomeSelected()}
           onChange={row.getToggleSelectedHandler()}
+          isStartedToSelectViaDragRef={isStartedToSelectViaDragRef}
+          isClickedCheckboxCheckedRef={isClickedCheckboxCheckedRef}
         />
       ),
     }) as ColumnDef<unknown, any>,

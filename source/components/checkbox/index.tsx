@@ -1,4 +1,12 @@
-import React, { ChangeEvent, FormEvent, forwardRef, HTMLAttributes, useEffect, useRef } from 'react'
+import React, {
+  ChangeEvent,
+  FormEvent,
+  forwardRef,
+  HTMLAttributes,
+  MouseEvent,
+  useEffect,
+  useRef,
+} from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
@@ -81,6 +89,10 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxNS.Props>(
       onInput?.(evt)
     }
 
+    const handleOnLabelClick = (evt: MouseEvent<HTMLSpanElement>) => {
+      evt.stopPropagation()
+    }
+
     useEffect(() => {
       if (typeof indeterminate === 'boolean' && inputRef.current) {
         inputRef.current.indeterminate = !otherInputProps.checked && indeterminate
@@ -96,7 +108,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxNS.Props>(
         style={style}
         className={containerClasses}
       >
-        <label {...labelProps} className={labelClasses}>
+        <label {...labelProps} className={labelClasses} onClick={handleOnLabelClick}>
           <input
             {...inputProps}
             {...otherInputProps}

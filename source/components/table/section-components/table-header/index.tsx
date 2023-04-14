@@ -9,8 +9,10 @@ import { SVGIcon, SVGIconNS } from '../../../'
 export namespace TableHeaderNS {
   export interface Props
     extends Required<Pick<TableNS.Props, 'resizeColumnOnReleaseMouseButton' | 'resizableColumns'>>,
-      Pick<TableNS.Props, 'selectable' | 'expandableRows'> {
+      Pick<TableNS.Props, 'selectable' | 'renderRowExpanded'> {
     table: Table<unknown>
+    isLoading: boolean
+    hasData: boolean
   }
 }
 
@@ -18,11 +20,17 @@ export const TableHeader: FC<TableHeaderNS.Props> = ({
   resizeColumnOnReleaseMouseButton: resizeOnEnd,
   resizableColumns,
   table,
-  expandableRows,
   selectable,
+  renderRowExpanded,
+  isLoading,
+  hasData,
 }) => {
   const getStickyTableHeaderStyles = (tableHeaderIndex: number): CSSProperties => {
-    if (expandableRows) {
+    if (isLoading || !hasData) {
+      return {}
+    }
+
+    if (renderRowExpanded) {
       if (tableHeaderIndex === 0) {
         return {
           position: 'sticky',
@@ -33,10 +41,10 @@ export const TableHeader: FC<TableHeaderNS.Props> = ({
     }
 
     if (selectable) {
-      if (tableHeaderIndex === (expandableRows ? 1 : 0)) {
+      if (tableHeaderIndex === (renderRowExpanded ? 1 : 0)) {
         return {
           position: 'sticky',
-          left: expandableRows ? '31px' : 0,
+          left: renderRowExpanded ? '31px' : 0,
           zIndex: 1,
         }
       }
@@ -48,6 +56,7 @@ export const TableHeader: FC<TableHeaderNS.Props> = ({
   const getHeaderClasses = (header: Header<unknown, unknown>): string => {
     return classNames('', {
       clickable: header.column.getCanSort() && !header.isPlaceholder,
+      sorted: !!header.column.getIsSorted(),
     })
   }
 
@@ -121,7 +130,7 @@ export const TableHeader: FC<TableHeaderNS.Props> = ({
                 )}
               </div>
 
-              {resizableColumns && (
+              {resizableColumns && header.column.getCanResize() && (
                 <div
                   onMouseDown={header.getResizeHandler()}
                   onTouchStart={header.getResizeHandler()}

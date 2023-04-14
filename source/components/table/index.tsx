@@ -2,6 +2,7 @@ import React, { CSSProperties, UIEvent, useState } from 'react'
 
 import {
   SortingState,
+  VisibilityState,
   getCoreRowModel,
   getExpandedRowModel,
   getSortedRowModel,
@@ -10,14 +11,18 @@ import {
 
 import { useFutureEffect, useZoomComponent } from '../../hooks'
 
-import { TableBody, TableFooter, TableHeader } from './section-components'
+import { logs } from '../../constants'
+import { TableActionsBar, TableBody, TableFooter, TableHeader } from './section-components'
 import { TableNS } from './types'
 import { useGenerateColumns } from './use-generate-columns'
 import { useTableI18n } from './use-i18n'
+import { useTableInfiniteScroll } from './use-infinite-scroll'
 import { useTableRows } from './use-table-rows'
+import { getAllHiddenColumns } from './utils'
 
 export const Table = <Dataset extends unknown[]>({
   resizeColumnOnReleaseMouseButton: resizeOnEnd,
+  infiniteScroll: infiniteScrollSettings,
   maxHeight = '700px',
   stickyHeader = true,
   stickyFooter = true,
@@ -25,7 +30,16 @@ export const Table = <Dataset extends unknown[]>({
   stickyActions = true,
   actions = [],
   toggleSelectOnRowClick = true,
-  expandableRows,
+  dragToSelect = true,
+  renderHeader = true,
+  endMessage = 'default-end-message',
+  showColumnsButton = true,
+  showSearch = true,
+  renderActionsBar = true,
+  debounceSearchInput = true,
+  searchInputDebounceDelay = 700,
+  fullHeight,
+  title,
   striped,
   hoverable,
   renderFooter,
@@ -39,7 +53,6 @@ export const Table = <Dataset extends unknown[]>({
   minHeight,
   minWidth,
   onSelectionChange,
-  enableSelectCheckboxOptions,
   actionsColumnWidth,
   id,
   renderRowExpanded,
@@ -47,25 +60,43 @@ export const Table = <Dataset extends unknown[]>({
   virtualized,
   onSortChange,
   sortable,
+  useDefaultSortAlgorithm,
+  loading,
+  onSearch,
 }: TableNS.Props<Dataset>) => {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({})
   const [sorting, setSorting] = useState<SortingState>([])
 
-  const { createClassName, globalI18ns } = useZoomComponent('table')
+  const isLoading = !!loading && dataset.length < 1
+  const isLoadingMoreData = !!loading && dataset.length > 0
+  const isHeaderSticky = !isLoading && stickyHeader
+  const isFooterSticky = !isLoading && stickyFooter
+  const isHoverable = !!hoverable && !isLoading
+  const isActionsBarEnabled = renderActionsBar && (showColumnsButton || showSearch || title)
+  const hasData = !isLoading && dataset.length > 0
+
+  const { createClassName, globalI18ns, sendLog } = useZoomComponent('table')
   const i18n = useTableI18n(globalI18ns)
   const columns = useGenerateColumns({
     children,
     selectable,
     i18n,
-    enableSelectCheckboxOptions,
-    expandableRows,
     actions,
     actionsColumnWidth,
+    dragToSelect,
+    isLoading,
+    renderRowExpanded,
+  })
+
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(() => {
+    const IDs: VisibilityState = {}
+    getAllHiddenColumns(IDs, columns)
+    return IDs
   })
 
   const table = useReactTable({
     columns,
-    state: { rowSelection, sorting },
+    state: { rowSelection, sorting, columnVisibility },
     data: dataset,
     getCoreRowModel: getCoreRowModel(),
     columnResizeMode: resizeOnEnd ? 'onEnd' : 'onChange',
@@ -76,28 +107,53 @@ export const Table = <Dataset extends unknown[]>({
     getRowCanExpand: ({ original }) => (isRowExpandable ? isRowExpandable(original) : true),
     enableSorting: !!sortable,
     onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
+    getSortedRowModel: useDefaultSortAlgorithm ? getSortedRowModel() : undefined,
+    onColumnVisibilityChange: setColumnVisibility,
   })
+
   const { tableContainerRef, tableRows, virtualizedRowObservers } = useTableRows(table, virtualized)
 
-  const handleOnScroll = (evt: UIEvent<HTMLDivElement>) => {
+  const infiniteScroll = infiniteScrollSettings
+    ? useTableInfiniteScroll({
+        isLoading: !!loading,
+        virtualizedSettings: virtualized,
+        scrollableContainerRef: tableContainerRef,
+        infiniteScrollSettings,
+        dataset,
+        sendLog,
+      })
+    : null
+
+  const classes = createClassName(className, '', {
+    [createClassName('', 'sticky-header')]: isHeaderSticky,
+    [createClassName('', 'sticky-footer')]: isFooterSticky,
+    [createClassName('', 'sticky-actions')]: stickyActions && actions.length > 0,
+    [createClassName('', 'hoverable')]: isHoverable,
+    [createClassName('', 'striped')]: !!striped,
+    [createClassName('', 'selectable')]: !!selectable,
+    [createClassName('', 'expandable-rows')]: !!renderRowExpanded,
+    [createClassName('', 'loading')]: isLoading,
+    [createClassName('', 'loading-more-data')]: isLoadingMoreData,
+    [createClassName('', 'full-height')]: !!fullHeight,
+  })
+
+  const tableStyles: CSSProperties = {
+    width: table.getCenterTotalSize(),
+  }
+
+  const handleOnScroll = (evt: UIEvent<HTMLDivElement> | Event) => {
     if (virtualized) {
       table.toggleAllRowsExpanded(false)
     }
   }
 
-  const classes = createClassName(className, '', {
-    [createClassName('', 'sticky-header')]: stickyHeader,
-    [createClassName('', 'sticky-footer')]: stickyFooter,
-    [createClassName('', 'sticky-actions')]: stickyActions && actions.length > 0,
-    [createClassName('', 'hoverable')]: !!hoverable,
-    [createClassName('', 'striped')]: !!striped,
-    [createClassName('', 'selectable')]: !!selectable,
-    [createClassName('', 'expandable-rows')]: !!expandableRows,
-  })
+  const handleScrollToTop = () => {
+    const { current: tableContainer } = tableContainerRef
+    if (!tableContainer) {
+      return sendLog(logs.tableContainerRefNotFound, 'handleScrollToTop fn')
+    }
 
-  const tableStyles: CSSProperties = {
-    width: table.getCenterTotalSize(),
+    tableContainer.scrollTop = 0
   }
 
   useFutureEffect(() => {
@@ -110,6 +166,21 @@ export const Table = <Dataset extends unknown[]>({
 
   return (
     <div {...containerProps} ref={reference} id={id} className={classes}>
+      {isLoading && <div className="loading-placeholder" />}
+
+      {isActionsBarEnabled && (
+        <TableActionsBar
+          showColumnsButton={showColumnsButton}
+          showSearch={showSearch}
+          title={title}
+          i18n={i18n}
+          debounceSearchInput={debounceSearchInput}
+          searchInputDebounceDelay={searchInputDebounceDelay}
+          table={table}
+          onSearch={onSearch}
+        />
+      )}
+
       <div
         className="table-scroll-view"
         ref={tableContainerRef}
@@ -117,26 +188,45 @@ export const Table = <Dataset extends unknown[]>({
         onScroll={handleOnScroll}
       >
         <table cellSpacing={0} style={tableStyles}>
-          <TableHeader
-            table={table}
-            resizableColumns={resizableColumns}
-            resizeColumnOnReleaseMouseButton={!!resizeOnEnd}
-            expandableRows={expandableRows}
-            selectable={selectable}
-          />
+          {renderHeader && (
+            <TableHeader
+              table={table}
+              resizableColumns={resizableColumns}
+              resizeColumnOnReleaseMouseButton={!!resizeOnEnd}
+              renderRowExpanded={renderRowExpanded}
+              selectable={selectable}
+              isLoading={isLoading}
+              hasData={hasData}
+            />
+          )}
 
           <TableBody
-            expandableRows={expandableRows}
             selectable={selectable}
             renderRowExpanded={renderRowExpanded}
             rows={tableRows}
-            virtualized={virtualized}
+            hasData={hasData}
             virtualizedRowObservers={virtualizedRowObservers}
             toggleSelectOnRowClick={toggleSelectOnRowClick}
+            isLoading={isLoading}
+            table={table}
+            lastRowRef={infiniteScroll?.lastRowRef}
+            infiniteScroll={infiniteScrollSettings}
+            isMoreDataRemaining={!!infiniteScroll?.isMoreDataRemaining}
+            endMessage={endMessage}
+            i18n={i18n}
+            onBackToTop={handleScrollToTop}
           />
 
           {renderFooter && (
-            <TableFooter table={table} expandableRows={expandableRows} selectable={selectable} />
+            <TableFooter
+              i18n={i18n}
+              table={table}
+              isLoading={isLoading}
+              isLoadingMoreData={isLoadingMoreData}
+              hasData={hasData}
+              renderRowExpanded={renderRowExpanded}
+              selectable={selectable}
+            />
           )}
         </table>
       </div>

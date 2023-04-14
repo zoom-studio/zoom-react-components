@@ -188,6 +188,17 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
       handleDirection(value)
     }
 
+    const isAutoFocusedRef = useRef(false)
+
+    const isAutoFocused = (): boolean => {
+      if (!otherInputProps.autoFocus && !isAutoFocusedRef.current) {
+        return false
+      }
+
+      isAutoFocusedRef.current = true
+      return true
+    }
+
     const handleOnToggleFocus = (evt: FocusEvent<HTMLInputElement>) => {
       const focus = 'focus'
       const { type } = evt
@@ -201,7 +212,9 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
           label.classList.remove(focus)
         }
       } else {
-        sendLog(logs.inputNotFoundLabelRef, 'handleOnToggleFocus fn')
+        if (!isAutoFocused()) {
+          sendLog(logs.inputNotFoundLabelRef, 'handleOnToggleFocus fn')
+        }
       }
 
       if (isFocused) {

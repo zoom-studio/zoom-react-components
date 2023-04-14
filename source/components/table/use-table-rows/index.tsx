@@ -22,7 +22,7 @@ export const useTableRows = (table: Table<unknown>, virtualized?: TableNS.Virtua
   const rowVirtualizer = virtualized
     ? useVirtualizer({
         count: rows.length,
-        estimateSize: virtualized.estimateRowSize,
+        estimateSize: () => virtualized.estimateRowSize,
         getScrollElement: () => tableContainerRef.current,
       })
     : null

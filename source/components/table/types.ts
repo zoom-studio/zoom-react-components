@@ -3,17 +3,28 @@ import { FC, MouseEvent, RefObject } from 'react'
 import { ButtonNS, ScrollViewNS } from '..'
 import { BaseComponent } from '../../types'
 
+import { ColumnDef } from '@tanstack/react-table'
 import { CellNS, ColumnGroupNS, ColumnNS, FooterCellNS, HeaderCellNS } from './table-components'
 import { UseTableI18nNS } from './use-i18n'
 
 export namespace TableNS {
   export type CellDataType = string | number | boolean
   export type I18n = UseTableI18nNS.I18n
+  export type EndMessage = 'default-end-message' | JSX.Element | (string & {})
+
+  export interface ColumnMeta {
+    togglerLabel?: string
+    hidden?: boolean
+  }
+
+  export type NestedColumnDef = ColumnDef<unknown, any> & {
+    columns?: NestedColumnDef[]
+  }
 
   export interface ChildrenCallbackParams<Dataset extends unknown[]> {
-    HeaderCell: FC<HeaderCellNS.Props>
+    Header: FC<HeaderCellNS.Props>
     Cell: FC<CellNS.Props<Dataset>>
-    FooterCell: FC<FooterCellNS.Props>
+    Footer: FC<FooterCellNS.Props>
     Column: FC<ColumnNS.Props<Dataset>>
     ColumnGroup: FC<ColumnGroupNS.Props>
   }
@@ -23,12 +34,19 @@ export namespace TableNS {
   }
 
   export interface VirtualizedSettings {
-    estimateRowSize: (index: number) => number
+    estimateRowSize: number
   }
 
   export interface SortedColumnInfo {
     id: string
     desc: boolean
+  }
+
+  export interface InfiniteScrollSettings {
+    threshold?: number
+    maxDatasetLength?: number
+    loadOnMount?: boolean
+    handleOnLoadMore: () => void | Promise<void>
   }
 
   export interface Props<Dataset extends unknown[] = unknown[]>
@@ -42,14 +60,13 @@ export namespace TableNS {
     stickyActions?: boolean
     selectable?: boolean | ((data: Dataset[0]) => boolean)
     renderFooter?: boolean
+    renderHeader?: boolean
     resizeColumnOnReleaseMouseButton?: boolean
     id: string
     resizableColumns?: boolean
     hoverable?: boolean
     onSelectionChange?: (selectedRows: number[]) => void
     striped?: boolean
-    enableSelectCheckboxOptions?: boolean
-    expandableRows?: boolean
     actions?: Action<Dataset>[]
     actionsColumnWidth?: number
     renderRowExpanded?: (data: Dataset[0]) => JSX.Element
@@ -58,5 +75,18 @@ export namespace TableNS {
     sortable?: boolean
     onSortChange?: (sortedColumn?: SortedColumnInfo) => void
     toggleSelectOnRowClick?: boolean
+    loading?: boolean
+    useDefaultSortAlgorithm?: boolean
+    dragToSelect?: boolean
+    infiniteScroll?: InfiniteScrollSettings
+    endMessage?: EndMessage
+    showSearch?: boolean
+    showColumnsButton?: boolean
+    title?: string
+    renderActionsBar?: boolean
+    fullHeight?: boolean
+    debounceSearchInput?: boolean
+    searchInputDebounceDelay?: number
+    onSearch?: (query: string) => void
   }
 }

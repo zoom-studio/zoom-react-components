@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
+import React, { FC, MouseEvent } from 'react'
 
 import { Button } from '../..'
 
 export namespace ExpandButtonNS {
   export interface Props {
     isExpanded: boolean
-    onClick: () => void
+    onClick: (evt: MouseEvent<HTMLButtonElement>) => void
     disabled: boolean
   }
 }

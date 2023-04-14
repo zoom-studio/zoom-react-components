@@ -59,7 +59,7 @@ export const createColumn = <Dataset extends unknown[]>({
 
             case HeaderCell: {
               const { children } = columnGroupChild.props as HeaderCellNS.Props
-              columnGroupOptions.header = date => {
+              columnGroupOptions.header = data => {
                 return children
               }
               break
@@ -82,11 +82,11 @@ export const createColumn = <Dataset extends unknown[]>({
 
   if (columnNode?.type === Column) {
     const columnProps = columnNode.props as ColumnNS.Props<Dataset>
-    const columnChildren = ArrayUtils.toArray(columnProps.children)
+    const columnChildren = columnProps?.children ? ArrayUtils.toArray(columnProps.children) : []
 
     if (columnChildren) {
       const columnOptions: IdentifiedColumnDef<object, unknown> = {
-        id: columnProps.id ?? StringUtils.random(20),
+        id: columnProps.id?.toString() ?? StringUtils.random(20),
       }
 
       for (const columnChild of columnChildren) {
@@ -121,7 +121,14 @@ export const createColumn = <Dataset extends unknown[]>({
           case HeaderCell: {
             const { children } = columnChild.props as HeaderCellNS.Props
             columnOptions.header = data => {
-              return <>{children}</>
+              return (
+                <>
+                  <div className="header-name">{children}</div>
+                  {columnProps.summary && (
+                    <div className="column-summary">{columnProps.summary}</div>
+                  )}
+                </>
+              )
             }
             break
           }
@@ -133,6 +140,12 @@ export const createColumn = <Dataset extends unknown[]>({
           ...columnOptions,
           size: columnProps.width,
           enableSorting: columnProps.sortable ?? true,
+          enableHiding: columnProps.hidable ?? true,
+          enableResizing: columnProps.resizable ?? true,
+          meta: {
+            togglerLabel: columnProps.togglerLabel,
+            hidden: columnProps.hidden,
+          },
         }) as ColumnDef<unknown, any>,
       )
     }

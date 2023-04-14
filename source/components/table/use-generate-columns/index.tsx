@@ -1,4 +1,4 @@
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useRef } from 'react'
 
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 
@@ -17,14 +17,11 @@ export namespace UseGenerateColumnsNS {
   export interface Params<Dataset extends unknown[]>
     extends Pick<
       TableNS.Props<Dataset>,
-      | 'children'
-      | 'selectable'
-      | 'enableSelectCheckboxOptions'
-      | 'expandableRows'
-      | 'actionsColumnWidth'
+      'children' | 'selectable' | 'renderRowExpanded' | 'actionsColumnWidth' | 'dragToSelect'
     > {
     i18n: Required<UseTableI18nNS.I18n>
     actions: TableNS.Action<Dataset>[]
+    isLoading: boolean
   }
 }
 
@@ -34,15 +31,25 @@ export const useGenerateColumns = <Dataset extends unknown[]>({
   children,
   selectable,
   i18n,
-  enableSelectCheckboxOptions,
-  expandableRows,
+  renderRowExpanded,
   actions,
   actionsColumnWidth,
+  dragToSelect,
+  isLoading,
 }: UseGenerateColumnsNS.Params<Dataset>): ColumnDef<unknown, any>[] => {
+  const isStartedToSelectViaDragRef = useRef(false)
+  const isClickedCheckboxCheckedRef = useRef(false)
+
   const columns = useMemo<ColumnDef<unknown, any>[]>(() => {
     const result: ColumnDef<unknown, any>[] = []
 
-    const childNode = children({ Cell, Column, FooterCell, HeaderCell, ColumnGroup })
+    const childNode = children({
+      Footer: FooterCell,
+      Header: HeaderCell,
+      Cell,
+      Column,
+      ColumnGroup,
+    })
     if (childNode.type !== Fragment) {
       throw Error('Child node of Table component should be a React.Fragment element')
     }
@@ -67,11 +74,14 @@ export const useGenerateColumns = <Dataset extends unknown[]>({
         columnHelper,
         result,
         i18n,
-        enableSelectCheckboxOptions,
+        isStartedToSelectViaDragRef,
+        isClickedCheckboxCheckedRef,
+        dragToSelect,
+        isLoading,
       })
     }
 
-    if (expandableRows) {
+    if (renderRowExpanded) {
       addExpanders({
         columnHelper,
         result,

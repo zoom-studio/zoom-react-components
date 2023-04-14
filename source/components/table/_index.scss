@@ -1,16 +1,31 @@
 @import 'mixins';
 
+@keyframes zoomrc-table-show-loading-more-data-animation {
+  from {
+    top: 4px;
+    opacity: 0;
+  }
+
+  to {
+    top: -40px;
+    opacity: 0.95;
+  }
+}
+
 .zoomrc-table {
   color: color(text, 2);
   display: block;
   width: 100%;
+  border: 1px solid color(border, 2);
+  border-radius: 4px;
+  overflow: hidden;
 
-  > .table-scroll-view {
-    @include scrollbar;
+  &-full-height {
+    overflow: visible;
 
-    width: 100%;
-    display: block;
-    overflow: auto;
+    > .table-scroll-view {
+      overflow: visible !important;
+    }
   }
 
   &-sticky-header {
@@ -25,7 +40,7 @@
   &-sticky-footer {
     @include table {
       > tfoot {
-        position: sticky;
+        position: sticky !important;
         bottom: 0;
       }
     }
@@ -68,10 +83,82 @@
   &-hoverable {
     @include table {
       > tbody {
-        > tr {
+        > tr:not(.end-message-row, .no-data-row) {
           &:hover {
             background-color: color(border, 2);
           }
+
+          &.selected {
+            &:hover {
+              background-color: color(accent, 1, glassy, 2);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &-loading {
+    position: relative;
+
+    &,
+    & * {
+      user-select: none;
+    }
+
+    > .loading-placeholder {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 4;
+      cursor: progress;
+    }
+  }
+
+  > .table-scroll-view {
+    @include scrollbar;
+
+    width: 100%;
+    display: block;
+    overflow: auto;
+    scroll-behavior: smooth;
+  }
+
+  > .table-actions-bar {
+    display: flex;
+    background-color: color(layer, 1);
+    padding: 6px;
+    border-bottom: none;
+    align-items: center;
+
+    > .title-container {
+      flex: 1;
+
+      > .zoomrc-typography {
+        margin: 0;
+      }
+    }
+
+    > .actions-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .action-button {
+        min-width: 32px;
+        min-height: 32px;
+        width: 32px;
+        height: 32px;
+
+        > .zoomrc-button-inner-child {
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          font-size: to-rem(26px);
         }
       }
     }
@@ -80,6 +167,10 @@
   @include table {
     background-color: color(layer, 1);
     min-width: 100%;
+
+    > tfoot {
+      position: relative;
+    }
 
     > thead,
     > tfoot {
@@ -98,9 +189,43 @@
 
       &.selected {
         background-color: color(accent, 1, glassy, 1);
+      }
 
-        &:hover {
-          background-color: color(accent, 1, glassy, 2);
+      &.end-message-row {
+        position: relative;
+        z-index: 1;
+      }
+
+      &.loading-more-data-row {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -40px;
+        background-color: color(layer, 2);
+        opacity: 0.95;
+        animation: zoomrc-table-show-loading-more-data-animation 150ms linear;
+
+        > th {
+          width: 100%;
+          padding: 0;
+          display: block;
+          border: 0;
+          border-top: 1px solid color(accent);
+
+          > .spinner-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 40px;
+
+            > .zoomrc-spin {
+              > .zoomrc-typography {
+                margin: 0;
+                color: color(text, 1);
+              }
+            }
+          }
         }
       }
     }
@@ -110,8 +235,11 @@
 
       > .expanded-row-section {
         display: block;
-        padding: 10px;
         background-color: color(border, 2);
+
+        &.expanded {
+          padding: 10px;
+        }
       }
     }
 
@@ -132,6 +260,20 @@
         align-items: center;
         column-gap: 10px;
         padding: 4px 0;
+
+        > .header-title {
+          display: flex;
+          flex-direction: column;
+
+          > .header-name {
+            text-align: start;
+          }
+
+          > .column-summary {
+            color: color(accent);
+            text-align: end;
+          }
+        }
 
         > .sort-icon {
           width: 20px;
@@ -185,6 +327,18 @@
       padding: 0 4px;
       background-color: inherit;
 
+      &.sorted {
+        background-color: color(border, 2, glassy, 5);
+      }
+
+      > .no-data-row-content {
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
       > .table-cell-checkbox {
         display: inline-flex;
         align-items: center;
@@ -212,6 +366,49 @@
         display: inline-flex;
         align-items: center;
         transform: translateY(2px);
+      }
+
+      > .loading-skeleton-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 0;
+        min-width: 20px;
+      }
+
+      > .end-message-container {
+        display: flex;
+        width: 100%;
+        height: auto;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+    }
+  }
+}
+
+.column-toggles-popover {
+  > .zoomrc-popover-container {
+    > .container-children {
+      background-color: color(layer, 2) !important;
+
+      > svg {
+        fill: color(layer, 2) !important;
+      }
+
+      > .zoomrc-popover-content {
+        > .zoomrc-table-columns-toggles {
+          .zoomrc-list-view-item {
+            border: none !important;
+
+            .zoomrc-list-view-item-content {
+              padding: 4px 0 !important;
+            }
+          }
+        }
       }
     }
   }

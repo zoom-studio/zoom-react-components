@@ -62,7 +62,7 @@ export namespace ListViewNS {
 
   export type DataSwitch = Pick<
     SwitchNS.Props,
-    'disabled' | 'loading' | 'label' | 'state' | 'onWrite'
+    'disabled' | 'loading' | 'label' | 'state' | 'onWrite' | 'checked' | 'onChange'
   >
 
   export interface ListData<ContentType = unknown> {

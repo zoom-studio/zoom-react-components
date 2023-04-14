@@ -24,6 +24,7 @@ export const addActions = ({
       size: actionsColumnWidth,
       id: 'zoomrc-table-action-column',
       cell: ({ row: { original } }) => <CellActions data={original} actions={actions} />,
+      enableHiding: false,
     }) as ColumnDef<unknown, any>,
   )
 }

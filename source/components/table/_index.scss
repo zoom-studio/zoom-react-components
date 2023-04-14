@@ -413,3 +413,23 @@
     }
   }
 }
+
+@include rtl {
+  .zoomrc-table {
+    &-sticky-actions {
+      @include table {
+        > thead,
+        > tbody,
+        > tfoot {
+          > tr {
+            > th:last-child,
+            > td:last-child {
+              right: unset;
+              left: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

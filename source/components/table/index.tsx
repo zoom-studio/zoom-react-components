@@ -63,6 +63,7 @@ export const Table = <Dataset extends unknown[]>({
   useDefaultSortAlgorithm,
   loading,
   onSearch,
+  ...rest
 }: TableNS.Props<Dataset>) => {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({})
   const [sorting, setSorting] = useState<SortingState>([])
@@ -165,7 +166,7 @@ export const Table = <Dataset extends unknown[]>({
   }, [sorting])
 
   return (
-    <div {...containerProps} ref={reference} id={id} className={classes}>
+    <div {...containerProps} {...rest} ref={reference} id={id} className={classes}>
       {isLoading && <div className="loading-placeholder" />}
 
       {isActionsBarEnabled && (
@@ -215,6 +216,8 @@ export const Table = <Dataset extends unknown[]>({
             endMessage={endMessage}
             i18n={i18n}
             onBackToTop={handleScrollToTop}
+            tableContainerRef={tableContainerRef}
+            virtualizedSettings={virtualized}
           />
 
           {renderFooter && (

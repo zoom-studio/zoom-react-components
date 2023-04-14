@@ -3,14 +3,8 @@ import React, { FC } from 'react'
 import { ComponentMeta } from '@storybook/react'
 
 import { Progress, Table, TableNS } from '../components'
-import { makeTableData } from '../fixtures'
+import { Person, makeTableData } from '../fixtures'
 import { useCustomFetch } from './hooks/use-custom-fetch'
-
-export default {
-  title: 'Data display/Table',
-  component: Table,
-  args: {},
-} as ComponentMeta<typeof Table>
 
 const useTableStory = (maxData = 400, itemsPerQuery = 20) => {
   const staticData = makeTableData(maxData)
@@ -366,15 +360,24 @@ export const FullHeight = () => {
       title="Table with action bar"
       maxHeight="unset"
       fullHeight
+      renderFooter
       stickyFooter
       stickyHeader
     >
-      {({ Column }) => (
+      {({ Column, Footer }) => (
         <>
-          <Column accessor="name.first" togglerLabel="First name" />
-          <Column accessor="name.last" togglerLabel="Last name" />
-          <Column accessor="age" togglerLabel="Age" />
-          <Column accessor="progress" togglerLabel="Progress" />
+          <Column accessor="name.first" togglerLabel="First name">
+            <Footer>First name</Footer>
+          </Column>
+          <Column accessor="name.last" togglerLabel="Last name">
+            <Footer>Last name</Footer>
+          </Column>
+          <Column accessor="age" togglerLabel="Age">
+            <Footer>Age</Footer>
+          </Column>
+          <Column accessor="progress" togglerLabel="Progress">
+            <Footer>Progress</Footer>
+          </Column>
         </>
       )}
     </Table>
@@ -384,7 +387,13 @@ export const FullHeight = () => {
 export const GroupedColumns = () => {
   const { staticData } = useTableStory(60)
   return (
-    <Table dataset={staticData} id="basic-table" endMessage="" resizableColumns={false}>
+    <Table
+      dataset={staticData}
+      id="basic-table"
+      endMessage=""
+      resizableColumns={false}
+      renderActionsBar={false}
+    >
       {({ Column, Cell, ColumnGroup, Footer, Header }) => (
         <>
           <Column accessor="id" width={10} id="id" resizable={false} togglerLabel="User IDs" hidden>
@@ -442,7 +451,13 @@ export const GroupedColumns = () => {
 export const ColumnSummary = () => {
   const { staticData } = useTableStory(60)
   return (
-    <Table dataset={staticData} id="basic-table" endMessage="" resizableColumns={false}>
+    <Table
+      dataset={staticData}
+      id="basic-table"
+      endMessage=""
+      resizableColumns={false}
+      renderActionsBar={false}
+    >
       {({ Column, Cell, ColumnGroup, Footer, Header }) => (
         <>
           <Column accessor="id" width={10} id="id" resizable={false} togglerLabel="User IDs" hidden>
@@ -736,7 +751,427 @@ export const Selectable = () => {
   )
 }
 
-export const Playground: FC<TableNS.Props> = props => {
+export const ConditionallySelectable = () => {
+  const { staticData } = useTableStory(60)
+  return (
+    <Table dataset={staticData} id="basic-table" selectable={row => row.age > 5}>
+      {({ Column, Cell, ColumnGroup, Footer, Header }) => (
+        <>
+          <Column accessor="id" width={10} id="id" resizable={false} togglerLabel="User IDs" hidden>
+            <Cell>{(_data, index) => (index + 1).toString().padStart(3, '0')}</Cell>
+          </Column>
+
+          <ColumnGroup>
+            <Header>Hello</Header>
+            <Column accessor="name.first" id="name.first" togglerLabel="First names">
+              <Footer>firstName</Footer>
+            </Column>
+            <Column accessor="name.last" id="name.last" togglerLabel="Last names">
+              <Header>Last name</Header>
+              <Footer>lastName</Footer>
+            </Column>
+          </ColumnGroup>
+
+          <ColumnGroup>
+            <Header>Info</Header>
+            <Footer>info</Footer>
+
+            <Column accessor="age" id="age" togglerLabel="Ages">
+              <Header>Age</Header>
+              <Footer>age</Footer>
+            </Column>
+
+            <ColumnGroup>
+              <Header>More info</Header>
+              <Column accessor="visits" id="visits" togglerLabel="Visits">
+                <Header>Visits</Header>
+                <Footer>visits</Footer>
+              </Column>
+              <Column accessor="status" id="status" togglerLabel="Statuses">
+                <Header>Status</Header>
+                <Footer>status</Footer>
+              </Column>
+              <Column
+                accessor="progress"
+                id="progress"
+                width={50}
+                sortable={false}
+                togglerLabel="Progresses"
+              >
+                <Header>Progress</Header>
+                <Footer>progress</Footer>
+              </Column>
+            </ColumnGroup>
+          </ColumnGroup>
+        </>
+      )}
+    </Table>
+  )
+}
+
+export const Expandable = () => {
+  const { staticData } = useTableStory(60)
+  return (
+    <Table
+      dataset={staticData}
+      id="basic-table"
+      renderRowExpanded={data => <pre style={{ margin: 0 }}>{JSON.stringify(data, null, 4)}</pre>}
+    >
+      {({ Column, Cell, ColumnGroup, Footer, Header }) => (
+        <>
+          <Column accessor="id" width={10} id="id" resizable={false} togglerLabel="User IDs" hidden>
+            <Cell>{(_data, index) => (index + 1).toString().padStart(3, '0')}</Cell>
+          </Column>
+
+          <ColumnGroup>
+            <Header>Hello</Header>
+            <Column accessor="name.first" id="name.first" togglerLabel="First names">
+              <Footer>firstName</Footer>
+            </Column>
+            <Column accessor="name.last" id="name.last" togglerLabel="Last names">
+              <Header>Last name</Header>
+              <Footer>lastName</Footer>
+            </Column>
+          </ColumnGroup>
+
+          <ColumnGroup>
+            <Header>Info</Header>
+            <Footer>info</Footer>
+
+            <Column accessor="age" id="age" togglerLabel="Ages">
+              <Header>Age</Header>
+              <Footer>age</Footer>
+            </Column>
+
+            <ColumnGroup>
+              <Header>More info</Header>
+              <Column accessor="visits" id="visits" togglerLabel="Visits">
+                <Header>Visits</Header>
+                <Footer>visits</Footer>
+              </Column>
+              <Column accessor="status" id="status" togglerLabel="Statuses">
+                <Header>Status</Header>
+                <Footer>status</Footer>
+              </Column>
+              <Column
+                accessor="progress"
+                id="progress"
+                width={50}
+                sortable={false}
+                togglerLabel="Progresses"
+              >
+                <Header>Progress</Header>
+                <Footer>progress</Footer>
+              </Column>
+            </ColumnGroup>
+          </ColumnGroup>
+        </>
+      )}
+    </Table>
+  )
+}
+
+export const ConditionallyExpandable = () => {
+  const { staticData } = useTableStory(60)
+  return (
+    <Table
+      dataset={staticData}
+      id="basic-table"
+      selectable
+      isRowExpandable={row => row.age > 5}
+      renderRowExpanded={data => <pre style={{ margin: 0 }}>{JSON.stringify(data, null, 4)}</pre>}
+    >
+      {({ Column, Cell, ColumnGroup, Footer, Header }) => (
+        <>
+          <Column accessor="id" width={10} id="id" resizable={false} togglerLabel="User IDs" hidden>
+            <Cell>{(_data, index) => (index + 1).toString().padStart(3, '0')}</Cell>
+          </Column>
+
+          <ColumnGroup>
+            <Header>Hello</Header>
+            <Column accessor="name.first" id="name.first" togglerLabel="First names">
+              <Footer>firstName</Footer>
+            </Column>
+            <Column accessor="name.last" id="name.last" togglerLabel="Last names">
+              <Header>Last name</Header>
+              <Footer>lastName</Footer>
+            </Column>
+          </ColumnGroup>
+
+          <ColumnGroup>
+            <Header>Info</Header>
+            <Footer>info</Footer>
+
+            <Column accessor="age" id="age" togglerLabel="Ages">
+              <Header>Age</Header>
+              <Footer>age</Footer>
+            </Column>
+
+            <ColumnGroup>
+              <Header>More info</Header>
+              <Column accessor="visits" id="visits" togglerLabel="Visits">
+                <Header>Visits</Header>
+                <Footer>visits</Footer>
+              </Column>
+              <Column accessor="status" id="status" togglerLabel="Statuses">
+                <Header>Status</Header>
+                <Footer>status</Footer>
+              </Column>
+              <Column
+                accessor="progress"
+                id="progress"
+                width={50}
+                sortable={false}
+                togglerLabel="Progresses"
+              >
+                <Header>Progress</Header>
+                <Footer>progress</Footer>
+              </Column>
+            </ColumnGroup>
+          </ColumnGroup>
+        </>
+      )}
+    </Table>
+  )
+}
+
+export const Virtualized = () => {
+  const { staticData } = useTableStory(1000)
+  return (
+    <Table
+      dataset={staticData}
+      id="basic-table"
+      resizableColumns={false}
+      renderActionsBar={false}
+      renderHeader={false}
+      virtualized={{ estimateRowSize: 27 }}
+    >
+      {({ Column }) => (
+        <>
+          <Column accessor="name.first" />
+          <Column accessor="name.last" />
+          <Column accessor="age" />
+          <Column accessor="progress" />
+        </>
+      )}
+    </Table>
+  )
+}
+
+export const InfiniteScroll = () => {
+  const { data, isLoading, sendQuery } = useTableStory(1000)
+  return (
+    <Table
+      dataset={data}
+      id="basic-table"
+      resizableColumns={false}
+      renderActionsBar={false}
+      renderFooter
+      renderHeader={false}
+      loading={isLoading}
+      infiniteScroll={{ handleOnLoadMore: sendQuery, maxDatasetLength: 1000 }}
+    >
+      {({ Column }) => (
+        <>
+          <Column accessor="name.first" />
+          <Column accessor="name.last" />
+          <Column accessor="age" />
+          <Column accessor="progress" />
+        </>
+      )}
+    </Table>
+  )
+}
+
+export const VirtualizedInfiniteScroll = () => {
+  const { data, isLoading, sendQuery } = useTableStory(1000)
+  return (
+    <Table
+      dataset={data}
+      id="basic-table"
+      resizableColumns={false}
+      renderActionsBar={false}
+      renderHeader={false}
+      loading={isLoading}
+      infiniteScroll={{ handleOnLoadMore: sendQuery, maxDatasetLength: 1000 }}
+      renderFooter
+      virtualized={{ estimateRowSize: 27 }}
+    >
+      {({ Column }) => (
+        <>
+          <Column accessor="name.first" />
+          <Column accessor="name.last" />
+          <Column accessor="age" />
+          <Column accessor="progress" />
+        </>
+      )}
+    </Table>
+  )
+}
+
+export const EmptyState = () => {
+  return (
+    <Table<Person[]>
+      dataset={[]}
+      id="basic-table"
+      endMessage=""
+      resizableColumns={false}
+      renderActionsBar={false}
+      renderFooter
+    >
+      {({ Column, Header, Footer }) => (
+        <>
+          <Column accessor="name.first">
+            <Header>First name</Header>
+            <Footer>First name</Footer>
+          </Column>
+          <Column accessor="name.last">
+            <Header>Last name</Header>
+            <Footer>Last name</Footer>
+          </Column>
+          <Column accessor="age">
+            <Header>Age</Header>
+            <Footer>Age</Footer>
+          </Column>
+          <Column accessor="progress">
+            <Header>Progress</Header>
+            <Footer>Progress</Footer>
+          </Column>
+        </>
+      )}
+    </Table>
+  )
+}
+
+export const LoadingWithoutData = () => {
+  return (
+    <Table<Person[]>
+      dataset={[]}
+      id="basic-table"
+      endMessage=""
+      resizableColumns={false}
+      renderActionsBar={false}
+      renderFooter
+      loading
+    >
+      {({ Column, Header, Footer }) => (
+        <>
+          <Column accessor="name.first">
+            <Header>First name</Header>
+            <Footer>First name</Footer>
+          </Column>
+          <Column accessor="name.last">
+            <Header>Last name</Header>
+            <Footer>Last name</Footer>
+          </Column>
+          <Column accessor="age">
+            <Header>Age</Header>
+            <Footer>Age</Footer>
+          </Column>
+          <Column accessor="progress">
+            <Header>Progress</Header>
+            <Footer>Progress</Footer>
+          </Column>
+        </>
+      )}
+    </Table>
+  )
+}
+
+export const LoadingWithData = () => {
+  const { staticData } = useTableStory(10)
+
+  return (
+    <Table
+      dataset={staticData}
+      id="basic-table"
+      endMessage=""
+      resizableColumns={false}
+      renderActionsBar={false}
+      renderFooter
+      loading
+    >
+      {({ Column, Header, Footer }) => (
+        <>
+          <Column accessor="name.first">
+            <Header>First name</Header>
+            <Footer>First name</Footer>
+          </Column>
+          <Column accessor="name.last">
+            <Header>Last name</Header>
+            <Footer>Last name</Footer>
+          </Column>
+          <Column accessor="age">
+            <Header>Age</Header>
+            <Footer>Age</Footer>
+          </Column>
+          <Column accessor="progress">
+            <Header>Progress</Header>
+            <Footer>Progress</Footer>
+          </Column>
+        </>
+      )}
+    </Table>
+  )
+}
+
+export default {
+  title: 'Data display/Table',
+  component: Table,
+  args: {
+    id: 'playground-table',
+    title: 'Playground table shows person records',
+    renderFooter: true,
+    selectable: true,
+    hoverable: false,
+    striped: true,
+    stickyActions: true,
+    sortable: true,
+    useDefaultSortAlgorithm: true,
+    dragToSelect: true,
+    debounceSearchInput: true,
+    fullHeight: false,
+    renderHeader: true,
+    renderActionsBar: true,
+    resizableColumns: true,
+    showColumnsButton: true,
+    showSearch: true,
+    stickyFooter: true,
+    stickyHeader: true,
+    loading: false,
+    toggleSelectOnRowClick: true,
+    resizeColumnOnReleaseMouseButton: false,
+    isRowExpandable: data => (data as Person).age > 5,
+    actionsColumnWidth: 100,
+    renderRowExpanded: data => <pre style={{ margin: 0 }}>{JSON.stringify(data, null, 4)}</pre>,
+    virtualized: { estimateRowSize: 30 },
+    className: 'playground-table',
+    dataset: [],
+    maxHeight: 700,
+    maxWidth: '100%',
+    minHeight: 'unset',
+    minWidth: '100%',
+    endMessage: 'You have seen all the rows',
+    infiniteScroll: undefined,
+    onSearch: undefined,
+    onSortChange: undefined,
+    onSelectionChange: undefined,
+    reference: undefined,
+    children: undefined,
+    searchInputDebounceDelay: 250,
+    onClick: undefined,
+    containerProps: undefined,
+    style: undefined,
+    actions: [
+      {
+        onClick: data => alert(JSON.stringify(data, undefined, 2)),
+        children: 'Get row data',
+      },
+    ],
+  },
+} as ComponentMeta<typeof Table>
+
+export const Playground: FC<TableNS.Props<Person[]>> = props => {
   const maxData = 400
 
   const { data, isLoading, sendQuery } = useCustomFetch({
@@ -747,32 +1182,11 @@ export const Playground: FC<TableNS.Props> = props => {
 
   return (
     <>
-      <Table
-        id="playground-table"
-        title="Playground table shows person records"
-        renderFooter
-        selectable={data => data.age > 5}
-        hoverable
-        striped={false}
+      <Table<Person[]>
+        {...props}
         dataset={data}
-        actionsColumnWidth={100}
-        stickyActions={false}
-        renderRowExpanded={data => <pre style={{ margin: 0 }}>{JSON.stringify(data, null, 4)}</pre>}
-        isRowExpandable={data => data.age > 5}
-        virtualized={{ estimateRowSize: 30 }}
-        infiniteScroll={{
-          handleOnLoadMore: sendQuery,
-          maxDatasetLength: maxData,
-        }}
-        sortable
+        infiniteScroll={{ handleOnLoadMore: sendQuery, maxDatasetLength: maxData }}
         loading={isLoading}
-        useDefaultSortAlgorithm
-        actions={[
-          {
-            onClick: data => alert(JSON.stringify(data, undefined, 2)),
-            children: 'Get row data',
-          },
-        ]}
       >
         {({ Cell, Column, Footer, Header, ColumnGroup }) => (
           <>

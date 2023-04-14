@@ -9,7 +9,10 @@ import { UseTableInfiniteScrollNS, useTableInfiniteScroll } from '../../use-infi
 
 export namespace TableBodyRowNS {
   export interface Props
-    extends Pick<TableNS.Props, 'renderRowExpanded' | 'infiniteScroll' | 'toggleSelectOnRowClick'>,
+    extends Pick<
+        TableNS.Props,
+        'renderRowExpanded' | 'infiniteScroll' | 'toggleSelectOnRowClick' | 'selectable'
+      >,
       Partial<Pick<ReturnType<typeof useTableInfiniteScroll>, 'lastRowRef'>> {
     row: Row<unknown>
     totalRows: number
@@ -27,13 +30,14 @@ export const TableBodyRow: FC<TableBodyRowNS.Props> = ({
   lastRowRef,
   getStickyTableDataStyles,
   toggleSelectOnRowClick,
+  selectable,
 }) => {
   const className = classNames('zoomrc-table-row', {
     selected: row.getIsSelected(),
   })
 
   const selectRow = () => {
-    if (toggleSelectOnRowClick) {
+    if (toggleSelectOnRowClick && selectable) {
       row.getToggleSelectedHandler()({})
     }
   }

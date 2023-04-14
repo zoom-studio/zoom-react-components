@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { CSSProperties, FC, RefObject } from 'react'
 
 import { Row, Table } from '@tanstack/react-table'
 
@@ -30,6 +30,8 @@ export namespace TableBodyNS {
     i18n: Required<TableNS.I18n>
     hasData: boolean
     onBackToTop: () => void
+    tableContainerRef: RefObject<HTMLDivElement>
+    virtualizedSettings?: TableNS.VirtualizedSettings
   }
 }
 
@@ -48,6 +50,8 @@ export const TableBody: FC<TableBodyNS.Props> = ({
   i18n,
   onBackToTop,
   hasData,
+  tableContainerRef,
+  virtualizedSettings,
 }) => {
   const getStickyTableDataStyles = (tableDataIndex: number): CSSProperties => {
     if (isLoading || !hasData) {
@@ -73,6 +77,22 @@ export const TableBody: FC<TableBodyNS.Props> = ({
     }
 
     return {}
+  }
+
+  const isScrollNearBottom = (): boolean => {
+    if (!virtualizedSettings) {
+      return true
+    }
+
+    const { current: tableContainer } = tableContainerRef
+    if (!tableContainer) {
+      return true
+    }
+
+    const { scrollHeight, scrollTop, clientHeight } = tableContainer
+    const isScrollNearBottom = scrollHeight - scrollTop - clientHeight < 120
+
+    return isScrollNearBottom
   }
 
   return (
@@ -113,10 +133,11 @@ export const TableBody: FC<TableBodyNS.Props> = ({
               lastRowRef={lastRowRef}
               getStickyTableDataStyles={getStickyTableDataStyles}
               toggleSelectOnRowClick={toggleSelectOnRowClick}
+              selectable={selectable}
             />
           ))}
 
-      {!isMoreDataRemaining && !!endMessage && (
+      {!isMoreDataRemaining && !!endMessage && isScrollNearBottom() && (
         <tr className="end-message-row">
           <td colSpan={table.getVisibleLeafColumns().length}>
             <div className="end-message-container">

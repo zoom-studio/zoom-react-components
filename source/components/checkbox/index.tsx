@@ -1,4 +1,12 @@
-import React, { ChangeEvent, FormEvent, forwardRef, HTMLAttributes } from 'react'
+import React, {
+  ChangeEvent,
+  FormEvent,
+  forwardRef,
+  HTMLAttributes,
+  MouseEvent,
+  useEffect,
+  useRef,
+} from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
@@ -15,6 +23,7 @@ export namespace CheckboxNS {
     label?: string
     labelProps?: HTMLAttributes<HTMLLabelElement>
     state?: DataEntriesState
+    indeterminate?: boolean
     onWrite?: (isChecked: boolean) => void
   }
 }
@@ -22,6 +31,7 @@ export namespace CheckboxNS {
 export const Checkbox = forwardRef<HTMLDivElement, CheckboxNS.Props>(
   (
     {
+      inputRef: providedInputRef,
       size: providedSize,
       state = ['neutral'],
       disabledOnLoading = true,
@@ -39,11 +49,13 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxNS.Props>(
       onClick,
       style,
       inputProps,
-      inputRef,
+      indeterminate,
       ...otherInputProps
     },
     reference,
   ) => {
+    const inputRef = providedInputRef ?? useRef<HTMLInputElement | null>(null)
+
     const { createClassName } = useZoomComponent('checkbox')
     const size = useComponentSize(providedSize)
 
@@ -52,6 +64,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxNS.Props>(
     const labelClasses = createClassName(labelProps?.className, 'label')
 
     const containerClasses = createClassName(className, '', {
+      [createClassName('', 'indeterminate')]: !!indeterminate,
       [createClassName('', size)]: true,
       [createClassName('', state[0])]: true,
       [createClassName('', loading ? 'loading' : '')]: !!loading,
@@ -76,6 +89,16 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxNS.Props>(
       onInput?.(evt)
     }
 
+    const handleOnLabelClick = (evt: MouseEvent<HTMLSpanElement>) => {
+      evt.stopPropagation()
+    }
+
+    useEffect(() => {
+      if (typeof indeterminate === 'boolean' && inputRef.current) {
+        inputRef.current.indeterminate = !otherInputProps.checked && indeterminate
+      }
+    }, [inputRef, indeterminate])
+
     return (
       <div
         {...containerProps}
@@ -85,7 +108,7 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxNS.Props>(
         style={style}
         className={containerClasses}
       >
-        <label {...labelProps} className={labelClasses}>
+        <label {...labelProps} className={labelClasses} onClick={handleOnLabelClick}>
           <input
             {...inputProps}
             {...otherInputProps}
@@ -98,7 +121,13 @@ export const Checkbox = forwardRef<HTMLDivElement, CheckboxNS.Props>(
           />
 
           <span className="custom-checkbox">
-            {loading ? <Spin size="small" /> : <Icon name="done" className="checked-icon" />}
+            {loading ? (
+              <Spin size="small" />
+            ) : indeterminate ? (
+              <Icon name="minimize" className="indeterminate-icon" />
+            ) : (
+              <Icon name="done" className="checked-icon" />
+            )}
           </span>
 
           {label && (

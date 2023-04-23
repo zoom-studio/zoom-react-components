@@ -1,0 +1,7 @@
+@mixin table {
+  > .table-scroll-view {
+    > table {
+      @content;
+    }
+  }
+}

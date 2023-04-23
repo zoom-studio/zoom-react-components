@@ -1,0 +1,435 @@
+@import 'mixins';
+
+@keyframes zoomrc-table-show-loading-more-data-animation {
+  from {
+    top: 4px;
+    opacity: 0;
+  }
+
+  to {
+    top: -40px;
+    opacity: 0.95;
+  }
+}
+
+.zoomrc-table {
+  color: color(text, 2);
+  display: block;
+  width: 100%;
+  border: 1px solid color(border, 2);
+  border-radius: 4px;
+  overflow: hidden;
+
+  &-full-height {
+    overflow: visible;
+
+    > .table-scroll-view {
+      overflow: visible !important;
+    }
+  }
+
+  &-sticky-header {
+    @include table {
+      > thead {
+        position: sticky;
+        top: 0;
+      }
+    }
+  }
+
+  &-sticky-footer {
+    @include table {
+      > tfoot {
+        position: sticky !important;
+        bottom: 0;
+      }
+    }
+  }
+
+  &-sticky-actions {
+    @include table {
+      > thead,
+      > tbody,
+      > tfoot {
+        > tr {
+          > th:last-child,
+          > td:last-child {
+            position: sticky;
+            right: 0;
+            z-index: 1;
+          }
+        }
+      }
+
+      > tbody > tr > td:last-child {
+        z-index: unset;
+        box-shadow: -3px 0 0 0 color(backdrop);
+      }
+    }
+  }
+
+  &-striped {
+    @include table {
+      > tbody {
+        > tr {
+          &:nth-child(odd) {
+            background-color: color(layer, 2);
+          }
+        }
+      }
+    }
+  }
+
+  &-hoverable {
+    @include table {
+      > tbody {
+        > tr:not(.end-message-row, .no-data-row) {
+          &:hover {
+            background-color: color(border, 2);
+          }
+
+          &.selected {
+            &:hover {
+              background-color: color(accent, 1, glassy, 2);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &-loading {
+    position: relative;
+
+    &,
+    & * {
+      user-select: none;
+    }
+
+    > .loading-placeholder {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 4;
+      cursor: progress;
+    }
+  }
+
+  > .table-scroll-view {
+    @include scrollbar;
+
+    width: 100%;
+    display: block;
+    overflow: auto;
+    scroll-behavior: smooth;
+  }
+
+  > .table-actions-bar {
+    display: flex;
+    background-color: color(layer, 1);
+    padding: 6px;
+    border-bottom: none;
+    align-items: center;
+
+    > .title-container {
+      flex: 1;
+
+      > .zoomrc-typography {
+        margin: 0;
+      }
+    }
+
+    > .actions-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      .action-button {
+        min-width: 32px;
+        min-height: 32px;
+        width: 32px;
+        height: 32px;
+
+        > .zoomrc-button-inner-child {
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          font-size: to-rem(26px);
+        }
+      }
+    }
+  }
+
+  @include table {
+    background-color: color(layer, 1);
+    min-width: 100%;
+
+    > tfoot {
+      position: relative;
+    }
+
+    > thead,
+    > tfoot {
+      color: color(text, 3);
+      z-index: 1;
+    }
+
+    > thead,
+    > tfoot,
+    > tbody {
+      background-color: color(layer, 1);
+    }
+
+    tr {
+      background-color: inherit;
+
+      &.selected {
+        background-color: color(accent, 1, glassy, 1);
+      }
+
+      &.end-message-row {
+        position: relative;
+        z-index: 1;
+      }
+
+      &.loading-more-data-row {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -40px;
+        background-color: color(layer, 2);
+        opacity: 0.95;
+        animation: zoomrc-table-show-loading-more-data-animation 150ms linear;
+
+        > th {
+          width: 100%;
+          padding: 0;
+          display: block;
+          border: 0;
+          border-top: 1px solid color(accent);
+
+          > .spinner-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 40px;
+
+            > .zoomrc-spin {
+              > .zoomrc-typography {
+                margin: 0;
+                color: color(text, 1);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    td {
+      border: 1px solid color(border, 1);
+
+      > .expanded-row-section {
+        display: block;
+        background-color: color(border, 2);
+
+        &.expanded {
+          padding: 10px;
+        }
+      }
+    }
+
+    th {
+      border: 1px solid color(border, 2);
+      position: relative;
+      user-select: none;
+
+      &.clickable {
+        cursor: pointer;
+      }
+
+      > .table-header-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 10px;
+        padding: 4px 0;
+
+        > .header-title {
+          display: flex;
+          flex-direction: column;
+
+          > .header-name {
+            text-align: start;
+          }
+
+          > .column-summary {
+            color: color(accent);
+            text-align: end;
+          }
+        }
+
+        > .sort-icon {
+          width: 20px;
+          height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          > svg {
+            border: 1px solid transparent;
+            width: 100%;
+            height: 100%;
+            padding: 4px;
+            border-radius: 2px;
+
+            &:not(.initial-sort) {
+              border-color: color(accent, 1, glassy, 3);
+            }
+          }
+        }
+      }
+
+      > .resizer {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background: color(border, 2);
+        cursor: col-resize;
+        user-select: none;
+        touch-action: none;
+        opacity: 0;
+        transition: all 150ms linear, transform 0ms linear;
+
+        &.is-resizing {
+          background: color(accent);
+          opacity: 1;
+        }
+      }
+
+      &:hover {
+        > .resizer {
+          opacity: 1;
+        }
+      }
+    }
+
+    th,
+    td {
+      padding: 0 4px;
+      background-color: inherit;
+
+      &.sorted {
+        background-color: color(border, 2, glassy, 5);
+      }
+
+      > .no-data-row-content {
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      > .table-cell-checkbox {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transform: translateY(4px);
+
+        > .checkbox-option {
+          display: inline-flex;
+
+          > .options-button {
+            > .zoomrc-button-inner-child {
+              font-size: to-rem(24px);
+            }
+          }
+        }
+      }
+
+      > .table-cell-actions {
+        display: flex;
+        gap: 2px;
+        white-space: nowrap;
+      }
+
+      > .table-cell-expander {
+        display: inline-flex;
+        align-items: center;
+        transform: translateY(2px);
+      }
+
+      > .loading-skeleton-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 0;
+        min-width: 20px;
+      }
+
+      > .end-message-container {
+        display: flex;
+        width: 100%;
+        height: auto;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+    }
+  }
+}
+
+.column-toggles-popover {
+  > .zoomrc-popover-container {
+    > .container-children {
+      background-color: color(layer, 2) !important;
+
+      > svg {
+        fill: color(layer, 2) !important;
+      }
+
+      > .zoomrc-popover-content {
+        > .zoomrc-table-columns-toggles {
+          .zoomrc-list-view-item {
+            border: none !important;
+
+            .zoomrc-list-view-item-content {
+              padding: 4px 0 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include rtl {
+  .zoomrc-table {
+    &-sticky-actions {
+      @include table {
+        > thead,
+        > tbody,
+        > tfoot {
+          > tr {
+            > th:last-child,
+            > td:last-child {
+              right: unset;
+              left: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

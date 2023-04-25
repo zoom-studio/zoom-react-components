@@ -47,6 +47,7 @@ export namespace DialogNS {
     bodyProps?: BodyProps
     footerProps?: FooterProps
     backdropRef?: RefObject<HTMLDivElement>
+    renderHeader?: boolean
   }
 }
 
@@ -59,6 +60,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogNS.Props>(
       cancelButton = 'Cancel',
       withFullscreenButton = true,
       closable = true,
+      renderHeader = true,
       children,
       className,
       isOpen,
@@ -180,35 +182,37 @@ export const Dialog = forwardRef<HTMLDivElement, DialogNS.Props>(
             <div onClick={close} {...backdropProps} className={backdropClasses} ref={backdropRef} />
 
             <div {...containerProps} {...rest} className={dialogClasses} ref={dialogRef}>
-              <div {...headerProps} className={headerClasses}>
-                <Title h6 className="title draggable-area">
-                  {title}
-                </Title>
+              {renderHeader && (
+                <div {...headerProps} className={headerClasses}>
+                  <Title h6 className="title draggable-area">
+                    {title}
+                  </Title>
 
-                <div className="actions">
-                  {withFullscreenButton && (
-                    <Button
-                      type="text"
-                      onClick={toggleFullscreen}
-                      {...fullScreenButtonProps}
-                      className={fullscreenButtonClasses}
-                    >
-                      <Icon name={isFullscreen ? 'crop' : 'crop_free'} />
-                    </Button>
-                  )}
+                  <div className="actions">
+                    {withFullscreenButton && (
+                      <Button
+                        type="text"
+                        onClick={toggleFullscreen}
+                        {...fullScreenButtonProps}
+                        className={fullscreenButtonClasses}
+                      >
+                        <Icon name={isFullscreen ? 'crop' : 'crop_free'} />
+                      </Button>
+                    )}
 
-                  {closable && (
-                    <Button
-                      type="text"
-                      onClick={close}
-                      {...closeButtonProps}
-                      className={closeButtonClasses}
-                    >
-                      <Icon name="close" />
-                    </Button>
-                  )}
+                    {closable && (
+                      <Button
+                        type="text"
+                        onClick={close}
+                        {...closeButtonProps}
+                        className={closeButtonClasses}
+                      >
+                        <Icon name="close" />
+                      </Button>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <div {...bodyProps} className={bodyClasses}>
                 {children}

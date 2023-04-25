@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useEffect, useState } from 'react'
+import React, { FC, Fragment, useState } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 import { pullAt } from 'lodash'
@@ -248,14 +248,6 @@ export const TableGenerator: FC<TableGeneratorNS.Props> = ({
   const scrollViewClasses = classNames('table-scroll-view', {
     [scrollViewProps?.className ?? '']: true,
   })
-
-  useEffect(() => {
-    if ('rows' in providedCellsData) {
-      setCellsData(cellsCountToCellsData(providedCellsData))
-    } else {
-      setCellsData(providedCellsData)
-    }
-  }, [providedCellsData])
 
   useFutureEffect(() => {
     onWrite?.({ cellsCount, cellsData })

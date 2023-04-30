@@ -4,7 +4,7 @@ import { RichTextEditorNS } from '../..'
 import { Button, Checkbox, Input, RichTextEditorMakerNS, Stack } from '../../..'
 
 export namespace LinkInserterPopoverNS {
-  export interface Props {
+  export interface Props extends Pick<RichTextEditorNS.Props, 'enableAdvancedLinkInserter'> {
     isValidURL: (URL: string | undefined) => boolean
     i18n: Required<RichTextEditorNS.I18n>
     setIsBlankedLink: Dispatch<SetStateAction<boolean | undefined>>
@@ -29,6 +29,7 @@ export const LinkInserterPopover: FC<LinkInserterPopoverNS.Props> = ({
   resetLinkInfo,
   closePopover,
   focusEditor,
+  enableAdvancedLinkInserter,
 }) => {
   const { linkURLPlaceholder, linkNoFollowLabel, linkTargetLabel } = i18n
 
@@ -47,7 +48,12 @@ export const LinkInserterPopover: FC<LinkInserterPopoverNS.Props> = ({
   return (
     <Stack spacing={10} direction="column" align="stretch">
       <form onSubmit={handleCreateLink} className="get-link-form">
-        <Input value={selectionLink.url} onWrite={setLinkURL} placeholder={linkURLPlaceholder} />
+        <Input
+          value={selectionLink.url}
+          onWrite={setLinkURL}
+          placeholder={linkURLPlaceholder}
+          autoFocus
+        />
         <Button
           suffixMaterialIcon="done"
           shape="square"
@@ -58,18 +64,20 @@ export const LinkInserterPopover: FC<LinkInserterPopoverNS.Props> = ({
         />
       </form>
 
-      <Stack direction="column" align="flex-start">
-        <Checkbox
-          label={linkTargetLabel}
-          onWrite={setIsBlankedLink}
-          checked={selectionLink.openInNewTab}
-        />
-        <Checkbox
-          label={linkNoFollowLabel}
-          onWrite={setIsNoFollowLink}
-          checked={selectionLink.noFollow}
-        />
-      </Stack>
+      {enableAdvancedLinkInserter && (
+        <Stack direction="column" align="flex-start">
+          <Checkbox
+            label={linkTargetLabel}
+            onWrite={setIsBlankedLink}
+            checked={selectionLink.openInNewTab}
+          />
+          <Checkbox
+            label={linkNoFollowLabel}
+            onWrite={setIsNoFollowLink}
+            checked={selectionLink.noFollow}
+          />
+        </Stack>
+      )}
     </Stack>
   )
 }

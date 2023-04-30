@@ -4,6 +4,7 @@ import { useMergeRefs } from '@floating-ui/react'
 
 import { PopoverNS } from '.'
 import { usePopoverContext } from './use-popover-context'
+import { useZoomComponent } from '../../hooks'
 
 export namespace PopoverTriggerNS {
   export interface Props extends PopoverNS.Props {
@@ -22,12 +23,16 @@ export const PopoverTrigger: FC<PopoverTriggerNS.Props> = ({
   trigger,
   containerProps,
   disabled,
+  className,
   ...rest
 }) => {
   const context = usePopoverContext()
   const childrenRef = (children as any).ref
   const ref = useMergeRefs([context.refs.setReference, childrenRef])
   const timeout = useRef<number | null>(null)
+  const { createClassName } = useZoomComponent('popover')
+
+  const classes = createClassName(className)
 
   const handleOnClick = (evt: MouseEvent<HTMLDivElement>) => {
     if (disabled) {
@@ -81,7 +86,7 @@ export const PopoverTrigger: FC<PopoverTriggerNS.Props> = ({
 
   return (
     <div
-      className="zoomrc-popover"
+      className={classes}
       ref={ref}
       onMouseEnter={handleOnMouseEnterOrLeave}
       onMouseLeave={handleOnMouseEnterOrLeave}

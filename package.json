@@ -98,6 +98,7 @@
     "react-window": "^1.8.8",
     "react-zoom-pan-pinch": "^2.2.0",
     "slate": "^0.94.0",
+    "slate-history": "^0.93.0",
     "slate-react": "^0.94.0"
   },
   "peerDependencies": {

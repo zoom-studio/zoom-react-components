@@ -5,12 +5,11 @@ import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 import { Button, ConditionalWrapper, IconNS, Popover, PopoverNS, Text, Tooltip } from '..'
 
 export namespace EditorActionNS {
-  export interface Popover {
-    className: string
-    onClose?: () => void
-    disabled?: boolean
-    content?: PopoverNS.Props['content']
-  }
+  export interface Popover
+    extends Pick<
+      PopoverNS.Props,
+      'className' | 'onClose' | 'disabled' | 'content' | 'isOpen' | 'onOpenChange'
+    > {}
 
   export interface Props {
     onClick?: () => void
@@ -42,14 +41,7 @@ export const EditorAction: FC<EditorActionNS.Props> = ({
         condition={!!popover}
         falseWrapper={children => <>{children}</>}
         trueWrapper={children => (
-          <Popover
-            trigger="click"
-            placement="bottom"
-            className={popover?.className}
-            onClose={popover?.onClose}
-            disabled={popover?.disabled}
-            content={popover?.content}
-          >
+          <Popover trigger="click" placement="bottom" {...popover}>
             <>{children}</>
           </Popover>
         )}

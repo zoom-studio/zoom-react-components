@@ -1,14 +1,7 @@
 import React, { forwardRef, useRef } from 'react'
 
-import {
-  ContextMenu,
-  Divider,
-  ExplorerNS,
-  RichTextEditorMaker,
-  RichTextEditorMakerNS,
-  ScrollView,
-  Stack,
-} from '..'
+import { ContextMenu, Divider, ExplorerNS, ScrollView, Stack } from '..'
+import { RichTextEditorMaker, RichTextEditorMakerNS } from '../rich-text-editor-maker.1'
 import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 import { EditorAction } from './editor-action'

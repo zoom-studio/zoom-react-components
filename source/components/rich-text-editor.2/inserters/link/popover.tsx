@@ -1,7 +1,8 @@
 import React, { Dispatch, FC, FormEvent, SetStateAction } from 'react'
 
 import { RichTextEditorNS } from '../..'
-import { Button, Checkbox, Input, RichTextEditorMakerNS, Stack } from '../../..'
+import { Button, Checkbox, Input, Stack } from '../../..'
+import { RichTextEditorMakerNS } from '../../../rich-text-editor-maker.1'
 
 export namespace LinkInserterPopoverNS {
   export interface Props {

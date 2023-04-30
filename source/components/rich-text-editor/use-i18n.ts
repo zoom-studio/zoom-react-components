@@ -16,6 +16,7 @@ export namespace UseRichTextEditorI18nNS {
     italic?: string
     underline?: string
     link?: string
+    highlight?: string
     removeLink?: string
     blockquote?: string
     ol?: string
@@ -75,5 +76,6 @@ export const useRichTextEditorI18n = (
     video: i18n?.video ?? 'Attache video',
     undo: i18n?.undo ?? 'Undo',
     redo: i18n?.redo ?? 'Redo',
+    highlight: i18n?.highlight ?? 'Highlight',
   }
 }

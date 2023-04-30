@@ -1,23 +1,70 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 
-import Editor from '@draft-js-plugins/editor'
+import { Editable, useSlate } from 'slate-react'
 
+import { useObjectedState, useVariable } from '../../hooks'
+
+import { useRenderElements, useRenderLeaf } from './elements'
+import { RichTextEditorMakerProvider } from './provider'
 import { RichTextEditorMakerNS } from './types'
+import { RichUtils, useAccelerators } from './utils'
 
 type CB = RichTextEditorMakerNS.ChildrenCallback
 
-export const RichTextEditorMaker = forwardRef<Editor, RichTextEditorMakerNS.Props>(
-  ({ children, placeholder }, reference) => {
+export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMakerNS.Props>(
+  ({ children, placeholder, renderLinkElement }, reference) => {
+    const editor = useSlate()
+    const renderElements = useRenderElements()
+
+    const noFollowedLink = useObjectedState(false)
+    const blankedLink = useObjectedState(false)
+    const linkURL = useObjectedState('google.com')
+
+    const richUtils = new RichUtils({ editor, blankedLink, linkURL, noFollowedLink })
+    const handleAccelerators = useAccelerators({ editor, richUtils })
+
+    const selectionLink = useVariable<CB['selectionLink']>(() => ({
+      url: linkURL.val ?? '',
+      noFollow: noFollowedLink.val ?? false,
+      openInNewTab: blankedLink.val ?? false,
+    }))
+
     const combineHandlers = (): CB => ({
+      ...richUtils,
       renderEditor,
+      selectionLink,
+      setIsBlankedLink: blankedLink.set,
+      setIsNoFollowLink: noFollowedLink.set,
+      setLinkURL: linkURL.set,
     })
 
+    const renderLeaf = useRenderLeaf({ renderLinkElement, handlers: combineHandlers() })
+
+    useEffect(() => {
+      const linkInfo = richUtils.getLinkInfo()
+
+      if (linkInfo) {
+        richUtils.setLinkInfo(linkInfo)
+      } else {
+        richUtils.resetLinkInfo()
+      }
+    }, [editor.selection])
+
     const renderEditor: CB['renderEditor'] = () => {
-      return <></>
+      return (
+        <Editable
+          className="rich-text-editable"
+          placeholder={placeholder}
+          renderElement={renderElements}
+          onKeyDown={handleAccelerators}
+          renderLeaf={renderLeaf}
+        />
+      )
     }
 
     return <>{typeof children === 'function' ? children(combineHandlers()) : children}</>
   },
-)
+) as RichTextEditorMakerNS.ComponentType
 
-export type { RichTextEditorMakerNS } from './types'
+RichTextEditorMaker.provider = RichTextEditorMakerProvider
+export { RichTextEditorMakerNS } from './types'

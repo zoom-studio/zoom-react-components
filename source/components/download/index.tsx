@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from 'react'
-import { useDownload, UseDownloadNS } from '../../hooks'
+
+import { useDownload, UseDownloadNS } from '@zoom-studio/zoom-js-ts-utils'
 
 export namespace DownloadNS {
   export interface ChildrenCallbackParams {

@@ -1,5 +1,6 @@
+import { fileToBase64 } from '@zoom-studio/zoom-js-ts-utils'
+
 import { isImage } from '../explorer/utils'
-import { FileUtils } from '../../utils'
 
 import { UploaderNS } from '.'
 
@@ -12,7 +13,7 @@ export const getFileInfo = async (
     let imageSource: string | null = null
 
     if (type && isImage(type)) {
-      imageSource = await FileUtils.fileToBase64(file)
+      imageSource = await fileToBase64(file)
     }
 
     return { name, size, type, imageSource, percentage: 100 }

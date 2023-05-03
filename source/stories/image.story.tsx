@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
+import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Button, Image, ImageNS } from '../components'
 import { CommonStory, CommonStoryNS, StoryPlayground } from './components'
 
-import { image } from '../fixtures/image'
 import { useI18n } from './hooks/use-i18n'
 
 export default {
@@ -26,7 +26,7 @@ const ImageStory: FC<Omit<ImageNS.Props, 'src'>> = props => {
   const getProps = (): ImageNS.Props => {
     const width = props.width ? +props.width : (10 - Math.floor(Math.random() * 5 + 1)) * 100
     const height = props.height ? +props.height : (10 - Math.floor(Math.random() * 5 + 1)) * 100
-    return { ...props, src: image(width, height, 'profile'), width, height }
+    return { ...props, src: randomImage(width, height, 'profile'), width, height }
   }
 
   return (
@@ -42,7 +42,7 @@ export const LazyLoading: FC<ImageNS.Props> = () => {
     const group: CommonStoryNS.Group<ImageNS.Props>[] = []
     Array.from(Array(50)).forEach((_, index) => {
       const size = index + 80
-      group.push({ props: { src: image(size, size), width: size, height: size } })
+      group.push({ props: { src: randomImage(size, size), width: size, height: size } })
     })
     return group
   }
@@ -54,7 +54,7 @@ export const FailureState = () => {
   return (
     <CommonStory
       component={Image}
-      stories={[{ group: [{ props: { src: image().replace('//', '//a') } }] }]}
+      stories={[{ group: [{ props: { src: randomImage().replace('//', '//a') } }] }]}
     />
   )
 }
@@ -78,7 +78,7 @@ export const WithImageViewer = () => {
                 withImageViewer: true,
                 imageViewerCustomImages: Array.from(Array(10)).map((_, index) => ({
                   name: `Image ${index + 1}`,
-                  source: image(),
+                  source: randomImage(),
                 })),
               },
             },
@@ -105,7 +105,7 @@ export const Shapes = () => {
       const size = index + 80
       group.push({
         name: shape,
-        props: { src: image(size + 100, size), width: size + 100, height: size, shape },
+        props: { src: randomImage(size + 100, size), width: size + 100, height: size, shape },
       })
     })
     return group

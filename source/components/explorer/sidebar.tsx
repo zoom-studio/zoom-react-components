@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react'
 
+import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+
 import {
   Button,
   ButtonNS,
@@ -16,7 +18,7 @@ import {
   SVGIcon,
   Text,
 } from '..'
-import { UseObjectedStateNS, useZoomContext } from '../../hooks'
+import { useZoomContext } from '../../hooks'
 
 import { ExplorerFileInfo } from './file-info'
 import { getFileTypeColors, isImage } from './utils'

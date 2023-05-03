@@ -1,6 +1,11 @@
 import React, { ComponentProps, forwardRef, MutableRefObject, useRef, useState } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import {
+  base64ToFile,
+  canvasToBlobURL,
+  classNames,
+  useObjectedState,
+} from '@zoom-studio/zoom-js-ts-utils'
 import {
   CircleStencil,
   Cropper,
@@ -14,11 +19,10 @@ import {
 } from 'react-advanced-cropper'
 
 import { Skeleton } from '..'
-import { useObjectedState, useZoomComponent } from '../../hooks'
+import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 
 import { logs } from '../../constants'
-import { CanvasUtils, FileUtils } from '../../utils'
 import { RangeSlider } from '../range-slider'
 import { AdjustableCropperBackground } from './adjustable-cropper-bg'
 import { AdjustablePreviewBackground } from './adjustable-preview-bg'
@@ -163,8 +167,8 @@ export const ImageEditor = forwardRef<HTMLDivElement, ImageEditorNS.Props>(
       }
 
       const base64 = canvas.toDataURL()
-      const blobURL = await CanvasUtils.toBlobURL(canvas)
-      const file = await FileUtils.Base64ToFile(base64)
+      const blobURL = await canvasToBlobURL(canvas)
+      const file = await base64ToFile(base64)
       onGettingResultEnd?.()
       return { base64, blobURL, file }
     }

@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
+import { randomImage, randomPDF } from '@zoom-studio/zoom-js-ts-utils'
 
 import { ExplorerNS } from '../components'
 
-import { image, randomPDF } from '.'
 import { shuffle } from 'lodash'
 
 const getFileDate = (date: Date) => {
@@ -24,7 +24,7 @@ export const explorerImageFile = (
     type,
     name: faker.system.fileName({ extensionCount: 0 }).concat(`.${type}`),
     size: faker.datatype.number({ min: 200, max: 200000, precision: 0.01 }),
-    link: image(undefined, undefined, 'cats'),
+    link: randomImage(undefined, undefined, 'cats'),
     createdAt: getFileDate(faker.datatype.datetime()),
     updatedAt: getFileDate(faker.datatype.datetime()),
     moreInfo: [

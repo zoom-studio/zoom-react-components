@@ -27,7 +27,7 @@ export const PopoverTrigger: FC<PopoverTriggerNS.Props> = ({
   ...rest
 }) => {
   const context = usePopoverContext()
-  const childrenRef = (children as any).ref
+  const childrenRef = (children as any)?.ref
   const ref = useMergeRefs([context.refs.setReference, childrenRef])
   const timeout = useRef<number | null>(null)
   const { createClassName } = useZoomComponent('popover')

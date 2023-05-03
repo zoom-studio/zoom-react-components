@@ -2,8 +2,7 @@ import React, { ReactNode, useRef } from 'react'
 
 import { Row, Table } from '@tanstack/react-table'
 import { useVirtualizer } from '@tanstack/react-virtual'
-
-import { useVariable } from '../../../hooks'
+import { useVariable } from '@zoom-studio/zoom-js-ts-utils'
 
 import { TableNS } from '../types'
 

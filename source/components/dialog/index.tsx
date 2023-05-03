@@ -9,9 +9,9 @@ import React, {
 } from 'react'
 
 import { Portal } from 'react-portal'
+import { makeElementDraggable } from '@zoom-studio/zoom-js-ts-utils'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { makeElementDraggable } from '../../utils'
 
 import { Button, ButtonNS, Icon, Title } from '..'
 import { logs } from '../../constants'

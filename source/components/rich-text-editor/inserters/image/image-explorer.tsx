@@ -1,7 +1,8 @@
 import React, { FC, useState } from 'react'
 
+import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+
 import { ExplorerDialog, ExplorerNS, RichTextEditorMakerNS, RichTextEditorNS } from '../../..'
-import { UseObjectedStateNS } from '../../../../hooks'
 
 import { useRichTextEditorI18n } from '../../use-i18n'
 

@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 
-import { DeepKeys, MaybeArray } from '../../../types'
+import { DeepKeys, MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+
 import { TableNS } from '../types'
 
 export namespace ColumnNS {

@@ -1,9 +1,9 @@
 import React, { Dispatch, FC, FormEvent, SetStateAction } from 'react'
 
 import { EditorState } from 'draft-js'
+import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Button, Checkbox, Input, Stack } from '../..'
-import { UseObjectedStateNS } from '../../../hooks'
 import { createLink } from '../link-inserter'
 
 export namespace LinkInserterNS {

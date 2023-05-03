@@ -1,8 +1,10 @@
 import React, { CSSProperties, forwardRef } from 'react'
 
+import { MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+
 import { Popover, PopoverNS } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent, Color as ColorType, MaybeArray } from '../../types'
+import { BaseComponent, Color as ColorType } from '../../types'
 import { CircularProgress } from './circular'
 import { ProgressInfo } from './info'
 import { generateProgressColor, normalizePercentage } from './utils'

@@ -1,7 +1,9 @@
 import React, { forwardRef } from 'react'
 
+import { Range } from '@zoom-studio/zoom-js-ts-utils'
+
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent, Range } from '../../types'
+import { BaseComponent } from '../../types'
 
 export namespace ColNS {
   export type ColumnsRange = Range<1, 25>

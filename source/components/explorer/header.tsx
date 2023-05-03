@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 
+import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+
 import { Button, Input, Select } from '..'
-import { UseObjectedStateNS } from '../../hooks'
 
 import { ExplorerNS } from '.'
 import { getFileTypesFilterOptions } from './utils'

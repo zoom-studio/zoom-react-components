@@ -1,4 +1,4 @@
-import { Range } from '../types'
+import { Range } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Color } from '../types/color'
 

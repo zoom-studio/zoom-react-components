@@ -1,11 +1,10 @@
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 import React, { FC, RefObject, useEffect } from 'react'
 
 import { CropperRef } from 'react-advanced-cropper'
+import { classNames, UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Divider, IconNS, ImageEditorNS, Stack, ZoomLogProviderNS } from '..'
 import { logs } from '../../constants'
-import { UseObjectedStateNS } from '../../hooks'
 
 import { EditorActionButton } from './action-button'
 

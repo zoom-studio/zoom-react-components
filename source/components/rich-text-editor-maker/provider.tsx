@@ -4,6 +4,7 @@ import { Descendant, createEditor } from 'slate'
 import { withHistory } from 'slate-history'
 import { Slate, withReact } from 'slate-react'
 
+import { withCorrectVoidBehavior } from './plugins'
 import { RichTextEditorMakerNS } from './types'
 
 export namespace RichTextEditorMakerProviderNS {
@@ -21,7 +22,10 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
   children,
   defaultValue = [{ type: 'paragraph', children: [{ text: 'A line of text in a paragraph.' }] }],
 }) => {
-  const providerEditor = useMemo(() => withHistory(withReact(createEditor())), [])
+  const providerEditor = useMemo(
+    () => withHistory(withCorrectVoidBehavior(withReact(createEditor()))),
+    [],
+  )
 
   return (
     <Slate editor={providerEditor} value={defaultValue}>

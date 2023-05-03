@@ -3,23 +3,26 @@ import React, { FC } from 'react'
 import { ComponentMeta } from '@storybook/react'
 
 import { RichTextEditor, RichTextEditorNS } from '../components'
-// import { RichTextEditor, RichTextEditorNS } from '../components/rich-text-editor.1'
-import { generateExplorerFiles, lorem } from '../fixtures'
+// import { RichTextEditor, RichTextEditorNS } from '../components/rich-text-editor.2'
+import {
+  //  generateExplorerFiles,
+  lorem,
+} from '../fixtures'
 import { StoryPlayground } from './components'
 
 export default {
   title: 'Data entry/Rich text editor',
   component: RichTextEditor,
   args: {
-    maxHeight: 700,
+    // maxHeight: 700,
     initialHeight: 700,
-    editorProps: {
-      placeholder: 'شروع به نوشتن متن جدید...',
-      autoFocus: true,
-    },
-    imageExplorerProps: {
-      files: generateExplorerFiles(100),
-    },
+    //   editorProps: {
+    //     placeholder: 'شروع به نوشتن متن جدید...',
+    //     autoFocus: true,
+    //   },
+    //   imageExplorerProps: {
+    //     files: generateExplorerFiles(100),
+    //   },
   },
 } as ComponentMeta<typeof RichTextEditor>
 

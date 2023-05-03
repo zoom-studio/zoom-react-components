@@ -213,7 +213,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                           className: 'insert-table-popover',
                           content: ({ closePopover }) => (
                             <TableInserterPopover
-                              onSelect={(cols, rows) => {}}
+                              onSelect={(cols, rows) => handlers.insertTable({ cols, rows })}
                               closePopover={closePopover}
                             />
                           ),

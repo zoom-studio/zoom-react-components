@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react'
 
 import { RenderElementProps } from 'slate-react'
 
-import { DefaultElement } from '..'
+import { DefaultElement } from '../elements'
 
 export namespace HeadingElementNS {
   export interface Props extends RenderElementProps {

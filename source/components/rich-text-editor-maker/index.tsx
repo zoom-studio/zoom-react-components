@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect } from 'react'
 
 import { Editable, useSlate } from 'slate-react'
 
-import { useObjectedState, useVariable } from '../../hooks'
+import { useObjectedState, useVariable, useZoomComponent } from '../../hooks'
 
 import { useRenderElements, useRenderLeaf } from './elements'
 import { RichTextEditorMakerProvider } from './provider'
@@ -12,7 +12,9 @@ import { RichUtils, useAccelerators } from './utils'
 type CB = RichTextEditorMakerNS.ChildrenCallback
 
 export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMakerNS.Props>(
-  ({ children, placeholder, renderLinkElement }, reference) => {
+  ({ children, placeholder, renderLinkElement, className }, reference) => {
+    const { createClassName } = useZoomComponent('rich-text-editor-maker')
+
     const editor = useSlate()
     const renderElements = useRenderElements()
 
@@ -40,6 +42,10 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
 
     const renderLeaf = useRenderLeaf({ renderLinkElement, handlers: combineHandlers() })
 
+    const classes = createClassName(className, '', {
+      'rich-text-editable': true,
+    })
+
     useEffect(() => {
       const linkInfo = richUtils.getLinkInfo()
 
@@ -53,7 +59,7 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
     const renderEditor: CB['renderEditor'] = () => {
       return (
         <Editable
-          className="rich-text-editable"
+          className={classes}
           placeholder={placeholder}
           renderElement={renderElements}
           onKeyDown={handleAccelerators}

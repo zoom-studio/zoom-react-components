@@ -8,6 +8,15 @@ export namespace HorizontalRuleElementNS {
   }
 }
 
-export const HorizontalRuleElement: FC<HorizontalRuleElementNS.Props> = ({ attributes }) => {
-  return <hr {...attributes} />
+export const HorizontalRuleElement: FC<HorizontalRuleElementNS.Props> = ({
+  attributes,
+  children,
+  element,
+}) => {
+  return (
+    <div {...attributes} contentEditable={false}>
+      <hr />
+      {children}
+    </div>
+  )
 }

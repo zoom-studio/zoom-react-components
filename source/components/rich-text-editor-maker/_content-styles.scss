@@ -1,0 +1,24 @@
+@mixin zoomrc-rich-text-editor-content-styles {
+  h1 {
+    color: red;
+  }
+
+  .table-editor-container {
+    position: relative;
+
+    > .zoomrc-table-generator {
+      margin: 0 auto;
+    }
+
+    > span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  }
+}

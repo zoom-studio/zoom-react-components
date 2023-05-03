@@ -1,47 +1,52 @@
-import React, { Dispatch, FC, SetStateAction } from 'react'
+import React, { FC } from 'react'
 
 import { Button, ButtonNS, TableGeneratorNS } from '..'
+import { UseTableGeneratorDomNS, useTableGeneratorDOM } from './use-dom'
 
 export namespace RowActionsNS {
-  export interface Props {
+  export interface Props extends UseTableGeneratorDomNS.Params {
     rowIndex: number
-    setRowToRemove: Dispatch<SetStateAction<number | null>>
-    setRowToAppend: Dispatch<SetStateAction<TableGeneratorNS.RowToAppend | null>>
-    addRow: () => void
+    addRow: (rowToAppend: TableGeneratorNS.RowToAppend) => void
     removeRow: () => void
   }
 }
 
 export const RowActions: FC<RowActionsNS.Props> = ({
   rowIndex,
-  setRowToRemove,
-  setRowToAppend,
   addRow,
   removeRow,
+  sendLog,
+  tableRef,
 }) => {
+  const tableDOM = useTableGeneratorDOM({ sendLog, tableRef })
+
   const actionButtonsProps: ButtonNS.Props = {
     shape: 'circle',
     type: 'bordered',
   }
 
   const onMouseOverRemoveButton = () => {
-    setRowToRemove(rowIndex)
+    tableDOM.unRemovalAllRemovalInputCells()
+    tableDOM.removalInputCellsByRowIndex(rowIndex)
   }
 
   const onMouseLeaveRemoveButton = () => {
-    setRowToRemove(null)
+    tableDOM.unRemovalAllRemovalInputCells()
   }
 
   const onMouseOverAddToTopButton = () => {
-    setRowToAppend({ rowIndex, appendTo: 'top' })
+    tableDOM.removeAllMarkedAsAppendToTopInputCells()
+    tableDOM.markInputCellsAsAppendToTopByRowIndex(rowIndex)
   }
 
   const onMouseOverAddToBottomButton = () => {
-    setRowToAppend({ rowIndex, appendTo: 'bottom' })
+    tableDOM.removeAllMarkedAsAppendToBottomInputCells()
+    tableDOM.markInputCellsAsAppendToBottomByRowIndex(rowIndex)
   }
 
   const onMouseLeaveAddButtons = () => {
-    setRowToAppend(null)
+    tableDOM.removeAllMarkedAsAppendToTopInputCells()
+    tableDOM.removeAllMarkedAsAppendToBottomInputCells()
   }
 
   return (
@@ -50,7 +55,7 @@ export const RowActions: FC<RowActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={addRow}
+        onClick={() => addRow({ appendTo: 'top' })}
         containerProps={{
           onMouseOver: onMouseOverAddToTopButton,
           onMouseLeave: onMouseLeaveAddButtons,
@@ -72,7 +77,7 @@ export const RowActions: FC<RowActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={addRow}
+        onClick={() => addRow({ appendTo: 'bottom' })}
         containerProps={{
           onMouseOver: onMouseOverAddToBottomButton,
           onMouseLeave: onMouseLeaveAddButtons,

@@ -1,4 +1,4 @@
-import { BaseEditor, BaseNode, Descendant } from 'slate'
+import { BaseEditor, Descendant } from 'slate'
 import { ReactEditor } from 'slate-react'
 
 import { RichTextEditorMakerNS } from './components/rich-text-editor-maker/types'
@@ -7,6 +7,8 @@ declare module 'slate' {
   interface CustomElement {
     type: RichTextEditorMakerNS.ElementTypes
     children?: Descendant[]
+    text?: string
+    tableInfo?: RichTextEditorMakerNS.TableInfo
   }
 
   interface Marks {
@@ -29,11 +31,6 @@ declare module 'slate' {
     Editor: BaseEditor & ReactEditor
     Element: CustomElement
     Text: CustomText
-  }
-
-  interface Node extends BaseNode, Marks {
-    type?: RichTextEditorMakerNS.ElementTypes
-    children?: Descendant[]
   }
 }
 

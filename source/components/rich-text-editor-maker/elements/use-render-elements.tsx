@@ -10,6 +10,7 @@ import {
   OrderedListElement,
   QuoteElement,
   UnorderedListElement,
+  TableElement,
 } from '.'
 
 export const useRenderElements = () => {
@@ -41,6 +42,16 @@ export const useRenderElements = () => {
       case 'rule': {
         return <HorizontalRuleElement {...props} />
       }
+
+      case 'table': {
+        return <TableElement {...props} />
+      }
+      // case 'table-cell': {
+      //   return <TableCellElement {...props} />
+      // }
+      // case 'table-row': {
+      //   return <TableRowElement {...props} />
+      // }
 
       default: {
         return <DefaultElement {...props} />

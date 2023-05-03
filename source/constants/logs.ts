@@ -39,4 +39,6 @@ export enum logs {
   richTextEditorMakerEditorRefIsFunction = 'ZOOMRC/RICH_TEXT_EDITOR_MAKER/EDITOR_REF_IS_FUNCTION',
 
   tableContainerRefNotFound = 'ZOOMRC/TABLE/CONTAINER_REF_NOT_FOUND',
+
+  tableGeneratorTableRefNotFound = 'ZOOMRC/TABLE_GENERATOR/TABLE_REF_NOT_FOUND',
 }

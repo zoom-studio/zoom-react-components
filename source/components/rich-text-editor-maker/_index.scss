@@ -1,3 +1,5 @@
-h2 {
-  color: red;
+@import 'content-styles';
+
+.zoomrc-rich-text-editor-maker {
+  @include zoomrc-rich-text-editor-content-styles;
 }

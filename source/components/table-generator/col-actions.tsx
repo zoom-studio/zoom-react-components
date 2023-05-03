@@ -1,47 +1,52 @@
-import React, { Dispatch, FC, SetStateAction } from 'react'
+import React, { FC } from 'react'
 
 import { Button, ButtonNS, TableGeneratorNS } from '..'
+import { UseTableGeneratorDomNS, useTableGeneratorDOM } from './use-dom'
 
 export namespace ColActionsNS {
-  export interface Props {
+  export interface Props extends UseTableGeneratorDomNS.Params {
     colIndex: number
-    setColumnToRemove: Dispatch<SetStateAction<number | null>>
-    setColToAppend: Dispatch<SetStateAction<TableGeneratorNS.ColToAppend | null>>
-    addColumn: () => void
+    addColumn: (colToAppend: TableGeneratorNS.ColToAppend) => void
     removeColumn: () => void
   }
 }
 
 export const ColActions: FC<ColActionsNS.Props> = ({
   colIndex,
-  setColumnToRemove,
-  setColToAppend,
   addColumn,
   removeColumn,
+  sendLog,
+  tableRef,
 }) => {
+  const tableDOM = useTableGeneratorDOM({ sendLog, tableRef })
+
   const actionButtonsProps: ButtonNS.Props = {
     shape: 'circle',
     type: 'bordered',
   }
 
   const onMouseOverRemoveButton = () => {
-    setColumnToRemove(colIndex)
+    tableDOM.unRemovalAllRemovalInputCells()
+    tableDOM.removalInputCellsByColIndex(colIndex)
   }
 
   const onMouseLeaveRemoveButton = () => {
-    setColumnToRemove(null)
+    tableDOM.unRemovalAllRemovalInputCells()
   }
 
   const onMouseOverAddToPrevButton = () => {
-    setColToAppend({ colIndex, appendTo: 'left' })
+    tableDOM.removeAllMarkedAsAppendToLeftInputCells()
+    tableDOM.markInputCellsAsAppendToLeftByColIndex(colIndex)
   }
 
   const onMouseOverAddToNextButton = () => {
-    setColToAppend({ colIndex, appendTo: 'right' })
+    tableDOM.removeAllMarkedAsAppendToRightInputCells()
+    tableDOM.markInputCellsAsAppendToRightByColIndex(colIndex)
   }
 
   const onMouseLeaveAddButtons = () => {
-    setColToAppend(null)
+    tableDOM.removeAllMarkedAsAppendToLeftInputCells()
+    tableDOM.removeAllMarkedAsAppendToRightInputCells()
   }
 
   return (
@@ -50,7 +55,7 @@ export const ColActions: FC<ColActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={addColumn}
+        onClick={() => addColumn({ appendTo: 'left' })}
         containerProps={{
           onMouseOver: onMouseOverAddToPrevButton,
           onMouseLeave: onMouseLeaveAddButtons,
@@ -72,7 +77,7 @@ export const ColActions: FC<ColActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={addColumn}
+        onClick={() => addColumn({ appendTo: 'right' })}
         containerProps={{
           onMouseOver: onMouseOverAddToNextButton,
           onMouseLeave: onMouseLeaveAddButtons,

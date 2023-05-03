@@ -244,6 +244,12 @@ export class RichUtils {
     this.focusEditor()
   }
 
+  insertTable = (tableInfo: RichTextEditorMakerNS.TableInfo): void => {
+    this.insertParagraph()
+    Transforms.insertNodes(this.editor, [{ type: 'table', children: [{ text: '' }], tableInfo }])
+    this.insertParagraph()
+  }
+
   insertLink = (linkInfo: RichTextEditorMakerNS.LinkInfo): void => {
     Transforms.setNodes(
       this.editor,
@@ -299,14 +305,15 @@ export class RichUtils {
     }
   }
 
+  insertParagraph = (text = ''): void => {
+    Transforms.insertNodes(this.editor, {
+      type: 'paragraph',
+      children: [{ text }],
+    })
+  }
+
   insertRule = (): void => {
-    Transforms.insertNodes(
-      this.editor,
-      {
-        type: 'rule',
-        children: [{ text: '' }],
-      },
-      { voids: true },
-    )
+    Transforms.insertNodes(this.editor, [{ type: 'rule', children: [{ text: '' }] }])
+    this.insertParagraph()
   }
 }

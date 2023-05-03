@@ -1,4 +1,3 @@
-@import '../rich-text-editor-maker/content_styles';
 @import 'inserters';
 
 .zoomrc-rich-text-editor {
@@ -89,8 +88,6 @@
 
       .os-viewport {
         > .rich-text-editable {
-          @include zoomrc-rich-text-editor-content-styles;
-
           color: color(text, 1);
           height: 100%;
           width: 100%;

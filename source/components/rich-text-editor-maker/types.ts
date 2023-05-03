@@ -11,6 +11,7 @@ import { ReactEditor } from 'slate-react'
 
 import { RichTextEditorMakerProvider } from './provider'
 import { RichUtils } from './utils'
+import { BaseComponent } from '../../types'
 
 export namespace RichTextEditorMakerNS {
   export type Editor = BaseEditor & ReactEditor
@@ -59,6 +60,11 @@ export namespace RichTextEditorMakerNS {
     noFollow?: boolean
   }
 
+  export interface TableInfo {
+    rows: number
+    cols: number
+  }
+
   export interface RenderLinkInfoCallbackParams extends LinkInfo {
     children: ReactNode
     handlers: ChildrenCallback
@@ -81,6 +87,8 @@ export namespace RichTextEditorMakerNS {
       | 'toggleHighlight'
       | 'toggleList'
       | 'insertRule'
+      | 'insertParagraph'
+      | 'insertTable'
     > {
     renderEditor: () => JSX.Element
     setIsBlankedLink: Dispatch<SetStateAction<boolean | undefined>>
@@ -89,7 +97,7 @@ export namespace RichTextEditorMakerNS {
     selectionLink: Required<LinkInfo>
   }
 
-  export interface Props {
+  export interface Props extends Omit<BaseComponent, 'children'> {
     editor: Editor
     placeholder?: string
     children?: ((handlers: ChildrenCallback) => ReactNode) | ReactNode

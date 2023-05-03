@@ -11,6 +11,7 @@ import {
   QuoteElement,
   UnorderedListElement,
   TableElement,
+  ImageElement,
 } from '.'
 
 export const useRenderElements = () => {
@@ -46,12 +47,10 @@ export const useRenderElements = () => {
       case 'table': {
         return <TableElement {...props} />
       }
-      // case 'table-cell': {
-      //   return <TableCellElement {...props} />
-      // }
-      // case 'table-row': {
-      //   return <TableRowElement {...props} />
-      // }
+
+      case 'image': {
+        return <ImageElement {...props} />
+      }
 
       default: {
         return <DefaultElement {...props} />

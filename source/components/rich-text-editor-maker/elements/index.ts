@@ -1,5 +1,6 @@
 export * from './default'
 export * from './heading'
+export * from './image'
 export * from './leaf'
 export * from './leaf/use-render-leaf'
 export * from './link'

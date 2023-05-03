@@ -9,13 +9,13 @@ import {
   ScrollView,
   Stack,
 } from '..'
-import { useZoomComponent } from '../../hooks'
+import { useObjectedState, useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 import { EditorAction } from './editor-action'
 import { ResizeEditorHandle } from './resize-editor-handle'
 import { UseRichTextEditorI18nNS, useRichTextEditorI18n } from './use-i18n'
 
-import { LinkInserterPopover, TableInserterPopover, LinkElement } from './inserters'
+import { LinkInserterPopover, TableInserterPopover, LinkElement, ImageExplorer } from './inserters'
 import { StringUtils } from '../../utils'
 
 export namespace RichTextEditorNS {
@@ -61,6 +61,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
     const editorContainerRef = useRef<HTMLDivElement | null>(null)
 
     const [isLinkPopoverOpen, setIsLinkPopoverOpen] = useState(false)
+    const isImageDialogOpen = useObjectedState(false)
 
     const handleOpenLinkPopover = () => {
       setIsLinkPopoverOpen(true)
@@ -69,6 +70,10 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
     const classes = createClassName(className, '', {
       [createClassName('', 'sticky-actions')]: !!stickyActions,
     })
+
+    const openImageDialog = () => {
+      isImageDialogOpen.set(true)
+    }
 
     return (
       <div {...containerProps} className={classes} ref={reference}>
@@ -83,6 +88,13 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
             >
               {handlers => (
                 <div className="editor-container">
+                  <ImageExplorer
+                    i18n={i18n}
+                    imageExplorerProps={imageExplorerProps}
+                    handleCreateImage={handlers.insertImage}
+                    isImageDialogOpen={isImageDialogOpen}
+                  />
+
                   <Stack
                     className="editor-actions"
                     broken
@@ -221,7 +233,11 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                       />
                     </>
                     <>
-                      <EditorAction title={i18n.image} icon="insert_photo" />
+                      <EditorAction
+                        title={i18n.image}
+                        icon="insert_photo"
+                        onClick={openImageDialog}
+                      />
                       <EditorAction title={i18n.video} icon="smart_display" />
                       <EditorAction title={i18n.file} icon="folder" />
                     </>

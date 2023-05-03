@@ -9,6 +9,7 @@ declare module 'slate' {
     children?: Descendant[]
     text?: string
     tableInfo?: RichTextEditorMakerNS.TableInfo
+    imageInfo?: RichTextEditorMakerNS.ImageInfo
   }
 
   interface Marks {

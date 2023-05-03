@@ -4,10 +4,9 @@ import { ComponentMeta } from '@storybook/react'
 
 import { RichTextEditor, RichTextEditorNS } from '../components'
 // import { RichTextEditor, RichTextEditorNS } from '../components/rich-text-editor.2'
-import {
-  //  generateExplorerFiles,
-  lorem,
-} from '../fixtures'
+// import { RichTextEditor, RichTextEditorNS } from '../components/rich-text-editor.1'
+
+import { generateExplorerFiles, lorem } from '../fixtures'
 import { StoryPlayground } from './components'
 
 export default {
@@ -20,9 +19,9 @@ export default {
     //     placeholder: 'شروع به نوشتن متن جدید...',
     //     autoFocus: true,
     //   },
-    //   imageExplorerProps: {
-    //     files: generateExplorerFiles(100),
-    //   },
+    imageExplorerProps: {
+      files: generateExplorerFiles(100),
+    },
   },
 } as ComponentMeta<typeof RichTextEditor>
 

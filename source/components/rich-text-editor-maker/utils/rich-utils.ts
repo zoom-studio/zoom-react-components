@@ -316,4 +316,10 @@ export class RichUtils {
     Transforms.insertNodes(this.editor, [{ type: 'rule', children: [{ text: '' }] }])
     this.insertParagraph()
   }
+
+  insertImage = (imageInfo: RichTextEditorMakerNS.ImageInfo) => {
+    this.insertParagraph()
+    Transforms.insertNodes(this.editor, [{ type: 'image', children: [{ text: '' }], imageInfo }])
+    this.insertParagraph()
+  }
 }

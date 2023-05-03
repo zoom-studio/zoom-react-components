@@ -65,6 +65,11 @@ export namespace RichTextEditorMakerNS {
     cols: number
   }
 
+  export interface ImageInfo {
+    src: string
+    alt?: string
+  }
+
   export interface RenderLinkInfoCallbackParams extends LinkInfo {
     children: ReactNode
     handlers: ChildrenCallback
@@ -89,6 +94,7 @@ export namespace RichTextEditorMakerNS {
       | 'insertRule'
       | 'insertParagraph'
       | 'insertTable'
+      | 'insertImage'
     > {
     renderEditor: () => JSX.Element
     setIsBlankedLink: Dispatch<SetStateAction<boolean | undefined>>

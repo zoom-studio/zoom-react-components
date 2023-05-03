@@ -211,7 +211,10 @@ export const DisabledAndLoading: FC = () => {
 export const Errored: FC = () => {
   const { src } = useImageEditorStory()
   return (
-    <CommonStory component={ImageEditor} stories={[{ group: [{ props: { src: src + 'dd' } }] }]} />
+    <CommonStory
+      component={ImageEditor}
+      stories={[{ group: [{ props: { src: src.concat('dd') } }] }]}
+    />
   )
 }
 

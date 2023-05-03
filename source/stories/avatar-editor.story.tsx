@@ -43,7 +43,7 @@ export const LoadingAndError: FC = () => {
           group: [
             { name: 'Normal', props: { src } },
             { name: 'Loading', props: { src, loading: true } },
-            { name: 'Errored', props: { src: src + 'dd' } },
+            { name: 'Errored', props: { src: src.concat('dd') } },
           ],
         },
       ]}

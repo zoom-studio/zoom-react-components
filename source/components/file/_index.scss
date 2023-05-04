@@ -1,3 +1,99 @@
 .zoomrc-file {
   width: 100%;
+  display: inline-flex;
+  background-color: color(layer, 2);
+  border: 1px solid color(border, 2);
+  border-radius: 4px;
+
+  &-auto-width {
+    max-width: fit-content;
+  }
+
+  &-clickable {
+    cursor: pointer;
+  }
+
+  &,
+  & * {
+    user-select: none;
+    direction: ltr !important;
+    text-align: left;
+  }
+
+  > .file-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    column-gap: 8px;
+    padding: 4px 8px;
+    border-radius: inherit;
+    text-decoration: none;
+
+    > .file-preview {
+      display: flex;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+
+      > .download-progress {
+        position: absolute;
+        z-index: 1;
+
+        > .zoomrc-progress-info {
+          > .percentage {
+            padding-top: 4px;
+            color: white;
+          }
+        }
+      }
+
+      > .download-icon-container {
+        > .download-icon {
+          position: absolute;
+          z-index: 2;
+          color: white;
+          font-size: to-rem(34px);
+        }
+      }
+
+      > .unknown-preview {
+        > .file-icon {
+          opacity: 0.5;
+        }
+      }
+
+      > .download-icon-container,
+      > .unknown-preview {
+        display: flex;
+        width: inherit;
+        height: inherit;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    > .file-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      color: color(text, 1);
+
+      > .file-name {
+        margin: 0;
+        display: grid;
+        grid-template-columns: auto auto;
+        width: fit-content;
+
+        > .name {
+          @include truncate;
+        }
+      }
+
+      > .file-size {
+        margin: 0;
+      }
+    }
+  }
 }

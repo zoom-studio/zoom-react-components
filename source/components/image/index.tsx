@@ -29,6 +29,7 @@ export namespace ImageNS {
     shape?: Shapes
     imageViewerProps?: Omit<ImageViewerNS.Props, 'images' | 'children'>
     erroredStateIconFontSize?: string
+    onOpenImageViewerClick?: (evt: MouseEvent<HTMLPictureElement>) => void
   }
 }
 
@@ -51,6 +52,7 @@ export const Image = forwardRef<HTMLImageElement, ImageNS.Props>(
       imageViewerProps,
       onClick,
       children,
+      onOpenImageViewerClick,
       ...rest
     },
     reference,
@@ -94,6 +96,12 @@ export const Image = forwardRef<HTMLImageElement, ImageNS.Props>(
       className: containerClasses,
     }
 
+    const handleOnOpenImageViewer =
+      (openImageViewer: () => void) => (evt: MouseEvent<HTMLPictureElement>) => {
+        onOpenImageViewerClick?.(evt)
+        openImageViewer()
+      }
+
     return (
       <ConditionalWrapper
         condition={withImageViewer}
@@ -108,7 +116,11 @@ export const Image = forwardRef<HTMLImageElement, ImageNS.Props>(
             images={imageViewerCustomImages ?? [{ name: name ?? alt ?? src, source: src }]}
           >
             {({ openImageViewer }) => (
-              <picture {...containerProps} ref={reference} onClick={openImageViewer}>
+              <picture
+                {...containerProps}
+                ref={reference}
+                onClick={handleOnOpenImageViewer(openImageViewer)}
+              >
                 {children}
 
                 {!isLoading && !hasError && (

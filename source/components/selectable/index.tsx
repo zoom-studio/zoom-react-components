@@ -1,8 +1,9 @@
 import React, { cloneElement, FC, MouseEvent, useMemo, useState } from 'react'
 
 import { createSelectable, ReactSelectableComponentProps, SelectableGroup } from 'react-selectable'
+import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
 
-import { useFutureEffect, useZoomComponent } from '../../hooks'
+import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 
 export namespace SelectableNS {

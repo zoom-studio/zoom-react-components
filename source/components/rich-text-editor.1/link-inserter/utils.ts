@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
 
 import { DraftDecorator, EditorState, RichUtils } from 'draft-js'
-import { UseObjectedStateNS } from '../../../hooks'
+import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 export const findLinkEntities: DraftDecorator['strategy'] = (
   contentBlock,

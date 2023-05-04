@@ -3,8 +3,6 @@ import React from 'react'
 import { ColumnDef, ColumnHelper, GroupColumnDef, IdentifiedColumnDef } from '@tanstack/react-table'
 import { get } from 'lodash'
 
-import { ArrayUtils, StringUtils } from '../../../utils'
-
 import {
   Cell,
   CellNS,
@@ -17,6 +15,7 @@ import {
   HeaderCell,
   HeaderCellNS,
 } from '../table-components'
+import { randomString, toArray } from '@zoom-studio/zoom-js-ts-utils'
 
 export namespace CreateColumnNS {
   export interface Params {
@@ -39,9 +38,9 @@ export const createColumn = <Dataset extends unknown[]>({
       let columnGroupChildren = children
 
       if (columnGroupChildren) {
-        columnGroupChildren = ArrayUtils.toArray(columnGroupChildren)
+        columnGroupChildren = toArray(columnGroupChildren)
         const columnGroupOptions: GroupColumnDef<object> = {
-          id: StringUtils.random(20),
+          id: randomString(20),
           columns: [],
         }
 
@@ -82,11 +81,11 @@ export const createColumn = <Dataset extends unknown[]>({
 
   if (columnNode?.type === Column) {
     const columnProps = columnNode.props as ColumnNS.Props<Dataset>
-    const columnChildren = columnProps?.children ? ArrayUtils.toArray(columnProps.children) : []
+    const columnChildren = columnProps?.children ? toArray(columnProps.children) : []
 
     if (columnChildren) {
       const columnOptions: IdentifiedColumnDef<object, unknown> = {
-        id: columnProps.id?.toString() ?? StringUtils.random(20),
+        id: columnProps.id?.toString() ?? randomString(20),
       }
 
       for (const columnChild of columnChildren) {

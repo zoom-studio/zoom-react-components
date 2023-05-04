@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 
+import { formatFileSize } from '@zoom-studio/zoom-js-ts-utils'
+
 import { Button, ButtonNS, ExplorerNS, PopConfirm, Progress, Text, Tooltip, UploaderNS } from '..'
-import { FileUtils } from '../../utils'
 import { getFileTypeColors } from '../explorer/utils'
 
 import { UploaderFilePreview } from './file-preview'
@@ -60,7 +61,7 @@ export const UploaderFile: FC<UploaderFileNS.Props> = ({
             {name}
           </Text>
           <Text small className="upload-size">
-            {FileUtils.sizeToString(size, 0)}
+            {formatFileSize(size, 0)}
           </Text>
         </div>
 

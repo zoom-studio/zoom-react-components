@@ -1,14 +1,15 @@
 import React, { forwardRef, MutableRefObject, useEffect, useRef, useState } from 'react'
 
+import { useVariable, base64ToFile, canvasToBlobURL } from '@zoom-studio/zoom-js-ts-utils'
 import AvatarEditorComponent, {
   ImageState as AvatarEditorAvatarState,
   Position,
 } from 'react-avatar-editor'
 
 import { Button, ButtonNS, IconNS, RangeSlider, RangeSliderNS, Skeleton } from '..'
-import { useVariable, useZoomComponent } from '../../hooks'
+import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
-import { CanvasUtils, color, FileUtils } from '../../utils'
+import { color } from '../../utils'
 
 export namespace AvatarEditorNS {
   export enum RotateDir {
@@ -221,8 +222,8 @@ export const AvatarEditor = forwardRef<HTMLDivElement, AvatarEditorNS.Props>(
       onGettingResultStart?.()
       const canvas = editor.getImageScaledToCanvas()
       const base64 = canvas.toDataURL()
-      const blobURL = await CanvasUtils.toBlobURL(canvas)
-      const file = await FileUtils.Base64ToFile(base64)
+      const blobURL = await canvasToBlobURL(canvas)
+      const file = await base64ToFile(base64)
       onGettingResultEnd?.()
 
       return { base64, blobURL, file }

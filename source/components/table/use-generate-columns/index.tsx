@@ -1,9 +1,7 @@
 import { Fragment, useMemo, useRef } from 'react'
 
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
-
-import { MaybeArray } from '../../../types'
-import { ArrayUtils } from '../../../utils'
+import { toArray, MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Cell, Column, ColumnGroup, FooterCell, HeaderCell } from '../table-components'
 import { TableNS } from '../types'
@@ -54,12 +52,12 @@ export const useGenerateColumns = <Dataset extends unknown[]>({
       throw Error('Child node of Table component should be a React.Fragment element')
     }
 
-    let columnNodes = childNode?.props?.children as MaybeArray<JSX.Element> | null
+    let columnNodes = childNode?.props?.children as MaybeArray<JSX.Element>
     if (!columnNodes) {
       throw Error('Provide some Column or ColumnGroup elements')
     }
 
-    columnNodes = ArrayUtils.toArray(columnNodes)
+    columnNodes = toArray(columnNodes)
 
     for (const columnNode of columnNodes) {
       createColumn({

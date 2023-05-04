@@ -1,11 +1,11 @@
 import React, { Dispatch, FC, SetStateAction } from 'react'
 
 import { EditorState, RichUtils } from 'draft-js'
+import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Divider, EmojiNS, EmojiPicker, IconNS, Popover, Stack } from '../..'
 
 import { RichTextEditorNS } from '..'
-import { UseObjectedStateNS } from '../../../hooks'
 import { LinkInserter, LinkInserterNS, onCloseLinkPopover, removeLink } from '../link-inserter'
 import { useRichTextEditorI18n } from '../use-i18n'
 import { ActionButton } from './action-button'

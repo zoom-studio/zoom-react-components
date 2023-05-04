@@ -1,12 +1,11 @@
 import React, { FC, MouseEvent } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, useDownload } from '@zoom-studio/zoom-js-ts-utils'
 
 import { ContextMenu, Text } from '..'
 import { MenuItemNS } from '../menu/menu-item'
 
 import { ExplorerNS } from '.'
-import { useDownload } from '../../hooks'
 import { ExplorerFilePreview } from './file-preview'
 import { UseExplorerI18nNS } from './use-i18n'
 

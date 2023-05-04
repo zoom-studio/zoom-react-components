@@ -1,13 +1,13 @@
 import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
+import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Avatar, AvatarNS } from '../components'
-import { image } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 
 const generateProfile = (length = 1): string[] =>
-  Array.from(Array(length)).map((_, index) => image(100 + index, 100 + index, 'profile'))
+  Array.from(Array(length)).map((_, index) => randomImage(100 + index, 100 + index, 'profile'))
 
 export default {
   title: 'Data display/Avatar',

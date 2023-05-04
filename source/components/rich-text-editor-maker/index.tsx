@@ -1,8 +1,9 @@
 import React, { forwardRef, useEffect } from 'react'
 
 import { Editable, useSlate } from 'slate-react'
+import { useObjectedState, useVariable } from '@zoom-studio/zoom-js-ts-utils'
 
-import { useObjectedState, useVariable, useZoomComponent } from '../../hooks'
+import { useZoomComponent } from '../../hooks'
 
 import { useRenderElements, useRenderLeaf } from './elements'
 import { RichTextEditorMakerProvider } from './provider'

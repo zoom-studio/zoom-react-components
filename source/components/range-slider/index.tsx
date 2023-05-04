@@ -1,9 +1,10 @@
 import React, { forwardRef, ReactNode, useEffect, useState } from 'react'
 
 import Slider from 'react-rangeslider'
+import { useVariable } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Emoji, EmojiNS, Icon, IconNS, InputNS, Spin, Text, TypographyNS } from '..'
-import { useComponentSize, useVariable, useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 import { BaseComponent, CommonSize, DataEntriesState } from '../../types'
 
 export namespace RangeSliderNS {

@@ -1,5 +1,7 @@
 import React, { forwardRef, useRef, useState } from 'react'
 
+import { isValidURL, useObjectedState } from '@zoom-studio/zoom-js-ts-utils'
+
 import {
   ContextMenu,
   Divider,
@@ -9,14 +11,13 @@ import {
   ScrollView,
   Stack,
 } from '..'
-import { useObjectedState, useZoomComponent } from '../../hooks'
+import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 import { EditorAction } from './editor-action'
 import { ResizeEditorHandle } from './resize-editor-handle'
 import { UseRichTextEditorI18nNS, useRichTextEditorI18n } from './use-i18n'
 
 import { LinkInserterPopover, TableInserterPopover, LinkElement, ImageExplorer } from './inserters'
-import { StringUtils } from '../../utils'
 
 export namespace RichTextEditorNS {
   export type I18n = UseRichTextEditorI18nNS.I18n
@@ -181,7 +182,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                               setIsBlankedLink={handlers.setIsBlankedLink}
                               setIsNoFollowLink={handlers.setIsNoFollowLink}
                               setLinkURL={handlers.setLinkURL}
-                              isValidURL={StringUtils.isValidURL}
+                              isValidURL={isValidURL}
                               createLink={handlers.insertLink}
                               resetLinkInfo={handlers.resetLinkInfo}
                               closePopover={closePopover}

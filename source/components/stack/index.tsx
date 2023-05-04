@@ -5,8 +5,10 @@ import React, {
   ReactNode,
   RefAttributes,
 } from 'react'
+import { MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent, MaybeArray } from '../../types'
+import { BaseComponent } from '../../types'
 import { StackItem } from './stack-item'
 
 export namespace StackNS {

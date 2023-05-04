@@ -1,8 +1,8 @@
 import React, { ClassAttributes, forwardRef, HTMLAttributes } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, Range } from '@zoom-studio/zoom-js-ts-utils'
 
-import { BaseComponent, CommonSize, Range } from '../../types'
+import { BaseComponent, CommonSize } from '../../types'
 
 export namespace TypographyNS {
   export namespace TextNS {

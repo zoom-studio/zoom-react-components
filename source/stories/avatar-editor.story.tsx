@@ -1,16 +1,16 @@
 import React, { FC } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
+import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
 import { AvatarEditor, AvatarEditorNS } from '../components'
-import { image } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 
 export default {
   title: 'Data entry/Avatar editor',
   component: AvatarEditor,
   args: {
-    src: image(undefined, undefined, 'cats'),
+    src: randomImage(undefined, undefined, 'cats'),
     borderRadius: 2000,
     borderColor: [0, 0, 0, 0.8],
     borderWidth: 6,
@@ -29,7 +29,7 @@ export default {
 } as ComponentMeta<typeof AvatarEditor>
 
 const useAvatarEditorStory = () => {
-  const src = image(undefined, undefined, 'cats')
+  const src = randomImage(undefined, undefined, 'cats')
   return { src }
 }
 
@@ -43,7 +43,7 @@ export const LoadingAndError: FC = () => {
           group: [
             { name: 'Normal', props: { src } },
             { name: 'Loading', props: { src, loading: true } },
-            { name: 'Errored', props: { src: src + 'dd' } },
+            { name: 'Errored', props: { src: src.concat('dd') } },
           ],
         },
       ]}

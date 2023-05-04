@@ -2,9 +2,9 @@ import React, { FC } from 'react'
 
 import { faker } from '@faker-js/faker'
 import { ComponentMeta } from '@storybook/react'
+import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
 import { ImageEditor, ImageEditorNS } from '../components'
-import { image } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 
 export default {
@@ -38,7 +38,7 @@ export default {
 } as ComponentMeta<typeof ImageEditor>
 
 const useImageEditorStory = () => {
-  const src = image(undefined, undefined, 'cats')
+  const src = randomImage(undefined, undefined, 'cats')
   return { src }
 }
 
@@ -211,7 +211,10 @@ export const DisabledAndLoading: FC = () => {
 export const Errored: FC = () => {
   const { src } = useImageEditorStory()
   return (
-    <CommonStory component={ImageEditor} stories={[{ group: [{ props: { src: src + 'dd' } }] }]} />
+    <CommonStory
+      component={ImageEditor}
+      stories={[{ group: [{ props: { src: src.concat('dd') } }] }]}
+    />
   )
 }
 

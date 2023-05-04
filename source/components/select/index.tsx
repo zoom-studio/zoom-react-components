@@ -8,11 +8,11 @@ import React, {
   useState,
 } from 'react'
 
-import { classNames, sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, sleep, useOutsideClick } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Icon, Input, InputNS, Spin, SVGIcon, Text, TypographyNS } from '..'
 import { BREAKPOINTS, logs } from '../../constants'
-import { useComponentSize, useOutsideClick, useZoomComponent } from '../../hooks'
+import { useComponentSize, useZoomComponent } from '../../hooks'
 import { BaseComponent, CommonSize, DataEntriesState } from '../../types'
 import { color } from '../../utils'
 import { SelectGroup, SelectGroupNS } from './group'

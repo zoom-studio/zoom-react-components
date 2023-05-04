@@ -1,6 +1,1 @@
-export * from './array'
-export * from './canvas'
 export * from './color'
-export * from './file'
-export * from './make-draggable'
-export * from './string'

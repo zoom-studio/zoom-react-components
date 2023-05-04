@@ -14,9 +14,10 @@ import createFocusPlugin from '@draft-js-plugins/focus'
 import createImagePlugin from '@draft-js-plugins/image'
 import createResizeablePlugin from '@draft-js-plugins/resizeable'
 import { convertFromRaw, EditorState, getDefaultKeyBinding, RichUtils } from 'draft-js'
+import { useObjectedState, UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { ContextMenu, EmojiNS, ExplorerNS, ScrollView } from '..'
-import { useObjectedState, UseObjectedStateNS, useZoomComponent, useZoomContext } from '../../hooks'
+import { useZoomComponent, useZoomContext } from '../../hooks'
 import { BaseComponent } from '../../types'
 
 import { FULL_FEATURE_RICH_TEXT } from '../../fixtures'

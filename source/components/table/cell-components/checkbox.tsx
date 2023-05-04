@@ -1,9 +1,9 @@
 import React, { FC, MutableRefObject, useEffect } from 'react'
 
 import { Row } from '@tanstack/react-table'
+import { useDragWithoutGhost } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Checkbox, CheckboxNS } from '../..'
-import { useDragWithoutGhost } from '../../../hooks'
 
 export namespace CellCheckboxNS {
   export interface Props extends CheckboxNS.Props {

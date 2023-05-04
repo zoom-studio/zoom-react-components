@@ -1,8 +1,10 @@
 import React, { forwardRef, MouseEvent } from 'react'
 
+import { Range } from '@zoom-studio/zoom-js-ts-utils'
+
 import { Button, Emoji, EmojiNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { BaseComponent, CommonSize, Range } from '../../types'
+import { BaseComponent, CommonSize } from '../../types'
 
 export namespace ReactionRateNS {
   export type EmojiName = EmojiNS.Emojis.Names

@@ -1,6 +1,6 @@
 import React, { DragEvent, FormEvent, forwardRef, useRef, useState } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, fileListToArray } from '@zoom-studio/zoom-js-ts-utils'
 
 import { AsyncWrapper, Button, ExplorerNS, Icon, Text, Title, TypographyNS } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
@@ -8,7 +8,6 @@ import { BaseComponent, DataEntriesState } from '../../types'
 import { customizeFileTypeColors } from '../explorer/utils'
 
 import { logs } from '../../constants'
-import { FileUtils } from '../../utils'
 import { UploaderFile } from './file'
 import { useUploaderI18n, UseUploaderI18nNS } from './use-i18n'
 import { getFileInfo } from './utils'
@@ -107,7 +106,7 @@ export const Uploader = forwardRef<HTMLDivElement, UploaderNS.Props>(
     }
 
     const handleWriteFiles = (files: FileList | null) => {
-      let filesArray = FileUtils.fileListToArray(files)
+      let filesArray = fileListToArray(files)
       filesArray = filesArray.slice(0, maxFiles)
       onWrite?.(filesArray)
     }

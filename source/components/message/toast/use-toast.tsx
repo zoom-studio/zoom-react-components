@@ -1,9 +1,9 @@
 import React from 'react'
 
 import toaster from 'react-hot-toast'
+import { useAudio, UseAudioNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { CommonVariants } from '../../../types'
-import { useAudio, UseAudioNS } from '../../../hooks'
 
 import { DEFAULT_TOAST_DURATION, TOASTER_CLASS_NAME } from '../constants'
 import { Toast, ToastNS } from '.'

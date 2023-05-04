@@ -1,5 +1,7 @@
 import React, { FormEvent, forwardRef, useMemo, useState } from 'react'
 
+import { useFutureEffect, useObjectedState } from '@zoom-studio/zoom-js-ts-utils'
+
 import {
   AlertNS,
   Dialog,
@@ -9,7 +11,7 @@ import {
   UploaderDialogNS,
   UploaderNS,
 } from '..'
-import { useFutureEffect, useObjectedState, useZoomComponent } from '../../hooks'
+import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 import { ExplorerContent } from './content'
 

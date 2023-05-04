@@ -1,11 +1,9 @@
 import { cloneDeep } from 'lodash'
 import { BasePoint, BaseRange, Editor, Element, Range as SlateRange, Text, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
-
-import { Range } from '../../../types'
+import { Range, UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { RichTextEditorMakerNS } from '../..'
-import { UseObjectedStateNS } from '../../../hooks'
 
 export namespace RichUtilsNS {
   export interface Params {

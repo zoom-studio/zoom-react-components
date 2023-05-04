@@ -2,8 +2,9 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react'
 
 import Editor from '@draft-js-plugins/editor'
 import { EditorState, RichUtils } from 'draft-js'
+import { useObjectedState, useVariable } from '@zoom-studio/zoom-js-ts-utils'
 
-import { useObjectedState, useVariable, useZoomComponent, useZoomContext } from '../../hooks'
+import { useZoomComponent, useZoomContext } from '../../hooks'
 
 import { logs } from '../../constants'
 import { RichTextEditorMakerNS } from './types'

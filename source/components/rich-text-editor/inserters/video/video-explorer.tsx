@@ -6,50 +6,50 @@ import { ExplorerDialog, ExplorerNS, RichTextEditorMakerNS, RichTextEditorNS } f
 
 import { useRichTextEditorI18n } from '../../use-i18n'
 
-export namespace ImageExplorerNS {
-  export interface Props extends Pick<RichTextEditorNS.Props, 'imageExplorerProps'> {
+export namespace VideoExplorerNS {
+  export interface Props extends Pick<RichTextEditorNS.Props, 'videoExplorerProps'> {
     i18n: ReturnType<typeof useRichTextEditorI18n>
-    isImageDialogOpen: UseObjectedStateNS.ReturnType<boolean>
-    handleCreateImage: (imageInfo: RichTextEditorMakerNS.ImageInfo) => void
+    isVideoDialogOpen: UseObjectedStateNS.ReturnType<boolean>
+    handleCreateVideo: (videoInfo: RichTextEditorMakerNS.VideoInfo) => void
   }
 }
 
-export const ImageExplorer: FC<ImageExplorerNS.Props> = ({
-  imageExplorerProps,
+export const VideoExplorer: FC<VideoExplorerNS.Props> = ({
+  videoExplorerProps,
   i18n,
-  handleCreateImage,
-  isImageDialogOpen,
+  handleCreateVideo,
+  isVideoDialogOpen,
 }) => {
   const [selectedFileIndexes, setSelectedFileIndexes] = useState<number[]>([])
 
-  const files = imageExplorerProps?.files
+  const files = videoExplorerProps?.files
 
   const getSelectedFiles = (): ExplorerNS.FileInterface[] => {
     return files ? selectedFileIndexes.map(fileIndex => files[fileIndex]) : []
   }
 
-  const handleInsertImages = () => {
+  const handleInsertVideos = () => {
     const selectedFiles = getSelectedFiles()
-    selectedFiles.forEach(file => handleCreateImage({ src: file.link, alt: file.name }))
+    selectedFiles.forEach(file => handleCreateVideo({ src: file.link }))
     closeDialog()
   }
 
   const closeDialog = () => {
-    isImageDialogOpen.set(false)
+    isVideoDialogOpen.set(false)
   }
 
   return (
     <ExplorerDialog
-      {...imageExplorerProps}
+      {...videoExplorerProps}
       multiSelect
       isTypeSelectDisabled
-      isOpen={!!isImageDialogOpen.val}
+      isOpen={!!isVideoDialogOpen.val}
       onClose={closeDialog}
-      filterTypes={[...ExplorerNS.ImageType]}
-      defaultTypeQuery={i18n.images}
+      filterTypes={[...ExplorerNS.VideoType]}
+      defaultTypeQuery={i18n.videos}
       onSelectItems={setSelectedFileIndexes}
       selectButtonProps={{
-        onClick: handleInsertImages,
+        onClick: handleInsertVideos,
       }}
     />
   )

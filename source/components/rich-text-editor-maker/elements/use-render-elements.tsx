@@ -12,6 +12,8 @@ import {
   UnorderedListElement,
   TableElement,
   ImageElement,
+  VideoElement,
+  FileElement,
 } from '.'
 
 export const useRenderElements = () => {
@@ -50,6 +52,14 @@ export const useRenderElements = () => {
 
       case 'image': {
         return <ImageElement {...props} />
+      }
+
+      case 'video': {
+        return <VideoElement {...props} />
+      }
+
+      case 'file': {
+        return <FileElement {...props} />
       }
 
       default: {

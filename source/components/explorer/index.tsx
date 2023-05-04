@@ -30,7 +30,11 @@ export namespace ExplorerNS {
   export type ImageType = typeof ImageType[number]
   export type MaybeImageType = ImageType | (string & {})
 
-  export const FileType = [...ImageType, 'pdf'] as const
+  export const VideoType = ['webm', 'mkv', 'ogg', 'avi', 'mov', 'amv', 'mp4', '3gp'] as const
+  export type VideoType = typeof VideoType[number]
+  export type MaybeVideoType = VideoType | (string & {})
+
+  export const FileType = [...ImageType, ...VideoType, 'pdf'] as const
   export type FileType = typeof FileType[number]
   export type MaybeFileType = FileType | (string & {})
 

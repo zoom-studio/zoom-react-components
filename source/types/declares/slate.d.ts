@@ -10,6 +10,8 @@ declare module 'slate' {
     text?: string
     tableInfo?: RichTextEditorMakerNS.TableInfo
     imageInfo?: RichTextEditorMakerNS.ImageInfo
+    videoInfo?: RichTextEditorMakerNS.VideoInfo
+    fileInfo?: RichTextEditorMakerNS.FileInfo
   }
 
   interface Marks {

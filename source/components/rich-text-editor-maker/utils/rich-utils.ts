@@ -320,4 +320,16 @@ export class RichUtils {
     Transforms.insertNodes(this.editor, [{ type: 'image', children: [{ text: '' }], imageInfo }])
     this.insertParagraph()
   }
+
+  insertVideo = (videoInfo: RichTextEditorMakerNS.VideoInfo) => {
+    this.insertParagraph()
+    Transforms.insertNodes(this.editor, [{ type: 'video', children: [{ text: '' }], videoInfo }])
+    this.insertParagraph()
+  }
+
+  insertFile = (fileInfo: RichTextEditorMakerNS.FileInfo) => {
+    this.insertParagraph()
+    Transforms.insertNodes(this.editor, [{ type: 'file', children: [{ text: '' }], fileInfo }])
+    this.insertParagraph()
+  }
 }

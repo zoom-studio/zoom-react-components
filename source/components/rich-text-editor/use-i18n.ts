@@ -32,6 +32,7 @@ export namespace UseRichTextEditorI18nNS {
     horizontalRule?: string
     table?: string
     video?: string
+    videos?: string
     sticker?: string
     undo?: string
     redo?: string
@@ -74,6 +75,7 @@ export const useRichTextEditorI18n = (
     horizontalRule: i18n?.horizontalRule ?? 'Horizontal rule',
     table: i18n?.table ?? 'Insert Table',
     video: i18n?.video ?? 'Attache video',
+    videos: i18n?.videos ?? 'Videos',
     undo: i18n?.undo ?? 'Undo',
     redo: i18n?.redo ?? 'Redo',
     highlight: i18n?.highlight ?? 'Highlight',

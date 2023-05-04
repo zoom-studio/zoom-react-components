@@ -6,50 +6,49 @@ import { ExplorerDialog, ExplorerNS, RichTextEditorMakerNS, RichTextEditorNS } f
 
 import { useRichTextEditorI18n } from '../../use-i18n'
 
-export namespace ImageExplorerNS {
-  export interface Props extends Pick<RichTextEditorNS.Props, 'imageExplorerProps'> {
+export namespace FileExplorerNS {
+  export interface Props extends Pick<RichTextEditorNS.Props, 'fileExplorerProps'> {
     i18n: ReturnType<typeof useRichTextEditorI18n>
-    isImageDialogOpen: UseObjectedStateNS.ReturnType<boolean>
-    handleCreateImage: (imageInfo: RichTextEditorMakerNS.ImageInfo) => void
+    isFileDialogOpen: UseObjectedStateNS.ReturnType<boolean>
+    handleCreateFile: (fileInfo: RichTextEditorMakerNS.FileInfo) => void
   }
 }
 
-export const ImageExplorer: FC<ImageExplorerNS.Props> = ({
-  imageExplorerProps,
+export const FileExplorer: FC<FileExplorerNS.Props> = ({
+  fileExplorerProps,
   i18n,
-  handleCreateImage,
-  isImageDialogOpen,
+  handleCreateFile,
+  isFileDialogOpen,
 }) => {
   const [selectedFileIndexes, setSelectedFileIndexes] = useState<number[]>([])
 
-  const files = imageExplorerProps?.files
+  const files = fileExplorerProps?.files
 
   const getSelectedFiles = (): ExplorerNS.FileInterface[] => {
     return files ? selectedFileIndexes.map(fileIndex => files[fileIndex]) : []
   }
 
-  const handleInsertImages = () => {
+  const handleInsertFiles = () => {
     const selectedFiles = getSelectedFiles()
-    selectedFiles.forEach(file => handleCreateImage({ src: file.link, alt: file.name }))
+    selectedFiles.forEach(file =>
+      handleCreateFile({ name: file.name, size: file.size, src: file.link, type: file.type }),
+    )
     closeDialog()
   }
 
   const closeDialog = () => {
-    isImageDialogOpen.set(false)
+    isFileDialogOpen.set(false)
   }
 
   return (
     <ExplorerDialog
-      {...imageExplorerProps}
+      {...fileExplorerProps}
       multiSelect
-      isTypeSelectDisabled
-      isOpen={!!isImageDialogOpen.val}
+      isOpen={!!isFileDialogOpen.val}
       onClose={closeDialog}
-      filterTypes={[...ExplorerNS.ImageType]}
-      defaultTypeQuery={i18n.images}
       onSelectItems={setSelectedFileIndexes}
       selectButtonProps={{
-        onClick: handleInsertImages,
+        onClick: handleInsertFiles,
       }}
     />
   )

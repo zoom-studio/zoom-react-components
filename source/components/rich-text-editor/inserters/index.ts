@@ -1,3 +1,5 @@
 export * from './image'
 export * from './link'
 export * from './table'
+export * from './video'
+export * from './file'

@@ -17,7 +17,14 @@ import { EditorAction } from './editor-action'
 import { ResizeEditorHandle } from './resize-editor-handle'
 import { UseRichTextEditorI18nNS, useRichTextEditorI18n } from './use-i18n'
 
-import { LinkInserterPopover, TableInserterPopover, LinkElement, ImageExplorer } from './inserters'
+import {
+  LinkInserterPopover,
+  TableInserterPopover,
+  LinkElement,
+  ImageExplorer,
+  VideoExplorer,
+  FileExplorer,
+} from './inserters'
 
 export namespace RichTextEditorNS {
   export type I18n = UseRichTextEditorI18nNS.I18n
@@ -28,8 +35,22 @@ export namespace RichTextEditorNS {
       'filterTypes' | 'defaultTypeQuery' | 'multiSelect' | 'isTypeSelectDisabled' | 'onSelectItems'
     > {}
 
+  export interface VideoExplorerProps
+    extends Omit<
+      ExplorerNS.Props,
+      'filterTypes' | 'defaultTypeQuery' | 'multiSelect' | 'isTypeSelectDisabled' | 'onSelectItems'
+    > {}
+
+  export interface FileExplorerProps
+    extends Omit<
+      ExplorerNS.Props,
+      'filterTypes' | 'defaultTypeQuery' | 'multiSelect' | 'isTypeSelectDisabled' | 'onSelectItems'
+    > {}
+
   export interface Props extends Omit<BaseComponent, 'children'> {
     imageExplorerProps?: ImageExplorerProps
+    videoExplorerProps?: VideoExplorerProps
+    fileExplorerProps?: FileExplorerProps
     editorProps?: Omit<RichTextEditorMakerNS.Props, 'children'>
     stickyActions?: boolean
     resizable?: boolean
@@ -52,7 +73,9 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
       editorProps,
       containerProps,
       imageExplorerProps,
+      videoExplorerProps,
       enableAdvancedLinkInserter,
+      fileExplorerProps,
       // ...rest
     },
     reference,
@@ -63,6 +86,8 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
 
     const [isLinkPopoverOpen, setIsLinkPopoverOpen] = useState(false)
     const isImageDialogOpen = useObjectedState(false)
+    const isVideoDialogOpen = useObjectedState(false)
+    const isFileDialogOpen = useObjectedState(false)
 
     const handleOpenLinkPopover = () => {
       setIsLinkPopoverOpen(true)
@@ -74,6 +99,14 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
 
     const openImageDialog = () => {
       isImageDialogOpen.set(true)
+    }
+
+    const openVideoDialog = () => {
+      isVideoDialogOpen.set(true)
+    }
+
+    const openFileDialog = () => {
+      isFileDialogOpen.set(true)
     }
 
     return (
@@ -94,6 +127,20 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                     imageExplorerProps={imageExplorerProps}
                     handleCreateImage={handlers.insertImage}
                     isImageDialogOpen={isImageDialogOpen}
+                  />
+
+                  <VideoExplorer
+                    i18n={i18n}
+                    videoExplorerProps={videoExplorerProps}
+                    handleCreateVideo={handlers.insertVideo}
+                    isVideoDialogOpen={isVideoDialogOpen}
+                  />
+
+                  <FileExplorer
+                    i18n={i18n}
+                    fileExplorerProps={fileExplorerProps}
+                    handleCreateFile={handlers.insertFile}
+                    isFileDialogOpen={isFileDialogOpen}
                   />
 
                   <Stack
@@ -239,8 +286,12 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                         icon="insert_photo"
                         onClick={openImageDialog}
                       />
-                      <EditorAction title={i18n.video} icon="smart_display" />
-                      <EditorAction title={i18n.file} icon="folder" />
+                      <EditorAction
+                        title={i18n.video}
+                        icon="smart_display"
+                        onClick={openVideoDialog}
+                      />
+                      <EditorAction title={i18n.file} icon="folder" onClick={openFileDialog} />
                     </>
                     <>
                       <EditorAction title={i18n.emoji} icon="sentiment_satisfied_alt" />

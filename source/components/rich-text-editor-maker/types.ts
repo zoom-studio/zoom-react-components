@@ -12,6 +12,7 @@ import { ReactEditor } from 'slate-react'
 import { RichTextEditorMakerProvider } from './provider'
 import { RichUtils } from './utils'
 import { BaseComponent } from '../../types'
+import { ExplorerNS } from '../explorer'
 
 export namespace RichTextEditorMakerNS {
   export type Editor = BaseEditor & ReactEditor
@@ -70,6 +71,17 @@ export namespace RichTextEditorMakerNS {
     alt?: string
   }
 
+  export interface FileInfo {
+    type: ExplorerNS.MaybeAllFileTypes
+    src: string
+    name: string
+    size: number
+  }
+
+  export interface VideoInfo {
+    src: string
+  }
+
   export interface RenderLinkInfoCallbackParams extends LinkInfo {
     children: ReactNode
     handlers: ChildrenCallback
@@ -95,6 +107,8 @@ export namespace RichTextEditorMakerNS {
       | 'insertParagraph'
       | 'insertTable'
       | 'insertImage'
+      | 'insertVideo'
+      | 'insertFile'
     > {
     renderEditor: () => JSX.Element
     setIsBlankedLink: Dispatch<SetStateAction<boolean | undefined>>

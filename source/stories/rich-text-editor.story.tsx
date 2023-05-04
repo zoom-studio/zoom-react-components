@@ -22,6 +22,12 @@ export default {
     imageExplorerProps: {
       files: generateExplorerFiles(100),
     },
+    videoExplorerProps: {
+      files: generateExplorerFiles(100),
+    },
+    fileExplorerProps: {
+      files: generateExplorerFiles(100),
+    },
   },
 } as ComponentMeta<typeof RichTextEditor>
 

@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { randomImage, randomPDF } from '@zoom-studio/zoom-js-ts-utils'
+import { randomImage, randomNumber, randomPDF } from '@zoom-studio/zoom-js-ts-utils'
 
 import { ExplorerNS } from '../components'
 
@@ -40,6 +40,43 @@ export const explorerImageFile = (
   }
 }
 
+export const explorerVideoFile = (
+  id?: number,
+  type?: ExplorerNS.MaybeVideoType,
+): ExplorerNS.FileInterface => {
+  id = id ?? faker.datatype.number({ min: 1, max: 200, precision: 1 })
+  type =
+    type ??
+    ExplorerNS.VideoType[
+      faker.datatype.number({ min: 0, max: ExplorerNS.VideoType.length - 1, precision: 1 })
+    ]
+
+  const videos = [
+    'https://www.w3schools.com/html/movie.mp4',
+    'https://www.w3schools.com/html/mov_bbb.mp4',
+  ]
+
+  return {
+    id,
+    type,
+    name: faker.system.fileName({ extensionCount: 0 }).concat(`.${type}`),
+    size: faker.datatype.number({ min: 200, max: 200000, precision: 0.01 }),
+    link: videos[randomNumber({ min: 0, max: videos.length - 1 })],
+    createdAt: getFileDate(faker.datatype.datetime()),
+    updatedAt: getFileDate(faker.datatype.datetime()),
+    moreInfo: [
+      {
+        displayName: 'Video size',
+        value: `${faker.datatype.number({
+          min: 500,
+          max: 2000,
+          precision: 1,
+        })}x${faker.datatype.number({ min: 500, max: 2000, precision: 1 })}`,
+      },
+    ],
+  }
+}
+
 export const explorerPDFFile = (id?: number): ExplorerNS.FileInterface => {
   id = id ?? faker.datatype.number({ min: 1, max: 200, precision: 1 })
   return {
@@ -67,10 +104,11 @@ export const explorerRandomFile = (id?: number): ExplorerNS.FileInterface => {
 }
 
 export const generateExplorerFiles = (length = 10, shuffled = true): ExplorerNS.FileInterface[] => {
-  const knownTypesLength = parseInt((length / 3).toString())
+  const knownTypesLength = parseInt((length / 4).toString())
   const unknownTypesLength = length - knownTypesLength * 2
 
   const images = Array.from(Array(knownTypesLength)).map((_, index) => explorerImageFile(index + 1))
+  const videos = Array.from(Array(knownTypesLength)).map((_, index) => explorerVideoFile(index + 1))
   const PDFs = Array.from(Array(knownTypesLength)).map((_, index) =>
     explorerPDFFile(index + knownTypesLength + 1),
   )
@@ -78,7 +116,7 @@ export const generateExplorerFiles = (length = 10, shuffled = true): ExplorerNS.
     explorerRandomFile(index + 1 + knownTypesLength * 2),
   )
 
-  const files = [...images, ...PDFs, ...others]
+  const files = [...images, ...PDFs, ...videos, ...others]
 
   if (shuffled) {
     return shuffle(files)

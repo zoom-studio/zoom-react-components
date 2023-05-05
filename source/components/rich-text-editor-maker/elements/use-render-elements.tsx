@@ -14,6 +14,7 @@ import {
   ImageElement,
   VideoElement,
   FileElement,
+  EmojiElement,
 } from '.'
 
 export const useRenderElements = () => {
@@ -60,6 +61,10 @@ export const useRenderElements = () => {
 
       case 'file': {
         return <FileElement {...props} />
+      }
+
+      case 'emoji': {
+        return <EmojiElement {...props} />
       }
 
       default: {

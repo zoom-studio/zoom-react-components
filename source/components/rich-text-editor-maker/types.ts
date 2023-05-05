@@ -47,7 +47,9 @@ export namespace RichTextEditorMakerNS {
     'underline',
     'link',
     'emoji',
+    'emoji',
     'mention',
+    'hashtag',
     'highlight',
     'strikethrough',
   ] as const
@@ -109,6 +111,7 @@ export namespace RichTextEditorMakerNS {
       | 'insertImage'
       | 'insertVideo'
       | 'insertFile'
+      | 'insertEmoji'
     > {
     renderEditor: () => JSX.Element
     setIsBlankedLink: Dispatch<SetStateAction<boolean | undefined>>

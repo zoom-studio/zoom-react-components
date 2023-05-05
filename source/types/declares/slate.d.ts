@@ -1,7 +1,7 @@
 import { BaseEditor, Descendant } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { RichTextEditorMakerNS } from '../../components/rich-text-editor-maker'
+import { RichTextEditorMakerNS, EmojiNS } from '../../components'
 
 declare module 'slate' {
   interface CustomElement {
@@ -12,6 +12,7 @@ declare module 'slate' {
     imageInfo?: RichTextEditorMakerNS.ImageInfo
     videoInfo?: RichTextEditorMakerNS.VideoInfo
     fileInfo?: RichTextEditorMakerNS.FileInfo
+    emojiName?: EmojiNS.Emojis.Names
   }
 
   interface Marks {
@@ -23,6 +24,7 @@ declare module 'slate' {
     mention?: boolean
     highlight?: boolean
     strikethrough?: boolean
+    hashtag?: boolean
     linkInfo?: RichTextEditorMakerNS.LinkInfo
   }
 

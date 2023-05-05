@@ -3,7 +3,7 @@ import { BasePoint, BaseRange, Editor, Element, Range as SlateRange, Text, Trans
 import { ReactEditor } from 'slate-react'
 import { Range, UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
-import { RichTextEditorMakerNS } from '../..'
+import { EmojiNS, RichTextEditorMakerNS } from '../..'
 
 export namespace RichUtilsNS {
   export interface Params {
@@ -167,6 +167,7 @@ export class RichUtils {
       { type: this.isActive('quote') ? 'normal' : 'quote' },
       { match: node => Element.isElement(node) && Editor.isBlock(this.editor, node) },
     )
+    this.focusEditor()
   }
 
   isRangeSelected = (): boolean => {
@@ -246,6 +247,7 @@ export class RichUtils {
     this.insertParagraph()
     Transforms.insertNodes(this.editor, [{ type: 'table', children: [{ text: '' }], tableInfo }])
     this.insertParagraph()
+    this.focusEditor()
   }
 
   insertLink = (linkInfo: RichTextEditorMakerNS.LinkInfo): void => {
@@ -301,6 +303,8 @@ export class RichUtils {
     if (!isListActive) {
       Transforms.wrapNodes(this.editor, { type: listModel, children: [] })
     }
+
+    this.focusEditor()
   }
 
   insertParagraph = (text = ''): void => {
@@ -308,28 +312,44 @@ export class RichUtils {
       type: 'paragraph',
       children: [{ text }],
     })
+    this.focusEditor()
   }
 
   insertRule = (): void => {
     Transforms.insertNodes(this.editor, [{ type: 'rule', children: [{ text: '' }] }])
     this.insertParagraph()
+    this.focusEditor()
   }
 
   insertImage = (imageInfo: RichTextEditorMakerNS.ImageInfo) => {
     this.insertParagraph()
     Transforms.insertNodes(this.editor, [{ type: 'image', children: [{ text: '' }], imageInfo }])
     this.insertParagraph()
+    this.focusEditor()
   }
 
   insertVideo = (videoInfo: RichTextEditorMakerNS.VideoInfo) => {
     this.insertParagraph()
     Transforms.insertNodes(this.editor, [{ type: 'video', children: [{ text: '' }], videoInfo }])
     this.insertParagraph()
+    this.focusEditor()
   }
 
   insertFile = (fileInfo: RichTextEditorMakerNS.FileInfo) => {
     this.insertParagraph()
     Transforms.insertNodes(this.editor, [{ type: 'file', children: [{ text: '' }], fileInfo }])
     this.insertParagraph()
+    this.focusEditor()
+  }
+
+  insertEmoji = (emojiName: EmojiNS.Emojis.Names) => {
+    Transforms.insertNodes(this.editor, [
+      {
+        type: 'emoji',
+        children: [{ text: '' }],
+        emojiName,
+      },
+    ])
+    this.focusEditor()
   }
 }

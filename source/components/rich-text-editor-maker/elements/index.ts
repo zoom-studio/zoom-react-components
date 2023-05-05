@@ -1,4 +1,5 @@
 export * from './default'
+export * from './emoji'
 export * from './file'
 export * from './heading'
 export * from './image'

@@ -8,7 +8,7 @@ export namespace EditorActionNS {
   export interface Popover
     extends Pick<
       PopoverNS.Props,
-      'className' | 'onClose' | 'disabled' | 'content' | 'isOpen' | 'onOpenChange'
+      'className' | 'onClose' | 'disabled' | 'content' | 'isOpen' | 'onOpenChange' | 'width'
     > {}
 
   export interface Props {

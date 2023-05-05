@@ -24,6 +24,7 @@ import {
   ImageExplorer,
   VideoExplorer,
   FileExplorer,
+  EmojiInserterPopover,
 } from './inserters'
 
 export namespace RichTextEditorNS {
@@ -294,7 +295,14 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                       <EditorAction title={i18n.file} icon="folder" onClick={openFileDialog} />
                     </>
                     <>
-                      <EditorAction title={i18n.emoji} icon="sentiment_satisfied_alt" />
+                      <EditorAction
+                        title={i18n.emoji}
+                        icon="sentiment_satisfied_alt"
+                        popover={{
+                          className: 'insert-emoji-popover',
+                          content: <EmojiInserterPopover onSelect={handlers.insertEmoji} />,
+                        }}
+                      />
                       <EditorAction title={i18n.sticker} icon="waving_hand" />
                     </>
                     <>

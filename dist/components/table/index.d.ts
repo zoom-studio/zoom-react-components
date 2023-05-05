@@ -1,0 +1,4 @@
+/// <reference types="react" />
+import { TableNS } from './types';
+export declare const Table: <Dataset extends unknown[]>({ resizeColumnOnReleaseMouseButton: resizeOnEnd, infiniteScroll: infiniteScrollSettings, maxHeight, stickyHeader, stickyFooter, resizableColumns, stickyActions, actions, toggleSelectOnRowClick, dragToSelect, renderHeader, endMessage, showColumnsButton, showSearch, renderActionsBar, debounceSearchInput, searchInputDebounceDelay, fullHeight, title, striped, hoverable, renderFooter, selectable, className, containerProps, reference, dataset, children, maxWidth, minHeight, minWidth, onSelectionChange, actionsColumnWidth, id, renderRowExpanded, isRowExpandable, virtualized, onSortChange, sortable, useDefaultSortAlgorithm, loading, onSearch, ...rest }: TableNS.Props<Dataset>) => JSX.Element;
+export type { TableNS } from './types';

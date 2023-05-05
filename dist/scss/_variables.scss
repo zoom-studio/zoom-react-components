@@ -1,0 +1,41 @@
+@use "sass:color";
+
+$scroll-thumb: gray;
+$scroll-thumb-hover: color.mix(black, gray, 20);
+$font-family-farsi-digits: 'Vazirmatn FD', 'Segoe UI', tahoma, geneva, verdana, sans-serif;
+$font-family-latin-digits: Vazirmatn, 'Segoe UI', tahoma, geneva, verdana, sans-serif;
+$base-font-sizes: (
+  small: 20px,
+  normal: 20px,
+  large: 20px,
+);
+$font-sizes: (
+  small: 14px,
+  normal: 16px,
+  large: 18px,
+  h1: 28px,
+  h2: 26px,
+  h3: 24px,
+  h4: 22px,
+  h5: 20px,
+  h6: 18px,
+);
+$font-faces: (
+  thin: 100,
+  extra-light: 200,
+  light: 300,
+  regular: 400,
+  medium: 500,
+  semi-bold: 600,
+  bold: 700,
+  extra-bold: 800,
+  black: 900,
+);
+$breakpoints: (
+  xs: 0,
+  sm: 576,
+  md: 768,
+  lg: 992,
+  xl: 1200,
+  xxl: 1400,
+);

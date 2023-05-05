@@ -1,0 +1,93 @@
+@use "sass:string";
+@use "sass:map";
+@use 'sass:math';
+@use "sass:list";
+
+/**
+ * $source: layer | text | border | accent | success | info | warning | error | backdrop | placeholder | skeleton
+ * $tone: 1 to 3 (( DO NOT pass unless $source is one of [layer | text | border | accent]  ))
+ * $mode: lighter | darker | glassy
+ * $weight: 1 to 9
+**/
+@function color($source: 'layer', $tone: '1', $mode: '', $weight: '1') {
+  $source: '' + $source;
+  $tone: '' + $tone;
+  $mode: '' + $mode;
+  $weight: '' + $weight;
+  $source-suffix: '-' + $tone;
+  $is-from-base: $source == success or $source == info or $source == warning or $source ==error or
+    $source == backdrop or $source == placeholder or $source == skeleton;
+
+  @if $is-from-base {
+    $weight: $mode;
+    $mode: $tone;
+
+    @if $mode == '1' {
+      $mode: '';
+    }
+    @if not $weight or $weight == '' {
+      $weight: '1';
+    }
+
+    @if string.length($mode) > 0 {
+      @return var(--zoomrc-color-#{$source}-#{$mode}-#{$weight});
+    } @else {
+      @return var(--zoomrc-color-#{$source});
+    }
+  }
+
+  @if string.length($mode) > 0 {
+    @return var(--zoomrc-color-#{$source}-#{$tone}-#{$mode}-#{$weight});
+  } @else {
+    @return var(--zoomrc-color-#{$source}#{$source-suffix});
+  }
+}
+
+@function next-breakpoint($name) {
+  $breakpoint-names: map.keys($breakpoints);
+  $index: list.index($breakpoint-names, $name);
+
+  @if not $index {
+    @error "breakpoint `#{$name}` not found in `#{$breakpoints}`";
+  }
+
+  @return if($index < length($breakpoint-names), nth($breakpoint-names, $index + 1), null);
+}
+
+@function min-breakpoint($name) {
+  $min: map.get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+
+@function max-breakpoint($name) {
+  $max: map.get($breakpoints, $name);
+  @return if($max and $max > 0, $max - 0.02, null);
+}
+
+@function translate-breakpoint-name($name) {
+  $name: $name + '';
+
+  @if $name == 'sm-phone' or $name == 0 or $name == 'xs' {
+    @return 'xs';
+  } @else if $name == 'phone' or $name == 576 or $name == 'sm' {
+    @return 'sm';
+  } @else if $name == 'lg-phone' or $name == 768 or $name == 'md' {
+    @return 'md';
+  } @else if $name == 'tablet' or $name == 992 or $name == 'lg' {
+    @return 'lg';
+  } @else if $name == 'desktop' or $name == 1200 or $name == 'xl' {
+    @return 'xl';
+  } @else if $name == 'lg-desktop' or $name == 1400 or $name == 'xxl' {
+    @return 'xxl';
+  } @else {
+    @error "breakpoint `#{$name}` not found in `#{$breakpoints}`";
+  }
+}
+
+/**
+* $value: any units except 'rem' itself
+* $base-font-size:  small | normal | large
+**/
+@function to-rem($value, $base-font-size: large) {
+  @return math.div($value, map.get($base-font-sizes, $base-font-size)) * 1rem;
+}

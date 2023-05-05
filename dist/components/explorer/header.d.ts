@@ -1,0 +1,13 @@
+import { FC } from 'react';
+import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils';
+import { ExplorerNS } from '.';
+export declare namespace ExplorerHeaderNS {
+    interface Props extends Pick<ExplorerNS.Props, 'isSearchInputDisabled' | 'isTypeSelectDisabled' | 'disabled' | 'defaultTypeQuery'> {
+        viewMode: UseObjectedStateNS.ReturnType<ExplorerNS.ViewMode>;
+        i18n: Required<ExplorerNS.I18n>;
+        typeQuery: UseObjectedStateNS.ReturnType<ExplorerNS.MaybeAllFileTypesWithAll>;
+        searchQuery: UseObjectedStateNS.ReturnType<string>;
+        openUploaderDialog: () => void;
+    }
+}
+export declare const ExplorerHeader: FC<ExplorerHeaderNS.Props>;

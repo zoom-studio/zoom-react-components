@@ -2,7 +2,6 @@
 /npm-debug.log*
 /yarn-error.log
 /package-lock.json
-/dist
 /docs-dist
 .DS_Store
 .env

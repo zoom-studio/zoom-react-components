@@ -1,0 +1,18 @@
+import React, { HTMLAttributes, ReactNode } from 'react';
+import { ButtonNS, PopoverNS } from '..';
+import { UseStatedIcon } from '../../hooks';
+import { CommonVariants } from '../../types';
+export declare namespace PopConfirmNS {
+    type Action = ButtonNS.Props | ((handlers: PopoverNS.Handlers) => ButtonNS.Props);
+    interface Props extends Omit<UseStatedIcon.Params, 'variant'>, Pick<PopoverNS.Props, 'onOpen' | 'onClose' | 'defaultIsOpen' | 'placement' | 'autoCloseDelay' | 'hoverDelay' | 'width'> {
+        title: string;
+        buttonProps?: Omit<ButtonNS.Props, 'onClick'>;
+        children?: ReactNode;
+        variant?: CommonVariants;
+        confirm?: Action;
+        cancel?: Action;
+        containerProps?: HTMLAttributes<HTMLDivElement>;
+        description?: string;
+    }
+}
+export declare const PopConfirm: React.ForwardRefExoticComponent<PopConfirmNS.Props & React.RefAttributes<HTMLDivElement>>;

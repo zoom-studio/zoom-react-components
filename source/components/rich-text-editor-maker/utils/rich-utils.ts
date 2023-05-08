@@ -1,9 +1,11 @@
-import { cloneDeep } from 'lodash'
-import { BasePoint, BaseRange, Editor, Element, Range as SlateRange, Text, Transforms } from 'slate'
+import { BaseRange, Editor, Element, Range as SlateRange, Text, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
 import { Range, UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { EmojiNS, RichTextEditorMakerNS } from '../..'
+
+import { EditorCurrentWord } from '.'
+import { RichTextEditorMakerProviderNS } from '../provider'
 
 export namespace RichUtilsNS {
   export interface Params {
@@ -11,6 +13,7 @@ export namespace RichUtilsNS {
     noFollowedLink: UseObjectedStateNS.ReturnType<boolean>
     blankedLink: UseObjectedStateNS.ReturnType<boolean>
     linkURL: UseObjectedStateNS.ReturnType<string>
+    editorContext: Required<RichTextEditorMakerProviderNS.ProviderValue>
   }
 
   export interface GetCurrentWordReturnType {
@@ -24,13 +27,16 @@ export class RichUtils {
   noFollowedLink!: UseObjectedStateNS.ReturnType<boolean>
   blankedLink!: UseObjectedStateNS.ReturnType<boolean>
   linkURL!: UseObjectedStateNS.ReturnType<string>
-  wordRegExp = /(\S+)/g
+  currentWord!: EditorCurrentWord
+  context!: Required<RichTextEditorMakerProviderNS.ProviderValue>
 
   constructor(params: RichUtilsNS.Params) {
     this.editor = params.editor
     this.noFollowedLink = params.noFollowedLink
     this.blankedLink = params.blankedLink
     this.linkURL = params.linkURL
+    this.currentWord = new EditorCurrentWord({ editor: params.editor })
+    this.context = params.editorContext
   }
 
   private readonly getHeadingType = (
@@ -39,83 +45,9 @@ export class RichUtils {
     return headingLevel === 1 ? 'h1' : headingLevel === 2 ? 'h2' : headingLevel === 3 ? 'h3' : 'h4'
   }
 
-  private readonly getLeftChar = (point: BasePoint): string => {
-    const end = SlateRange.end(this.editor.selection as SlateRange)
-    return Editor.string(this.editor, {
-      anchor: {
-        path: end.path,
-        offset: point.offset - 1,
-      },
-      focus: {
-        path: end.path,
-        offset: point.offset,
-      },
-    })
-  }
-
-  private readonly getRightChar = (point: BasePoint): string => {
-    const end = SlateRange.end(this.editor.selection as SlateRange)
-    return Editor.string(this.editor, {
-      anchor: {
-        path: end.path,
-        offset: point.offset,
-      },
-      focus: {
-        path: end.path,
-        offset: point.offset + 1,
-      },
-    })
-  }
-
-  private readonly getCurrentWord = (): RichUtilsNS.GetCurrentWordReturnType | null => {
-    const { selection } = this.editor
-
-    if (!selection) {
-      return null
-    }
-
-    const end = SlateRange.end(selection)
-    let currentWord = ''
-    const currentPosition = cloneDeep(end)
-    let startOffset = end.offset
-    let endOffset = end.offset
-
-    while (
-      currentPosition.offset >= 0 &&
-      this.getLeftChar(currentPosition).match(this.wordRegExp)
-    ) {
-      currentWord = this.getLeftChar(currentPosition) + currentWord
-      startOffset = currentPosition.offset - 1
-      currentPosition.offset--
-    }
-
-    currentPosition.offset = end.offset
-    while (currentWord.length && this.getRightChar(currentPosition).match(this.wordRegExp)) {
-      currentWord += this.getRightChar(currentPosition)
-      endOffset = currentPosition.offset + 1
-      currentPosition.offset++
-    }
-
-    const currentRange: SlateRange = {
-      anchor: {
-        path: end.path,
-        offset: startOffset,
-      },
-      focus: {
-        path: end.path,
-        offset: endOffset,
-      },
-    }
-
-    return {
-      currentWord,
-      currentRange,
-    }
-  }
-
   private readonly getLocationToApplyMarks = (): BaseRange | undefined => {
     if (!this.isRangeSelected()) {
-      const currentWord = this.getCurrentWord()
+      const currentWord = this.currentWord.getCurrentWord()
       if (currentWord?.currentWord) {
         return currentWord.currentRange
       }
@@ -351,5 +283,25 @@ export class RichUtils {
       },
     ])
     this.focusEditor()
+  }
+
+  insertMention = (mentionInfo: RichTextEditorMakerNS.MentionInfo) => {
+    const { mentionTarget, setMentionTarget } = this.context.mention
+
+    if (mentionTarget) {
+      Transforms.select(this.editor, mentionTarget)
+    }
+
+    Transforms.insertNodes(this.editor, {
+      type: 'mention',
+      children: [{ text: '' }],
+      mentionInfo,
+    })
+    this.focusEditor()
+
+    if (mentionTarget) {
+      Transforms.move(this.editor)
+      setMentionTarget?.(undefined)
+    }
   }
 }

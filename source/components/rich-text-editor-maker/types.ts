@@ -36,7 +36,6 @@ export namespace RichTextEditorMakerNS {
     'image',
     'video',
     'file',
-    'sticker',
     'rule',
   ] as const
 
@@ -61,6 +60,11 @@ export namespace RichTextEditorMakerNS {
     url: string
     openInNewTab?: boolean
     noFollow?: boolean
+  }
+
+  export interface MentionInfo {
+    displayName: string
+    [key: string]: any
   }
 
   export interface TableInfo {
@@ -112,6 +116,7 @@ export namespace RichTextEditorMakerNS {
       | 'insertVideo'
       | 'insertFile'
       | 'insertEmoji'
+      | 'insertMention'
     > {
     renderEditor: () => JSX.Element
     setIsBlankedLink: Dispatch<SetStateAction<boolean | undefined>>

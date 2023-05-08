@@ -26,6 +26,7 @@ import {
   FileExplorer,
   EmojiInserterPopover,
 } from './inserters'
+import { faker } from '@faker-js/faker'
 
 export namespace RichTextEditorNS {
   export type I18n = UseRichTextEditorI18nNS.I18n
@@ -112,8 +113,25 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
 
     return (
       <div {...containerProps} className={classes} ref={reference}>
-        <RichTextEditorMaker.provider>
-          {({ providerEditor }) => (
+        <RichTextEditorMaker.provider
+          enableMention={{
+            onEnter: ({ handlers, mention }) =>
+              handlers.insertMention({ displayName: mention.mentionQuery }),
+            usernames: [
+              ...Array.from(Array(100)).map(() => faker.internet.userName()),
+              'hr.cycle',
+              'hr_cycle',
+              'hr-cycle',
+              'hr/cycle',
+              'hr1234',
+              'hr.1234',
+              'hr_1234',
+              '_hr_1234_',
+              '_hr.1234_',
+            ],
+          }}
+        >
+          {({ providerEditor, mention }) => (
             <RichTextEditorMaker
               editor={providerEditor}
               renderLinkElement={props => (
@@ -123,6 +141,22 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
             >
               {handlers => (
                 <div className="editor-container">
+                  {mention.shouldRenderList && (
+                    <ul
+                      style={{
+                        color: 'gray',
+                        position: 'fixed',
+                        right: 0,
+                        bottom: 0,
+                        background: 'black',
+                        zIndex: 5,
+                      }}
+                    >
+                      {mention.foundUsernames.map((username, index) => (
+                        <li key={index}>{username}</li>
+                      ))}
+                    </ul>
+                  )}
                   <ImageExplorer
                     i18n={i18n}
                     imageExplorerProps={imageExplorerProps}
@@ -293,8 +327,6 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                         onClick={openVideoDialog}
                       />
                       <EditorAction title={i18n.file} icon="folder" onClick={openFileDialog} />
-                    </>
-                    <>
                       <EditorAction
                         title={i18n.emoji}
                         icon="sentiment_satisfied_alt"
@@ -303,7 +335,6 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                           content: <EmojiInserterPopover onSelect={handlers.insertEmoji} />,
                         }}
                       />
-                      <EditorAction title={i18n.sticker} icon="waving_hand" />
                     </>
                     <>
                       <EditorAction title={i18n.undo} icon="undo" />

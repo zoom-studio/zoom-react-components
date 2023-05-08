@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react'
 
-import { sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { sleep, usernameRegEx as usernameRegularExpression } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Avatar, ScrollView, Text, Textarea, TextareaNS } from '..'
 import { logs } from '../../constants'
@@ -42,7 +42,7 @@ export const Mention = forwardRef<HTMLDivElement, MentionNS.Props>(
       users: providedUsers,
       maxHeight = 200,
       closeUsersListOnBlur = true,
-      usernameRegex = /^[a-z0-9_.]+$/,
+      usernameRegex = usernameRegularExpression,
       symbol = '@',
       containerProps,
       className,

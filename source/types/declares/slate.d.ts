@@ -13,6 +13,7 @@ declare module 'slate' {
     videoInfo?: RichTextEditorMakerNS.VideoInfo
     fileInfo?: RichTextEditorMakerNS.FileInfo
     emojiName?: EmojiNS.Emojis.Names
+    mentionInfo?: RichTextEditorMakerNS.MentionInfo
   }
 
   interface Marks {
@@ -26,6 +27,7 @@ declare module 'slate' {
     strikethrough?: boolean
     hashtag?: boolean
     linkInfo?: RichTextEditorMakerNS.LinkInfo
+    mentionInfo?: RichTextEditorMakerNS.MentionInfo
   }
 
   interface CustomText extends Marks {

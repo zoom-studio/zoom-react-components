@@ -1,15 +1,10 @@
-@keyframes cursor-blink-keyframes {
-  to {
-    visibility: hidden;
-  }
-}
-
 @mixin zoomrc-rich-text-editor-content-styles {
   .table-editor-container,
   .editor-image-container,
   .editor-video-container,
   .editor-file-container,
-  .editor-emoji {
+  .editor-emoji,
+  .editor-mention {
     position: relative;
     text-align: center;
 
@@ -50,13 +45,32 @@
         background-color: color(accent);
         height: 2px;
         width: 100%;
-        animation: cursor-blink-keyframes 1s steps(5, start) infinite;
       }
     }
 
     > .zoomrc-emoji {
       user-select: none;
       transform: translateY(4px);
+    }
+  }
+
+  .editor-mention {
+    display: inline-block;
+    color: color(accent);
+    position: relative;
+    cursor: default;
+
+    &.focused {
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: color(accent);
+        height: 2px;
+        width: 100%;
+      }
     }
   }
 

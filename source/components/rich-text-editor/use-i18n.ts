@@ -33,7 +33,6 @@ export namespace UseRichTextEditorI18nNS {
     table?: string
     video?: string
     videos?: string
-    sticker?: string
     undo?: string
     redo?: string
   }
@@ -64,7 +63,6 @@ export const useRichTextEditorI18n = (
     ul: i18n?.ul ?? 'Bulleted list',
     blockquote: i18n?.blockquote ?? 'Blockquote',
     emoji: i18n?.emoji ?? 'Emoji',
-    sticker: i18n?.sticker ?? 'Sticker',
     icon: i18n?.icon ?? 'Icon',
     image: i18n?.image ?? 'Attache image',
     file: i18n?.file ?? 'Attache file',

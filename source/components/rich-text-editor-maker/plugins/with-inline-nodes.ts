@@ -2,7 +2,7 @@ import { RichTextEditorMakerNS } from '../types'
 
 export const withInlineNodes = (editor: RichTextEditorMakerNS.Editor) => {
   const { isInline, isVoid, markableVoid } = editor
-  const inlineNodes: RichTextEditorMakerNS.ElementTypes[] = ['emoji']
+  const inlineNodes: RichTextEditorMakerNS.ElementTypes[] = ['emoji', 'mention']
 
   editor.isInline = element => {
     return inlineNodes.includes(element.type) || isInline(element)

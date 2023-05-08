@@ -4,17 +4,18 @@ import { RenderElementProps } from 'slate-react'
 
 import {
   DefaultElement,
+  EmojiElement,
+  FileElement,
   HeadingElement,
   HorizontalRuleElement,
+  ImageElement,
   ListItemElement,
+  MentionElement,
   OrderedListElement,
   QuoteElement,
-  UnorderedListElement,
   TableElement,
-  ImageElement,
+  UnorderedListElement,
   VideoElement,
-  FileElement,
-  EmojiElement,
 } from '.'
 
 export const useRenderElements = () => {
@@ -65,6 +66,10 @@ export const useRenderElements = () => {
 
       case 'emoji': {
         return <EmojiElement {...props} />
+      }
+
+      case 'mention': {
+        return <MentionElement {...props} />
       }
 
       default: {

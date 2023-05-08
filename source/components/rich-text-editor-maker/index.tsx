@@ -1,20 +1,21 @@
 import React, { forwardRef, useEffect } from 'react'
 
-import { Editable, useSlate } from 'slate-react'
 import { useObjectedState, useVariable } from '@zoom-studio/zoom-js-ts-utils'
+import { Editable, useSlate } from 'slate-react'
 
 import { useZoomComponent } from '../../hooks'
 
 import { useRenderElements, useRenderLeaf } from './elements'
 import { RichTextEditorMakerProvider } from './provider'
 import { RichTextEditorMakerNS } from './types'
-import { RichUtils, useAccelerators } from './utils'
+import { RichUtils, useAccelerators, useEditorContext } from './utils'
 
 type CB = RichTextEditorMakerNS.ChildrenCallback
 
 export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMakerNS.Props>(
   ({ children, placeholder, renderLinkElement, className }, reference) => {
     const { createClassName } = useZoomComponent('rich-text-editor-maker')
+    const editorContext = useEditorContext()
 
     const editor = useSlate()
     const renderElements = useRenderElements()
@@ -23,8 +24,7 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
     const blankedLink = useObjectedState(false)
     const linkURL = useObjectedState('google.com')
 
-    const richUtils = new RichUtils({ editor, blankedLink, linkURL, noFollowedLink })
-    const handleAccelerators = useAccelerators({ editor, richUtils })
+    const richUtils = new RichUtils({ editor, blankedLink, linkURL, noFollowedLink, editorContext })
 
     const selectionLink = useVariable<CB['selectionLink']>(() => ({
       url: linkURL.val ?? '',
@@ -40,6 +40,8 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
       setIsNoFollowLink: noFollowedLink.set,
       setLinkURL: linkURL.set,
     })
+
+    const handleAccelerators = useAccelerators({ editor, richUtils, combineHandlers })
 
     const renderLeaf = useRenderLeaf({ renderLinkElement, handlers: combineHandlers() })
 

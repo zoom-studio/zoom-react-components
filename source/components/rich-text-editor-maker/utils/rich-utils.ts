@@ -304,4 +304,24 @@ export class RichUtils {
       setMentionTarget?.(undefined)
     }
   }
+
+  insertHashtag = (hashtagInfo: RichTextEditorMakerNS.HashtagInfo) => {
+    const { hashtagTarget, setHashtagTarget } = this.context.hashtag
+
+    if (hashtagTarget) {
+      Transforms.select(this.editor, hashtagTarget)
+    }
+
+    Transforms.insertNodes(this.editor, {
+      type: 'hashtag',
+      children: [{ text: '' }],
+      hashtagInfo,
+    })
+    this.focusEditor()
+
+    if (hashtagTarget) {
+      Transforms.move(this.editor)
+      setHashtagTarget?.(undefined)
+    }
+  }
 }

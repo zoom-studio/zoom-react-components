@@ -4,7 +4,8 @@
   .editor-video-container,
   .editor-file-container,
   .editor-emoji,
-  .editor-mention {
+  .editor-mention,
+  .editor-hashtag {
     position: relative;
     text-align: center;
 
@@ -54,6 +55,7 @@
     }
   }
 
+  .editor-hashtag,
   .editor-mention {
     display: inline-block;
     color: color(accent);

@@ -6,6 +6,7 @@ import {
   DefaultElement,
   EmojiElement,
   FileElement,
+  HashtagElement,
   HeadingElement,
   HorizontalRuleElement,
   ImageElement,
@@ -70,6 +71,10 @@ export const useRenderElements = () => {
 
       case 'mention': {
         return <MentionElement {...props} />
+      }
+
+      case 'hashtag': {
+        return <HashtagElement {...props} />
       }
 
       default: {

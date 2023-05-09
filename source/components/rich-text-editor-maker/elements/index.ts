@@ -1,6 +1,7 @@
 export * from './default'
 export * from './emoji'
 export * from './file'
+export * from './hashtag'
 export * from './heading'
 export * from './image'
 export * from './leaf'

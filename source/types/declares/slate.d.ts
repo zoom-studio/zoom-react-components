@@ -14,6 +14,7 @@ declare module 'slate' {
     fileInfo?: RichTextEditorMakerNS.FileInfo
     emojiName?: EmojiNS.Emojis.Names
     mentionInfo?: RichTextEditorMakerNS.MentionInfo
+    hashtagInfo?: RichTextEditorMakerNS.HashtagInfo
   }
 
   interface Marks {
@@ -28,6 +29,7 @@ declare module 'slate' {
     hashtag?: boolean
     linkInfo?: RichTextEditorMakerNS.LinkInfo
     mentionInfo?: RichTextEditorMakerNS.MentionInfo
+    hashtagInfo?: RichTextEditorMakerNS.HashtagInfo
   }
 
   interface CustomText extends Marks {

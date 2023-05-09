@@ -46,7 +46,6 @@ export namespace RichTextEditorMakerNS {
     'underline',
     'link',
     'emoji',
-    'emoji',
     'mention',
     'hashtag',
     'highlight',
@@ -63,6 +62,11 @@ export namespace RichTextEditorMakerNS {
   }
 
   export interface MentionInfo {
+    displayName: string
+    [key: string]: any
+  }
+
+  export interface HashtagInfo {
     displayName: string
     [key: string]: any
   }
@@ -117,6 +121,7 @@ export namespace RichTextEditorMakerNS {
       | 'insertFile'
       | 'insertEmoji'
       | 'insertMention'
+      | 'insertHashtag'
     > {
     renderEditor: () => JSX.Element
     setIsBlankedLink: Dispatch<SetStateAction<boolean | undefined>>

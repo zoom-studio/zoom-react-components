@@ -11,16 +11,6 @@ import { RichTextEditorMakerNS } from '../types'
 import { EditorCurrentWord } from '../utils'
 
 export namespace UseMentionNS {
-  export interface PortalPosition {
-    top: number | string
-    left?: number | string
-  }
-
-  export const DEFAULT_PORTAL_POSITION: PortalPosition = {
-    left: '50%',
-    top: '50%',
-  }
-
   export interface Params extends Pick<RichTextEditorMakerProviderNS.Props, 'enableMention'> {
     editor: RichTextEditorMakerNS.Editor
   }

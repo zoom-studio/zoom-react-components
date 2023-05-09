@@ -114,6 +114,27 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
     return (
       <div {...containerProps} className={classes} ref={reference}>
         <RichTextEditorMaker.provider
+          mentionify
+          enableHashtag={{
+            onEnter: ({ handlers, hashtag }) =>
+              handlers.insertHashtag({ displayName: hashtag.hashtagQuery }),
+            hashtags: [
+              ...Array.from(Array(100)).map(() =>
+                '#'.concat(faker.internet.userName().toLowerCase().replace(/ /g, '')),
+              ),
+              ...[
+                'hr.cycle',
+                'hr_cycle',
+                'hr-cycle',
+                'hr/cycle',
+                'hr1234',
+                'hr.1234',
+                'hr_1234',
+                '_hr_1234_',
+                '_hr.1234_',
+              ].map(hashtag => '#'.concat(hashtag)),
+            ],
+          }}
           enableMention={{
             onEnter: ({ handlers, mention }) =>
               handlers.insertMention({ displayName: mention.mentionQuery }),
@@ -131,7 +152,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
             ],
           }}
         >
-          {({ providerEditor, mention }) => (
+          {({ providerEditor, mention, hashtag }) => (
             <RichTextEditorMaker
               editor={providerEditor}
               renderLinkElement={props => (
@@ -157,6 +178,24 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                       ))}
                     </ul>
                   )}
+
+                  {hashtag.shouldRenderList && (
+                    <ul
+                      style={{
+                        color: 'gray',
+                        position: 'fixed',
+                        right: 0,
+                        bottom: 0,
+                        background: 'black',
+                        zIndex: 5,
+                      }}
+                    >
+                      {hashtag.foundHashtags.map((hashtag, index) => (
+                        <li key={index}>{hashtag}</li>
+                      ))}
+                    </ul>
+                  )}
+
                   <ImageExplorer
                     i18n={i18n}
                     imageExplorerProps={imageExplorerProps}

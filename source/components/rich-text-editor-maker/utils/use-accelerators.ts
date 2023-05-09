@@ -1,8 +1,10 @@
 import { KeyboardEvent, useCallback } from 'react'
 
+import { hashtagRegEx, usernameRegEx } from '@zoom-studio/zoom-js-ts-utils'
+
 import { RichTextEditorMakerNS } from '../types'
 
-import { RichUtils, useEditorContext } from '.'
+import { EditorCurrentWord, RichUtils, useEditorContext } from '.'
 
 export namespace UseAcceleratorsNS {
   export interface Params {
@@ -17,16 +19,53 @@ export const useAccelerators = ({
   richUtils,
   combineHandlers,
 }: UseAcceleratorsNS.Params) => {
-  const { mention, enableMention } = useEditorContext()
+  const { mention, enableMention, enableHashtag, hashtag, hashtagify, mentionify } =
+    useEditorContext()
   const handlers = combineHandlers()
 
   const handleAccelerators = useCallback(
     (evt: KeyboardEvent<HTMLDivElement>) => {
-      const { key, ctrlKey } = evt
+      const { key, ctrlKey, altKey } = evt
+
       const isSwitchingMentionsList =
         !!enableMention && mention.mentionQuery?.length > 0 && mention.foundUsernames.length > 0
 
+      const isSwitchingHashtagsList =
+        !!enableHashtag && hashtag.hashtagQuery?.length > 0 && hashtag.foundHashtags.length > 0
+
       switch (key) {
+        case '1': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleHeading(1)()
+          break
+        }
+
+        case '2': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleHeading(2)()
+          break
+        }
+
+        case '3': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleHeading(3)()
+          break
+        }
+
+        case '4': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleHeading(4)()
+          break
+        }
+
         case 'b': {
           if (!ctrlKey) break
 
@@ -35,10 +74,88 @@ export const useAccelerators = ({
           break
         }
 
+        case 'i': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleItalic()
+          break
+        }
+
+        case 'u': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleUnderline()
+          break
+        }
+
+        case 's': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleStrikethrough()
+          break
+        }
+
+        case 'q': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleQuote()
+          break
+        }
+
+        case 'h': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleHighlight()
+          break
+        }
+
+        case 'l': {
+          if (!ctrlKey) break
+
+          evt.preventDefault()
+          richUtils.toggleList(altKey ? 'unordered-list' : 'ordered-list')()
+          break
+        }
+
+        case ' ': {
+          if (hashtagify || mentionify) {
+            const currentWord = new EditorCurrentWord({ editor }).getCurrentWord()
+
+            if (hashtagify && currentWord && hashtagRegEx.test(currentWord.currentWord)) {
+              hashtag.setHashtagTarget(currentWord.currentRange)
+              handlers.insertHashtag({ displayName: currentWord.currentWord })
+            }
+
+            if (mentionify && currentWord) {
+              const username =
+                currentWord.currentWord?.[0] === '@'
+                  ? currentWord.currentWord?.slice(1)
+                  : currentWord.currentWord
+
+              if (usernameRegEx.test(username)) {
+                mention.setMentionTarget(currentWord.currentRange)
+                handlers.insertMention({ displayName: username })
+              }
+            }
+          }
+
+          break
+        }
+
         case 'ArrowDown': {
           if (isSwitchingMentionsList && enableMention?.onArrowDown) {
             evt.preventDefault()
             enableMention?.onArrowDown({ evt, mention, handlers })
+          }
+
+          if (isSwitchingHashtagsList && enableHashtag?.onArrowDown) {
+            evt.preventDefault()
+            enableHashtag?.onArrowDown({ evt, hashtag, handlers })
           }
           break
         }
@@ -48,6 +165,11 @@ export const useAccelerators = ({
             evt.preventDefault()
             enableMention?.onArrowUp({ evt, mention, handlers })
           }
+
+          if (isSwitchingHashtagsList && enableHashtag?.onArrowUp) {
+            evt.preventDefault()
+            enableHashtag?.onArrowUp({ evt, hashtag, handlers })
+          }
           break
         }
 
@@ -55,6 +177,11 @@ export const useAccelerators = ({
           if (isSwitchingMentionsList && enableMention?.onTab) {
             evt.preventDefault()
             enableMention?.onTab({ evt, mention, handlers })
+          }
+
+          if (isSwitchingHashtagsList && enableHashtag?.onTab) {
+            evt.preventDefault()
+            enableHashtag?.onTab({ evt, hashtag, handlers })
           }
           break
         }
@@ -64,6 +191,11 @@ export const useAccelerators = ({
             evt.preventDefault()
             enableMention?.onEnter({ evt, mention, handlers })
           }
+
+          if (isSwitchingHashtagsList && enableHashtag?.onEnter) {
+            evt.preventDefault()
+            enableHashtag?.onEnter({ evt, hashtag, handlers })
+          }
           break
         }
 
@@ -72,11 +204,16 @@ export const useAccelerators = ({
             evt.preventDefault()
             enableMention?.onEscape({ evt, mention, handlers })
           }
+
+          if (isSwitchingHashtagsList && enableHashtag?.onEscape) {
+            evt.preventDefault()
+            enableHashtag?.onEscape({ evt, hashtag, handlers })
+          }
           break
         }
       }
     },
-    [mention],
+    [mention, hashtag],
   )
 
   return handleAccelerators

@@ -1,6 +1,6 @@
+import { Range, UseObjectedStateNS, randomString } from '@zoom-studio/zoom-js-ts-utils'
 import { BaseRange, Editor, Element, Range as SlateRange, Text, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
-import { Range, UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { EmojiNS, RichTextEditorMakerNS } from '../..'
 
@@ -177,7 +177,14 @@ export class RichUtils {
 
   insertTable = (tableInfo: RichTextEditorMakerNS.TableInfo): void => {
     this.insertParagraph()
-    Transforms.insertNodes(this.editor, [{ type: 'table', children: [{ text: '' }], tableInfo }])
+    Transforms.insertNodes(this.editor, [
+      {
+        type: 'table',
+        children: [{ text: '' }],
+        tableInfo,
+        id: 'zoomrc-rich-text-editor-table-generator-'.concat(randomString(10)),
+      },
+    ])
     this.insertParagraph()
     this.focusEditor()
   }

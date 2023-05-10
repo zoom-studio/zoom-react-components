@@ -13,18 +13,18 @@ import { RichUtils, useAccelerators, useEditorContext } from './utils'
 type CB = RichTextEditorMakerNS.ChildrenCallback
 
 export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMakerNS.Props>(
-  ({ children, placeholder, renderLinkElement, className }, reference) => {
+  ({ children, placeholder, renderLinkElement, className, id }, reference) => {
     const { createClassName } = useZoomComponent('rich-text-editor-maker')
     const editorContext = useEditorContext()
 
     const editor = useSlate()
-    const renderElements = useRenderElements()
 
     const noFollowedLink = useObjectedState(false)
     const blankedLink = useObjectedState(false)
     const linkURL = useObjectedState('google.com')
 
     const richUtils = new RichUtils({ editor, blankedLink, linkURL, noFollowedLink, editorContext })
+    const renderElements = useRenderElements()
 
     const selectionLink = useVariable<CB['selectionLink']>(() => ({
       url: linkURL.val ?? '',
@@ -62,6 +62,7 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
     const renderEditor: CB['renderEditor'] = () => {
       return (
         <Editable
+          id={id}
           className={classes}
           placeholder={placeholder}
           renderElement={renderElements}

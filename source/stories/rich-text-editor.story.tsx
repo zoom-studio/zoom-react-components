@@ -13,6 +13,7 @@ export default {
   title: 'Data entry/Rich text editor',
   component: RichTextEditor,
   args: {
+    id: 'playground-rich-text-editor',
     // maxHeight: 700,
     initialHeight: 700,
     //   editorProps: {

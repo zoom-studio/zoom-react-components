@@ -1,4 +1,13 @@
-import React, { FC, KeyboardEvent, ReactNode, createContext, useMemo } from 'react'
+import React, {
+  Dispatch,
+  FC,
+  KeyboardEvent,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useMemo,
+  useState,
+} from 'react'
 
 import { Descendant, createEditor } from 'slate'
 import { withHistory } from 'slate-history'
@@ -6,6 +15,7 @@ import { Slate, withReact } from 'slate-react'
 
 import { useHashtag, useMention, withCorrectVoidBehavior, withInlineNodes } from './plugins'
 import { RichTextEditorMakerNS } from './types'
+import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
 
 export namespace RichTextEditorMakerProviderNS {
   export interface ChildrenCallbackParams {
@@ -61,6 +71,8 @@ export namespace RichTextEditorMakerProviderNS {
     extends Pick<Props, 'enableMention' | 'enableHashtag' | 'hashtagify' | 'mentionify'> {
     mention?: ReturnType<typeof useMention>
     hashtag?: ReturnType<typeof useHashtag>
+    editorValue?: Descendant[]
+    setEditorValue?: Dispatch<SetStateAction<Descendant[]>>
   }
 }
 
@@ -74,6 +86,7 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
   enableMention,
   enableHashtag,
 }) => {
+  const [editorValue, setEditorValue] = useState<Descendant[]>(defaultValue ?? [])
   const providerEditor = useMemo(
     () =>
       // prettier-ignore
@@ -92,21 +105,39 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
   const mention = useMention({ editor: providerEditor, enableMention })
   const hashtag = useHashtag({ editor: providerEditor, enableHashtag })
 
+  const storeEditorValue = (value: Descendant[]) => {
+    localStorage.setItem('editor-value', JSON.stringify(value))
+  }
+
   const handleOnChange = (value: Descendant[]) => {
+    setEditorValue(value)
     mention.manageMentionOnChange()
     hashtag.manageHashtagOnChange()
-    localStorage.setItem('editor-value', JSON.stringify(value))
+    storeEditorValue(value)
   }
 
   const getValue = (): Descendant[] => {
     const storedValue = localStorage.getItem('editor-value')
-    return storedValue ? JSON.parse(storedValue) : defaultValue
+    return storedValue ? JSON.parse(storedValue) : editorValue
   }
+
+  useFutureEffect(() => {
+    storeEditorValue(editorValue)
+  }, [editorValue])
 
   return (
     <Slate editor={providerEditor} value={getValue()} onChange={handleOnChange}>
       <EditorContext.Provider
-        value={{ mention, enableMention, enableHashtag, hashtag, hashtagify, mentionify }}
+        value={{
+          mention,
+          enableMention,
+          enableHashtag,
+          hashtag,
+          hashtagify,
+          mentionify,
+          editorValue,
+          setEditorValue,
+        }}
       >
         {children({ providerEditor, mention, hashtag })}
       </EditorContext.Provider>

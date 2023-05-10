@@ -13,6 +13,7 @@ import { RichTextEditorMakerProvider } from './provider'
 import { RichUtils } from './utils'
 import { BaseComponent } from '../../types'
 import { ExplorerNS } from '../explorer'
+import { TableGeneratorNS } from '../table-generator'
 
 export namespace RichTextEditorMakerNS {
   export type Editor = BaseEditor & ReactEditor
@@ -71,10 +72,7 @@ export namespace RichTextEditorMakerNS {
     [key: string]: any
   }
 
-  export interface TableInfo {
-    rows: number
-    cols: number
-  }
+  export type TableInfo = TableGeneratorNS.CellsData | TableGeneratorNS.CellsCount
 
   export interface ImageInfo {
     src: string
@@ -130,11 +128,12 @@ export namespace RichTextEditorMakerNS {
     selectionLink: Required<LinkInfo>
   }
 
-  export interface Props extends Omit<BaseComponent, 'children'> {
+  export interface Props extends Omit<BaseComponent, 'children' | 'id'> {
     editor: Editor
     placeholder?: string
     children?: ((handlers: ChildrenCallback) => ReactNode) | ReactNode
     renderLinkElement?: (params: RenderLinkInfoCallbackParams) => ReactNode
+    id: string
   }
 
   export type ComponentType = ForwardRefExoticComponent<Props & RefAttributes<HTMLDivElement>> & {

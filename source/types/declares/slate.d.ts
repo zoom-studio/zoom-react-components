@@ -15,6 +15,7 @@ declare module 'slate' {
     emojiName?: EmojiNS.Emojis.Names
     mentionInfo?: RichTextEditorMakerNS.MentionInfo
     hashtagInfo?: RichTextEditorMakerNS.HashtagInfo
+    id?: string
   }
 
   interface Marks {

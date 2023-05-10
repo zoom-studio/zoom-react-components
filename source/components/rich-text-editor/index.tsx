@@ -49,7 +49,7 @@ export namespace RichTextEditorNS {
       'filterTypes' | 'defaultTypeQuery' | 'multiSelect' | 'isTypeSelectDisabled' | 'onSelectItems'
     > {}
 
-  export interface Props extends Omit<BaseComponent, 'children'> {
+  export interface Props extends Omit<BaseComponent, 'children' | 'id'> {
     imageExplorerProps?: ImageExplorerProps
     videoExplorerProps?: VideoExplorerProps
     fileExplorerProps?: FileExplorerProps
@@ -60,6 +60,7 @@ export namespace RichTextEditorNS {
     minHeight?: string | number
     initialHeight?: string | number
     enableAdvancedLinkInserter?: boolean
+    id: string
   }
 }
 
@@ -78,6 +79,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
       videoExplorerProps,
       enableAdvancedLinkInserter,
       fileExplorerProps,
+      id,
       // ...rest
     },
     reference,
@@ -154,6 +156,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
         >
           {({ providerEditor, mention, hashtag }) => (
             <RichTextEditorMaker
+              id={id}
               editor={providerEditor}
               renderLinkElement={props => (
                 <LinkElement {...props} openLinkPopover={handleOpenLinkPopover} />

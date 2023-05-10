@@ -5,11 +5,19 @@ module.exports = {
   stories: ['../source/stories/*/*.story.mdx', '../source/stories/*.story.tsx'],
   staticDirs: ['../public'],
   webpackFinal: async (config, { configType }) => {
-    config.module.rules.push({
-      test: /\.scss$/,
-      use: ['style-loader', 'css-loader', 'sass-loader'],
-      include: path.resolve(__dirname, '../'),
-    })
+    config.module.rules.push(
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+        include: path.resolve(__dirname, '../'),
+      },
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+    )
     return config
   },
   addons: [

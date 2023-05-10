@@ -37,8 +37,8 @@ export const useHashtag = ({ editor, enableHashtag }: UseHashtagNS.Params) => {
     const beforeCursor = currentWord.getCurrentWord()
     const beforeText = beforeCursor?.currentWord
     const beforeRange = beforeCursor?.currentRange
-    const hashtag = beforeText?.[0] === '#' ? beforeText : '#'.concat(beforeText ?? '')
-    const beforeMatch = hashtagRegEx.test(hashtag)
+    const hashtag = beforeText?.[0] === '#' ? beforeText?.slice(1) : ''
+    const beforeMatch = hashtagRegEx.test('#'.concat(hashtag))
 
     if (beforeMatch) {
       setHashtagTarget(beforeRange)

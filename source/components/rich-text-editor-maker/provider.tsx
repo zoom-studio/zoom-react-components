@@ -9,13 +9,20 @@ import React, {
   useState,
 } from 'react'
 
+import { onKeyDown } from '@prezly/slate-lists'
+import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
 import { Descendant, createEditor } from 'slate'
 import { withHistory } from 'slate-history'
 import { Slate, withReact } from 'slate-react'
 
-import { useHashtag, useMention, withCorrectVoidBehavior, withInlineNodes } from './plugins'
+import {
+  useHashtag,
+  useMention,
+  withCorrectVoidBehavior,
+  withInlineNodes,
+  withLists,
+} from './plugins'
 import { RichTextEditorMakerNS } from './types'
-import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
 
 export namespace RichTextEditorMakerProviderNS {
   export interface ChildrenCallbackParams {
@@ -63,16 +70,14 @@ export namespace RichTextEditorMakerProviderNS {
     children: (params: ChildrenCallbackParams) => ReactNode
     enableMention?: MentionSettings
     enableHashtag?: HashtagSettings
-    hashtagify?: boolean
-    mentionify?: boolean
   }
 
-  export interface ProviderValue
-    extends Pick<Props, 'enableMention' | 'enableHashtag' | 'hashtagify' | 'mentionify'> {
+  export interface ProviderValue extends Pick<Props, 'enableMention' | 'enableHashtag'> {
     mention?: ReturnType<typeof useMention>
     hashtag?: ReturnType<typeof useHashtag>
     editorValue?: Descendant[]
     setEditorValue?: Dispatch<SetStateAction<Descendant[]>>
+    handleListsOnKeyDown?: (evt: KeyboardEvent<HTMLDivElement>) => void
   }
 }
 
@@ -80,8 +85,6 @@ export const EditorContext = createContext<RichTextEditorMakerProviderNS.Provide
 
 export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props> = ({
   defaultValue = [{ type: 'paragraph', children: [{ text: 'A line of text in a paragraph.' }] }],
-  hashtagify = true,
-  mentionify,
   children,
   enableMention,
   enableHashtag,
@@ -91,10 +94,12 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
     () =>
       // prettier-ignore
       withHistory(
-        withCorrectVoidBehavior(
-          withInlineNodes(
-            withReact(
-              createEditor()
+        withLists(
+          withCorrectVoidBehavior(
+            withInlineNodes(
+              withReact(
+                createEditor()
+              )
             )
           )
         ),
@@ -121,6 +126,10 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
     return storedValue ? JSON.parse(storedValue) : editorValue
   }
 
+  const handleListsOnKeyDown = (evt: KeyboardEvent<HTMLDivElement>) => {
+    onKeyDown(providerEditor, evt)
+  }
+
   useFutureEffect(() => {
     storeEditorValue(editorValue)
   }, [editorValue])
@@ -133,10 +142,9 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
           enableMention,
           enableHashtag,
           hashtag,
-          hashtagify,
-          mentionify,
           editorValue,
           setEditorValue,
+          handleListsOnKeyDown,
         }}
       >
         {children({ providerEditor, mention, hashtag })}

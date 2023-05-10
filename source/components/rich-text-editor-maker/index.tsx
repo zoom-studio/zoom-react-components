@@ -66,7 +66,10 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
           className={classes}
           placeholder={placeholder}
           renderElement={renderElements}
-          onKeyDown={handleAccelerators}
+          onKeyDown={evt => {
+            editorContext.handleListsOnKeyDown(evt)
+            handleAccelerators(evt)
+          }}
           renderLeaf={renderLeaf}
         />
       )

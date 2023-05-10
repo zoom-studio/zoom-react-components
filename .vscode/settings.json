@@ -13,7 +13,6 @@
     "languagedetector",
     "overlayscrollbars",
     "pluginutils",
-    "mentionify",
     "unhang",
     "enablity",
     "hoverable",
@@ -23,7 +22,6 @@
     "downloadjs",
     "datetime",
     "rangeslider",
-    "hashtagify",
     "linkify",
     "virtualizers"
   ],

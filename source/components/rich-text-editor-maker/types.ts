@@ -32,6 +32,7 @@ export namespace RichTextEditorMakerNS {
     'ordered-list',
     'unordered-list',
     'list-item',
+    'list-item-text',
     'break',
     'table',
     'image',

@@ -44,6 +44,9 @@ export const useRenderElements = () => {
       case 'list-item': {
         return <ListItemElement {...props} />
       }
+      case 'list-item-text': {
+        return <div {...props.attributes}>{props.children}</div>
+      }
 
       case 'rule': {
         return <HorizontalRuleElement {...props} />

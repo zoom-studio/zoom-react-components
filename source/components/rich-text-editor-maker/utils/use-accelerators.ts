@@ -1,10 +1,8 @@
 import { KeyboardEvent, useCallback } from 'react'
 
-import { hashtagRegEx, usernameRegEx } from '@zoom-studio/zoom-js-ts-utils'
-
 import { RichTextEditorMakerNS } from '../types'
 
-import { EditorCurrentWord, RichUtils, useEditorContext } from '.'
+import { RichUtils, useEditorContext } from '.'
 
 export namespace UseAcceleratorsNS {
   export interface Params {
@@ -19,8 +17,7 @@ export const useAccelerators = ({
   richUtils,
   combineHandlers,
 }: UseAcceleratorsNS.Params) => {
-  const { mention, enableMention, enableHashtag, hashtag, hashtagify, mentionify } =
-    useEditorContext()
+  const { mention, enableMention, enableHashtag, hashtag } = useEditorContext()
   const handlers = combineHandlers()
 
   const handleAccelerators = useCallback(
@@ -119,31 +116,6 @@ export const useAccelerators = ({
 
           evt.preventDefault()
           richUtils.toggleList(altKey ? 'unordered-list' : 'ordered-list')()
-          break
-        }
-
-        case ' ': {
-          if (hashtagify || mentionify) {
-            const currentWord = new EditorCurrentWord({ editor }).getCurrentWord()
-
-            if (hashtagify && currentWord && hashtagRegEx.test(currentWord.currentWord)) {
-              hashtag.setHashtagTarget(currentWord.currentRange)
-              handlers.insertHashtag({ displayName: currentWord.currentWord })
-            }
-
-            if (mentionify && currentWord) {
-              const username =
-                currentWord.currentWord?.[0] === '@'
-                  ? currentWord.currentWord?.slice(1)
-                  : currentWord.currentWord
-
-              if (usernameRegEx.test(username)) {
-                mention.setMentionTarget(currentWord.currentRange)
-                handlers.insertMention({ displayName: username })
-              }
-            }
-          }
-
           break
         }
 

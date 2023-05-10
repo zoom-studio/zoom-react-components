@@ -116,7 +116,6 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
     return (
       <div {...containerProps} className={classes} ref={reference}>
         <RichTextEditorMaker.provider
-          mentionify
           enableHashtag={{
             onEnter: ({ handlers, hashtag }) =>
               handlers.insertHashtag({ displayName: hashtag.hashtagQuery }),

@@ -11,6 +11,9 @@ export const withPasteURL = (editor: RichTextEditorMakerNS.Editor) => {
     const richUtils = new RichUtils({ editor })
 
     if (plainURL && URLRegEx.test(plainURL)) {
+      if (richUtils.isRangeSelected()) {
+        return richUtils.insertLink({ url: plainURL })
+      }
       richUtils.insertLink({ url: plainURL })
     }
 

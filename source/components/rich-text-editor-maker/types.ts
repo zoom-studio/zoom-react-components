@@ -111,6 +111,7 @@ export namespace RichTextEditorMakerNS {
         | 'removeLink'
         | 'toggleHighlight'
         | 'toggleList'
+        | 'isRangeSelected'
         | 'insertRule'
         | 'insertParagraph'
         | 'insertTable'

@@ -8,7 +8,7 @@ import { BaseRange, Range } from 'slate'
 
 import { RichTextEditorMakerProviderNS } from '../provider'
 import { RichTextEditorMakerNS } from '../types'
-import { EditorCurrentWord } from '../utils'
+import { EditorCurrentWord } from '.'
 
 export namespace UseHashtagNS {
   export interface Params extends Pick<RichTextEditorMakerProviderNS.Props, 'enableHashtag'> {

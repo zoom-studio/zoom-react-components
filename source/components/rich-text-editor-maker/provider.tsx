@@ -15,14 +15,9 @@ import { Descendant, createEditor } from 'slate'
 import { withHistory, HistoryEditor } from 'slate-history'
 import { Slate, withReact } from 'slate-react'
 
-import {
-  useHashtag,
-  useMention,
-  withCorrectVoidBehavior,
-  withInlineNodes,
-  withLists,
-} from './plugins'
+import { withCorrectVoidBehavior, withInlineNodes, withLists } from './plugins'
 import { RichTextEditorMakerNS } from './types'
+import { useHashtag, useMention } from './utils'
 
 export namespace RichTextEditorMakerProviderNS {
   export interface ChildrenCallbackParams {

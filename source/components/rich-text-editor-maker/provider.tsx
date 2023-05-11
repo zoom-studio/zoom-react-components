@@ -15,7 +15,13 @@ import { Descendant, createEditor } from 'slate'
 import { withHistory, HistoryEditor } from 'slate-history'
 import { Slate, withReact } from 'slate-react'
 
-import { withCorrectVoidBehavior, withInlineNodes, withLists, withPasteURL } from './plugins'
+import {
+  withCorrectVoidBehavior,
+  withInlineNodes,
+  withLists,
+  withPasteURL,
+  withSoftBreak,
+} from './plugins'
 import { RichTextEditorMakerNS } from './types'
 import { useHashtag, useMention } from './utils'
 
@@ -92,11 +98,13 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
       // prettier-ignore
       withHistory(
         withLists(
-          withPasteURL(
-            withCorrectVoidBehavior(
-              withInlineNodes(
-                withReact(
-                  createEditor()
+          withSoftBreak(
+            withPasteURL(
+              withCorrectVoidBehavior(
+                withInlineNodes(
+                  withReact(
+                    createEditor()
+                  )
                 )
               )
             )

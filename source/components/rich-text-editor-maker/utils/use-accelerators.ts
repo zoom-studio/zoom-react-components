@@ -3,6 +3,7 @@ import { KeyboardEvent, useCallback } from 'react'
 import { RichTextEditorMakerNS } from '../types'
 
 import { RichUtils, useEditorContext } from '.'
+import { Element, Node, Path } from 'slate'
 
 export namespace UseAcceleratorsNS {
   export interface Params extends Pick<RichTextEditorMakerNS.Props, 'collapseOnEscape'> {
@@ -160,6 +161,18 @@ export const useAccelerators = ({
         }
 
         case 'Enter': {
+          const { selection } = editor
+          if (selection) {
+            const selectedNode = Node.get(editor, Path.parent(selection.anchor.path))
+
+            if (Element.isElement(selectedNode) && selectedNode.type === 'emoji') {
+              evt.preventDefault()
+              richUtils.insertParagraph()
+              editor.deleteForward('line')
+              editor.setNodes({ type: 'paragraph' })
+            }
+          }
+
           if (isSwitchingMentionsList && enableMention?.onEnter) {
             evt.preventDefault()
             enableMention?.onEnter({ evt, mention, handlers })

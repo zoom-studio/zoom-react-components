@@ -10,7 +10,7 @@ import { BaseEditor } from 'slate'
 import { ReactEditor } from 'slate-react'
 
 import { RichTextEditorMakerProvider } from './provider'
-import { RichUtils } from './utils'
+import { LinkUtils, RichUtils } from './utils'
 import { BaseComponent } from '../../types'
 import { ExplorerNS } from '../explorer'
 import { TableGeneratorNS } from '../table-generator'
@@ -98,30 +98,30 @@ export namespace RichTextEditorMakerNS {
 
   export interface ChildrenCallback
     extends Pick<
-      RichUtils,
-      | 'toggleHeading'
-      | 'toggleBold'
-      | 'isActive'
-      | 'focusEditor'
-      | 'toggleItalic'
-      | 'toggleUnderline'
-      | 'toggleStrikethrough'
-      | 'toggleQuote'
-      | 'insertLink'
-      | 'removeLink'
-      | 'resetLinkInfo'
-      | 'toggleHighlight'
-      | 'toggleList'
-      | 'insertRule'
-      | 'insertParagraph'
-      | 'insertTable'
-      | 'insertImage'
-      | 'insertVideo'
-      | 'insertFile'
-      | 'insertEmoji'
-      | 'insertMention'
-      | 'insertHashtag'
-    > {
+        RichUtils,
+        | 'toggleHeading'
+        | 'toggleBold'
+        | 'isActive'
+        | 'focusEditor'
+        | 'toggleItalic'
+        | 'toggleUnderline'
+        | 'toggleStrikethrough'
+        | 'toggleQuote'
+        | 'insertLink'
+        | 'removeLink'
+        | 'toggleHighlight'
+        | 'toggleList'
+        | 'insertRule'
+        | 'insertParagraph'
+        | 'insertTable'
+        | 'insertImage'
+        | 'insertVideo'
+        | 'insertFile'
+        | 'insertEmoji'
+        | 'insertMention'
+        | 'insertHashtag'
+      >,
+      Pick<LinkUtils, 'resetLinkInfo'> {
     renderEditor: () => JSX.Element
     setIsBlankedLink: Dispatch<SetStateAction<boolean | undefined>>
     setIsNoFollowLink: Dispatch<SetStateAction<boolean | undefined>>

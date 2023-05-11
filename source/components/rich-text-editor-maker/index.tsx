@@ -8,7 +8,7 @@ import { useZoomComponent } from '../../hooks'
 import { useRenderElements, useRenderLeaf } from './elements'
 import { RichTextEditorMakerProvider } from './provider'
 import { RichTextEditorMakerNS } from './types'
-import { RichUtils, useAccelerators, useEditorContext } from './utils'
+import { LinkUtils, RichUtils, useAccelerators, useEditorContext } from './utils'
 
 type CB = RichTextEditorMakerNS.ChildrenCallback
 
@@ -26,7 +26,8 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
     const blankedLink = useObjectedState(false)
     const linkURL = useObjectedState('google.com')
 
-    const richUtils = new RichUtils({ editor, blankedLink, linkURL, noFollowedLink, editorContext })
+    const richUtils = new RichUtils({ editor, editorContext })
+    const linkUtils = new LinkUtils({ blankedLink, linkURL, noFollowedLink, richUtils, editor })
     const renderElements = useRenderElements()
 
     const selectionLink = useVariable<CB['selectionLink']>(() => ({
@@ -37,6 +38,7 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
 
     const combineHandlers = (): CB => ({
       ...richUtils,
+      ...linkUtils,
       renderEditor,
       selectionLink,
       setIsBlankedLink: blankedLink.set,
@@ -63,9 +65,9 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
       const linkInfo = richUtils.getLinkInfo()
 
       if (linkInfo) {
-        richUtils.setLinkInfo(linkInfo)
+        linkUtils.setLinkInfo(linkInfo)
       } else {
-        richUtils.resetLinkInfo()
+        linkUtils.resetLinkInfo()
       }
     }, [editor.selection])
 

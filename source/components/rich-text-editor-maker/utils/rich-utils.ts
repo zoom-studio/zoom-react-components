@@ -1,4 +1,4 @@
-import { Range, UseObjectedStateNS, randomString } from '@zoom-studio/zoom-js-ts-utils'
+import { Range, randomString } from '@zoom-studio/zoom-js-ts-utils'
 import { BaseRange, Editor, Element, Range as SlateRange, Text, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
 
@@ -10,10 +10,7 @@ import { RichTextEditorMakerProviderNS } from '../provider'
 export namespace RichUtilsNS {
   export interface Params {
     editor: RichTextEditorMakerNS.Editor
-    noFollowedLink: UseObjectedStateNS.ReturnType<boolean>
-    blankedLink: UseObjectedStateNS.ReturnType<boolean>
-    linkURL: UseObjectedStateNS.ReturnType<string>
-    editorContext: Required<RichTextEditorMakerProviderNS.ProviderValue>
+    editorContext?: Required<RichTextEditorMakerProviderNS.ProviderValue>
   }
 
   export interface GetCurrentWordReturnType {
@@ -24,17 +21,11 @@ export namespace RichUtilsNS {
 
 export class RichUtils {
   editor!: RichTextEditorMakerNS.Editor
-  noFollowedLink!: UseObjectedStateNS.ReturnType<boolean>
-  blankedLink!: UseObjectedStateNS.ReturnType<boolean>
-  linkURL!: UseObjectedStateNS.ReturnType<string>
   currentWord!: EditorCurrentWord
-  context!: Required<RichTextEditorMakerProviderNS.ProviderValue>
+  context?: Required<RichTextEditorMakerProviderNS.ProviderValue>
 
   constructor(params: RichUtilsNS.Params) {
     this.editor = params.editor
-    this.noFollowedLink = params.noFollowedLink
-    this.blankedLink = params.blankedLink
-    this.linkURL = params.linkURL
     this.currentWord = new EditorCurrentWord({ editor: params.editor })
     this.context = params.editorContext
   }
@@ -212,20 +203,6 @@ export class RichUtils {
     this.focusEditor()
   }
 
-  resetLinkInfo = (): void => {
-    this.linkURL.set('')
-    this.noFollowedLink.set(false)
-    this.blankedLink.set(false)
-    this.focusEditor()
-  }
-
-  setLinkInfo = ({ url, noFollow, openInNewTab }: RichTextEditorMakerNS.LinkInfo): void => {
-    this.linkURL.set(url)
-    this.noFollowedLink.set(!!noFollow)
-    this.blankedLink.set(!!openInNewTab)
-    this.focusEditor()
-  }
-
   getLinkInfo = (): RichTextEditorMakerNS.LinkInfo | undefined => {
     const currentMark = Editor.marks(this.editor)
     if (!currentMark || !currentMark.link || !currentMark.linkInfo) {
@@ -302,10 +279,14 @@ export class RichUtils {
   }
 
   insertMention = (mentionInfo: RichTextEditorMakerNS.MentionInfo) => {
-    const { mentionTarget, setMentionTarget } = this.context.mention
+    const { context } = this
 
-    if (mentionTarget) {
-      Transforms.select(this.editor, mentionTarget)
+    if (context?.mention) {
+      const { mentionTarget } = context.mention
+
+      if (mentionTarget) {
+        Transforms.select(this.editor, mentionTarget)
+      }
     }
 
     Transforms.insertNodes(this.editor, {
@@ -315,17 +296,25 @@ export class RichUtils {
     })
     this.focusEditor()
 
-    if (mentionTarget) {
-      Transforms.move(this.editor)
-      setMentionTarget?.(undefined)
+    if (context?.mention) {
+      const { mentionTarget, setMentionTarget } = context.mention
+
+      if (mentionTarget) {
+        Transforms.move(this.editor)
+        setMentionTarget?.(undefined)
+      }
     }
   }
 
   insertHashtag = (hashtagInfo: RichTextEditorMakerNS.HashtagInfo) => {
-    const { hashtagTarget, setHashtagTarget } = this.context.hashtag
+    const { context } = this
 
-    if (hashtagTarget) {
-      Transforms.select(this.editor, hashtagTarget)
+    if (context?.hashtag) {
+      const { hashtagTarget } = context.hashtag
+
+      if (hashtagTarget) {
+        Transforms.select(this.editor, hashtagTarget)
+      }
     }
 
     Transforms.insertNodes(this.editor, {
@@ -335,9 +324,13 @@ export class RichUtils {
     })
     this.focusEditor()
 
-    if (hashtagTarget) {
-      Transforms.move(this.editor)
-      setHashtagTarget?.(undefined)
+    if (context?.hashtag) {
+      const { hashtagTarget, setHashtagTarget } = context.hashtag
+
+      if (hashtagTarget) {
+        Transforms.move(this.editor)
+        setHashtagTarget?.(undefined)
+      }
     }
   }
 }

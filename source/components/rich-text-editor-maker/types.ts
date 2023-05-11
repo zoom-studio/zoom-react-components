@@ -127,6 +127,8 @@ export namespace RichTextEditorMakerNS {
     setIsNoFollowLink: Dispatch<SetStateAction<boolean | undefined>>
     setLinkURL: Dispatch<SetStateAction<string | undefined>>
     selectionLink: Required<LinkInfo>
+    undo: () => void
+    redo: () => void
   }
 
   export interface Props extends Omit<BaseComponent, 'children' | 'id'> {

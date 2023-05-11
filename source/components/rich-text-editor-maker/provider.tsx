@@ -12,7 +12,7 @@ import React, {
 import { onKeyDown } from '@prezly/slate-lists'
 import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
 import { Descendant, createEditor } from 'slate'
-import { withHistory } from 'slate-history'
+import { withHistory, HistoryEditor } from 'slate-history'
 import { Slate, withReact } from 'slate-react'
 
 import {
@@ -78,6 +78,8 @@ export namespace RichTextEditorMakerProviderNS {
     editorValue?: Descendant[]
     setEditorValue?: Dispatch<SetStateAction<Descendant[]>>
     handleListsOnKeyDown?: (evt: KeyboardEvent<HTMLDivElement>) => void
+    undo?: () => void
+    redo?: () => void
   }
 }
 
@@ -130,6 +132,14 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
     onKeyDown(providerEditor, evt)
   }
 
+  const undo = () => {
+    HistoryEditor.undo(providerEditor)
+  }
+
+  const redo = () => {
+    HistoryEditor.redo(providerEditor)
+  }
+
   useFutureEffect(() => {
     storeEditorValue(editorValue)
   }, [editorValue])
@@ -145,6 +155,8 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
           editorValue,
           setEditorValue,
           handleListsOnKeyDown,
+          redo,
+          undo,
         }}
       >
         {children({ providerEditor, mention, hashtag })}

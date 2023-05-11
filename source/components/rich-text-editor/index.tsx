@@ -378,8 +378,8 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                       />
                     </>
                     <>
-                      <EditorAction title={i18n.undo} icon="undo" />
-                      <EditorAction title={i18n.redo} icon="redo" />
+                      <EditorAction title={i18n.undo} icon="undo" onClick={handlers.undo} />
+                      <EditorAction title={i18n.redo} icon="redo" onClick={handlers.redo} />
                     </>
                   </Stack>
 

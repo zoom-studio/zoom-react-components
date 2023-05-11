@@ -42,6 +42,8 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
       setIsBlankedLink: blankedLink.set,
       setIsNoFollowLink: noFollowedLink.set,
       setLinkURL: linkURL.set,
+      undo: editorContext.undo,
+      redo: editorContext.redo,
     })
 
     const handleAccelerators = useAccelerators({

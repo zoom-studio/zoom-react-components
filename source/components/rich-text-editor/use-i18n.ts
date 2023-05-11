@@ -35,6 +35,8 @@ export namespace UseRichTextEditorI18nNS {
     videos?: string
     undo?: string
     redo?: string
+    enterFullScreen?: string
+    exitFullScreen?: string
   }
 }
 
@@ -77,5 +79,7 @@ export const useRichTextEditorI18n = (
     undo: i18n?.undo ?? 'Undo',
     redo: i18n?.redo ?? 'Redo',
     highlight: i18n?.highlight ?? 'Highlight',
+    enterFullScreen: i18n?.enterFullScreen ?? 'Enter full screen',
+    exitFullScreen: i18n?.exitFullScreen ?? 'Exit full screen',
   }
 }

@@ -1,6 +1,7 @@
-import React, { forwardRef, useRef, useState } from 'react'
+import React, { RefObject, forwardRef, useRef, useState } from 'react'
 
 import { isValidURL, useObjectedState } from '@zoom-studio/zoom-js-ts-utils'
+import { useFullscreen } from 'ahooks'
 
 import {
   ContextMenu,
@@ -93,6 +94,12 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
     const isVideoDialogOpen = useObjectedState(false)
     const isFileDialogOpen = useObjectedState(false)
 
+    const containerRef = reference ?? useRef<HTMLDivElement | null>(null)
+
+    const [isFullscreen, { toggleFullscreen }] = useFullscreen(
+      containerRef as RefObject<HTMLDivElement>,
+    )
+
     const handleOpenLinkPopover = () => {
       setIsLinkPopoverOpen(true)
     }
@@ -114,7 +121,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
     }
 
     return (
-      <div {...containerProps} className={classes} ref={reference}>
+      <div {...containerProps} className={classes} ref={containerRef}>
         <RichTextEditorMaker.provider
           enableHashtag={{
             onEnter: ({ handlers, hashtag }) =>
@@ -381,6 +388,14 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                       <EditorAction title={i18n.undo} icon="undo" onClick={handlers.undo} />
                       <EditorAction title={i18n.redo} icon="redo" onClick={handlers.redo} />
                     </>
+
+                    <Stack.item flex={1} justify="flex-end">
+                      <EditorAction
+                        title={isFullscreen ? i18n.exitFullScreen : i18n.enterFullScreen}
+                        icon={isFullscreen ? 'fullscreen_exit' : 'fullscreen'}
+                        onClick={toggleFullscreen}
+                      />
+                    </Stack.item>
                   </Stack>
 
                   <div className="editor" ref={editorContainerRef}>

@@ -58,6 +58,15 @@ export class RichUtils {
     ReactEditor.focus(this.editor)
   }
 
+  collapseSelection = (): void => {
+    const { selection } = this.editor
+    if (!selection || SlateRange.isCollapsed(selection)) {
+      return
+    }
+    this.focusEditor()
+    Transforms.setSelection(this.editor, { ...selection, anchor: selection.focus })
+  }
+
   isActive = (elementType: RichTextEditorMakerNS.ElementTypes): boolean => {
     if (RichTextEditorMakerNS.MarkTypes.includes(elementType as RichTextEditorMakerNS.MarkTypes)) {
       return !!Editor.marks(this.editor)?.[elementType as RichTextEditorMakerNS.MarkTypes]

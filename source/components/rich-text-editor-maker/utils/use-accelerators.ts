@@ -5,7 +5,7 @@ import { RichTextEditorMakerNS } from '../types'
 import { RichUtils, useEditorContext } from '.'
 
 export namespace UseAcceleratorsNS {
-  export interface Params {
+  export interface Params extends Pick<RichTextEditorMakerNS.Props, 'collapseOnEscape'> {
     editor: RichTextEditorMakerNS.Editor
     richUtils: RichUtils
     combineHandlers: () => RichTextEditorMakerNS.ChildrenCallback
@@ -16,6 +16,7 @@ export const useAccelerators = ({
   editor,
   richUtils,
   combineHandlers,
+  collapseOnEscape,
 }: UseAcceleratorsNS.Params) => {
   const { mention, enableMention, enableHashtag, hashtag } = useEditorContext()
   const handlers = combineHandlers()
@@ -180,6 +181,11 @@ export const useAccelerators = ({
           if (isSwitchingHashtagsList && enableHashtag?.onEscape) {
             evt.preventDefault()
             enableHashtag?.onEscape({ evt, hashtag, handlers })
+          }
+
+          if (collapseOnEscape) {
+            evt.preventDefault()
+            richUtils.collapseSelection()
           }
           break
         }

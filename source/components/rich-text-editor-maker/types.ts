@@ -135,6 +135,7 @@ export namespace RichTextEditorMakerNS {
     children?: ((handlers: ChildrenCallback) => ReactNode) | ReactNode
     renderLinkElement?: (params: RenderLinkInfoCallbackParams) => ReactNode
     id: string
+    collapseOnEscape?: boolean
   }
 
   export type ComponentType = ForwardRefExoticComponent<Props & RefAttributes<HTMLDivElement>> & {

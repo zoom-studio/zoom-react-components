@@ -13,7 +13,10 @@ import { RichUtils, useAccelerators, useEditorContext } from './utils'
 type CB = RichTextEditorMakerNS.ChildrenCallback
 
 export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMakerNS.Props>(
-  ({ children, placeholder, renderLinkElement, className, id }, reference) => {
+  (
+    { collapseOnEscape = true, children, placeholder, renderLinkElement, className, id },
+    reference,
+  ) => {
     const { createClassName } = useZoomComponent('rich-text-editor-maker')
     const editorContext = useEditorContext()
 
@@ -41,7 +44,12 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
       setLinkURL: linkURL.set,
     })
 
-    const handleAccelerators = useAccelerators({ editor, richUtils, combineHandlers })
+    const handleAccelerators = useAccelerators({
+      editor,
+      richUtils,
+      combineHandlers,
+      collapseOnEscape,
+    })
 
     const renderLeaf = useRenderLeaf({ renderLinkElement, handlers: combineHandlers() })
 

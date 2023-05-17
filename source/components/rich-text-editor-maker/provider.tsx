@@ -81,6 +81,7 @@ export namespace RichTextEditorMakerProviderNS {
     handleListsOnKeyDown?: (evt: KeyboardEvent<HTMLDivElement>) => void
     undo?: () => void
     redo?: () => void
+    editor?: RichTextEditorMakerNS.Editor
   }
 }
 
@@ -98,17 +99,19 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
       // prettier-ignore
       withHistory(
         withLists(
-          withSoftBreak(
+          // withTables(
             withPasteURL(
               withCorrectVoidBehavior(
                 withInlineNodes(
-                  withReact(
-                    createEditor()
-                  )
-                )
-              )
-            )
-          )
+                  withSoftBreak(
+                    withReact(
+                      createEditor()
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          // ),
         ),
       ),
     [],
@@ -162,6 +165,7 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
           handleListsOnKeyDown,
           redo,
           undo,
+          editor: providerEditor,
         }}
       >
         {children({ providerEditor, mention, hashtag })}

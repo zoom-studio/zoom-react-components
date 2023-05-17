@@ -1,14 +1,13 @@
 import { BaseEditor, Descendant } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { RichTextEditorMakerNS, EmojiNS } from '../../components'
+import { EmojiNS, RichTextEditorMakerNS } from '../../components'
 
 declare module 'slate' {
   interface CustomElement {
     type: RichTextEditorMakerNS.ElementTypes
     children?: Descendant[]
     text?: string
-    tableInfo?: RichTextEditorMakerNS.TableInfo
     imageInfo?: RichTextEditorMakerNS.ImageInfo
     videoInfo?: RichTextEditorMakerNS.VideoInfo
     fileInfo?: RichTextEditorMakerNS.FileInfo
@@ -16,6 +15,9 @@ declare module 'slate' {
     mentionInfo?: RichTextEditorMakerNS.MentionInfo
     hashtagInfo?: RichTextEditorMakerNS.HashtagInfo
     id?: string
+    tableRowIndex?: number
+    tableColIndex?: number
+    tableInfo?: RichTextEditorMakerNS.TableInfo
   }
 
   interface Marks {

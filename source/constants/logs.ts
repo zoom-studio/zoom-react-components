@@ -41,4 +41,6 @@ export enum logs {
   tableContainerRefNotFound = 'ZOOMRC/TABLE/CONTAINER_REF_NOT_FOUND',
 
   tableGeneratorTableRefNotFound = 'ZOOMRC/TABLE_GENERATOR/TABLE_REF_NOT_FOUND',
+
+  tableTableElementTableRefNotFound = 'ZOOMRC/TABLE_TABLE_ELEMENT_TABLE_REF_NOT_FOUND',
 }

@@ -22,7 +22,6 @@
     }
   }
 
-  .zoomrc-table-generator,
   .zoomrc-image,
   .video-player {
     margin: 0 auto;
@@ -131,5 +130,47 @@
 
   blockquote {
     margin-left: 40px;
+  }
+
+  .editor-table-container {
+    max-width: 100%;
+    display: grid;
+
+    > .zoomrc-scroll-view {
+      margin: 0 auto;
+
+      > .os-viewport {
+        > table {
+          min-width: 100%;
+          border-collapse: collapse;
+
+          > tbody {
+            > tr {
+              animation: xxxx 500ms linear;
+
+              > td {
+                background-color: inherit;
+                padding: 4px;
+                border: 1px solid color(border, 2);
+                min-width: 100px;
+                color: color(text, 2);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes xxxx {
+  from {
+    opacity: 0;
+    background-color: red;
+  }
+
+  to {
+    opacity: 1;
+    background-color: unset;
   }
 }

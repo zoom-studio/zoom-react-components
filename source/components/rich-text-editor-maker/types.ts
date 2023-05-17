@@ -13,7 +13,6 @@ import { RichTextEditorMakerProvider } from './provider'
 import { LinkUtils, RichUtils } from './utils'
 import { BaseComponent } from '../../types'
 import { ExplorerNS } from '../explorer'
-import { TableGeneratorNS } from '../table-generator'
 
 export namespace RichTextEditorMakerNS {
   export type Editor = BaseEditor & ReactEditor
@@ -35,6 +34,8 @@ export namespace RichTextEditorMakerNS {
     'list-item-text',
     'break',
     'table',
+    'table-row',
+    'table-cell',
     'image',
     'video',
     'file',
@@ -73,7 +74,14 @@ export namespace RichTextEditorMakerNS {
     [key: string]: any
   }
 
-  export type TableInfo = TableGeneratorNS.CellsData | TableGeneratorNS.CellsCount
+  export type TableData = string[][]
+
+  export interface TableCells {
+    rows: number
+    cols: number
+  }
+
+  export type TableInfo = TableData | TableCells
 
   export interface ImageInfo {
     src: string

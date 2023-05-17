@@ -14,9 +14,11 @@ import {
   MentionElement,
   OrderedListElement,
   QuoteElement,
-  TableElement,
   UnorderedListElement,
   VideoElement,
+  TableElement,
+  TableRowElement,
+  TableCellElement,
 } from '.'
 
 export const useRenderElements = () => {
@@ -54,6 +56,12 @@ export const useRenderElements = () => {
 
       case 'table': {
         return <TableElement {...props} />
+      }
+      case 'table-row': {
+        return <TableRowElement {...props} />
+      }
+      case 'table-cell': {
+        return <TableCellElement {...props} />
       }
 
       case 'image': {

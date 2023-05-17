@@ -1,10 +1,22 @@
 import { Range, randomString } from '@zoom-studio/zoom-js-ts-utils'
-import { BaseRange, Editor, Element, Range as SlateRange, Text, Transforms } from 'slate'
+import {
+  BaseRange,
+  Descendant,
+  Editor,
+  Element,
+  Node,
+  NodeMatch,
+  Path,
+  Range as SlateRange,
+  Text,
+  Transforms,
+} from 'slate'
 import { ReactEditor } from 'slate-react'
 
 import { EmojiNS, RichTextEditorMakerNS } from '../..'
 
 import { EditorCurrentWord } from '.'
+import { TableElementNS } from '../elements/table/types'
 import { RichTextEditorMakerProviderNS } from '../provider'
 
 export namespace RichUtilsNS {
@@ -16,6 +28,17 @@ export namespace RichUtilsNS {
   export interface GetCurrentWordReturnType {
     currentWord: string
     currentRange: BaseRange
+  }
+
+  export interface CreateTableRowParams {
+    rowIndex: number
+    tableInfo: RichTextEditorMakerNS.TableInfo
+    tableID: string
+  }
+
+  export interface NodeInfo {
+    path: Path
+    node: Node
   }
 }
 
@@ -30,6 +53,25 @@ export class RichUtils {
     this.context = params.editorContext
   }
 
+  private readonly deepFindNode = (match: NodeMatch<Node>): RichUtilsNS.NodeInfo | undefined => {
+    const [node] = Array.from(
+      Editor.nodes(this.editor, {
+        at: {
+          anchor: { offset: 0, path: [0, 0] },
+          focus: { offset: 0, path: [Number.MAX_SAFE_INTEGER, 0] },
+        },
+        match,
+      }),
+    )
+
+    if (node) {
+      return {
+        node: node[0],
+        path: node[1],
+      }
+    }
+  }
+
   private readonly getHeadingType = (
     headingLevel: Range<1, 5>,
   ): RichTextEditorMakerNS.ElementTypes => {
@@ -42,6 +84,52 @@ export class RichUtils {
       if (currentWord?.currentWord) {
         return currentWord.currentRange
       }
+    }
+  }
+
+  private readonly insertNodes = (
+    nodes: Parameters<typeof Transforms.insertNodes>[1],
+    options?: Parameters<typeof Transforms.insertNodes>[2],
+  ): void => {
+    const { selection } = this.editor
+    const node = selection ? Node.get(this.editor, Path.parent(selection.anchor.path)) : null
+
+    Transforms.insertNodes(this.editor, nodes, {
+      ...options,
+      at:
+        node && selection && Element.isElement(node) && node.type === 'table-cell'
+          ? selection.focus.path
+          : undefined,
+    })
+
+    this.focusEditor()
+  }
+
+  private readonly createTableRow = (params: RichUtilsNS.CreateTableRowParams): Descendant => {
+    const { rowIndex, tableInfo, tableID } = params
+
+    const cols =
+      'cols' in tableInfo
+        ? tableInfo.cols
+        : Math.max(...tableInfo.map((_, rowIndex) => tableInfo[rowIndex].length))
+
+    return {
+      tableInfo,
+      type: 'table-row',
+      tableRowIndex: rowIndex,
+      id: tableID,
+      children: Array.from(Array(cols)).map((_, colIndex) => ({
+        tableInfo,
+        children: [
+          {
+            text: 'cols' in tableInfo ? '' : tableInfo?.[rowIndex]?.[colIndex] ?? '',
+          },
+        ],
+        type: 'table-cell',
+        tableColIndex: colIndex,
+        tableRowIndex: rowIndex,
+        id: tableID,
+      })),
     }
   }
 
@@ -176,17 +264,51 @@ export class RichUtils {
   }
 
   insertTable = (tableInfo: RichTextEditorMakerNS.TableInfo): void => {
-    this.insertParagraph()
-    Transforms.insertNodes(this.editor, [
-      {
-        type: 'table',
-        children: [{ text: '' }],
-        tableInfo,
-        id: 'zoomrc-rich-text-editor-table-generator-'.concat(randomString(10)),
-      },
-    ])
-    this.insertParagraph()
-    this.focusEditor()
+    const tableID = 'rich-text-editor-table-'.concat(randomString(30))
+    const rows = 'rows' in tableInfo ? Array.from(Array(tableInfo.rows)) : tableInfo
+
+    this.insertNodes({
+      id: tableID,
+      type: 'table',
+      children: rows.map((_, rowIndex) =>
+        this.createTableRow({
+          rowIndex,
+          tableID,
+          tableInfo,
+        }),
+      ),
+      tableInfo,
+    })
+  }
+
+  insertTableRow = (
+    rowIndexToAppend: number,
+    side: TableElementNS.VerticalSide,
+    id: string,
+  ): void => {
+    const row = this.deepFindNode(
+      node =>
+        Element.isElement(node) &&
+        node.type === 'table-row' &&
+        node.tableRowIndex === rowIndexToAppend &&
+        node.id === id,
+    )
+
+    if (row && Element.isElement(row.node)) {
+      const { tableInfo, tableRowIndex, id } = row.node
+      Transforms.insertNodes(
+        this.editor,
+        this.createTableRow({
+          // TODO: Fix table row index issue
+          rowIndex: tableRowIndex ?? 0 + 1,
+          tableID: id!,
+          tableInfo: tableInfo!,
+        }),
+        {
+          at: side === 'bottom' ? Path.next(row.path) : Path.previous(row.path),
+        },
+      )
+    }
   }
 
   insertLink = (linkInfo: RichTextEditorMakerNS.LinkInfo): void => {
@@ -233,49 +355,37 @@ export class RichUtils {
   }
 
   insertParagraph = (text = ''): void => {
-    Transforms.insertNodes(this.editor, {
+    this.insertNodes({
       type: 'paragraph',
       children: [{ text }],
     })
-    this.focusEditor()
   }
 
   insertRule = (): void => {
-    Transforms.insertNodes(this.editor, [{ type: 'rule', children: [{ text: '' }] }])
+    this.insertNodes({ type: 'rule', children: [{ text: '' }] })
     this.insertParagraph()
-    this.focusEditor()
   }
 
   insertImage = (imageInfo: RichTextEditorMakerNS.ImageInfo) => {
     this.insertParagraph()
-    Transforms.insertNodes(this.editor, [{ type: 'image', children: [{ text: '' }], imageInfo }])
+    this.insertNodes({ type: 'image', children: [{ text: '' }], imageInfo })
     this.insertParagraph()
-    this.focusEditor()
   }
 
   insertVideo = (videoInfo: RichTextEditorMakerNS.VideoInfo) => {
     this.insertParagraph()
-    Transforms.insertNodes(this.editor, [{ type: 'video', children: [{ text: '' }], videoInfo }])
+    this.insertNodes({ type: 'video', children: [{ text: '' }], videoInfo })
     this.insertParagraph()
-    this.focusEditor()
   }
 
   insertFile = (fileInfo: RichTextEditorMakerNS.FileInfo) => {
     this.insertParagraph()
-    Transforms.insertNodes(this.editor, [{ type: 'file', children: [{ text: '' }], fileInfo }])
+    this.insertNodes({ type: 'file', children: [{ text: '' }], fileInfo })
     this.insertParagraph()
-    this.focusEditor()
   }
 
   insertEmoji = (emojiName: EmojiNS.Emojis.Names) => {
-    Transforms.insertNodes(this.editor, [
-      {
-        type: 'emoji',
-        children: [{ text: '' }],
-        emojiName,
-      },
-    ])
-    this.focusEditor()
+    this.insertNodes({ type: 'emoji', children: [{ text: '' }], emojiName })
   }
 
   insertMention = (mentionInfo: RichTextEditorMakerNS.MentionInfo) => {
@@ -289,12 +399,7 @@ export class RichUtils {
       }
     }
 
-    Transforms.insertNodes(this.editor, {
-      type: 'mention',
-      children: [{ text: '' }],
-      mentionInfo,
-    })
-    this.focusEditor()
+    this.insertNodes({ type: 'mention', children: [{ text: '' }], mentionInfo })
 
     if (context?.mention) {
       const { mentionTarget, setMentionTarget } = context.mention
@@ -317,12 +422,7 @@ export class RichUtils {
       }
     }
 
-    Transforms.insertNodes(this.editor, {
-      type: 'hashtag',
-      children: [{ text: '' }],
-      hashtagInfo,
-    })
-    this.focusEditor()
+    this.insertNodes({ type: 'hashtag', children: [{ text: '' }], hashtagInfo })
 
     if (context?.hashtag) {
       const { hashtagTarget, setHashtagTarget } = context.hashtag

@@ -2,11 +2,11 @@ import React, { FC } from 'react'
 
 import { Button, ButtonNS } from '../../..'
 
-import { UseTableGeneratorDomNS, useTableGeneratorDOM } from './use-dom'
 import { TableElementNS } from './types'
+import { useTableGeneratorDOM } from './use-dom'
 
 export namespace RowActionsNS {
-  export interface Props extends UseTableGeneratorDomNS.Params {
+  export interface Props {
     rowIndex: number
     addRow: (side: TableElementNS.VerticalSide) => void
     removeRow: () => void
@@ -14,14 +14,8 @@ export namespace RowActionsNS {
   }
 }
 
-export const RowActions: FC<RowActionsNS.Props> = ({
-  rowIndex,
-  addRow,
-  removeRow,
-  sendLog,
-  tableID,
-}) => {
-  const tableDOM = useTableGeneratorDOM({ sendLog, tableID })
+export const RowActions: FC<RowActionsNS.Props> = ({ rowIndex, addRow, removeRow, tableID }) => {
+  const tableDOM = useTableGeneratorDOM(tableID)
 
   const actionButtonsProps: ButtonNS.Props = {
     shape: 'circle',

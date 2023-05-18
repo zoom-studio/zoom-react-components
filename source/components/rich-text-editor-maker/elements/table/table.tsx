@@ -1,30 +1,37 @@
 import React, { FC } from 'react'
 
 import { ScrollView } from '../../..'
-import { useZoomComponent } from '../../../../hooks'
 
+import { RichUtils, useEditorContext } from '../../utils'
 import { ColActions } from './col-actions'
 import { TableElementNS } from './types'
-import { RichUtils, useEditorContext } from '../../utils'
+import { useTableGeneratorDOM } from './use-dom'
 
 export const TableElement: FC<TableElementNS.Props> = ({ children, attributes, element }) => {
-  const { sendLog } = useZoomComponent('rich-text-editor-table-element')
   const { editor } = useEditorContext()
 
   const richUtils = new RichUtils({ editor })
-
   const { tableInfo, id } = element
+
+  const tableDOM = useTableGeneratorDOM(id!)
 
   const addColumn = (colIndexToAppend: number) => (side: TableElementNS.HorizontalSide) => {
     richUtils.insertTableColumn(colIndexToAppend, side, id!)
   }
 
-  const removeColumn = (colIndex: number) => () => {}
+  const removeColumn = (colIndex: number) => () => {
+    richUtils.removeTableColumn(colIndex, id!)
+  }
+
+  const handleOnMouseLeaveTable = () => {
+    tableDOM.deactiveCurrentActiveColActions()
+    tableDOM.deactiveCurrentActiveRowActions()
+  }
 
   return (
     <div {...attributes} className="editor-table-container">
-      <ScrollView maxHeight="unset" maxWidth="90%" minWidth="90%">
-        <table cellSpacing={0} id={id}>
+      <ScrollView maxHeight="unset" maxWidth="70vw" minWidth="90%" className="table-scroll-view">
+        <table cellSpacing={0} id={id} onMouseLeave={handleOnMouseLeaveTable}>
           <thead contentEditable={false}>
             <tr>
               {Array.from(Array(tableInfo!.cols + 1)).map((_, colIndex) => (
@@ -38,7 +45,6 @@ export const TableElement: FC<TableElementNS.Props> = ({ children, attributes, e
                         colIndex={colIndex - 1}
                         addColumn={addColumn(colIndex - 1)}
                         removeColumn={removeColumn(colIndex - 1)}
-                        sendLog={sendLog}
                         tableID={id!}
                       />
                     </div>

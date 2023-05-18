@@ -1,11 +1,12 @@
 import React, { FC } from 'react'
 
+import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 import { RenderElementProps } from 'slate-react'
 
+import { RichUtils, useEditorContext } from '../../utils'
 import { RowActions } from './row-actions'
 import { TableElementNS } from './types'
-import { useZoomComponent } from '../../../../hooks'
-import { RichUtils, useEditorContext } from '../../utils'
+import { useTableGeneratorDOM } from './use-dom'
 
 export namespace TableCellElementNS {
   export interface Props extends RenderElementProps {}
@@ -16,41 +17,55 @@ export const TableCellElement: FC<TableCellElementNS.Props> = ({
   attributes,
   element,
 }) => {
-  const { sendLog } = useZoomComponent('rich-text-editor-table-cell-element')
   const { editor } = useEditorContext()
 
   const richUtils = new RichUtils({ editor })
 
   const { tableColIndex, tableRowIndex, id } = element
 
+  const tableDOM = useTableGeneratorDOM(id!)
+
   const addRow = (side: TableElementNS.VerticalSide) => {
     richUtils.insertTableRow(tableRowIndex!, side, id!)
   }
 
-  const removeRow = (rowToRemove: number) => () => {}
+  const removeRow = (rowToRemove: number) => () => {
+    richUtils.removeTableRow(rowToRemove, id!)
+  }
+
+  const rowActionCellClasses = classNames('action-cell', {
+    [TableElementNS.CLASS_NAMES.rowActions]: true,
+  })
+
+  const handleOnMouseOverInputCells = () => {
+    tableDOM.deactiveCurrentActiveColActions()
+    tableDOM.deactiveCurrentActiveRowActions()
+    tableDOM.activeColActions(tableColIndex!)
+    tableDOM.activeRowActions(tableRowIndex!)
+  }
 
   return (
     <>
       {tableColIndex === 0 && (
-        <td
-          className="action-cell row-action-cell"
-          data-row-index={tableRowIndex}
-          contentEditable={false}
-        >
+        <td className={rowActionCellClasses} data-row-index={tableRowIndex} contentEditable={false}>
           <div className="row-actions-container">
             <RowActions
               rowIndex={tableRowIndex!}
               addRow={addRow}
               removeRow={removeRow(tableRowIndex!)}
-              sendLog={sendLog}
               tableID={id!}
             />
           </div>
         </td>
       )}
 
-      <td {...attributes} data-col-index={tableColIndex} data-row-index={tableRowIndex}>
-        {`r${tableRowIndex} c${tableColIndex}`}
+      <td
+        {...attributes}
+        className={TableElementNS.CLASS_NAMES.inputCell}
+        onMouseOver={handleOnMouseOverInputCells}
+        data-col-index={tableColIndex}
+        data-row-index={tableRowIndex}
+      >
         {children}
       </td>
     </>

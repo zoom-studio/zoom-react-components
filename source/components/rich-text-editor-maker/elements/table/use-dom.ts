@@ -1,164 +1,137 @@
-import { TableGeneratorNS, ZoomLogProviderNS } from '../../..'
-import { logs } from '../../../../constants'
+import { TableElementNS } from './types'
 
-export namespace UseTableGeneratorDomNS {
-  export interface Params {
-    sendLog: ZoomLogProviderNS.Log
-    tableID: string
+export const useTableGeneratorDOM = (tableID: string) => {
+  const findAll = (query: string, callback: (node: Element) => void) => {
+    const elements = document.querySelectorAll(`#${tableID} ${query}`)
+    elements.forEach(callback)
   }
-}
 
-export const useTableGeneratorDOM = ({ sendLog, tableID }: UseTableGeneratorDomNS.Params) => {
-  const getTable = (
-    logDescription: string,
-    callback?: (table: HTMLTableElement) => void,
-  ): HTMLTableElement | undefined => {
-    const table = document.querySelector(`#${tableID}`) as HTMLTableElement
-    if (!table) {
-      return sendLog(logs.tableTableElementTableRefNotFound, logDescription)
+  const find = (query: string, callback: (node: Element) => void) => {
+    const element = document.querySelector(`#${tableID} ${query}`)
+    if (element) {
+      callback(element)
     }
-    callback?.(table)
-
-    return table
   }
 
   const deactiveCurrentActiveColActions = () => {
-    getTable('deactiveCurrentActiveColActions fn', table => {
-      const currentActiveColActions = table.querySelectorAll(
-        `.${TableGeneratorNS.CLASS_NAMES.colActions}.active`,
-      )
-
-      currentActiveColActions.forEach(colAction => colAction.classList.remove('active'))
+    findAll(`> thead > tr > td > div.${TableElementNS.CLASS_NAMES.colActions}.active`, element => {
+      element.classList.remove('active')
     })
   }
 
   const deactiveCurrentActiveRowActions = () => {
-    getTable('deactiveCurrentActiveRowActions fn', table => {
-      const currentActiveRowActions = table.querySelectorAll(
-        `.${TableGeneratorNS.CLASS_NAMES.rowActions}.active`,
-      )
-      currentActiveRowActions.forEach(rowAction => rowAction.classList.remove('active'))
+    findAll(`> tbody > tr > td.${TableElementNS.CLASS_NAMES.rowActions}.active`, element => {
+      element.classList.remove('active')
     })
   }
 
   const activeColActions = (colIndex: number) => {
-    getTable('activeColActions fn', table => {
-      table
-        .querySelector(`.${TableGeneratorNS.CLASS_NAMES.colActions}[data-col-index="${colIndex}"]`)
-        ?.classList.add('active')
-    })
+    find(
+      `> thead > tr > td > div.${TableElementNS.CLASS_NAMES.colActions}[data-col-index="${colIndex}"]`,
+      element => element.classList.add('active'),
+    )
   }
 
   const activeRowActions = (rowIndex: number) => {
-    getTable('activeRowActions fn', table => {
-      table
-        .querySelector(`.${TableGeneratorNS.CLASS_NAMES.rowActions}[data-row-index="${rowIndex}"]`)
-        ?.classList.add('active')
-    })
+    find(
+      `> tbody > tr > td.${TableElementNS.CLASS_NAMES.rowActions}[data-row-index="${rowIndex}"]`,
+      element => {
+        element.classList.add('active')
+      },
+    )
   }
 
   const unRemovalAllRemovalInputCells = () => {
-    getTable('unRemovalAllRemovalInputCells fn', table => {
-      table
-        .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.removal`)
-        .forEach(inputCell => inputCell.classList.remove('removal'))
+    findAll(`> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}.removal`, element => {
+      element.classList.remove('removal')
     })
   }
 
   const removalInputCellsByColIndex = (colIndex: number) => {
-    getTable('removalInputCellsByColIndex fn', table => {
-      table
-        .querySelectorAll(
-          `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-col-index="${colIndex}"]`,
-        )
-        .forEach(inputCell => inputCell.classList.add('removal'))
-    })
+    findAll(
+      `> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}[data-col-index="${colIndex}"]`,
+      element => {
+        element.classList.add('removal')
+      },
+    )
   }
 
   const removalInputCellsByRowIndex = (rowIndex: number) => {
-    getTable('removalInputCellsByRowIndex fn', table => {
-      table
-        .querySelectorAll(
-          `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-row-index="${rowIndex}"]`,
-        )
-        .forEach(inputCell => inputCell.classList.add('removal'))
-    })
+    findAll(
+      `> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}[data-row-index="${rowIndex}"]`,
+      element => {
+        element.classList.add('removal')
+      },
+    )
   }
 
   const removeAllMarkedAsAppendToLeftInputCells = () => {
-    getTable('removeAllMarkedAsAppendToLeftInputCells fn', table => {
-      table
-        .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.append-to-left`)
-        .forEach(inputCell => inputCell.classList.remove('append-to-left'))
+    findAll(`> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}.append-to-left`, element => {
+      element.classList.remove('append-to-left')
     })
   }
 
   const removeAllMarkedAsAppendToRightInputCells = () => {
-    getTable('removeAllMarkedAsAppendToRightInputCells fn', table => {
-      table
-        .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.append-to-right`)
-        .forEach(inputCell => inputCell.classList.remove('append-to-right'))
-    })
+    findAll(
+      `> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}.append-to-right`,
+      element => {
+        element.classList.remove('append-to-right')
+      },
+    )
   }
 
   const removeAllMarkedAsAppendToTopInputCells = () => {
-    getTable('removeAllMarkedAsAppendToTopInputCells fn', table => {
-      table
-        .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.append-to-top`)
-        .forEach(inputCell => inputCell.classList.remove('append-to-top'))
+    findAll(`> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}.append-to-top`, element => {
+      element.classList.remove('append-to-top')
     })
   }
 
   const removeAllMarkedAsAppendToBottomInputCells = () => {
-    getTable('removeAllMarkedAsAppendToBottomInputCells fn', table => {
-      table
-        .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.append-to-bottom`)
-        .forEach(inputCell => inputCell.classList.remove('append-to-bottom'))
-    })
+    findAll(
+      `> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}.append-to-bottom`,
+      element => {
+        element.classList.remove('append-to-bottom')
+      },
+    )
   }
 
   const markInputCellsAsAppendToLeftByColIndex = (colIndex: number) => {
-    getTable('markInputCellsAsAppendToLeftByColIndex fn', table => {
-      table
-        .querySelectorAll(
-          `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-col-index="${colIndex}"]`,
-        )
-        .forEach(inputCell => inputCell.classList.add('append-to-left'))
-    })
+    findAll(
+      `> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}[data-col-index="${colIndex}"]`,
+      element => {
+        element.classList.add('append-to-left')
+      },
+    )
   }
 
   const markInputCellsAsAppendToRightByColIndex = (colIndex: number) => {
-    getTable('markInputCellsAsAppendToRightByColIndex fn', table => {
-      table
-        .querySelectorAll(
-          `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-col-index="${colIndex}"]`,
-        )
-        .forEach(inputCell => inputCell.classList.add('append-to-right'))
-    })
+    findAll(
+      `> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}[data-col-index="${colIndex}"]`,
+      element => {
+        element.classList.add('append-to-right')
+      },
+    )
   }
 
   const markInputCellsAsAppendToTopByRowIndex = (rowIndex: number) => {
-    getTable('markInputCellsAsAppendToTopByRowIndex fn', table => {
-      table
-        .querySelectorAll(
-          `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-row-index="${rowIndex}"]`,
-        )
-        .forEach(inputCell => inputCell.classList.add('append-to-top'))
-    })
+    findAll(
+      `> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}[data-row-index="${rowIndex}"]`,
+      element => {
+        element.classList.add('append-to-top')
+      },
+    )
   }
 
   const markInputCellsAsAppendToBottomByRowIndex = (rowIndex: number) => {
-    getTable('markInputCellsAsAppendToBottomByRowIndex fn', table => {
-      table
-        .querySelectorAll(
-          `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-row-index="${rowIndex}"]`,
-        )
-        .forEach(inputCell => inputCell.classList.add('append-to-bottom'))
-    })
+    findAll(
+      `> tbody > tr > td.${TableElementNS.CLASS_NAMES.inputCell}[data-row-index="${rowIndex}"]`,
+      element => {
+        element.classList.add('append-to-bottom')
+      },
+    )
   }
 
   return {
-    getTable,
     activeColActions,
     deactiveCurrentActiveColActions,
     activeRowActions,

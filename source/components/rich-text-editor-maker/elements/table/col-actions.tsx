@@ -2,11 +2,12 @@ import React, { FC } from 'react'
 
 import { Button, ButtonNS } from '../../..'
 
-import { UseTableGeneratorDomNS, useTableGeneratorDOM } from './use-dom'
+import { useTableGeneratorDOM } from './use-dom'
 import { TableElementNS } from './types'
+import { useZoomContext } from '../../../../hooks'
 
 export namespace ColActionsNS {
-  export interface Props extends UseTableGeneratorDomNS.Params {
+  export interface Props {
     colIndex: number
     addColumn: (side: TableElementNS.HorizontalSide) => void
     removeColumn: () => void
@@ -18,10 +19,10 @@ export const ColActions: FC<ColActionsNS.Props> = ({
   colIndex,
   addColumn,
   removeColumn,
-  sendLog,
   tableID,
 }) => {
-  const tableDOM = useTableGeneratorDOM({ sendLog, tableID })
+  const tableDOM = useTableGeneratorDOM(tableID)
+  const { isRTL } = useZoomContext()
 
   const actionButtonsProps: ButtonNS.Props = {
     shape: 'circle',
@@ -58,7 +59,7 @@ export const ColActions: FC<ColActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={() => addColumn('left')}
+        onClick={() => addColumn(isRTL ? 'right' : 'left')}
         containerProps={{
           onMouseOver: onMouseOverAddToPrevButton,
           onMouseLeave: onMouseLeaveAddButtons,
@@ -80,7 +81,7 @@ export const ColActions: FC<ColActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={() => addColumn('right')}
+        onClick={() => addColumn(isRTL ? 'left' : 'right')}
         containerProps={{
           onMouseOver: onMouseOverAddToNextButton,
           onMouseLeave: onMouseLeaveAddButtons,

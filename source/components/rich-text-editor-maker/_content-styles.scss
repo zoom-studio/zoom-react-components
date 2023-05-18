@@ -133,28 +133,121 @@
   }
 
   .editor-table-container {
-    max-width: 100%;
-    display: grid;
+    width: 100%;
 
-    > .zoomrc-scroll-view {
+    > .table-scroll-view {
       margin: 0 auto;
 
       > .os-viewport {
         > table {
-          min-width: 100%;
-          border-collapse: collapse;
+          width: 100%;
+          padding: 0 10px 20px 0;
 
-          > tbody {
-            > tr {
-              animation: xxxx 500ms linear;
+          > thead,
+          > tfoot {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+          }
 
-              > td {
-                background-color: inherit;
-                padding: 4px;
-                border: 1px solid color(border, 2);
-                min-width: 100px;
-                color: color(text, 2);
-                animation: xxxx 500ms linear;
+          tr {
+            > td {
+              border: 1px solid color(border, 2);
+              padding: 0;
+              color: color(text, 2);
+
+              &.action-cell {
+                border: 0;
+                width: fit-content;
+                height: fit-content;
+
+                &.col-action-cell {
+                  height: 30px;
+
+                  &:nth-child(1) {
+                    pointer-events: none;
+                  }
+
+                  > .col-actions-container {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: inherit;
+
+                    > .col-actions {
+                      display: none;
+                      gap: 2px;
+                      position: absolute;
+                    }
+
+                    &.active {
+                      > .col-actions {
+                        display: flex;
+                      }
+                    }
+                  }
+                }
+
+                &.row-action-cell {
+                  width: 30px;
+                  position: sticky;
+                  left: 0;
+                  z-index: 1;
+
+                  > .row-actions-container {
+                    position: relative;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: inherit;
+                    height: inherit;
+
+                    > .row-actions {
+                      display: none;
+                      flex-direction: column;
+                      gap: 2px;
+                      transform: translateY(-4px);
+                      position: absolute;
+                    }
+                  }
+
+                  &.active {
+                    z-index: 2;
+
+                    > .row-actions-container {
+                      > .row-actions {
+                        display: flex;
+                      }
+                    }
+                  }
+                }
+              }
+
+              &.input-cell {
+                height: 30px;
+                padding: 4px 10px;
+                min-width: 70px;
+
+                &.removal {
+                  background-color: color(error, glassy, 1);
+                }
+
+                &.append-to-left {
+                  border-left-color: color(accent);
+                }
+
+                &.append-to-right {
+                  border-right-color: color(accent);
+                }
+
+                &.append-to-top {
+                  border-top-color: color(accent);
+                }
+
+                &.append-to-bottom {
+                  border-bottom-color: color(accent);
+                }
               }
             }
           }
@@ -164,14 +257,28 @@
   }
 }
 
-@keyframes xxxx {
-  from {
-    opacity: 0;
-    background-color: red;
-  }
+@include rtl {
+  .editor-table-container {
+    > .table-scroll-view {
+      > .os-viewport {
+        > table {
+          padding: 0 0 20px 10px;
 
-  to {
-    opacity: 1;
-    background-color: unset;
+          tr {
+            > td {
+              &.action-cell {
+                &.col-action-cell {
+                  > .col-actions-container {
+                    > .col-actions {
+                      flex-direction: row-reverse;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

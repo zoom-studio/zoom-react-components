@@ -141,6 +141,160 @@ export class RichUtils {
     }
   }
 
+  private readonly getTableColumnInfo = (targetColumnIndex: number, id: string) => {
+    const targetColumns: RichUtilsNS.NodeInfo[] = []
+    const nextColumns: RichUtilsNS.NodeInfo[] = []
+    const prevColumns: RichUtilsNS.NodeInfo[] = []
+    const allRows: RichUtilsNS.NodeInfo[] = []
+
+    const table = this.deepFindNode(
+      node => Element.isElement(node) && node.type === 'table' && node.id === id,
+    )
+
+    if (table && Element.isElement(table.node)) {
+      const currentTableInfo = table.node.tableInfo!
+
+      Array.from(Array(currentTableInfo.rows)).forEach((_, rowIndex) => {
+        const column = this.deepFindNode(
+          node =>
+            Element.isElement(node) &&
+            node.id === id &&
+            node.tableColIndex === targetColumnIndex &&
+            node.tableRowIndex === rowIndex &&
+            node.type === 'table-cell',
+        )
+
+        const row = this.deepFindNode(
+          node =>
+            Element.isElement(node) &&
+            node.id === id &&
+            node.tableRowIndex === rowIndex &&
+            node.type === 'table-row',
+        )
+
+        if (column) {
+          targetColumns.push(column)
+        }
+
+        if (row) {
+          allRows.push(row)
+        }
+
+        for (let colIndex = targetColumnIndex + 1; colIndex < currentTableInfo.cols; colIndex++) {
+          const nextCol = this.deepFindNode(
+            node =>
+              Element.isElement(node) &&
+              node.id === id &&
+              node.tableColIndex === colIndex &&
+              node.tableRowIndex === rowIndex &&
+              node.type === 'table-cell',
+          )
+
+          if (nextCol) {
+            nextColumns.push(nextCol)
+          }
+        }
+
+        for (let colIndex = 0; colIndex < targetColumnIndex; colIndex++) {
+          const prevCol = this.deepFindNode(
+            node =>
+              Element.isElement(node) &&
+              node.id === id &&
+              node.tableColIndex === colIndex &&
+              node.tableRowIndex === rowIndex &&
+              node.type === 'table-cell',
+          )
+
+          if (prevCol) {
+            prevColumns.push(prevCol)
+          }
+        }
+      })
+    }
+
+    return { targetColumns, nextColumns, prevColumns, allRows, table }
+  }
+
+  private readonly getTableRowInfo = (targetRowIndex: number, id: string) => {
+    const table = this.deepFindNode(
+      node => Element.isElement(node) && node.type === 'table' && node.id === id,
+    )
+
+    const row = this.deepFindNode(
+      node =>
+        Element.isElement(node) &&
+        node.type === 'table-row' &&
+        node.tableRowIndex === targetRowIndex &&
+        node.id === id,
+    )
+
+    const nextRows: RichUtilsNS.NodeInfo[] = []
+    const nextRowsCols: RichUtilsNS.NodeInfo[] = []
+    const prevRows: RichUtilsNS.NodeInfo[] = []
+    const prevRowsCols: RichUtilsNS.NodeInfo[] = []
+    const rowCols: RichUtilsNS.NodeInfo[] = []
+
+    if (row && Element.isElement(row.node) && table && Element.isElement(table.node)) {
+      const { tableInfo, id } = row.node
+      const rowsCount = tableInfo!.rows
+      const colsCount = tableInfo!.cols
+
+      Array.from(Array(rowsCount)).forEach((_, rowIndex) => {
+        const tableRow = this.deepFindNode(
+          node =>
+            Element.isElement(node) &&
+            node.type === 'table-row' &&
+            node.tableRowIndex === rowIndex &&
+            node.id === id,
+        )
+
+        if (tableRow) {
+          if (rowIndex > targetRowIndex) {
+            nextRows.push(tableRow)
+          } else if (rowIndex !== targetRowIndex) {
+            prevRows.push(tableRow)
+          }
+        }
+
+        Array.from(Array(colsCount)).forEach((_, colIndex) => {
+          const rowCol = this.deepFindNode(
+            node =>
+              Element.isElement(node) &&
+              node.type === 'table-cell' &&
+              node.tableRowIndex === rowIndex &&
+              node.tableColIndex === colIndex &&
+              node.id === id,
+          )
+
+          if (rowCol) {
+            if (rowIndex > targetRowIndex) {
+              nextRowsCols.push(rowCol)
+            } else if (rowIndex !== targetRowIndex) {
+              prevRowsCols.push(rowCol)
+            }
+          }
+        })
+      })
+
+      Array.from(Array(colsCount)).forEach((_, colIndex) => {
+        const rowCol = this.deepFindNode(
+          node =>
+            Element.isElement(node) &&
+            node.type === 'table-cell' &&
+            node.tableRowIndex === targetRowIndex &&
+            node.tableColIndex === colIndex &&
+            node.id === id,
+        )
+
+        if (rowCol) {
+          rowCols.push(rowCol)
+        }
+      })
+    }
+
+    return { table, row, nextRows, nextRowsCols, prevRows, prevRowsCols, rowCols }
+  }
+
   focusEditor = (): void => {
     ReactEditor.focus(this.editor)
   }
@@ -288,85 +442,50 @@ export class RichUtils {
     })
   }
 
+  removeTableColumn = (colIndexToRemove: number, id: string) => {
+    const { allRows, nextColumns, prevColumns, table, targetColumns } = this.getTableColumnInfo(
+      colIndexToRemove,
+      id,
+    )
+
+    if (table) {
+      const currentTableInfo = (<Element>table.node).tableInfo!
+      const newTableInfo = { ...currentTableInfo, cols: currentTableInfo.cols - 1 }
+
+      ;[...allRows, table, ...prevColumns].forEach(({ path }) => {
+        Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: path })
+      })
+
+      nextColumns.forEach(nextColumn => {
+        Transforms.setNodes(
+          this.editor,
+          { tableInfo: newTableInfo, tableColIndex: (<Element>nextColumn.node).tableColIndex! - 1 },
+          { at: nextColumn.path },
+        )
+      })
+
+      targetColumns.forEach(targetColumn => {
+        Transforms.removeNodes(this.editor, { at: targetColumn.path })
+      })
+    }
+  }
+
   insertTableColumn = (
     colIndexToAppend: number,
     side: TableElementNS.HorizontalSide,
     id: string,
   ): void => {
-    const table = this.deepFindNode(
-      node => Element.isElement(node) && node.type === 'table' && node.id === id,
+    const { allRows, nextColumns, prevColumns, table, targetColumns } = this.getTableColumnInfo(
+      colIndexToAppend,
+      id,
     )
 
     if (table) {
       const currentTableInfo = (<Element>table.node).tableInfo!
       const newTableInfo = { ...currentTableInfo, cols: currentTableInfo.cols + 1 }
 
-      const targetColumns: RichUtilsNS.NodeInfo[] = []
-      const nextColumns: RichUtilsNS.NodeInfo[] = []
-      const prevColumns: RichUtilsNS.NodeInfo[] = []
-      const allRows: RichUtilsNS.NodeInfo[] = []
-
-      Array.from(Array(currentTableInfo.rows)).forEach((_, rowIndex) => {
-        const column = this.deepFindNode(
-          node =>
-            Element.isElement(node) &&
-            node.id === id &&
-            node.tableColIndex === colIndexToAppend &&
-            node.tableRowIndex === rowIndex &&
-            node.type === 'table-cell',
-        )
-
-        const row = this.deepFindNode(
-          node =>
-            Element.isElement(node) &&
-            node.id === id &&
-            node.tableRowIndex === rowIndex &&
-            node.type === 'table-row',
-        )
-
-        if (column) {
-          targetColumns.push(column)
-        }
-
-        if (row) {
-          allRows.push(row)
-        }
-
-        for (let colIndex = colIndexToAppend + 1; colIndex < currentTableInfo.cols; colIndex++) {
-          const nextCol = this.deepFindNode(
-            node =>
-              Element.isElement(node) &&
-              node.id === id &&
-              node.tableColIndex === colIndex &&
-              node.tableRowIndex === rowIndex &&
-              node.type === 'table-cell',
-          )
-
-          if (nextCol) {
-            nextColumns.push(nextCol)
-          }
-        }
-
-        for (let colIndex = 0; colIndex < colIndexToAppend; colIndex++) {
-          const prevCol = this.deepFindNode(
-            node =>
-              Element.isElement(node) &&
-              node.id === id &&
-              node.tableColIndex === colIndex &&
-              node.tableRowIndex === rowIndex &&
-              node.type === 'table-cell',
-          )
-
-          if (prevCol) {
-            prevColumns.push(prevCol)
-          }
-        }
-      })
-
-      Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: table.path })
-
-      allRows.forEach(row => {
-        Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: row.path })
+      ;[...allRows, table, ...prevColumns].forEach(({ path }) => {
+        Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: path })
       })
 
       targetColumns.forEach(targetColumn => {
@@ -378,10 +497,6 @@ export class RichUtils {
           },
           { at: targetColumn.path },
         )
-      })
-
-      prevColumns.forEach(prevColumn => {
-        Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: prevColumn.path })
       })
 
       nextColumns.forEach(nextColumn => {
@@ -407,95 +522,62 @@ export class RichUtils {
     }
   }
 
+  removeTableRow = (rowIndexToRemove: number, id: string): void => {
+    const { nextRows, nextRowsCols, prevRows, prevRowsCols, row, table } = this.getTableRowInfo(
+      rowIndexToRemove,
+      id,
+    )
+
+    if (table) {
+      const currentTableInfo = (<Element>table.node).tableInfo!
+      const newTableInfo = { ...currentTableInfo, rows: currentTableInfo.rows - 1 }
+
+      if (row && Element.isElement(row.node)) {
+        ;[...prevRows, ...prevRowsCols, table].forEach(({ path }) => {
+          Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: path })
+        })
+
+        nextRows.forEach(nextRow => {
+          Transforms.setNodes(
+            this.editor,
+            { tableInfo: newTableInfo, tableRowIndex: (<Element>nextRow.node).tableRowIndex! - 1 },
+            { at: nextRow.path },
+          )
+        })
+
+        nextRowsCols.forEach(nextRowCol => {
+          Transforms.setNodes(
+            this.editor,
+            {
+              tableInfo: newTableInfo,
+              tableRowIndex: (<Element>nextRowCol.node).tableRowIndex! - 1,
+            },
+            { at: nextRowCol.path },
+          )
+        })
+
+        Transforms.removeNodes(this.editor, { at: row.path })
+      }
+    }
+  }
+
   insertTableRow = (
     rowIndexToAppend: number,
     side: TableElementNS.VerticalSide,
     id: string,
   ): void => {
-    const table = this.deepFindNode(
-      node => Element.isElement(node) && node.type === 'table' && node.id === id,
-    )
+    const { nextRows, nextRowsCols, prevRows, prevRowsCols, row, table, rowCols } =
+      this.getTableRowInfo(rowIndexToAppend, id)
 
     if (table) {
       const currentTableInfo = (<Element>table.node).tableInfo!
       const newTableInfo = { ...currentTableInfo, rows: currentTableInfo.rows + 1 }
 
-      const row = this.deepFindNode(
-        node =>
-          Element.isElement(node) &&
-          node.type === 'table-row' &&
-          node.tableRowIndex === rowIndexToAppend &&
-          node.id === id,
-      )
-
       if (row && Element.isElement(row.node)) {
-        const { tableInfo, tableRowIndex, id } = row.node
-        const rowsCount = tableInfo!.rows
-        const nextRows: RichUtilsNS.NodeInfo[] = []
-        const nextRowsCols: RichUtilsNS.NodeInfo[] = []
-        const prevRows: RichUtilsNS.NodeInfo[] = []
-        const prevRowsCols: RichUtilsNS.NodeInfo[] = []
-        const rowCols: RichUtilsNS.NodeInfo[] = []
-        const colsCount = tableInfo!.cols
+        const { tableRowIndex, id } = row.node
 
-        Array.from(Array(rowsCount)).forEach((_, rowIndex) => {
-          const tableRow = this.deepFindNode(
-            node =>
-              Element.isElement(node) &&
-              node.type === 'table-row' &&
-              node.tableRowIndex === rowIndex &&
-              node.id === id,
-          )
-
-          if (tableRow) {
-            if (rowIndex > rowIndexToAppend) {
-              nextRows.push(tableRow)
-            } else if (rowIndex !== rowIndexToAppend) {
-              prevRows.push(tableRow)
-            }
-          }
-
-          Array.from(Array(colsCount)).forEach((_, colIndex) => {
-            const rowCol = this.deepFindNode(
-              node =>
-                Element.isElement(node) &&
-                node.type === 'table-cell' &&
-                node.tableRowIndex === rowIndex &&
-                node.tableColIndex === colIndex &&
-                node.id === id,
-            )
-
-            if (rowCol) {
-              if (rowIndex > rowIndexToAppend) {
-                nextRowsCols.push(rowCol)
-              } else if (rowIndex !== rowIndexToAppend) {
-                prevRowsCols.push(rowCol)
-              }
-            }
-          })
-        })
-
-        Array.from(Array(colsCount)).forEach((_, colIndex) => {
-          const rowCol = this.deepFindNode(
-            node =>
-              Element.isElement(node) &&
-              node.type === 'table-cell' &&
-              node.tableRowIndex === rowIndexToAppend &&
-              node.tableColIndex === colIndex &&
-              node.id === id,
-          )
-
-          if (rowCol) {
-            rowCols.push(rowCol)
-          }
-        })
-
-        prevRows.forEach(prevRow => {
-          Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: prevRow.path })
-        })
-
-        prevRowsCols.forEach(prevRowCol => {
-          Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: prevRowCol.path })
+        ;[...prevRows, ...prevRowsCols, table].forEach(({ path }) => {
+          Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: path })
         })
 
         nextRows.forEach((nextRow, nextRowIndex) => {
@@ -548,8 +630,6 @@ export class RichUtils {
             at: side === 'bottom' ? Path.next(row.path) : row.path,
           },
         )
-
-        Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: table.path })
       }
     }
   }

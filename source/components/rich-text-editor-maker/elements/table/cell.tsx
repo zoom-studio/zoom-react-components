@@ -50,7 +50,7 @@ export const TableCellElement: FC<TableCellElementNS.Props> = ({
       )}
 
       <td {...attributes} data-col-index={tableColIndex} data-row-index={tableRowIndex}>
-        {tableRowIndex}
+        {`r${tableRowIndex} c${tableColIndex}`}
         {children}
       </td>
     </>

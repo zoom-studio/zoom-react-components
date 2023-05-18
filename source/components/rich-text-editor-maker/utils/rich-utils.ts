@@ -36,6 +36,13 @@ export namespace RichUtilsNS {
     tableID: string
   }
 
+  export interface CreateTableColParams {
+    colIndex: number
+    rowIndex: number
+    tableInfo: RichTextEditorMakerNS.TableInfo
+    tableID: string
+  }
+
   export interface NodeInfo {
     path: Path
     node: Node
@@ -115,14 +122,22 @@ export class RichUtils {
       type: 'table-row',
       tableRowIndex: rowIndex,
       id: tableID,
-      children: Array.from(Array(cols)).map((_, colIndex) => ({
-        tableInfo,
-        children: [{ text: '' }],
-        type: 'table-cell',
-        tableColIndex: colIndex,
-        tableRowIndex: rowIndex,
-        id: tableID,
-      })),
+      children: Array.from(Array(cols)).map((_, colIndex) =>
+        this.createTableCol({ colIndex, rowIndex, tableID, tableInfo }),
+      ),
+    }
+  }
+
+  private readonly createTableCol = (params: RichUtilsNS.CreateTableColParams): Descendant => {
+    const { colIndex, rowIndex, tableInfo, tableID } = params
+
+    return {
+      tableInfo,
+      children: [{ text: '' }],
+      type: 'table-cell',
+      tableColIndex: colIndex,
+      tableRowIndex: rowIndex,
+      id: tableID,
     }
   }
 
@@ -271,6 +286,125 @@ export class RichUtils {
       ),
       tableInfo,
     })
+  }
+
+  insertTableColumn = (
+    colIndexToAppend: number,
+    side: TableElementNS.HorizontalSide,
+    id: string,
+  ): void => {
+    const table = this.deepFindNode(
+      node => Element.isElement(node) && node.type === 'table' && node.id === id,
+    )
+
+    if (table) {
+      const currentTableInfo = (<Element>table.node).tableInfo!
+      const newTableInfo = { ...currentTableInfo, cols: currentTableInfo.cols + 1 }
+
+      const targetColumns: RichUtilsNS.NodeInfo[] = []
+      const nextColumns: RichUtilsNS.NodeInfo[] = []
+      const prevColumns: RichUtilsNS.NodeInfo[] = []
+      const allRows: RichUtilsNS.NodeInfo[] = []
+
+      Array.from(Array(currentTableInfo.rows)).forEach((_, rowIndex) => {
+        const column = this.deepFindNode(
+          node =>
+            Element.isElement(node) &&
+            node.id === id &&
+            node.tableColIndex === colIndexToAppend &&
+            node.tableRowIndex === rowIndex &&
+            node.type === 'table-cell',
+        )
+
+        const row = this.deepFindNode(
+          node =>
+            Element.isElement(node) &&
+            node.id === id &&
+            node.tableRowIndex === rowIndex &&
+            node.type === 'table-row',
+        )
+
+        if (column) {
+          targetColumns.push(column)
+        }
+
+        if (row) {
+          allRows.push(row)
+        }
+
+        for (let colIndex = colIndexToAppend + 1; colIndex < currentTableInfo.cols; colIndex++) {
+          const nextCol = this.deepFindNode(
+            node =>
+              Element.isElement(node) &&
+              node.id === id &&
+              node.tableColIndex === colIndex &&
+              node.tableRowIndex === rowIndex &&
+              node.type === 'table-cell',
+          )
+
+          if (nextCol) {
+            nextColumns.push(nextCol)
+          }
+        }
+
+        for (let colIndex = 0; colIndex < colIndexToAppend; colIndex++) {
+          const prevCol = this.deepFindNode(
+            node =>
+              Element.isElement(node) &&
+              node.id === id &&
+              node.tableColIndex === colIndex &&
+              node.tableRowIndex === rowIndex &&
+              node.type === 'table-cell',
+          )
+
+          if (prevCol) {
+            prevColumns.push(prevCol)
+          }
+        }
+      })
+
+      Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: table.path })
+
+      allRows.forEach(row => {
+        Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: row.path })
+      })
+
+      targetColumns.forEach(targetColumn => {
+        Transforms.setNodes(
+          this.editor,
+          {
+            tableInfo: newTableInfo,
+            tableColIndex: (<Element>targetColumn.node).tableColIndex! + (side === 'left' ? 1 : 0),
+          },
+          { at: targetColumn.path },
+        )
+      })
+
+      prevColumns.forEach(prevColumn => {
+        Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: prevColumn.path })
+      })
+
+      nextColumns.forEach(nextColumn => {
+        Transforms.setNodes(
+          this.editor,
+          { tableInfo: newTableInfo, tableColIndex: (<Element>nextColumn.node).tableColIndex! + 1 },
+          { at: nextColumn.path },
+        )
+      })
+
+      targetColumns.forEach((targetColumn, rowIndex) => {
+        const newColumn = this.createTableCol({
+          rowIndex,
+          tableID: id,
+          tableInfo: newTableInfo,
+          colIndex: colIndexToAppend + (side === 'right' ? 1 : 0),
+        })
+
+        Transforms.insertNodes(this.editor, newColumn, {
+          at: side === 'right' ? Path.next(targetColumn.path) : targetColumn.path,
+        })
+      })
+    }
   }
 
   insertTableRow = (

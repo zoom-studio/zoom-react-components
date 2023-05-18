@@ -49,12 +49,8 @@ export const TableCellElement: FC<TableCellElementNS.Props> = ({
         </td>
       )}
 
-      <td
-        {...attributes}
-        data-col-index={tableColIndex}
-        data-row-index={tableRowIndex}
-        contentEditable={true}
-      >
+      <td {...attributes} data-col-index={tableColIndex} data-row-index={tableRowIndex}>
+        {tableRowIndex}
         {children}
       </td>
     </>

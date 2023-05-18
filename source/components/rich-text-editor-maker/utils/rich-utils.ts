@@ -108,10 +108,7 @@ export class RichUtils {
   private readonly createTableRow = (params: RichUtilsNS.CreateTableRowParams): Descendant => {
     const { rowIndex, tableInfo, tableID } = params
 
-    const cols =
-      'cols' in tableInfo
-        ? tableInfo.cols
-        : Math.max(...tableInfo.map((_, rowIndex) => tableInfo[rowIndex].length))
+    const cols = tableInfo.cols
 
     return {
       tableInfo,
@@ -120,11 +117,7 @@ export class RichUtils {
       id: tableID,
       children: Array.from(Array(cols)).map((_, colIndex) => ({
         tableInfo,
-        children: [
-          {
-            text: 'cols' in tableInfo ? '' : tableInfo?.[rowIndex]?.[colIndex] ?? '',
-          },
-        ],
+        children: [{ text: '' }],
         type: 'table-cell',
         tableColIndex: colIndex,
         tableRowIndex: rowIndex,
@@ -265,12 +258,11 @@ export class RichUtils {
 
   insertTable = (tableInfo: RichTextEditorMakerNS.TableInfo): void => {
     const tableID = 'rich-text-editor-table-'.concat(randomString(30))
-    const rows = 'rows' in tableInfo ? Array.from(Array(tableInfo.rows)) : tableInfo
 
     this.insertNodes({
       id: tableID,
       type: 'table',
-      children: rows.map((_, rowIndex) =>
+      children: Array.from(Array(tableInfo.rows)).map((_, rowIndex) =>
         this.createTableRow({
           rowIndex,
           tableID,
@@ -286,28 +278,145 @@ export class RichUtils {
     side: TableElementNS.VerticalSide,
     id: string,
   ): void => {
-    const row = this.deepFindNode(
-      node =>
-        Element.isElement(node) &&
-        node.type === 'table-row' &&
-        node.tableRowIndex === rowIndexToAppend &&
-        node.id === id,
+    const table = this.deepFindNode(
+      node => Element.isElement(node) && node.type === 'table' && node.id === id,
     )
 
-    if (row && Element.isElement(row.node)) {
-      const { tableInfo, tableRowIndex, id } = row.node
-      Transforms.insertNodes(
-        this.editor,
-        this.createTableRow({
-          // TODO: Fix table row index issue
-          rowIndex: tableRowIndex ?? 0 + 1,
-          tableID: id!,
-          tableInfo: tableInfo!,
-        }),
-        {
-          at: side === 'bottom' ? Path.next(row.path) : Path.previous(row.path),
-        },
+    if (table) {
+      const currentTableInfo = (<Element>table.node).tableInfo!
+      const newTableInfo = { ...currentTableInfo, rows: currentTableInfo.rows + 1 }
+
+      const row = this.deepFindNode(
+        node =>
+          Element.isElement(node) &&
+          node.type === 'table-row' &&
+          node.tableRowIndex === rowIndexToAppend &&
+          node.id === id,
       )
+
+      if (row && Element.isElement(row.node)) {
+        const { tableInfo, tableRowIndex, id } = row.node
+        const rowsCount = tableInfo!.rows
+        const nextRows: RichUtilsNS.NodeInfo[] = []
+        const nextRowsCols: RichUtilsNS.NodeInfo[] = []
+        const prevRows: RichUtilsNS.NodeInfo[] = []
+        const prevRowsCols: RichUtilsNS.NodeInfo[] = []
+        const rowCols: RichUtilsNS.NodeInfo[] = []
+        const colsCount = tableInfo!.cols
+
+        Array.from(Array(rowsCount)).forEach((_, rowIndex) => {
+          const tableRow = this.deepFindNode(
+            node =>
+              Element.isElement(node) &&
+              node.type === 'table-row' &&
+              node.tableRowIndex === rowIndex &&
+              node.id === id,
+          )
+
+          if (tableRow) {
+            if (rowIndex > rowIndexToAppend) {
+              nextRows.push(tableRow)
+            } else if (rowIndex !== rowIndexToAppend) {
+              prevRows.push(tableRow)
+            }
+          }
+
+          Array.from(Array(colsCount)).forEach((_, colIndex) => {
+            const rowCol = this.deepFindNode(
+              node =>
+                Element.isElement(node) &&
+                node.type === 'table-cell' &&
+                node.tableRowIndex === rowIndex &&
+                node.tableColIndex === colIndex &&
+                node.id === id,
+            )
+
+            if (rowCol) {
+              if (rowIndex > rowIndexToAppend) {
+                nextRowsCols.push(rowCol)
+              } else if (rowIndex !== rowIndexToAppend) {
+                prevRowsCols.push(rowCol)
+              }
+            }
+          })
+        })
+
+        Array.from(Array(colsCount)).forEach((_, colIndex) => {
+          const rowCol = this.deepFindNode(
+            node =>
+              Element.isElement(node) &&
+              node.type === 'table-cell' &&
+              node.tableRowIndex === rowIndexToAppend &&
+              node.tableColIndex === colIndex &&
+              node.id === id,
+          )
+
+          if (rowCol) {
+            rowCols.push(rowCol)
+          }
+        })
+
+        prevRows.forEach(prevRow => {
+          Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: prevRow.path })
+        })
+
+        prevRowsCols.forEach(prevRowCol => {
+          Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: prevRowCol.path })
+        })
+
+        nextRows.forEach((nextRow, nextRowIndex) => {
+          Transforms.setNodes(
+            this.editor,
+            { tableInfo: newTableInfo, tableRowIndex: nextRowIndex + tableRowIndex! + 2 },
+            { at: nextRow.path },
+          )
+        })
+
+        nextRowsCols.forEach(nextRowCol => {
+          Transforms.setNodes(
+            this.editor,
+            {
+              tableInfo: newTableInfo,
+              tableRowIndex: (<Element>nextRowCol.node).tableRowIndex! + 1,
+            },
+            { at: nextRowCol.path },
+          )
+        })
+
+        rowCols.forEach(rowCol => {
+          Transforms.setNodes(
+            this.editor,
+            {
+              tableInfo: newTableInfo,
+              tableRowIndex: (<Element>rowCol.node).tableRowIndex! + (side === 'top' ? 1 : 0),
+            },
+            { at: rowCol.path },
+          )
+        })
+
+        Transforms.setNodes(
+          this.editor,
+          {
+            tableInfo: newTableInfo,
+            tableRowIndex: row.node.tableRowIndex! + (side === 'top' ? 1 : 0),
+          },
+          { at: row.path },
+        )
+
+        Transforms.insertNodes(
+          this.editor,
+          this.createTableRow({
+            rowIndex: side === 'bottom' ? tableRowIndex! + 1 : tableRowIndex!,
+            tableID: id!,
+            tableInfo: newTableInfo,
+          }),
+          {
+            at: side === 'bottom' ? Path.next(row.path) : row.path,
+          },
+        )
+
+        Transforms.setNodes(this.editor, { tableInfo: newTableInfo }, { at: table.path })
+      }
     }
   }
 

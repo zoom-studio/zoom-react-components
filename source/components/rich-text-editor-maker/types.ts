@@ -81,7 +81,7 @@ export namespace RichTextEditorMakerNS {
     cols: number
   }
 
-  export type TableInfo = TableData | TableCells
+  export type TableInfo = TableCells
 
   export interface ImageInfo {
     src: string

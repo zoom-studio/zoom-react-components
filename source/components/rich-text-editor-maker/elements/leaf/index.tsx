@@ -46,5 +46,9 @@ export const LeafElement: FC<LeafElementNS.Props> = ({
     )
   }
 
+  if (leaf.found) {
+    children = <address>{children}</address>
+  }
+
   return <span {...attributes}>{children}</span>
 }

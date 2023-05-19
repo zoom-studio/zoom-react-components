@@ -1,17 +1,20 @@
 import React, { FC, useState } from 'react'
 
 import { Text } from '../../..'
+import { useRichTextEditorI18n } from '../../use-i18n'
 
 export namespace TableInserterPopoverNS {
   export interface Props {
     closePopover: () => void
     onSelect: (cols: number, rows: number) => void
+    i18n: ReturnType<typeof useRichTextEditorI18n>
   }
 }
 
 export const TableInserterPopover: FC<TableInserterPopoverNS.Props> = ({
   closePopover,
   onSelect,
+  i18n,
 }) => {
   const [title, setTitle] = useState<string | number>('Insert table')
 
@@ -24,7 +27,7 @@ export const TableInserterPopover: FC<TableInserterPopoverNS.Props> = ({
 
     const rowIndex = Math.floor(index / 10) + 1
     const colIndex = (index % 10) + 1
-    setTitle(`${colIndex}x${rowIndex} Table`)
+    setTitle(`${colIndex}x${rowIndex} ${i18n.tableNxN}`)
 
     for (let i = index; i + 10 >= 10; i -= 10) {
       for (let j = i; j >= i - (i % 10); j--) {
@@ -34,7 +37,7 @@ export const TableInserterPopover: FC<TableInserterPopoverNS.Props> = ({
   }
 
   const handleOnMouseLeave = () => {
-    setTitle('Insert table')
+    setTitle(i18n.insertTable)
     removeActiveClassesOfGrids()
   }
 

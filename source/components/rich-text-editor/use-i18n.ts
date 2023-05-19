@@ -31,12 +31,13 @@ export namespace UseRichTextEditorI18nNS {
     images?: string
     horizontalRule?: string
     table?: string
+    insertTable?: string
+    tableNxN?: string
     video?: string
     videos?: string
     undo?: string
     redo?: string
-    enterFullScreen?: string
-    exitFullScreen?: string
+    search?: string
   }
 }
 
@@ -74,12 +75,13 @@ export const useRichTextEditorI18n = (
     images: i18n?.images ?? 'Images',
     horizontalRule: i18n?.horizontalRule ?? 'Horizontal rule',
     table: i18n?.table ?? 'Insert Table',
+    insertTable: i18n?.table ?? 'Insert table',
+    tableNxN: i18n?.table ?? 'Table',
     video: i18n?.video ?? 'Attache video',
     videos: i18n?.videos ?? 'Videos',
     undo: i18n?.undo ?? 'Undo',
     redo: i18n?.redo ?? 'Redo',
     highlight: i18n?.highlight ?? 'Highlight',
-    enterFullScreen: i18n?.enterFullScreen ?? 'Enter full screen',
-    exitFullScreen: i18n?.exitFullScreen ?? 'Exit full screen',
+    search: i18n?.search ?? 'Search keywords',
   }
 }

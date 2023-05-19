@@ -24,7 +24,7 @@ export const useAccelerators = ({
 
   const handleAccelerators = useCallback(
     (evt: KeyboardEvent<HTMLDivElement>) => {
-      const { key, ctrlKey, altKey } = evt
+      const { ctrlKey, altKey, code } = evt
 
       const isSwitchingMentionsList =
         !!enableMention && mention.mentionQuery?.length > 0 && mention.foundUsernames.length > 0
@@ -32,8 +32,9 @@ export const useAccelerators = ({
       const isSwitchingHashtagsList =
         !!enableHashtag && hashtag.hashtagQuery?.length > 0 && hashtag.foundHashtags.length > 0
 
-      switch (key) {
-        case '1': {
+      switch (code) {
+        case 'Digit1':
+        case 'Numpad1': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -41,7 +42,8 @@ export const useAccelerators = ({
           break
         }
 
-        case '2': {
+        case 'Digit2':
+        case 'Numpad2': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -49,7 +51,8 @@ export const useAccelerators = ({
           break
         }
 
-        case '3': {
+        case 'Digit3':
+        case 'Numpad3': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -57,7 +60,8 @@ export const useAccelerators = ({
           break
         }
 
-        case '4': {
+        case 'Digit4':
+        case 'Numpad4': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -65,7 +69,7 @@ export const useAccelerators = ({
           break
         }
 
-        case 'b': {
+        case 'KeyB': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -73,7 +77,7 @@ export const useAccelerators = ({
           break
         }
 
-        case 'i': {
+        case 'KeyI': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -81,7 +85,7 @@ export const useAccelerators = ({
           break
         }
 
-        case 'u': {
+        case 'KeyU': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -89,7 +93,7 @@ export const useAccelerators = ({
           break
         }
 
-        case 's': {
+        case 'KeyS': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -97,7 +101,7 @@ export const useAccelerators = ({
           break
         }
 
-        case 'q': {
+        case 'KeyQ': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -105,7 +109,7 @@ export const useAccelerators = ({
           break
         }
 
-        case 'h': {
+        case 'KeyH': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -113,7 +117,7 @@ export const useAccelerators = ({
           break
         }
 
-        case 'l': {
+        case 'KeyL': {
           if (!ctrlKey) break
 
           evt.preventDefault()
@@ -160,7 +164,8 @@ export const useAccelerators = ({
           break
         }
 
-        case 'Enter': {
+        case 'Enter':
+        case 'NumpadEnter': {
           const { selection } = editor
           if (selection) {
             const selectedParentNode = Node.get(editor, Path.parent(selection.anchor.path))

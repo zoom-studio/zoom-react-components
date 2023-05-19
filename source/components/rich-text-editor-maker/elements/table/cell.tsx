@@ -6,7 +6,7 @@ import { RenderElementProps } from 'slate-react'
 import { RichUtils, useEditorContext } from '../../utils'
 import { RowActions } from './row-actions'
 import { TableElementNS } from './types'
-import { useTableGeneratorDOM } from './use-dom'
+import { useTableDOM } from './use-dom'
 
 export namespace TableCellElementNS {
   export interface Props extends RenderElementProps {}
@@ -21,9 +21,9 @@ export const TableCellElement: FC<TableCellElementNS.Props> = ({
 
   const richUtils = new RichUtils({ editor })
 
-  const { tableColIndex, tableRowIndex, id } = element
+  const { tableColIndex, tableRowIndex, id, tableInfo } = element
 
-  const tableDOM = useTableGeneratorDOM(id!)
+  const tableDOM = useTableDOM(id!)
 
   const addRow = (side: TableElementNS.VerticalSide) => {
     richUtils.insertTableRow(tableRowIndex!, side, id!)
@@ -54,6 +54,7 @@ export const TableCellElement: FC<TableCellElementNS.Props> = ({
               addRow={addRow}
               removeRow={removeRow(tableRowIndex!)}
               tableID={id!}
+              tableInfo={tableInfo!}
             />
           </div>
         </td>

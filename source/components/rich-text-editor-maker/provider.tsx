@@ -12,7 +12,7 @@ import React, {
 import { onKeyDown } from '@prezly/slate-lists'
 import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
 import { Descendant, createEditor } from 'slate'
-import { withHistory, HistoryEditor } from 'slate-history'
+import { HistoryEditor, withHistory } from 'slate-history'
 import { Slate, withReact } from 'slate-react'
 
 import {
@@ -21,6 +21,7 @@ import {
   withLists,
   withPasteURL,
   withSoftBreak,
+  withTables,
 } from './plugins'
 import { RichTextEditorMakerNS } from './types'
 import { useHashtag, useMention } from './utils'
@@ -71,6 +72,8 @@ export namespace RichTextEditorMakerProviderNS {
     children: (params: ChildrenCallbackParams) => ReactNode
     enableMention?: MentionSettings
     enableHashtag?: HashtagSettings
+    saveDraft?: boolean
+    id: string
   }
 
   export interface ProviderValue extends Pick<Props, 'enableMention' | 'enableHashtag'> {
@@ -82,24 +85,29 @@ export namespace RichTextEditorMakerProviderNS {
     undo?: () => void
     redo?: () => void
     editor?: RichTextEditorMakerNS.Editor
+    id?: string
   }
 }
 
 export const EditorContext = createContext<RichTextEditorMakerProviderNS.ProviderValue>({})
 
 export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props> = ({
-  defaultValue = [{ type: 'paragraph', children: [{ text: 'A line of text in a paragraph.' }] }],
+  saveDraft = true,
+  id,
+  defaultValue,
   children,
   enableMention,
   enableHashtag,
 }) => {
-  const [editorValue, setEditorValue] = useState<Descendant[]>(defaultValue ?? [])
+  const [editorValue, setEditorValue] = useState<Descendant[]>(
+    defaultValue ?? [{ type: 'paragraph', children: [{ text: '' }] }],
+  )
   const providerEditor = useMemo(
     () =>
       // prettier-ignore
       withHistory(
         withLists(
-          // withTables(
+          withTables(
             withPasteURL(
               withCorrectVoidBehavior(
                 withInlineNodes(
@@ -111,7 +119,7 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
                 ),
               ),
             ),
-          // ),
+          ),
         ),
       ),
     [],
@@ -120,20 +128,30 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
   const mention = useMention({ editor: providerEditor, enableMention })
   const hashtag = useHashtag({ editor: providerEditor, enableHashtag })
 
+  const localStorageKey = `zoomrc-rich-editor-@-${id}`
+
   const storeEditorValue = (value: Descendant[]) => {
-    localStorage.setItem('editor-value', JSON.stringify(value))
+    localStorage.setItem(localStorageKey, JSON.stringify(value))
   }
 
   const handleOnChange = (value: Descendant[]) => {
     setEditorValue(value)
     mention.manageMentionOnChange()
     hashtag.manageHashtagOnChange()
-    storeEditorValue(value)
+
+    if (saveDraft) {
+      storeEditorValue(value)
+    }
   }
 
   const getValue = (): Descendant[] => {
-    const storedValue = localStorage.getItem('editor-value')
-    return storedValue ? JSON.parse(storedValue) : editorValue
+    const storedValue = localStorage.getItem(localStorageKey)
+
+    if (defaultValue || !storedValue || storedValue.length === 0 || !saveDraft) {
+      return editorValue
+    }
+
+    return JSON.parse(storedValue)
   }
 
   const handleListsOnKeyDown = (evt: KeyboardEvent<HTMLDivElement>) => {
@@ -149,13 +167,16 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
   }
 
   useFutureEffect(() => {
-    storeEditorValue(editorValue)
+    if (saveDraft) {
+      storeEditorValue(editorValue)
+    }
   }, [editorValue])
 
   return (
     <Slate editor={providerEditor} value={getValue()} onChange={handleOnChange}>
       <EditorContext.Provider
         value={{
+          id,
           mention,
           enableMention,
           enableHashtag,

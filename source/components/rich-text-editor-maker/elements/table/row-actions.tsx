@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 
-import { Button, ButtonNS } from '../../..'
+import { Button, ButtonNS, RichTextEditorMakerNS } from '../../..'
 
 import { TableElementNS } from './types'
-import { useTableGeneratorDOM } from './use-dom'
+import { useTableDOM } from './use-dom'
 
 export namespace RowActionsNS {
   export interface Props {
@@ -11,11 +11,18 @@ export namespace RowActionsNS {
     addRow: (side: TableElementNS.VerticalSide) => void
     removeRow: () => void
     tableID: string
+    tableInfo: RichTextEditorMakerNS.TableCells
   }
 }
 
-export const RowActions: FC<RowActionsNS.Props> = ({ rowIndex, addRow, removeRow, tableID }) => {
-  const tableDOM = useTableGeneratorDOM(tableID)
+export const RowActions: FC<RowActionsNS.Props> = ({
+  rowIndex,
+  addRow,
+  removeRow,
+  tableID,
+  tableInfo,
+}) => {
+  const tableDOM = useTableDOM(tableID)
 
   const actionButtonsProps: ButtonNS.Props = {
     shape: 'circle',
@@ -64,6 +71,7 @@ export const RowActions: FC<RowActionsNS.Props> = ({ rowIndex, addRow, removeRow
         variant="error"
         prefixMaterialIcon="clear"
         onClick={removeRow}
+        disabled={tableInfo.rows === 1}
         containerProps={{
           onMouseOver: onMouseOverRemoveButton,
           onMouseLeave: onMouseLeaveRemoveButton,

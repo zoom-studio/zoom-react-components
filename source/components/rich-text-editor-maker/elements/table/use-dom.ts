@@ -1,6 +1,6 @@
 import { TableElementNS } from './types'
 
-export const useTableGeneratorDOM = (tableID: string) => {
+export const useTableDOM = (tableID: string) => {
   const findAll = (query: string, callback: (node: Element) => void) => {
     const elements = document.querySelectorAll(`#${tableID} ${query}`)
     elements.forEach(callback)

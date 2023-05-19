@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from 'react'
+import React, { forwardRef, useCallback, useEffect } from 'react'
 
 import { useObjectedState, useVariable } from '@zoom-studio/zoom-js-ts-utils'
 import { Editable, useSlate } from 'slate-react'
@@ -9,16 +9,51 @@ import { useRenderElements, useRenderLeaf } from './elements'
 import { RichTextEditorMakerProvider } from './provider'
 import { RichTextEditorMakerNS } from './types'
 import { LinkUtils, RichUtils, useAccelerators, useEditorContext } from './utils'
+import { NodeEntry, Range, Text } from 'slate'
 
 type CB = RichTextEditorMakerNS.ChildrenCallback
 
 export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMakerNS.Props>(
   (
-    { collapseOnEscape = true, children, placeholder, renderLinkElement, className, id },
+    {
+      collapseOnEscape = true,
+      searchQuery = '',
+      children,
+      placeholder,
+      renderLinkElement,
+      className,
+    },
     reference,
   ) => {
     const { createClassName } = useZoomComponent('rich-text-editor-maker')
     const editorContext = useEditorContext()
+
+    const decorate = useCallback(
+      ([node, path]: NodeEntry) => {
+        const ranges: Range[] = []
+
+        if (searchQuery && Text.isText(node)) {
+          const { text } = node
+          const parts = text.split(searchQuery)
+          let offset = 0
+
+          parts.forEach((part, i) => {
+            if (i !== 0) {
+              ranges.push({
+                anchor: { path, offset: offset - searchQuery.length },
+                focus: { path, offset },
+                found: true,
+              })
+            }
+
+            offset = offset + part.length + searchQuery.length
+          })
+        }
+
+        return ranges
+      },
+      [searchQuery],
+    )
 
     const editor = useSlate()
 
@@ -74,10 +109,11 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
     const renderEditor: CB['renderEditor'] = () => {
       return (
         <Editable
-          id={id}
+          id={editorContext.id}
           className={classes}
           placeholder={placeholder}
           renderElement={renderElements}
+          decorate={decorate}
           onKeyDown={evt => {
             editorContext.handleListsOnKeyDown(evt)
             handleAccelerators(evt)

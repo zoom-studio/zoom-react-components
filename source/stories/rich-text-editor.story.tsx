@@ -1,12 +1,11 @@
 import React, { FC } from 'react'
 
+import { faker } from '@faker-js/faker'
 import { ComponentMeta } from '@storybook/react'
 
 import { RichTextEditor, RichTextEditorNS } from '../components'
-// import { RichTextEditor, RichTextEditorNS } from '../components/rich-text-editor.2'
-// import { RichTextEditor, RichTextEditorNS } from '../components/rich-text-editor.1'
 
-import { generateExplorerFiles, lorem } from '../fixtures'
+import { generateExplorerFiles } from '../fixtures'
 import { StoryPlayground } from './components'
 
 export default {
@@ -14,12 +13,7 @@ export default {
   component: RichTextEditor,
   args: {
     id: 'playground-rich-text-editor',
-    // maxHeight: 700,
     initialHeight: 700,
-    //   editorProps: {
-    //     placeholder: 'شروع به نوشتن متن جدید...',
-    //     autoFocus: true,
-    //   },
     imageExplorerProps: {
       files: generateExplorerFiles(100),
     },
@@ -29,15 +23,52 @@ export default {
     fileExplorerProps: {
       files: generateExplorerFiles(100),
     },
+    editorProps: {
+      placeholder: 'شروع به نوشتن متن جدید...',
+      enableMention: {
+        onEnter: ({ handlers, mention }) =>
+          handlers.insertMention({ displayName: mention.mentionQuery }),
+        usernames: [
+          ...Array.from(Array(100)).map(() => faker.internet.userName()),
+          'hr.cycle',
+          'hr_cycle',
+          'hr-cycle',
+          'hr/cycle',
+          'hr1234',
+          'hr.1234',
+          'hr_1234',
+          '_hr_1234_',
+          '_hr.1234_',
+        ],
+      },
+      enableHashtag: {
+        onEnter: ({ handlers, hashtag }) =>
+          handlers.insertHashtag({ displayName: hashtag.hashtagQuery }),
+        hashtags: [
+          ...Array.from(Array(100)).map(() =>
+            '#'.concat(faker.internet.userName().toLowerCase().replace(/ /g, '')),
+          ),
+          ...[
+            'hr.cycle',
+            'hr_cycle',
+            'hr-cycle',
+            'hr/cycle',
+            'hr1234',
+            'hr.1234',
+            'hr_1234',
+            '_hr_1234_',
+            '_hr.1234_',
+          ].map(hashtag => '#'.concat(hashtag)),
+        ],
+      },
+    },
   },
 } as ComponentMeta<typeof RichTextEditor>
 
 export const Playground: FC<RichTextEditorNS.Props> = props => {
   return (
     <>
-      {lorem(2)}
       <StoryPlayground component={RichTextEditor} props={props} />
-      {lorem(100)}
     </>
   )
 }

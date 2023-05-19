@@ -1,13 +1,31 @@
-import { Editor, Element, Point, Range } from 'slate'
+import { Editor, Element, Path, Point, Range } from 'slate'
+
 import { RichTextEditorMakerNS } from '../types'
 
 export const withTables = (editor: RichTextEditorMakerNS.Editor) => {
-  const { deleteBackward, deleteForward, insertBreak } = editor
+  const { deleteBackward, deleteForward } = editor
 
   editor.deleteBackward = unit => {
     const { selection } = editor
 
     if (selection && Range.isCollapsed(selection)) {
+      let previousPath: Path | undefined
+
+      try {
+        previousPath = Path.previous(Path.parent(selection.anchor.path))
+      } catch (error) {}
+
+      if (previousPath) {
+        const [prevNode] = Editor.nodes(editor, {
+          match: node => Element.isElement(node) && node.type === 'table',
+          at: previousPath,
+        })
+
+        if (prevNode && Element.isElement(prevNode?.[0]) && prevNode?.[0].type === 'table') {
+          return
+        }
+      }
+
       const [cell] = Editor.nodes(editor, {
         match: node =>
           !Editor.isEditor(node) && Element.isElement(node) && node.type === 'table-cell',
@@ -30,6 +48,23 @@ export const withTables = (editor: RichTextEditorMakerNS.Editor) => {
     const { selection } = editor
 
     if (selection && Range.isCollapsed(selection)) {
+      let nextPath: Path | undefined
+
+      try {
+        nextPath = Path.next(Path.parent(selection.anchor.path))
+      } catch (error) {}
+
+      if (nextPath) {
+        const [nextNode] = Editor.nodes(editor, {
+          match: node => Element.isElement(node) && node.type === 'table',
+          at: nextPath,
+        })
+
+        if (nextNode && Element.isElement(nextNode?.[0]) && nextNode?.[0].type === 'table') {
+          return
+        }
+      }
+
       const [cell] = Editor.nodes(editor, {
         match: node =>
           !Editor.isEditor(node) && Element.isElement(node) && node.type === 'table-cell',
@@ -46,22 +81,6 @@ export const withTables = (editor: RichTextEditorMakerNS.Editor) => {
     }
 
     deleteForward(unit)
-  }
-
-  editor.insertBreak = () => {
-    const { selection } = editor
-
-    if (selection) {
-      const [table] = Editor.nodes(editor, {
-        match: node => !Editor.isEditor(node) && Element.isElement(node) && node.type === 'table',
-      })
-
-      if (table) {
-        return
-      }
-    }
-
-    insertBreak()
   }
 
   return editor

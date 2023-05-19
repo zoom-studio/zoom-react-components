@@ -1,10 +1,8 @@
-import React, { RefObject, forwardRef, useRef, useState } from 'react'
+import React, { forwardRef, useRef, useState } from 'react'
 
 import { isValidURL, useObjectedState } from '@zoom-studio/zoom-js-ts-utils'
-import { useFullscreen } from 'ahooks'
 
 import {
-  ContextMenu,
   Divider,
   ExplorerNS,
   RichTextEditorMaker,
@@ -18,16 +16,16 @@ import { EditorAction } from './editor-action'
 import { ResizeEditorHandle } from './resize-editor-handle'
 import { UseRichTextEditorI18nNS, useRichTextEditorI18n } from './use-i18n'
 
+import { RichTextEditorMakerProviderNS } from '../rich-text-editor-maker/provider'
 import {
+  EmojiInserterPopover,
+  FileExplorer,
+  ImageExplorer,
+  LinkElement,
   LinkInserterPopover,
   TableInserterPopover,
-  LinkElement,
-  ImageExplorer,
   VideoExplorer,
-  FileExplorer,
-  EmojiInserterPopover,
 } from './inserters'
-import { faker } from '@faker-js/faker'
 
 export namespace RichTextEditorNS {
   export type I18n = UseRichTextEditorI18nNS.I18n
@@ -50,11 +48,21 @@ export namespace RichTextEditorNS {
       'filterTypes' | 'defaultTypeQuery' | 'multiSelect' | 'isTypeSelectDisabled' | 'onSelectItems'
     > {}
 
+  export type EditorMakerProps = Omit<
+    RichTextEditorMakerNS.Props,
+    'children' | 'editor' | 'id' | 'renderLinkElement'
+  >
+
+  export type EditorMakerProviderProps = Omit<
+    RichTextEditorMakerProviderNS.Props,
+    'children' | 'id'
+  >
+
   export interface Props extends Omit<BaseComponent, 'children' | 'id'> {
     imageExplorerProps?: ImageExplorerProps
     videoExplorerProps?: VideoExplorerProps
     fileExplorerProps?: FileExplorerProps
-    editorProps?: Omit<RichTextEditorMakerNS.Props, 'children'>
+    editorProps?: EditorMakerProps & EditorMakerProviderProps
     stickyActions?: boolean
     resizable?: boolean
     maxHeight?: string | number
@@ -81,7 +89,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
       enableAdvancedLinkInserter,
       fileExplorerProps,
       id,
-      // ...rest
+      ...rest
     },
     reference,
   ) => {
@@ -95,10 +103,6 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
     const isFileDialogOpen = useObjectedState(false)
 
     const containerRef = reference ?? useRef<HTMLDivElement | null>(null)
-
-    const [isFullscreen, { toggleFullscreen }] = useFullscreen(
-      containerRef as RefObject<HTMLDivElement>,
-    )
 
     const handleOpenLinkPopover = () => {
       setIsLinkPopoverOpen(true)
@@ -121,90 +125,29 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
     }
 
     return (
-      <div {...containerProps} className={classes} ref={containerRef}>
+      <div {...rest} {...containerProps} className={classes} ref={containerRef}>
         <RichTextEditorMaker.provider
-          enableHashtag={{
-            onEnter: ({ handlers, hashtag }) =>
-              handlers.insertHashtag({ displayName: hashtag.hashtagQuery }),
-            hashtags: [
-              ...Array.from(Array(100)).map(() =>
-                '#'.concat(faker.internet.userName().toLowerCase().replace(/ /g, '')),
-              ),
-              ...[
-                'hr.cycle',
-                'hr_cycle',
-                'hr-cycle',
-                'hr/cycle',
-                'hr1234',
-                'hr.1234',
-                'hr_1234',
-                '_hr_1234_',
-                '_hr.1234_',
-              ].map(hashtag => '#'.concat(hashtag)),
-            ],
-          }}
-          enableMention={{
-            onEnter: ({ handlers, mention }) =>
-              handlers.insertMention({ displayName: mention.mentionQuery }),
-            usernames: [
-              ...Array.from(Array(100)).map(() => faker.internet.userName()),
-              'hr.cycle',
-              'hr_cycle',
-              'hr-cycle',
-              'hr/cycle',
-              'hr1234',
-              'hr.1234',
-              'hr_1234',
-              '_hr_1234_',
-              '_hr.1234_',
-            ],
-          }}
+          id={id}
+          defaultValue={editorProps?.defaultValue}
+          enableHashtag={editorProps?.enableHashtag}
+          enableMention={editorProps?.enableMention}
+          saveDraft={editorProps?.saveDraft}
         >
-          {({ providerEditor, mention, hashtag }) => (
+          {({ providerEditor }) => (
             <RichTextEditorMaker
-              id={id}
               editor={providerEditor}
+              className={editorProps?.className}
+              collapseOnEscape={editorProps?.collapseOnEscape}
+              containerProps={editorProps?.containerProps}
+              onClick={editorProps?.onClick}
+              placeholder={editorProps?.placeholder}
+              style={editorProps?.style}
               renderLinkElement={props => (
                 <LinkElement {...props} openLinkPopover={handleOpenLinkPopover} />
               )}
-              {...editorProps}
             >
               {handlers => (
                 <div className="editor-container">
-                  {mention.shouldRenderList && (
-                    <ul
-                      style={{
-                        color: 'gray',
-                        position: 'fixed',
-                        right: 0,
-                        bottom: 0,
-                        background: 'black',
-                        zIndex: 5,
-                      }}
-                    >
-                      {mention.foundUsernames.map((username, index) => (
-                        <li key={index}>{username}</li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {hashtag.shouldRenderList && (
-                    <ul
-                      style={{
-                        color: 'gray',
-                        position: 'fixed',
-                        right: 0,
-                        bottom: 0,
-                        background: 'black',
-                        zIndex: 5,
-                      }}
-                    >
-                      {hashtag.foundHashtags.map((hashtag, index) => (
-                        <li key={index}>{hashtag}</li>
-                      ))}
-                    </ul>
-                  )}
-
                   <ImageExplorer
                     i18n={i18n}
                     imageExplorerProps={imageExplorerProps}
@@ -283,20 +226,22 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                         onClick={handlers.toggleStrikethrough}
                         isActive={handlers.isActive('strikethrough')}
                       />
+                    </>
+                    <>
                       <EditorAction
                         title={i18n.blockquote}
                         icon="format_quote"
                         onClick={handlers.toggleQuote}
                         isActive={handlers.isActive('quote')}
                       />
-                    </>
-                    <>
                       <EditorAction
                         title={i18n.highlight}
                         icon="drive_file_rename_outline"
                         onClick={handlers.toggleHighlight}
                         isActive={handlers.isActive('highlight')}
                       />
+                    </>
+                    <>
                       <EditorAction
                         title={i18n.link}
                         icon="link"
@@ -358,6 +303,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                             <TableInserterPopover
                               onSelect={(cols, rows) => handlers.insertTable({ cols, rows })}
                               closePopover={closePopover}
+                              i18n={i18n}
                             />
                           ),
                         }}
@@ -384,30 +330,20 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                         }}
                       />
                     </>
-                    <>
+                    <Stack.item className="time-shifts-container">
                       <EditorAction title={i18n.undo} icon="undo" onClick={handlers.undo} />
                       <EditorAction title={i18n.redo} icon="redo" onClick={handlers.redo} />
-                    </>
-
-                    <Stack.item flex={1} justify="flex-end">
-                      <EditorAction
-                        title={isFullscreen ? i18n.exitFullScreen : i18n.enterFullScreen}
-                        icon={isFullscreen ? 'fullscreen_exit' : 'fullscreen'}
-                        onClick={toggleFullscreen}
-                      />
                     </Stack.item>
                   </Stack>
 
                   <div className="editor" ref={editorContainerRef}>
-                    <ContextMenu items={[]}>
-                      <ScrollView
-                        maxHeight={maxHeight}
-                        minHeight={minHeight}
-                        style={{ height: initialHeight }}
-                      >
-                        {handlers.renderEditor()}
-                      </ScrollView>
-                    </ContextMenu>
+                    <ScrollView
+                      maxHeight={maxHeight}
+                      minHeight={minHeight}
+                      style={{ height: initialHeight }}
+                    >
+                      {handlers.renderEditor()}
+                    </ScrollView>
                   </div>
 
                   {resizable && (

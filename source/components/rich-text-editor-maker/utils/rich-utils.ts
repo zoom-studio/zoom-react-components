@@ -81,7 +81,7 @@ export class RichUtils {
 
   private readonly getHeadingType = (
     headingLevel: Range<1, 5>,
-  ): RichTextEditorMakerNS.ElementTypes => {
+  ): RichTextEditorMakerNS.BlockTypes => {
     return headingLevel === 1 ? 'h1' : headingLevel === 2 ? 'h2' : headingLevel === 3 ? 'h3' : 'h4'
   }
 
@@ -97,6 +97,7 @@ export class RichUtils {
   private readonly insertNodes = (
     nodes: Parameters<typeof Transforms.insertNodes>[1],
     options?: Parameters<typeof Transforms.insertNodes>[2],
+    focusEditor = true,
   ): void => {
     const { selection } = this.editor
     const node = selection ? Node.get(this.editor, Path.parent(selection.anchor.path)) : null
@@ -109,7 +110,39 @@ export class RichUtils {
           : undefined,
     })
 
-    this.focusEditor()
+    if (focusEditor) {
+      this.focusEditor()
+    }
+  }
+
+  private readonly toggleBlockType = (
+    blockType: RichTextEditorMakerNS.BlockTypes,
+    focusEditor = true,
+  ): void => {
+    const { selection } = this.editor
+    const node = selection ? Node.get(this.editor, Path.parent(selection.anchor.path)) : null
+    const isAlreadyActive = this.isActive(blockType)
+
+    if (selection && node && Element.isElement(node) && node.type === 'table-cell') {
+      if (isAlreadyActive) {
+        Transforms.unwrapNodes(this.editor, {
+          match: node => Element.isElement(node) && node.type === blockType,
+          at: selection.focus.path,
+        })
+      } else {
+        Transforms.wrapNodes(this.editor, { type: blockType }, { at: selection.focus.path })
+      }
+    } else {
+      Transforms.setNodes(
+        this.editor,
+        { type: isAlreadyActive ? 'normal' : blockType },
+        { match: node => Element.isElement(node) && Editor.isBlock(this.editor, node) },
+      )
+    }
+
+    if (focusEditor) {
+      this.focusEditor()
+    }
   }
 
   private readonly createTableRow = (params: RichUtilsNS.CreateTableRowParams): Descendant => {
@@ -133,7 +166,7 @@ export class RichUtils {
 
     return {
       tableInfo,
-      children: [{ text: '' }],
+      children: [{ type: 'paragraph', children: [{ text: '' }] }],
       type: 'table-cell',
       tableColIndex: colIndex,
       tableRowIndex: rowIndex,
@@ -331,25 +364,11 @@ export class RichUtils {
   }
 
   toggleHeading = (headingLevel: Range<1, 5>) => (): void => {
-    Transforms.setNodes(
-      this.editor,
-      {
-        type: this.isActive(this.getHeadingType(headingLevel))
-          ? 'normal'
-          : this.getHeadingType(headingLevel),
-      },
-      { match: node => Element.isElement(node) && Editor.isBlock(this.editor, node) },
-    )
-    this.focusEditor()
+    this.toggleBlockType(this.getHeadingType(headingLevel))
   }
 
   toggleQuote = (): void => {
-    Transforms.setNodes(
-      this.editor,
-      { type: this.isActive('quote') ? 'normal' : 'quote' },
-      { match: node => Element.isElement(node) && Editor.isBlock(this.editor, node) },
-    )
-    this.focusEditor()
+    this.toggleBlockType('quote')
   }
 
   isRangeSelected = (): boolean => {
@@ -428,18 +447,76 @@ export class RichUtils {
   insertTable = (tableInfo: RichTextEditorMakerNS.TableInfo): void => {
     const tableID = 'rich-text-editor-table-'.concat(randomString(30))
 
-    this.insertNodes({
-      id: tableID,
-      type: 'table',
-      children: Array.from(Array(tableInfo.rows)).map((_, rowIndex) =>
-        this.createTableRow({
-          rowIndex,
-          tableID,
-          tableInfo,
-        }),
-      ),
-      tableInfo,
-    })
+    this.insertNodes(
+      {
+        id: tableID,
+        type: 'table',
+        tableInfo,
+        tableStyle: 'normal',
+        children: Array.from(Array(tableInfo.rows)).map((_, rowIndex) =>
+          this.createTableRow({
+            rowIndex,
+            tableID,
+            tableInfo,
+          }),
+        ),
+      },
+      undefined,
+      false,
+    )
+
+    this.focusFirstTableCell(tableID)
+  }
+
+  focusFirstTableCell = (tableID: string): void => {
+    const tableFirstCell = this.deepFindNode(
+      node =>
+        Element.isElement(node) &&
+        node.type === 'table-cell' &&
+        node.id === tableID &&
+        node.tableColIndex === 0 &&
+        node.tableRowIndex === 0,
+    )
+
+    if (tableFirstCell) {
+      this.focusEditor()
+
+      setTimeout(() => {
+        Transforms.select(this.editor, {
+          anchor: { offset: 0, path: [...tableFirstCell.path, 0, 0] },
+          focus: { offset: 0, path: [...tableFirstCell.path, 0, 0] },
+        })
+      }, 50)
+    }
+  }
+
+  changeTableStyle = (tableID: string) => () => {
+    const table = this.deepFindNode(
+      node => Element.isElement(node) && node.type === 'table' && node.id === tableID,
+    )
+
+    if (table && Element.isElement(table.node)) {
+      const currentStyle = table.node.tableStyle ?? 'normal'
+      const currentStyleIndex = TableElementNS.TableStyles.indexOf(currentStyle)
+      const nextStyleIndex =
+        currentStyleIndex >= TableElementNS.TableStyles.length ? 0 : currentStyleIndex + 1
+
+      Transforms.setNodes(
+        this.editor,
+        { tableStyle: TableElementNS.TableStyles[nextStyleIndex] },
+        { at: table.path },
+      )
+    }
+  }
+
+  deleteTable = (tableID: string) => () => {
+    const table = this.deepFindNode(
+      node => Element.isElement(node) && node.type === 'table' && node.id === tableID,
+    )
+
+    if (table && Element.isElement(table.node)) {
+      Transforms.removeNodes(this.editor, { at: table.path })
+    }
   }
 
   removeTableColumn = (colIndexToRemove: number, id: string) => {

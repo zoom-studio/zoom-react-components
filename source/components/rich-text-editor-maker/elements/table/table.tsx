@@ -1,19 +1,20 @@
 import React, { FC } from 'react'
 
-import { ScrollView } from '../../..'
+import { Button, ScrollView } from '../../..'
 
 import { RichUtils, useEditorContext } from '../../utils'
 import { ColActions } from './col-actions'
 import { TableElementNS } from './types'
-import { useTableGeneratorDOM } from './use-dom'
+import { useTableDOM } from './use-dom'
+import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
 export const TableElement: FC<TableElementNS.Props> = ({ children, attributes, element }) => {
   const { editor } = useEditorContext()
 
   const richUtils = new RichUtils({ editor })
-  const { tableInfo, id } = element
+  const { tableInfo, id, tableStyle } = element
 
-  const tableDOM = useTableGeneratorDOM(id!)
+  const tableDOM = useTableDOM(id!)
 
   const addColumn = (colIndexToAppend: number) => (side: TableElementNS.HorizontalSide) => {
     richUtils.insertTableColumn(colIndexToAppend, side, id!)
@@ -28,8 +29,33 @@ export const TableElement: FC<TableElementNS.Props> = ({ children, attributes, e
     tableDOM.deactiveCurrentActiveRowActions()
   }
 
+  const classes = classNames('editor-table-container', {
+    [tableStyle ?? 'normal']: true,
+  })
+
   return (
-    <div {...attributes} className="editor-table-container">
+    <div {...attributes} className={classes}>
+      <Button
+        containerProps={{ contentEditable: false }}
+        type="bordered"
+        prefixMaterialIcon="palette"
+        shape="circle"
+        size="large"
+        className="change-style-button"
+        onClick={richUtils.changeTableStyle(id!)}
+      />
+
+      <Button
+        containerProps={{ contentEditable: false }}
+        variant="error"
+        type="bordered"
+        prefixMaterialIcon="delete"
+        shape="circle"
+        size="large"
+        className="delete-table-button"
+        onClick={richUtils.deleteTable(id!)}
+      />
+
       <ScrollView maxHeight="unset" maxWidth="70vw" minWidth="90%" className="table-scroll-view">
         <table cellSpacing={0} id={id} onMouseLeave={handleOnMouseLeaveTable}>
           <thead contentEditable={false}>
@@ -46,6 +72,7 @@ export const TableElement: FC<TableElementNS.Props> = ({ children, attributes, e
                         addColumn={addColumn(colIndex - 1)}
                         removeColumn={removeColumn(colIndex - 1)}
                         tableID={id!}
+                        tableInfo={tableInfo!}
                       />
                     </div>
                   ) : (

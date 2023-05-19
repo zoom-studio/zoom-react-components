@@ -14,7 +14,7 @@ export const HorizontalRuleElement: FC<HorizontalRuleElementNS.Props> = ({
   element,
 }) => {
   return (
-    <div {...attributes} contentEditable={false}>
+    <div {...attributes} contentEditable={false} className="editor-horizontal-row">
       <hr />
       {children}
     </div>

@@ -1,7 +1,8 @@
-import { BaseEditor, Descendant } from 'slate'
+import { BaseEditor, Descendant, BaseRange as SlateBaseRange } from 'slate'
 import { ReactEditor } from 'slate-react'
 
 import { EmojiNS, RichTextEditorMakerNS } from '../../components'
+import { TableElementNS } from '../../components/rich-text-editor-maker/elements/table/types'
 
 declare module 'slate' {
   interface CustomElement {
@@ -18,6 +19,7 @@ declare module 'slate' {
     tableRowIndex?: number
     tableColIndex?: number
     tableInfo?: RichTextEditorMakerNS.TableInfo
+    tableStyle?: TableElementNS.TableStyles
   }
 
   interface Marks {
@@ -33,15 +35,21 @@ declare module 'slate' {
     linkInfo?: RichTextEditorMakerNS.LinkInfo
     mentionInfo?: RichTextEditorMakerNS.MentionInfo
     hashtagInfo?: RichTextEditorMakerNS.HashtagInfo
+    found?: boolean
   }
 
   interface CustomText extends Marks {
     text: string
   }
 
+  interface BaseRange extends SlateBaseRange {
+    found?: boolean
+  }
+
   interface CustomTypes {
     Editor: BaseEditor & ReactEditor
     Element: CustomElement
     Text: CustomText
+    BaseRange: CustomBaseRange
   }
 }

@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 
-import { Button, ButtonNS } from '../../..'
+import { Button, ButtonNS, RichTextEditorMakerNS } from '../../..'
 
-import { useTableGeneratorDOM } from './use-dom'
+import { useTableDOM } from './use-dom'
 import { TableElementNS } from './types'
 import { useZoomContext } from '../../../../hooks'
 
@@ -12,6 +12,7 @@ export namespace ColActionsNS {
     addColumn: (side: TableElementNS.HorizontalSide) => void
     removeColumn: () => void
     tableID: string
+    tableInfo: RichTextEditorMakerNS.TableCells
   }
 }
 
@@ -20,8 +21,9 @@ export const ColActions: FC<ColActionsNS.Props> = ({
   addColumn,
   removeColumn,
   tableID,
+  tableInfo,
 }) => {
-  const tableDOM = useTableGeneratorDOM(tableID)
+  const tableDOM = useTableDOM(tableID)
   const { isRTL } = useZoomContext()
 
   const actionButtonsProps: ButtonNS.Props = {
@@ -71,6 +73,7 @@ export const ColActions: FC<ColActionsNS.Props> = ({
         variant="error"
         prefixMaterialIcon="clear"
         onClick={removeColumn}
+        disabled={tableInfo.cols === 1}
         containerProps={{
           onMouseOver: onMouseOverRemoveButton,
           onMouseLeave: onMouseLeaveRemoveButton,

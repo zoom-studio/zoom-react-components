@@ -94,6 +94,7 @@
           width: 100%;
           max-width: 100%;
           display: table;
+          padding: 0 14px;
         }
       }
     }
@@ -136,6 +137,20 @@
       > .editor-actions {
         position: sticky;
         top: 0;
+      }
+    }
+  }
+}
+
+@include rtl {
+  .zoomrc-rich-text-editor {
+    > .editor-container {
+      > .editor-actions {
+        > .zoomrc-stack-item {
+          &.time-shifts-container {
+            flex-direction: row-reverse;
+          }
+        }
       }
     }
   }

@@ -12,7 +12,7 @@ export const VideoElement: FC<VideoElementNS.Props> = ({ children, attributes, e
   return (
     <div {...attributes} contentEditable={false} className="editor-video-container">
       <video width="80%" controls className="video-player">
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" />
+        <source src={element.videoInfo?.src} />
       </video>
 
       {children}

@@ -5,7 +5,7 @@ import { AsyncFunction } from '@zoom-studio/zoom-js-ts-utils'
 export namespace AsyncWrapperNS {
   export interface ChildrenCallbackParams<Processor extends AsyncFunction> {
     isProcessing: boolean
-    processed: Awaited<ReturnType<Processor>>
+    processed: Awaited<ReturnType<Processor>> | null
   }
 
   export interface Props<Processor extends AsyncFunction, Processable> {
@@ -28,5 +28,5 @@ export const AsyncWrapper = <Processable, Processor extends AsyncFunction<Proces
     void processor(processable).then(setProcessed)
   }, deps ?? [])
 
-  return processed ? children({ isProcessing: !processed, processed }) : <></>
+  return <>{children({ isProcessing: !processed, processed })}</>
 }

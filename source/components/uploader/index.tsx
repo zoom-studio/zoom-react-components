@@ -209,15 +209,19 @@ export const Uploader = forwardRef<HTMLDivElement, UploaderNS.Props>(
               {files.map((file, index) => (
                 <AsyncWrapper deps={[files]} key={index} processor={getFileInfo} processable={file}>
                   {({ processed }) => (
-                    <UploaderFile
-                      {...processed}
-                      index={index}
-                      isRemovingFile={isRemovingFile}
-                      i18n={i18n}
-                      isRTL={isRTL}
-                      typeColors={typeColors}
-                      onRemove={onRemove}
-                    />
+                    <>
+                      {processed && (
+                        <UploaderFile
+                          {...processed}
+                          index={index}
+                          isRemovingFile={isRemovingFile}
+                          i18n={i18n}
+                          isRTL={isRTL}
+                          typeColors={typeColors}
+                          onRemove={onRemove}
+                        />
+                      )}
+                    </>
                   )}
                 </AsyncWrapper>
               ))}

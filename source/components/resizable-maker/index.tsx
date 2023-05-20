@@ -18,14 +18,14 @@ export namespace ResizableMakerNS {
     isResizing: boolean
   }
 
-  export interface childrenCallbackParams {
+  export interface ChildrenCallbackParams {
     resize: (cursorDirection: CursorDirections) => (evt: MouseEvent<HTMLDivElement>) => void
   }
 
   export interface Props {
     direction: ResizeDirections
     resizable: (() => HTMLElement) | RefObject<HTMLElement | null>
-    children: ReactNode | ((params: childrenCallbackParams) => ReactNode)
+    children: ReactNode | ((params: ChildrenCallbackParams) => ReactNode)
   }
 }
 

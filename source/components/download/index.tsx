@@ -4,6 +4,8 @@ import { useDownload, UseDownloadNS } from '@zoom-studio/zoom-js-ts-utils'
 
 export namespace DownloadNS {
   export interface ChildrenCallbackParams {
+    total: number
+    received: number
     isDownloading: boolean
     startDownload: () => void
   }
@@ -14,6 +16,16 @@ export namespace DownloadNS {
 }
 
 export const Download: FC<DownloadNS.Props> = ({ children, ...rest }) => {
-  const { handleDownload, isDownloading } = useDownload({ ...rest })
-  return <>{children?.({ isDownloading, startDownload: handleDownload })}</>
+  const { handleDownload, isDownloading, receivedLength, totalLength } = useDownload({ ...rest })
+
+  return (
+    <>
+      {children?.({
+        isDownloading,
+        startDownload: handleDownload,
+        total: totalLength,
+        received: receivedLength,
+      })}
+    </>
+  )
 }

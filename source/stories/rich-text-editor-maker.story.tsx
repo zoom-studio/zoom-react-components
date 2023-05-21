@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 
 import { ComponentMeta } from '@storybook/react'
 import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
@@ -8,12 +8,22 @@ import { RichTextEditorMakerProviderNS } from '../components/rich-text-editor-ma
 import { FULL_FEATURE_RICH_TEXT } from '../fixtures'
 import { color } from '../utils'
 import { WithButtonsStory } from './components'
+import { faker } from '@faker-js/faker'
 
 export default {
   title: 'Utility/Rich text editor maker',
   component: RichTextEditorMaker,
   args: {
     defaultValue: JSON.parse(FULL_FEATURE_RICH_TEXT),
+    collapseOnEscape: true,
+    saveDraft: true,
+    searchQuery: '',
+    enableHashtag: {
+      hashtags: Array.from(Array(20)).map(faker.color.human),
+    },
+    enableMention: {
+      usernames: Array.from(Array(20)).map(faker.color.human),
+    },
     style: {
       border: `1px solid ${color({ source: 'border', tone: 2 })}`,
       color: color({ source: 'text', tone: 2 }),
@@ -30,13 +40,76 @@ export const Playground: FC<RichTextEditorMakerNS.Props & RichTextEditorMakerPro
 }) => {
   const VIDEO = 'https://www.w3schools.com/html/mov_bbb.mp4'
   const buttonProps: ButtonNS.Props = { type: 'dashed', size: 'small' }
+
+  const hashtags = enableHashtag?.hashtags ?? []
+  const usernames = enableMention?.usernames ?? []
+
+  const [hashtagIndex, setHashtagIndex] = useState(0)
+  const [mentionIndex, setMentionIndex] = useState(0)
+
+  const hashtagOptions: RichTextEditorMakerProviderNS.HashtagSettings = {
+    hashtags,
+    onArrowDown: ({ hashtag }) => {
+      setHashtagIndex(index => (index === hashtag.foundHashtags.length - 1 ? 0 : index + 1))
+    },
+    onArrowUp: ({ hashtag }) => {
+      setHashtagIndex(index => (index === 0 ? hashtag.foundHashtags.length - 1 : index - 1))
+    },
+    onEnter: ({ handlers, hashtag }) => {
+      handlers.insertHashtag({ displayName: hashtag.foundHashtags[hashtagIndex] })
+    },
+  }
+
+  const mentionOptions: RichTextEditorMakerProviderNS.MentionSettings = {
+    usernames,
+    onArrowDown: ({ mention }) => {
+      setMentionIndex(index => (index === mention.foundUsernames.length - 1 ? 0 : index + 1))
+    },
+    onArrowUp: ({ mention }) => {
+      setMentionIndex(index => (index === 0 ? mention.foundUsernames.length - 1 : index - 1))
+    },
+    onEnter: ({ handlers, mention }) => {
+      handlers.insertMention({ displayName: mention.foundUsernames[mentionIndex] })
+    },
+  }
+
+  const renderList = (items: string[], activeIndex: number) => (
+    <ul
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        width: 'fit-content',
+        margin: 'auto',
+        background: '#000000a8',
+        zIndex: 3,
+        listStyle: 'none',
+        padding: '10px 16px',
+        borderRadius: '10px 10px 0 0',
+      }}
+    >
+      {items.map((item, index) => (
+        <li
+          key={index}
+          style={{
+            color: color({ source: 'text' }),
+            background: index === activeIndex ? color({ source: 'layer', tone: 2 }) : 'transparent',
+          }}
+        >
+          {item}
+        </li>
+      ))}
+    </ul>
+  )
+
   return (
     <>
       <RichTextEditorMaker.provider
         id="playground-rich-text-editor-maker"
         defaultValue={defaultValue}
-        enableHashtag={enableHashtag}
-        enableMention={enableMention}
+        enableHashtag={hashtagOptions}
+        enableMention={mentionOptions}
         saveDraft={saveDraft}
       >
         {({ hashtag, mention, providerEditor }) => (
@@ -215,6 +288,14 @@ export const Playground: FC<RichTextEditorMakerNS.Props & RichTextEditorMakerPro
                       },
                     ]}
                   >
+                    {hashtag.shouldRenderList && (
+                      <>{renderList(hashtag.foundHashtags, hashtagIndex)}</>
+                    )}
+
+                    {mention.shouldRenderList && (
+                      <>{renderList(mention.foundUsernames, mentionIndex)}</>
+                    )}
+
                     {handlers.renderEditor()}
                   </WithButtonsStory>
                 </>

@@ -712,11 +712,7 @@ export class RichUtils {
   }
 
   insertLink = (linkInfo: RichTextEditorMakerNS.LinkInfo): void => {
-    Transforms.setNodes(
-      this.editor,
-      { link: true, linkInfo },
-      { match: node => Text.isText(node), split: true, at: this.getLocationToApplyMarks() },
-    )
+    Transforms.setNodes(this.editor, { link: true, linkInfo }, { match: node => Text.isText(node) })
     this.focusEditor()
   }
 

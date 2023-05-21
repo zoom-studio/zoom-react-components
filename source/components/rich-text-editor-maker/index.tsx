@@ -22,6 +22,9 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
       placeholder,
       renderLinkElement,
       className,
+      containerProps,
+      onClick,
+      style,
     },
     reference,
   ) => {
@@ -109,16 +112,19 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
     const renderEditor: CB['renderEditor'] = () => {
       return (
         <Editable
+          {...containerProps}
+          onClick={onClick}
+          style={style}
           id={editorContext.id}
           className={classes}
           placeholder={placeholder}
           renderElement={renderElements}
           decorate={decorate}
+          renderLeaf={renderLeaf}
           onKeyDown={evt => {
             editorContext.handleListsOnKeyDown(evt)
             handleAccelerators(evt)
           }}
-          renderLeaf={renderLeaf}
         />
       )
     }

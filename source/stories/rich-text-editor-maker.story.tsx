@@ -18,6 +18,7 @@ export default {
     collapseOnEscape: true,
     saveDraft: true,
     searchQuery: '',
+    placeholder: 'Start writing something special...',
     enableHashtag: {
       hashtags: Array.from(Array(20)).map(faker.color.human),
     },

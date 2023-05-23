@@ -8,13 +8,14 @@ import { color } from '../utils'
 export default {
   title: 'Utility/Resizable maker',
   component: ResizableMaker,
-  args: {
-    direction: 'XY',
-  },
+  args: {},
 } as ComponentMeta<typeof ResizableMaker>
 
 const useResizableMakerStory = () => {
   const resizable = useRef<HTMLDivElement | null>(null)
+  const borderWidth = 20
+  const borderLength = 40
+  const position = -1 * (borderWidth / 2)
 
   const handlersStyle: CSSProperties = {
     position: 'absolute',
@@ -23,9 +24,90 @@ const useResizableMakerStory = () => {
     borderRadius: 10,
   }
 
+  const getHandlerStyle = (direction: ResizableMakerNS.ResizeDirection): CSSProperties => {
+    switch (direction) {
+      case 'top': {
+        return {
+          ...handlersStyle,
+          top: position,
+          left: 0,
+          right: 0,
+          width: borderLength,
+          height: borderWidth,
+        }
+      }
+      case 'bottom': {
+        return {
+          ...handlersStyle,
+          bottom: position,
+          right: 0,
+          left: 0,
+          width: borderLength,
+          height: borderWidth,
+        }
+      }
+      case 'start': {
+        return {
+          ...handlersStyle,
+          left: position,
+          top: 0,
+          bottom: 0,
+          height: borderLength,
+          width: borderWidth,
+        }
+      }
+      case 'end': {
+        return {
+          ...handlersStyle,
+          right: position,
+          top: 0,
+          bottom: 0,
+          height: borderLength,
+          width: borderWidth,
+        }
+      }
+      case 'topStart': {
+        return {
+          ...handlersStyle,
+          left: position,
+          top: position,
+          width: borderWidth,
+          height: borderWidth,
+        }
+      }
+      case 'topEnd': {
+        return {
+          ...handlersStyle,
+          right: position,
+          top: position,
+          width: borderWidth,
+          height: borderWidth,
+        }
+      }
+      case 'bottomStart': {
+        return {
+          ...handlersStyle,
+          left: position,
+          bottom: position,
+          width: borderWidth,
+          height: borderWidth,
+        }
+      }
+      case 'bottomEnd': {
+        return {
+          ...handlersStyle,
+          right: position,
+          bottom: position,
+          width: borderWidth,
+          height: borderWidth,
+        }
+      }
+    }
+  }
+
   const renderChildren = (
     resize: ResizableMakerNS.ChildrenCallbackParams['resize'],
-    direction: ResizableMakerNS.ResizeDirections,
+    isResizing: boolean,
   ) => (
     <div
       ref={resizable}
@@ -34,68 +116,32 @@ const useResizableMakerStory = () => {
         height: 300,
         background: color({ source: 'layer', tone: 2 }),
         position: 'fixed',
-        left: 0,
-        right: 0,
-        bottom: 0,
-        top: 0,
-        margin: 'auto',
+        left: 150,
+        top: 150,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
       }}
     >
-      <Emoji name="smiling face" />
+      <Emoji
+        name={isResizing ? 'face with spiral eyes' : 'smiling face'}
+        style={{ maxWidth: '80%' }}
+      />
 
-      {(direction === 'Y' || direction === 'XY') && (
-        <span
-          style={{ ...handlersStyle, width: '30%', left: 0, right: 0, height: 10, bottom: 0 }}
-          onMouseDown={resize('ns')}
-        />
-      )}
-      {(direction === 'X' || direction === 'XY') && (
-        <span
-          style={{ ...handlersStyle, height: '30%', right: 0, top: 0, bottom: 0, width: 10 }}
-          onMouseDown={resize('ew')}
-        />
-      )}
+      {ResizableMakerNS.ResizeDirection.map((direction, index) => (
+        <span key={index} onMouseDown={resize(direction)} style={getHandlerStyle(direction)} />
+      ))}
     </div>
   )
 
   return { renderChildren, resizable }
 }
 
-export const DirectionX = () => {
-  const { renderChildren, resizable } = useResizableMakerStory()
-  return (
-    <ResizableMaker direction="X" resizable={resizable}>
-      {({ resize }) => renderChildren(resize, 'X')}
-    </ResizableMaker>
-  )
-}
-
-export const DirectionY = () => {
-  const { renderChildren, resizable } = useResizableMakerStory()
-  return (
-    <ResizableMaker direction="Y" resizable={resizable}>
-      {({ resize }) => renderChildren(resize, 'Y')}
-    </ResizableMaker>
-  )
-}
-
-export const DirectionXY = () => {
-  const { renderChildren, resizable } = useResizableMakerStory()
-  return (
-    <ResizableMaker direction="XY" resizable={resizable}>
-      {({ resize }) => renderChildren(resize, 'XY')}
-    </ResizableMaker>
-  )
-}
-
 export const Playground: FC<ResizableMakerNS.Props> = props => {
   const { renderChildren, resizable } = useResizableMakerStory()
   return (
     <ResizableMaker {...props} resizable={resizable}>
-      {({ resize }) => renderChildren(resize, props.direction ?? 'Y')}
+      {({ resize, isResizing }) => renderChildren(resize, isResizing)}
     </ResizableMaker>
   )
 }

@@ -45,8 +45,8 @@ export const ResizeEditorHandle: FC<ResizeEditorHandleNS.Props> = ({
   }
 
   return (
-    <ResizableMaker direction="Y" resizable={getResizableElement}>
-      {({ resize }) => <div className="resize-editor-handle" onMouseDown={resize('ns')} />}
+    <ResizableMaker resizable={getResizableElement}>
+      {({ resize }) => <div className="resize-editor-handle" onMouseDown={resize('bottom')} />}
     </ResizableMaker>
   )
 }

@@ -1,0 +1,154 @@
+@use 'sass:math';
+
+$handler-border-width: 14px;
+$handler-visible-border-width: 2px;
+$handler-visible-corners-size: 70;
+$handler-visible-border-length: (
+    $handler-border-width - math.div($handler-visible-corners-size * $handler-border-width, 100)
+  ) * 2;
+$handler-position: -1 * math.div($handler-border-width, 2);
+
+.zoomrc-resizable {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+
+  > .resizable-handler {
+    position: absolute;
+
+    &::after {
+      content: '';
+      position: absolute;
+      background-color: color(accent, 1, glassy, 3);
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      border-radius: 2px;
+      transition: all 150ms linear;
+    }
+
+    &:hover {
+      &::after {
+        background-color: color(accent, 1, glassy, 5);
+      }
+    }
+
+    &.handler-top-end {
+      right: $handler-position;
+      top: $handler-position;
+      width: $handler-border-width;
+      height: $handler-border-width;
+      cursor: nesw-resize;
+      z-index: 1;
+
+      &::after {
+        width: #{$handler-visible-corners-size + '%'};
+        height: #{$handler-visible-corners-size + '%'};
+      }
+    }
+
+    &.handler-top {
+      top: $handler-position;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 100%;
+      height: $handler-border-width;
+      cursor: ns-resize;
+
+      &::after {
+        width: calc(100% - $handler-visible-border-length);
+        height: $handler-visible-border-width;
+      }
+    }
+
+    &.handler-top-start {
+      left: $handler-position;
+      top: $handler-position;
+      width: $handler-border-width;
+      height: $handler-border-width;
+      cursor: nwse-resize;
+      z-index: 1;
+
+      &::after {
+        width: #{$handler-visible-corners-size + '%'};
+        height: #{$handler-visible-corners-size + '%'};
+      }
+    }
+
+    &.handler-start {
+      left: $handler-position;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: 100%;
+      width: $handler-border-width;
+      cursor: ew-resize;
+
+      &::after {
+        height: calc(100% - $handler-visible-border-length);
+        width: $handler-visible-border-width;
+      }
+    }
+
+    &.handler-bottom-end {
+      right: $handler-position;
+      bottom: $handler-position;
+      width: $handler-border-width;
+      height: $handler-border-width;
+      cursor: nwse-resize;
+      z-index: 1;
+
+      &::after {
+        width: #{$handler-visible-corners-size + '%'};
+        height: #{$handler-visible-corners-size + '%'};
+      }
+    }
+
+    &.handler-bottom {
+      bottom: $handler-position;
+      right: 0;
+      left: 0;
+      margin: auto;
+      width: 100%;
+      height: $handler-border-width;
+      cursor: ns-resize;
+
+      &::after {
+        width: calc(100% - $handler-visible-border-length);
+        height: $handler-visible-border-width;
+      }
+    }
+
+    &.handler-bottom-start {
+      left: $handler-position;
+      bottom: $handler-position;
+      width: $handler-border-width;
+      height: $handler-border-width;
+      cursor: nesw-resize;
+      z-index: 1;
+
+      &::after {
+        width: #{$handler-visible-corners-size + '%'};
+        height: #{$handler-visible-corners-size + '%'};
+      }
+    }
+
+    &.handler-end {
+      right: $handler-position;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: 100%;
+      width: $handler-border-width;
+      cursor: ew-resize;
+
+      &::after {
+        height: calc(100% - $handler-visible-border-length);
+        width: $handler-visible-border-width;
+      }
+    }
+  }
+}

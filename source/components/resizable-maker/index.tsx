@@ -1,29 +1,26 @@
-import React, { FC, MouseEvent, ReactNode, RefObject, useRef } from 'react'
-
-import { logs } from '../../constants'
-import { useZoomComponent } from '../../hooks'
+import React, { FC, MouseEvent, ReactNode, RefObject, useState } from 'react'
 
 export namespace ResizableMakerNS {
-  export const ResizeDirections = ['Y', 'X', 'XY'] as const
-  export type ResizeDirections = typeof ResizeDirections[number]
+  export type Evt = MouseEvent<HTMLElement> | globalThis.MouseEvent
 
-  export type CursorDirections = typeof CursorDirections[number]
-  export const CursorDirections = ['ns', 'ew', 'ne', 'se'] as const
+  export type ResizeDirection = typeof ResizeDirection[number]
+  export const ResizeDirection = [
+    'topEnd',
+    'top',
+    'topStart',
+    'start',
+    'bottomEnd',
+    'bottom',
+    'bottomStart',
+    'end',
+  ] as const
 
-  export interface ResizableInfo {
-    clientY: number
-    clientX: number
-    height: number
-    width: number
+  export interface ChildrenCallbackParams {
+    resize: (direction: ResizeDirection) => (evt: ResizableMakerNS.Evt) => void
     isResizing: boolean
   }
 
-  export interface ChildrenCallbackParams {
-    resize: (cursorDirection: CursorDirections) => (evt: MouseEvent<HTMLDivElement>) => void
-  }
-
   export interface Props {
-    direction: ResizeDirections
     resizable: (() => HTMLElement) | RefObject<HTMLElement | null>
     children: ReactNode | ((params: ChildrenCallbackParams) => ReactNode)
   }
@@ -32,16 +29,8 @@ export namespace ResizableMakerNS {
 export const ResizableMaker: FC<ResizableMakerNS.Props> = ({
   resizable: providedResizable,
   children,
-  direction,
 }) => {
-  const resizableInfoRef = useRef<ResizableMakerNS.ResizableInfo | null>(null)
-  const { sendLog, createClassName } = useZoomComponent('resizable-maker')
-
-  const getResizingClasses = (cursorDirection: ResizableMakerNS.CursorDirections[]): string[] => {
-    const classes = [createClassName('', 'resizing')]
-    cursorDirection.forEach(direction => classes.push(createClassName('', `resizing-${direction}`)))
-    return classes
-  }
+  const [isResizing, setIsResizing] = useState(false)
 
   const getResizable = (): HTMLElement => {
     if (!providedResizable) {
@@ -59,63 +48,172 @@ export const ResizableMaker: FC<ResizableMakerNS.Props> = ({
     return providedResizable
   }
 
+  const getStyle = (styleKey: string): number => {
+    return parseInt(window.getComputedStyle(getResizable()).getPropertyValue(styleKey))
+  }
+
+  const resizeXPositive = (evt: ResizableMakerNS.Evt) => {
+    let offsetX = 0
+
+    const elementDrag = (evt: ResizableMakerNS.Evt) => {
+      const { clientX } = evt
+      const x = clientX - getResizable().offsetLeft - offsetX
+      getResizable().style.width = x + 'px'
+    }
+
+    const closeDragElement = () => {
+      setIsResizing(false)
+      document.removeEventListener('mouseup', closeDragElement)
+      document.removeEventListener('mousemove', elementDrag)
+    }
+
+    if (evt.button !== 0) return
+    evt = evt || window.event
+    evt.preventDefault()
+    const { clientX } = evt
+    offsetX = clientX - getResizable().offsetLeft - getStyle('width')
+    document.addEventListener('mouseup', closeDragElement)
+    document.addEventListener('mousemove', elementDrag)
+  }
+
+  const resizeYPositive = (evt: ResizableMakerNS.Evt) => {
+    let offsetY = 0
+
+    const elementDrag = (evt: ResizableMakerNS.Evt) => {
+      const { clientY } = evt
+      const y = clientY - getResizable().offsetTop - offsetY
+      getResizable().style.height = y + 'px'
+    }
+
+    const closeDragElement = () => {
+      setIsResizing(false)
+      document.removeEventListener('mouseup', closeDragElement)
+      document.removeEventListener('mousemove', elementDrag)
+    }
+
+    if (evt.button !== 0) return
+    evt = evt || window.event
+    evt.preventDefault()
+    const { clientY } = evt
+    offsetY = clientY - getResizable().offsetTop - getStyle('height')
+
+    document.addEventListener('mouseup', closeDragElement)
+    document.addEventListener('mousemove', elementDrag)
+  }
+
+  const resizeXNegative = (evt: ResizableMakerNS.Evt) => {
+    let offsetX = 0
+    let startX = 0
+    let startW = 0
+
+    const elementDrag = (evt: ResizableMakerNS.Evt) => {
+      const { clientX } = evt
+      const x = clientX - offsetX
+      const w = startW + startX - x
+      getResizable().style.left = x + 'px'
+      getResizable().style.width = w + 'px'
+    }
+
+    const closeDragElement = () => {
+      setIsResizing(false)
+      document.removeEventListener('mouseup', closeDragElement)
+      document.removeEventListener('mousemove', elementDrag)
+    }
+
+    if (evt.button !== 0) return
+    evt = evt || window.event
+    evt.preventDefault()
+    const { clientX } = evt
+    startX = getStyle('left')
+    startW = getStyle('width')
+    offsetX = clientX - startX
+
+    document.addEventListener('mouseup', closeDragElement)
+    document.addEventListener('mousemove', elementDrag)
+  }
+
+  const resizeYNegative = (evt: ResizableMakerNS.Evt) => {
+    let offsetY = 0
+    let startY = 0
+    let startH = 0
+
+    const elementDrag = (evt: ResizableMakerNS.Evt) => {
+      const { clientY } = evt
+      const y = clientY - offsetY
+      const h = startH + startY - y
+      getResizable().style.top = y + 'px'
+      getResizable().style.height = h + 'px'
+    }
+
+    const closeDragElement = () => {
+      setIsResizing(false)
+      document.removeEventListener('mouseup', closeDragElement)
+      document.removeEventListener('mousemove', elementDrag)
+    }
+
+    if (evt.button !== 0) {
+      return null
+    }
+
+    evt = evt || window.event
+    evt.preventDefault()
+
+    const { clientY } = evt
+    startY = getStyle('top')
+    startH = getStyle('height')
+    offsetY = clientY - startY
+
+    document.addEventListener('mouseup', closeDragElement)
+    document.addEventListener('mousemove', elementDrag)
+  }
+
   const handleResize =
-    (cursorDirection: ResizableMakerNS.CursorDirections) => (evt: MouseEvent<HTMLDivElement>) => {
-      const resizable = getResizable()
+    (direction: ResizableMakerNS.ResizeDirection) => (evt: ResizableMakerNS.Evt) => {
+      setIsResizing(true)
 
-      const styles = document.defaultView?.getComputedStyle(resizable)
-      if (!styles) {
-        return sendLog(logs.resizableMakerComputedStylesNotFound, 'handleResize fn')
-      }
-
-      const { height, width } = styles
-
-      resizableInfoRef.current = {
-        clientY: evt.clientY,
-        clientX: evt.clientX,
-        height: parseInt(height ?? '200'),
-        width: parseInt(width ?? '200'),
-        isResizing: true,
-      }
-
-      document.body.classList.add(...getResizingClasses([cursorDirection]))
-
-      document.addEventListener('mouseup', handleOnMouseUp)
-      document.addEventListener('mousemove', handleOnMouseMove)
-    }
-
-  const handleOnMouseUp = () => {
-    document.body.classList.remove(...getResizingClasses([...ResizableMakerNS.CursorDirections]))
-    resizableInfoRef.current = {
-      clientY: 0,
-      clientX: 0,
-      height: 0,
-      width: 0,
-      isResizing: false,
-    }
-
-    document.removeEventListener('mouseup', handleOnMouseUp)
-    document.removeEventListener('mousemove', handleOnMouseMove)
-  }
-
-  const handleOnMouseMove = (evt: globalThis.MouseEvent) => {
-    if (resizableInfoRef.current?.isResizing) {
-      const { current: resizableInfo } = resizableInfoRef
-      if (!resizableInfo) {
-        return sendLog(logs.resizableMakerResizableInfoRefNotFound, 'handleOnMouseMove fn')
-      }
-
-      const resizable = getResizable()
-      const { clientY, clientX, height, width } = resizableInfo
-
-      if (direction === 'Y' || direction === 'XY') {
-        resizable.style.height = `${height + evt.clientY - clientY}px`
-      }
-      if (direction === 'X' || direction === 'XY') {
-        resizable.style.width = `${width + evt.clientX - clientX}px`
+      switch (direction) {
+        case 'top': {
+          resizeYNegative(evt)
+          break
+        }
+        case 'bottom': {
+          resizeYPositive(evt)
+          break
+        }
+        case 'start': {
+          resizeXNegative(evt)
+          break
+        }
+        case 'end': {
+          resizeXPositive(evt)
+          break
+        }
+        case 'topStart': {
+          resizeXNegative(evt)
+          resizeYNegative(evt)
+          break
+        }
+        case 'topEnd': {
+          resizeXPositive(evt)
+          resizeYNegative(evt)
+          break
+        }
+        case 'bottomStart': {
+          resizeXNegative(evt)
+          resizeYPositive(evt)
+          break
+        }
+        case 'bottomEnd': {
+          resizeXPositive(evt)
+          resizeYPositive(evt)
+          break
+        }
       }
     }
-  }
 
-  return <>{typeof children === 'function' ? children({ resize: handleResize }) : children}</>
+  return (
+    <>
+      {typeof children === 'function' ? children({ resize: handleResize, isResizing }) : children}
+    </>
+  )
 }

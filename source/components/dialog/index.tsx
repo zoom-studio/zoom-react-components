@@ -8,12 +8,11 @@ import React, {
   useState,
 } from 'react'
 
-import { Portal } from 'react-portal'
 import { makeElementDraggable } from '@zoom-studio/zoom-js-ts-utils'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
-import { Button, ButtonNS, Icon, Title } from '..'
+import { Button, ButtonNS, Icon, Portal, Title } from '..'
 import { logs } from '../../constants'
 import { BaseComponent, CommonSize } from '../../types'
 
@@ -176,7 +175,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogNS.Props>(
     }, [fullScreen])
 
     return (
-      <Portal node={document?.body}>
+      <Portal>
         {isOpen && (
           <>
             <div onClick={close} {...backdropProps} className={backdropClasses} ref={backdropRef} />

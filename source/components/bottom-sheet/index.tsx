@@ -1,11 +1,9 @@
 import React, { forwardRef, HTMLAttributes, MouseEvent, ReactNode, useEffect } from 'react'
 
-import { Portal } from 'react-portal'
-
 import { useComponentSize, useZoomComponent } from '../../hooks'
 import { BaseComponent, CommonSize } from '../../types'
 
-import { Button, ButtonNS, ScrollView, Title } from '..'
+import { Button, ButtonNS, ScrollView, Title, Portal } from '..'
 
 export namespace BottomSheetNS {
   export type Action = ButtonNS.Props
@@ -90,7 +88,7 @@ export const BottomSheet = forwardRef<HTMLDivElement, BottomSheetNS.Props>(
     }, [isOpen])
 
     return (
-      <Portal node={document?.body}>
+      <Portal>
         {isOpen && (
           <>
             <div {...backdropProps} className={backdropClasses} onClick={close} />

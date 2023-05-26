@@ -22,6 +22,7 @@ import {
   Image,
   PopConfirm,
   PopoverNS,
+  Portal,
   ScrollView,
   Text,
   Title,
@@ -30,7 +31,6 @@ import {
 import { BREAKPOINTS } from '../../constants'
 import { useZoomComponent, useZoomContext } from '../../hooks'
 import { BaseComponent } from '../../types'
-import { Portal } from 'react-portal'
 
 export namespace ImageViewerNS {
   export interface ChildrenCallbackParams {
@@ -335,7 +335,7 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
 
     return (
       <>
-        <Portal node={document?.body}>
+        <Portal>
           {isOpen && (
             <TransformWrapper
               centerZoomedOut

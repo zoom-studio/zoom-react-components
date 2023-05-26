@@ -32,6 +32,27 @@ export const Sizes = () => {
   )
 }
 
+export const Modes = () => {
+  const { t } = useI18n('checkbox')
+  return (
+    <CommonStory
+      component={Checkbox}
+      stories={[
+        {
+          group: [
+            { props: { label: t('sampleTitle'), checked: true }, name: 'Checked' },
+            {
+              props: { label: t('sampleTitle'), indeterminate: true, checked: true },
+              name: 'Indeterminate',
+            },
+            { props: { label: t('sampleTitle'), checked: false }, name: 'Unchecked' },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
 export const States = () => {
   const { t } = useI18n('checkbox')
   const { t: tg } = useI18n('global')

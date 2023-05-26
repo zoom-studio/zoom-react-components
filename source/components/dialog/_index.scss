@@ -38,7 +38,7 @@ $zoomrc-dialog-header-title-left-padding: 20px;
 }
 
 .zoomrc-dialog {
-  z-index: 102;
+  z-index: 101;
   position: fixed;
   animation: zoomrc-dialog-animation(open-zoomrc-dialog-animation);
   background-color: color(layer, 1);

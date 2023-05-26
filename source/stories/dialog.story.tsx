@@ -3,7 +3,7 @@ import React, { FC, useRef, useState } from 'react'
 import { ComponentMeta } from '@storybook/react'
 
 import { Dialog, Button, DialogNS, ButtonNS } from '..'
-import { StoryPlayground, CommonStory, CommonStoryNS } from './components'
+import { StoryPlayground, CommonStory, CommonStoryNS, WithButtonsStory } from './components'
 import { lorem } from '../fixtures'
 import { useI18n } from './hooks/use-i18n'
 import { CommonSize } from '../types'
@@ -91,6 +91,25 @@ export const Sizes = () => {
         {lorem(10)}
       </Dialog>
     </div>
+  )
+}
+
+export const MultipleDialogs: FC = () => {
+  const [isDialogsOpen, setIsDialogsOpen] = useState(false)
+  const { t } = useI18n('dialog')
+
+  return (
+    <WithButtonsStory buttons={[{ children: t('open'), onClick: () => setIsDialogsOpen(true) }]}>
+      <Dialog isOpen={isDialogsOpen} onClose={() => setIsDialogsOpen(false)} size="small">
+        {lorem(10)}
+      </Dialog>
+      <Dialog isOpen={isDialogsOpen} onClose={() => setIsDialogsOpen(false)} size="normal">
+        {lorem(10)}
+      </Dialog>
+      <Dialog isOpen={isDialogsOpen} onClose={() => setIsDialogsOpen(false)} size="large">
+        {lorem(10)}
+      </Dialog>
+    </WithButtonsStory>
   )
 }
 

@@ -75,7 +75,6 @@
     "@tanstack/react-table": "^8.8.4",
     "@tanstack/react-virtual": "^3.0.0-beta.54",
     "@zoom-studio/zoom-js-ts-utils": "file:../zoom-web-utils/dist",
-    "ahooks": "^3.7.7",
     "lodash": "^4.17.21",
     "overlayscrollbars": "^2.0.3",
     "overlayscrollbars-react": "^0.5.0",

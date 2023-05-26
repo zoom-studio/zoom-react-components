@@ -86,12 +86,14 @@ export namespace ImageEditorNS {
     defaultFlips?: Flips
     loading?: boolean
     disabled?: boolean
+    i18n?: I18n
   }
 }
 
 export const ImageEditor = forwardRef<HTMLDivElement, ImageEditorNS.Props>(
   (
     {
+      i18n: componentI18n,
       defaultAdjustments = ImageEditorNS.DEFAULT_ADJUSTMENTS,
       grid = true,
       confirmBeforeReset = true,
@@ -118,7 +120,7 @@ export const ImageEditor = forwardRef<HTMLDivElement, ImageEditorNS.Props>(
 
     const { createClassName, globalI18ns, sendLog } = useZoomComponent('image-editor')
 
-    const i18n = useImageEditorI18n(globalI18ns)
+    const i18n = useImageEditorI18n(globalI18ns, componentI18n)
 
     const cropperState = useObjectedState<CropperState>()
     const mode = useObjectedState<ImageEditorNS.EditorMode>('crop')

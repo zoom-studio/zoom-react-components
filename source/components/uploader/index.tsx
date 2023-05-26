@@ -38,6 +38,7 @@ export namespace UploaderNS {
     onWrite?: (files: File[]) => void
     onRemove?: (fileIndex: number, closePopConfirm: () => void) => void
     state?: DataEntriesState
+    i18n?: I18n
     disabledOnLoading?: boolean
     files?: (FileInterface | File)[]
     stateMessageProps?: TypographyNS.TextNS.Props
@@ -48,6 +49,7 @@ export namespace UploaderNS {
 export const Uploader = forwardRef<HTMLDivElement, UploaderNS.Props>(
   (
     {
+      i18n: componentI18n,
       typeColors: providedTypeColors,
       disabledOnLoading = true,
       state = ['neutral'],
@@ -69,7 +71,7 @@ export const Uploader = forwardRef<HTMLDivElement, UploaderNS.Props>(
     reference,
   ) => {
     const { createClassName, globalI18ns, sendLog } = useZoomComponent('uploader')
-    const i18n = useUploaderI18n(globalI18ns)
+    const i18n = useUploaderI18n(globalI18ns, componentI18n)
     const { isRTL } = useZoomContext()
     const fileInputRef = useRef<HTMLInputElement | null>(null)
     const [isDraggedOver, setIsDraggedOver] = useState(false)

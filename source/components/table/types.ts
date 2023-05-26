@@ -65,6 +65,7 @@ export namespace TableNS {
     id: string
     resizableColumns?: boolean
     hoverable?: boolean
+    i18n?: I18n
     onSelectionChange?: (selectedRows: number[]) => void
     striped?: boolean
     actions?: Action<Dataset>[]

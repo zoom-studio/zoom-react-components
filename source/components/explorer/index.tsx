@@ -138,6 +138,7 @@ export namespace ExplorerNS {
     isSearchInputDisabled?: boolean
     isSavingEditedImage?: boolean
     uploaderProps?: UploaderProps
+    i18n?: I18n
     onDeleteFiles?: (
       fileIDs: ID[],
       closePopConfirm: () => void,
@@ -159,6 +160,7 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
     {
       typeColors: providedTypeColors,
       viewMode: providedViewMode,
+      i18n: componentI18n,
       selectable = true,
       multiSelect = true,
       files = [],
@@ -216,7 +218,7 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
     )
 
     const { createClassName, globalI18ns } = useZoomComponent('explorer')
-    const i18n = UseExplorerI18n(globalI18ns)
+    const i18n = UseExplorerI18n(globalI18ns, componentI18n)
 
     const classes = createClassName(className)
     const isDisabled = disabled || loading

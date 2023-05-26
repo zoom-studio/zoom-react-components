@@ -14,16 +14,19 @@ export namespace UseTableI18nNS {
 
 export const useTableI18n = (
   globalI18ns: ReturnType<typeof useZoomComponent>['globalI18ns'],
+  componentI18n?: UseTableI18nNS.I18n,
 ): Required<UseTableI18nNS.I18n> => {
   const i18n = globalI18ns?.table
 
   return {
-    loadingMoreData: i18n?.loadingMoreData ?? 'Loading more data...',
-    endMessage: i18n?.endMessage ?? 'End of the list.',
-    backToTio: i18n?.backToTio ?? 'Back to the top',
-    searchPlaceholder: i18n?.searchPlaceholder ?? 'Search records...',
-    columnsTooltip: i18n?.columnsTooltip ?? 'Columns visibility',
-    filterTooltip: i18n?.filterTooltip ?? 'Filter records',
-    noData: i18n?.noData ?? 'No records',
+    loadingMoreData:
+      componentI18n?.loadingMoreData ?? i18n?.loadingMoreData ?? 'Loading more data...',
+    endMessage: componentI18n?.endMessage ?? i18n?.endMessage ?? 'End of the list.',
+    backToTio: componentI18n?.backToTio ?? i18n?.backToTio ?? 'Back to the top',
+    searchPlaceholder:
+      componentI18n?.searchPlaceholder ?? i18n?.searchPlaceholder ?? 'Search records...',
+    columnsTooltip: componentI18n?.columnsTooltip ?? i18n?.columnsTooltip ?? 'Columns visibility',
+    filterTooltip: componentI18n?.filterTooltip ?? i18n?.filterTooltip ?? 'Filter records',
+    noData: componentI18n?.noData ?? i18n?.noData ?? 'No records',
   }
 }

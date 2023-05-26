@@ -96,6 +96,7 @@ export namespace RichTextEditorNS {
     initialHeight?: string | number
     enableAdvancedLinkInserter?: boolean
     id: string
+    i18n?: I18n
     actions?: {
       [action in Actions]?: boolean
     }
@@ -105,6 +106,7 @@ export namespace RichTextEditorNS {
 export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>(
   (
     {
+      i18n: componentI18n,
       stickyActions = true,
       resizable = true,
       maxHeight = 'unset',
@@ -124,7 +126,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
     reference,
   ) => {
     const { createClassName, globalI18ns, sendLog } = useZoomComponent('rich-text-editor')
-    const i18n = useRichTextEditorI18n(globalI18ns)
+    const i18n = useRichTextEditorI18n(globalI18ns, componentI18n)
     const editorContainerRef = useRef<HTMLDivElement | null>(null)
 
     const [isLinkPopoverOpen, setIsLinkPopoverOpen] = useState(false)

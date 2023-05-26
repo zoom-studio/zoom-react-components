@@ -22,6 +22,7 @@ import { useTableRows } from './use-table-rows'
 import { getAllHiddenColumns } from './utils'
 
 export const Table = <Dataset extends unknown[]>({
+  i18n: componentI18n,
   resizeColumnOnReleaseMouseButton: resizeOnEnd,
   infiniteScroll: infiniteScrollSettings,
   maxHeight = '700px',
@@ -78,7 +79,7 @@ export const Table = <Dataset extends unknown[]>({
   const hasData = !isLoading && dataset.length > 0
 
   const { createClassName, globalI18ns, sendLog } = useZoomComponent('table')
-  const i18n = useTableI18n(globalI18ns)
+  const i18n = useTableI18n(globalI18ns, componentI18n)
   const columns = useGenerateColumns({
     children,
     selectable,

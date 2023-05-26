@@ -2,7 +2,7 @@ import React, { FC, RefObject } from 'react'
 
 import { ResizableMaker } from '..'
 import { logs } from '../../constants'
-import { ZoomLogProviderNS } from '../zoom-log-provider'
+import { ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
 
 export namespace ResizeEditorHandleNS {
   export interface ResizableInfo {
@@ -13,7 +13,7 @@ export namespace ResizeEditorHandleNS {
 
   export interface Props {
     editorContainerRef: RefObject<HTMLDivElement>
-    sendLog: ZoomLogProviderNS.Log
+    sendLog: ZoomGlobalConfigProviderNS.Log
   }
 }
 

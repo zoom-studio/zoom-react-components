@@ -32,6 +32,8 @@ import { BREAKPOINTS } from '../../constants'
 import { useZoomComponent, useZoomContext } from '../../hooks'
 import { BaseComponent } from '../../types'
 
+import { UseImageViewerI18nNS, useImageViewerI18n } from './use-i18n'
+
 export namespace ImageViewerNS {
   export interface ChildrenCallbackParams {
     openImageViewer: () => void
@@ -45,18 +47,7 @@ export namespace ImageViewerNS {
     name: string
   }
 
-  export interface I18n {
-    closeTooltip?: string
-    zoomInTooltip?: string
-    zoomOutTooltip?: string
-    downloadTooltip?: string
-    printTooltip?: string
-    deleteTooltip?: string
-    deletePopConfirmTitle: string
-    deletePopConfirmDescription?: string
-    deletePopConfirmSubmitButton?: string
-    deletePopConfirmCancelButton?: string
-  }
+  export type I18n = UseImageViewerI18nNS.I18n
 
   export interface PrintSettings extends Omit<IReactToPrintProps, 'content' | 'onBeforePrint'> {
     content: (activeImage: Image) => ReactElement
@@ -83,12 +74,14 @@ export namespace ImageViewerNS {
     onWillNavigate?: (type: NavigateTypes) => void
     onWillClose?: () => void
     onWillDoubleClick?: () => void
+    i18n?: I18n
   }
 }
 
 export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
   (
     {
+      i18n: componentI18n,
       showDelete = true,
       showDownload = true,
       showPrint = true,
@@ -118,11 +111,13 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
     const MAXIMUM_ZOOM_SCALE = 8
 
     const slidesContainerRef = useRef<HTMLDivElement>(null)
-    const { createClassName, globalI18ns: i18n } = useZoomComponent('image-viewer')
+    const { createClassName, globalI18ns } = useZoomComponent('image-viewer')
     const { isRTL } = useZoomContext()
     const [isOpen, setIsOpen] = useState(false)
     const [activeImageIndex, setActiveImageIndex] = useState(defaultActiveImageIndex)
     const [isLoadingPrint, setIsLoadingPrint] = useState(false)
+
+    const i18n = useImageViewerI18n(globalI18ns, componentI18n)
 
     const utilityButtonsPopoverPlacement: PopoverNS.Placement = isRTL ? 'top-end' : 'top-start'
 
@@ -159,18 +154,6 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
         [otherClasses || '']: !!otherClasses,
       })
     }
-
-    const zoomInTooltip = i18n?.imageViewer?.zoomInTooltip ?? 'Zoom in'
-    const closeTooltip = i18n?.imageViewer?.closeTooltip ?? 'Close'
-    const printTooltip = i18n?.imageViewer?.printTooltip ?? 'Print image'
-    const deleteTooltip = i18n?.imageViewer?.deleteTooltip ?? 'Delete image'
-    const downloadTooltip = i18n?.imageViewer?.downloadTooltip ?? 'Download image'
-    const zoomOutTooltip = i18n?.imageViewer?.zoomOutTooltip ?? 'Zoom out'
-    const popConfirmTitle = i18n?.imageViewer?.deletePopConfirmTitle ?? 'Delete image'
-    const popConfirmDiscard = i18n?.imageViewer?.deletePopConfirmCancelButton ?? 'Discard'
-    const popConfirmSubmit = i18n?.imageViewer?.deletePopConfirmSubmitButton ?? 'Yes, delete'
-    const popConfirmDescription =
-      i18n?.imageViewer?.deletePopConfirmDescription ?? 'Are you sure to delete this image?'
 
     const imageSlideClasses = (imageIndex: number): string => {
       return createClassName('', 'slide', {
@@ -353,14 +336,14 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
 
                     <div className="handlers">
                       <div className={controllerGroupClasses()}>
-                        <Tooltip title={closeTooltip} placement="bottom-end">
+                        <Tooltip title={i18n.closeTooltip} placement="bottom-end">
                           <Button {...getHandlerButtonProps('close')} onClick={handleClose} />
                         </Tooltip>
                       </div>
 
                       {showZoomControls && (
                         <div className={controllerGroupClasses('zoom-controllers')}>
-                          <Tooltip title={zoomOutTooltip} placement="bottom-end">
+                          <Tooltip title={i18n.zoomOutTooltip} placement="bottom-end">
                             <Button
                               {...getHandlerButtonProps('remove_circle_outline')}
                               onClick={() => handleZoom('out', zoomOut)}
@@ -368,7 +351,7 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
                             />
                           </Tooltip>
 
-                          <Tooltip title={zoomInTooltip} placement="bottom-end">
+                          <Tooltip title={i18n.zoomInTooltip} placement="bottom-end">
                             <Button
                               {...getHandlerButtonProps('add_circle_outline')}
                               onClick={() => handleZoom('in', zoomIn)}
@@ -405,7 +388,7 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
                         >
                           {({ startDownload, isDownloading }) => (
                             <Tooltip
-                              title={downloadTooltip}
+                              title={i18n.downloadTooltip}
                               placement={utilityButtonsPopoverPlacement}
                             >
                               <Button
@@ -418,7 +401,10 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
                       )}
 
                       {showPrint && (
-                        <Tooltip title={printTooltip} placement={utilityButtonsPopoverPlacement}>
+                        <Tooltip
+                          title={i18n.printTooltip}
+                          placement={utilityButtonsPopoverPlacement}
+                        >
                           <Button
                             {...getUtilButtonProps('print', isLoadingPrint)}
                             onClick={handlePrintImage}
@@ -427,13 +413,19 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
                       )}
 
                       {showDelete && onDelete && (
-                        <Tooltip title={deleteTooltip} placement={utilityButtonsPopoverPlacement}>
+                        <Tooltip
+                          title={i18n.deleteTooltip}
+                          placement={utilityButtonsPopoverPlacement}
+                        >
                           {confirmBeforeDelete ? (
                             <PopConfirm
-                              title={popConfirmTitle}
-                              description={popConfirmDescription}
-                              confirm={{ children: popConfirmSubmit, onClick: onDelete }}
-                              cancel={{ children: popConfirmDiscard }}
+                              title={i18n.deletePopConfirmTitle}
+                              description={i18n.deletePopConfirmDescription}
+                              confirm={{
+                                children: i18n.deletePopConfirmSubmitButton,
+                                onClick: onDelete,
+                              }}
+                              cancel={{ children: i18n.deletePopConfirmCancelButton }}
                               placement={utilityButtonsPopoverPlacement}
                               buttonProps={{ ...getUtilButtonProps('delete', isDeleting) }}
                             />

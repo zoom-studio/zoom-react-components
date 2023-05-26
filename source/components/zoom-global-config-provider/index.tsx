@@ -13,7 +13,7 @@ import {
   TableNS,
 } from '..'
 
-export namespace ZoomLogProviderNS {
+export namespace ZoomGlobalConfigProviderNS {
   export type Error = string | object
   export type Log = (description: logs, error?: Error | undefined) => undefined
 
@@ -41,19 +41,19 @@ export namespace ZoomLogProviderNS {
   }
 }
 
-const ZoomLogContext = createContext<ZoomLogProviderNS.ProviderValue>({})
+const ZoomGlobalConfigContext = createContext<ZoomGlobalConfigProviderNS.ProviderValue>({})
 
-export const ZoomLogProvider: FC<ZoomLogProviderNS.Props> = ({
+export const ZoomGlobalConfigProvider: FC<ZoomGlobalConfigProviderNS.Props> = ({
   onLog,
   children,
   globalErrors,
   globalI18ns,
 }) => {
   return (
-    <ZoomLogContext.Provider value={{ sendLog: onLog, globalErrors, globalI18ns }}>
+    <ZoomGlobalConfigContext.Provider value={{ sendLog: onLog, globalErrors, globalI18ns }}>
       {children}
-    </ZoomLogContext.Provider>
+    </ZoomGlobalConfigContext.Provider>
   )
 }
 
-export { ZoomLogContext as zoomLogContext }
+export { ZoomGlobalConfigContext as zoomGlobalConfigContext }

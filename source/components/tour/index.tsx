@@ -4,6 +4,7 @@ import { EmojiNS, IconNS } from '..'
 import { BaseComponent } from '../../types'
 
 import { Steps } from './steps'
+import { UseTourI18nNS } from './use-i18n'
 
 export namespace TourNS {
   export type Reference = RefObject<HTMLElement | null> | MutableRefObject<HTMLElement | null>
@@ -56,14 +57,10 @@ export namespace TourNS {
     defaultActiveStep?: number
     scrollableContainer?: Reference | HTMLElement | Window
     fluidContainer?: boolean
+    i18n?: I18n
   }
 
-  export interface I18n {
-    nextButton?: string
-    backButton?: string
-    skipButton?: string
-    finishButton?: string
-  }
+  export type I18n = UseTourI18nNS.I18n
 }
 
 export const Tour: FC<TourNS.Props> = ({ children, ...rest }) => {

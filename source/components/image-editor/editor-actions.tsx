@@ -3,7 +3,7 @@ import React, { FC, RefObject, useEffect } from 'react'
 import { CropperRef } from 'react-advanced-cropper'
 import { classNames, UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Divider, IconNS, ImageEditorNS, Stack, ZoomLogProviderNS } from '..'
+import { Divider, IconNS, ImageEditorNS, Stack, ZoomGlobalConfigProviderNS } from '..'
 import { logs } from '../../constants'
 
 import { EditorActionButton } from './action-button'
@@ -18,7 +18,7 @@ export namespace EditorActionsNS {
     i18n: Required<ImageEditorNS.I18n>
     mode: UseObjectedStateNS.ReturnType<ImageEditorNS.EditorMode>
     cropperRef: RefObject<CropperRef>
-    sendLog: ZoomLogProviderNS.Log
+    sendLog: ZoomGlobalConfigProviderNS.Log
     disabled: boolean
     loading: boolean
   }

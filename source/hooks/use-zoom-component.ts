@@ -2,7 +2,7 @@ import { useContext } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { zoomLogContext } from '../components'
+import { zoomGlobalConfigContext } from '../components'
 
 export namespace UseZoomComponentNS {
   export type CreateClassNameFN = (
@@ -15,7 +15,11 @@ export namespace UseZoomComponentNS {
 }
 
 export const useZoomComponent = (componentName: string) => {
-  const { sendLog = () => undefined, globalErrors, globalI18ns } = useContext(zoomLogContext)
+  const {
+    sendLog = () => undefined,
+    globalErrors,
+    globalI18ns,
+  } = useContext(zoomGlobalConfigContext)
 
   const createClassName: UseZoomComponentNS.CreateClassNameFN = (
     userClassNames,

@@ -4,14 +4,14 @@ import { CropperRef } from 'react-advanced-cropper'
 
 import { Button, ButtonNS, PopConfirm, Tooltip } from '..'
 import { logs } from '../../constants'
-import { ZoomLogProviderNS } from '../zoom-log-provider'
+import { ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
 
 import { ImageEditorNS } from '.'
 
 export namespace ResetChangesNS {
   export interface Props {
     cropperRef: RefObject<CropperRef>
-    sendLog: ZoomLogProviderNS.Log
+    sendLog: ZoomGlobalConfigProviderNS.Log
     i18n: Required<ImageEditorNS.I18n>
     setAdjustments: Dispatch<SetStateAction<ImageEditorNS.Adjustments>>
     confirmBeforeReset: boolean

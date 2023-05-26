@@ -3,7 +3,7 @@ import { RefObject } from 'react'
 import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 
 import { SelectNS } from '.'
-import { ZoomLogProviderNS } from '../zoom-log-provider'
+import { ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
 import { logs } from '../../constants'
 import { SelectOptionNS } from './option'
 
@@ -80,7 +80,7 @@ export const getSelectedOptions = (
 export const scrollToTop = (
   containerRef: RefObject<HTMLDivElement>,
   scrollOnOpen: boolean,
-  sendLog: ZoomLogProviderNS.Log,
+  sendLog: ZoomGlobalConfigProviderNS.Log,
 ) => {
   const { current: container } = containerRef
   if (!container) {
@@ -94,7 +94,7 @@ export const scrollToTop = (
 
 export const focusSearchBox = async (
   inputRef: RefObject<HTMLInputElement>,
-  sendLog: ZoomLogProviderNS.Log,
+  sendLog: ZoomGlobalConfigProviderNS.Log,
 ) => {
   await sleep(2)
   const { current: searchBox } = inputRef

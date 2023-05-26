@@ -1,6 +1,6 @@
 import { RefObject, useCallback, useEffect, useRef } from 'react'
 
-import { ZoomLogProviderNS } from '../../zoom-log-provider'
+import { ZoomGlobalConfigProviderNS } from '../../zoom-global-config-provider'
 import { TableNS } from '../types'
 
 export namespace UseTableInfiniteScrollNS {
@@ -11,7 +11,7 @@ export namespace UseTableInfiniteScrollNS {
     virtualizedSettings?: TableNS.VirtualizedSettings
     dataset: unknown[]
     isLoading: boolean
-    sendLog: ZoomLogProviderNS.Log
+    sendLog: ZoomGlobalConfigProviderNS.Log
     scrollableContainerRef: RefObject<HTMLDivElement>
   }
 }

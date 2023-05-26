@@ -1,11 +1,11 @@
 import { MutableRefObject } from 'react'
 
-import { TableGeneratorNS, ZoomLogProviderNS } from '../..'
+import { TableGeneratorNS, ZoomGlobalConfigProviderNS } from '../..'
 import { logs } from '../../constants'
 
 export namespace UseTableGeneratorDomNS {
   export interface Params {
-    sendLog: ZoomLogProviderNS.Log
+    sendLog: ZoomGlobalConfigProviderNS.Log
     tableRef: MutableRefObject<HTMLTableElement | null>
   }
 }

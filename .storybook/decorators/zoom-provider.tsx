@@ -7,8 +7,8 @@ import i18n from '../../source/i18n'
 import { useI18n } from '../../source/stories/hooks/use-i18n'
 import {
   ZoomProvider as ZoomrcProvider,
-  ZoomLogProvider,
-  ZoomLogProviderNS,
+  ZoomGlobalConfigProvider,
+  ZoomGlobalConfigProviderNS,
 } from '../../source/components'
 
 export const ZoomProvider = (
@@ -27,7 +27,7 @@ export const ZoomProvider = (
     document.dir = localeDirection
   }, [locale])
 
-  const handleOnLog: ZoomLogProviderNS.Log = (description, error) => {
+  const handleOnLog: ZoomGlobalConfigProviderNS.Log = (description, error) => {
     console.error({ description, error })
     return undefined
   }
@@ -41,7 +41,7 @@ export const ZoomProvider = (
       withAlert
       defaultComponentsSize="normal"
     >
-      <ZoomLogProvider
+      <ZoomGlobalConfigProvider
         onLog={handleOnLog}
         globalErrors={{ onCopyFailure: te('onCopyFailure'), onCopySuccess: te('onCopySuccess') }}
         globalI18ns={{
@@ -80,7 +80,7 @@ export const ZoomProvider = (
         }}
       >
         <Story />
-      </ZoomLogProvider>
+      </ZoomGlobalConfigProvider>
     </ZoomrcProvider>
   )
 }

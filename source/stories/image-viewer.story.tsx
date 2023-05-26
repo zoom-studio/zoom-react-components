@@ -10,7 +10,7 @@ import { useI18n } from './hooks/use-i18n'
 const generateImage = (length = 10): ImageViewerNS.Image[] => {
   return Array.from(Array(length)).map((_, index) => ({
     name: `sample-image-name-which-is-at-index-${index}-of-${length}-images-in-total.jpeg`,
-    source: randomImage(),
+    source: randomImage(undefined, undefined, 'cats'),
   }))
 }
 

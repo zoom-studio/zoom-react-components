@@ -16,6 +16,7 @@ import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'reac
 import {
   Button,
   ButtonNS,
+  Download,
   Icon,
   IconNS,
   Image,
@@ -122,7 +123,6 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
     const [isOpen, setIsOpen] = useState(false)
     const [activeImageIndex, setActiveImageIndex] = useState(defaultActiveImageIndex)
     const [isLoadingPrint, setIsLoadingPrint] = useState(false)
-    const [isDownloadingImage, setIsDownloadingImage] = useState(false)
 
     const utilityButtonsPopoverPlacement: PopoverNS.Placement = isRTL ? 'top-end' : 'top-start'
 
@@ -208,20 +208,6 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
           resetTransform()
         }
       }
-    }
-
-    const handleDownloadImage = async () => {
-      onWillDownload?.()
-      setIsDownloadingImage(true)
-      const { source, name } = images[activeImageIndex]
-      const image = await fetch(source)
-      const imageBlob = await image.blob()
-      const imageURL = URL.createObjectURL(imageBlob)
-      const link = document.createElement('a')
-      link.href = imageURL
-      link.download = name
-      link.click()
-      setIsDownloadingImage(false)
     }
 
     const handlePrintImage = () => {
@@ -412,12 +398,23 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
                   <div className="footer">
                     <div className="utilities">
                       {showDownload && (
-                        <Tooltip title={downloadTooltip} placement={utilityButtonsPopoverPlacement}>
-                          <Button
-                            {...getUtilButtonProps('file_download', isDownloadingImage)}
-                            onClick={handleDownloadImage}
-                          />
-                        </Tooltip>
+                        <Download
+                          link={images[activeImageIndex].source}
+                          fileName={images[activeImageIndex].name}
+                          onWillDownload={onWillDownload}
+                        >
+                          {({ startDownload, isDownloading }) => (
+                            <Tooltip
+                              title={downloadTooltip}
+                              placement={utilityButtonsPopoverPlacement}
+                            >
+                              <Button
+                                {...getUtilButtonProps('file_download', isDownloading)}
+                                onClick={startDownload}
+                              />
+                            </Tooltip>
+                          )}
+                        </Download>
                       )}
 
                       {showPrint && (

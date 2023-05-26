@@ -10,6 +10,7 @@ import { Button, ButtonNS, IconNS, RangeSlider, RangeSliderNS, Skeleton } from '
 import { useZoomComponent } from '../../hooks'
 import { BaseComponent } from '../../types'
 import { color } from '../../utils'
+import { logs } from '../../constants'
 
 export namespace AvatarEditorNS {
   export enum RotateDir {
@@ -90,7 +91,7 @@ export const AvatarEditor = forwardRef<HTMLDivElement, AvatarEditorNS.Props>(
   ) => {
     const containerRef = providedRef ?? useRef<HTMLDivElement | null>(null)
 
-    const { createClassName } = useZoomComponent('avatar-editor')
+    const { createClassName, sendLog } = useZoomComponent('avatar-editor')
 
     const editorRef = useRef<AvatarEditorComponent | null>(null)
 
@@ -168,8 +169,9 @@ export const AvatarEditor = forwardRef<HTMLDivElement, AvatarEditorNS.Props>(
       })
     }
 
-    const getContainerRef = (): HTMLDivElement | null => {
+    const getContainerRef = (functionName: string): HTMLDivElement | null => {
       if (typeof containerRef === 'function') {
+        sendLog(logs.avatarEditorContainerRefNotFound, `${functionName} fn`)
         return null
       }
       return containerRef.current
@@ -181,7 +183,7 @@ export const AvatarEditor = forwardRef<HTMLDivElement, AvatarEditorNS.Props>(
     }
 
     const setWheelEventToCanvas = () => {
-      const container = getContainerRef()
+      const container = getContainerRef('setWheelEventToCanvas')
       if (container) {
         const canvas = container.querySelector('canvas')
         if (canvas) {
@@ -236,7 +238,7 @@ export const AvatarEditor = forwardRef<HTMLDivElement, AvatarEditorNS.Props>(
     }, [])
 
     useEffect(() => {
-      const container = getContainerRef()
+      const container = getContainerRef('useEffect')
       if (container && fitCanvasSize) {
         const containerStyles = getComputedStyle(container)
         const containerWidth = parseInt(containerStyles.width) - 10

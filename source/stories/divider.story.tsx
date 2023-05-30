@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Button, Divider, DividerNS, ReactionRate } from '../components'
+import { Button, Divider, type DividerNS, ReactionRate } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 import { color } from '../utils'
@@ -19,7 +19,7 @@ export default {
     dashed: false,
     selectableTitle: false,
   },
-} as ComponentMeta<typeof Divider>
+} as Meta<typeof Divider>
 
 const useDividerStory = () => {
   const { t } = useI18n('divider')

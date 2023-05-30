@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 
 import { useZoomComponent } from '../../../hooks'
 
-import { SkeletonNS } from '..'
+import { type SkeletonNS } from '..'
 import { useSkeleton } from '../use-skeleton'
 
 export namespace ParagraphSkeletonNS {

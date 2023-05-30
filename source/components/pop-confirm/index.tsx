@@ -1,8 +1,19 @@
-import React, { forwardRef, HTMLAttributes, MouseEvent, ReactNode } from 'react'
+import React, { forwardRef, type HTMLAttributes, type MouseEvent, type ReactNode } from 'react'
 
-import { Button, ButtonNS, Emoji, EmojiNS, Icon, IconNS, Popover, PopoverNS, Text, Title } from '..'
-import { UseStatedIcon, useStatedIcon, useZoomComponent } from '../../hooks'
-import { CommonVariants } from '../../types'
+import {
+  Button,
+  type ButtonNS,
+  Emoji,
+  type EmojiNS,
+  Icon,
+  type IconNS,
+  Popover,
+  type PopoverNS,
+  Text,
+  Title,
+} from '..'
+import { type UseStatedIcon, useStatedIcon, useZoomComponent } from '../../hooks'
+import { type CommonVariants } from '../../types'
 import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace PopConfirmNS {

@@ -1,4 +1,4 @@
-import { useZoomComponent } from '../../hooks';
+import { type useZoomComponent } from '../../hooks';
 export declare namespace UseTableI18nNS {
     interface I18n {
         loadingMoreData?: string;
@@ -10,4 +10,4 @@ export declare namespace UseTableI18nNS {
         noData?: string;
     }
 }
-export declare const useTableI18n: (globalI18ns: ReturnType<typeof useZoomComponent>['globalI18ns']) => Required<UseTableI18nNS.I18n>;
+export declare const useTableI18n: (globalI18ns: ReturnType<typeof useZoomComponent>['globalI18ns'], componentI18n?: UseTableI18nNS.I18n) => Required<UseTableI18nNS.I18n>;

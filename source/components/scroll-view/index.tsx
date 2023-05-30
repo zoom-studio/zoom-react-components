@@ -2,12 +2,12 @@ import React, { forwardRef } from 'react'
 
 import {
   OverlayScrollbarsComponent,
-  OverlayScrollbarsComponentRef,
-  UseOverlayScrollbarsParams,
+  type OverlayScrollbarsComponentRef,
+  type UseOverlayScrollbarsParams,
 } from 'overlayscrollbars-react'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace ScrollViewNS {
   export type ContainerNode = OverlayScrollbarsComponentRef

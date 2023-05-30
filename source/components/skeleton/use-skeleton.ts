@@ -1,4 +1,4 @@
-import { SkeletonNS } from '.'
+import { type SkeletonNS } from '.'
 import { useZoomComponent } from '../../hooks'
 
 export const useSkeleton = ({ animated = true }: SkeletonNS.BaseProps) => {

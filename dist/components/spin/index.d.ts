@@ -1,7 +1,7 @@
 import React from 'react';
-import { TypographyNS } from '..';
-import { BaseComponent, CommonSize } from '../../types';
-import { Color } from '../../types/color';
+import { type TypographyNS } from '..';
+import { type BaseComponent, type CommonSize } from '../../types';
+import { type Color } from '../../types/color';
 export declare namespace SpinNS {
     interface Props extends BaseComponent<HTMLSpanElement> {
         size?: CommonSize;

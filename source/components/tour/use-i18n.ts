@@ -1,4 +1,4 @@
-import { useZoomComponent } from '../../hooks'
+import { type useZoomComponent } from '../../hooks'
 
 export namespace UseTourI18nNS {
   export interface I18n {

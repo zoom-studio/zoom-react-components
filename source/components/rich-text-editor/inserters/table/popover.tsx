@@ -1,7 +1,7 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
 import { Text } from '../../..'
-import { useRichTextEditorI18n } from '../../use-i18n'
+import { type useRichTextEditorI18n } from '../../use-i18n'
 
 export namespace TableInserterPopoverNS {
   export interface Props {
@@ -19,7 +19,9 @@ export const TableInserterPopover: FC<TableInserterPopoverNS.Props> = ({
   const [title, setTitle] = useState<string | number>('Insert table')
 
   const removeActiveClassesOfGrids = () => {
-    document.querySelectorAll('.grid-item.active').forEach(item => item.classList.remove('active'))
+    document.querySelectorAll('.grid-item.active').forEach(item => {
+      item.classList.remove('active')
+    })
   }
 
   const handleOnMouseOver = (index: number) => () => {

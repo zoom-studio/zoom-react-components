@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { type FC, useEffect, useState } from 'react'
 
 import { useZoomComponent } from '../../../hooks'
-import { CommonVariants } from '../../../types'
+import { type CommonVariants } from '../../../types'
 import { Progress } from '../..'
 
 export namespace MessageProgressNS {

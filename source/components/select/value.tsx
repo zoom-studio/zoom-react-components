@@ -1,10 +1,10 @@
-import React, { FC, useMemo } from 'react'
+import React, { type FC, useMemo } from 'react'
 
-import { InputNS, Text } from '..'
+import { type InputNS, Text } from '..'
 import { useZoomComponent } from '../../hooks'
 import { getSelectedOptions } from './utils'
-import { SelectNS } from '.'
-import { SelectOptionNS } from './option'
+import { type SelectNS } from '.'
+import { type SelectOptionNS } from './option'
 
 export namespace SelectValueNS {
   export interface Props

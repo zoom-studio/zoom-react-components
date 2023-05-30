@@ -1,4 +1,4 @@
-import { SelectNS } from '..'
+import { type SelectNS } from '..'
 
 export const DYNAMIC_SIMPLE_SELECT = (
   count = 4,

@@ -1,4 +1,4 @@
-import { FATranslations } from './fa'
+import { type FATranslations } from './fa'
 
 export const ENTranslations: typeof FATranslations = {
   global: {

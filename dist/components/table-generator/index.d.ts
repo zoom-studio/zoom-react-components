@@ -1,6 +1,6 @@
 import React from 'react';
-import { ScrollViewNS } from '..';
-import { BaseComponent } from '../../types';
+import { type ScrollViewNS } from '..';
+import { type BaseComponent } from '../../types';
 export declare namespace TableGeneratorNS {
     type DataType = string | number | boolean;
     type CellsData = DataType[][];

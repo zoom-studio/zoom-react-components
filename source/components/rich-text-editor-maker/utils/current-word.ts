@@ -1,9 +1,9 @@
 import { cloneDeep } from 'lodash'
 
-import { BasePoint, Editor, Range as SlateRange } from 'slate'
+import { type BasePoint, Editor, Range as SlateRange } from 'slate'
 
-import { RichTextEditorMakerNS } from '../types'
-import { RichUtilsNS } from './rich-utils'
+import { type RichTextEditorMakerNS } from '../types'
+import { type RichUtilsNS } from './rich-utils'
 
 export namespace EditorCurrentWordNS {
   export interface Params {

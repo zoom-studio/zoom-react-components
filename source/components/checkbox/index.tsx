@@ -1,17 +1,22 @@
 import React, {
-  ChangeEvent,
-  FormEvent,
+  type ChangeEvent,
+  type FormEvent,
   forwardRef,
-  HTMLAttributes,
-  MouseEvent,
+  type HTMLAttributes,
+  type MouseEvent,
   useEffect,
   useRef,
 } from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
-import { Icon, InputNS, Spin, Text, TypographyNS } from '..'
-import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types'
+import { Icon, type InputNS, Spin, Text, type TypographyNS } from '..'
+import {
+  type BaseComponent,
+  type BaseInputComponent,
+  type CommonSize,
+  type DataEntriesState,
+} from '../../types'
 
 export namespace CheckboxNS {
   export interface Props extends BaseInputComponent, BaseComponent {

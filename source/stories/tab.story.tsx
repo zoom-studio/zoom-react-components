@@ -1,9 +1,9 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { pullAt } from 'lodash'
 
-import { ReactionRate, Tab, TabNS, Text } from '../components'
+import { ReactionRate, Tab, type TabNS, Text } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -138,7 +138,7 @@ export default {
       'Without link',
     ),
   },
-} as ComponentMeta<typeof Tab>
+} as Meta<typeof Tab>
 
 const useTabStory = (defaultActiveTab = 0) => {
   const { t } = useI18n('tab')

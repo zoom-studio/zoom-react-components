@@ -1,5 +1,5 @@
-import { EmojiNS, IconNS } from '../components';
-import { CommonVariants } from '../types';
+import { type EmojiNS, type IconNS } from '../components';
+import { type CommonVariants } from '../types';
 export declare namespace UseStatedIcon {
     interface Params {
         icon?: IconNS.Names;

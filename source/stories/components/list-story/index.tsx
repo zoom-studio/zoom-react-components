@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { type FC, useMemo, useState } from 'react'
 
 import { Input, Title } from '../../../components'
 
@@ -12,7 +12,7 @@ export namespace ListStoryNS {
   }
 }
 
-export function ListStory<Props = {}>({
+export function ListStory<Props = object>({
   withSearch = true,
   component: Component,
   maximinRenderedItems,
@@ -57,7 +57,9 @@ export function ListStory<Props = {}>({
           placeholder="Search..."
           autoFocus
           value={query}
-          onInput={evt => setQuery(evt.currentTarget.value.toLowerCase().trim())}
+          onInput={evt => {
+            setQuery(evt.currentTarget.value.toLowerCase().trim())
+          }}
           size="large"
           label="Query"
         />

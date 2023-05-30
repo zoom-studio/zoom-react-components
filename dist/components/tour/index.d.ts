@@ -1,10 +1,11 @@
-import { FC, MutableRefObject, ReactNode, RefObject } from 'react';
-import { EmojiNS, IconNS } from '..';
-import { BaseComponent } from '../../types';
+import { type FC, type MutableRefObject, type ReactNode, type RefObject } from 'react';
+import { type EmojiNS, type IconNS } from '..';
+import { type BaseComponent } from '../../types';
+import { type UseTourI18nNS } from './use-i18n';
 export declare namespace TourNS {
     type Reference = RefObject<HTMLElement | null> | MutableRefObject<HTMLElement | null>;
     const StepPosition: readonly ["top-end", "top-center", "top-start", "center-end", "center", "center-start", "bottom-end", "bottom-center", "bottom-start"];
-    type StepPosition = typeof StepPosition[number];
+    type StepPosition = (typeof StepPosition)[number];
     interface ChildrenCallbackParams {
         startTour: () => void;
         stopTour: () => void;
@@ -36,12 +37,8 @@ export declare namespace TourNS {
         defaultActiveStep?: number;
         scrollableContainer?: Reference | HTMLElement | Window;
         fluidContainer?: boolean;
+        i18n?: I18n;
     }
-    interface I18n {
-        nextButton?: string;
-        backButton?: string;
-        skipButton?: string;
-        finishButton?: string;
-    }
+    type I18n = UseTourI18nNS.I18n;
 }
 export declare const Tour: FC<TourNS.Props>;

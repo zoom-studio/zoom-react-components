@@ -1,16 +1,23 @@
-import { FC, MouseEvent, RefObject } from 'react'
+import { type FC, type MouseEvent, type RefObject } from 'react'
 
-import { ButtonNS, ScrollViewNS } from '..'
-import { BaseComponent } from '../../types'
+import { type ColumnDef } from '@tanstack/react-table'
+import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
 
-import { ColumnDef } from '@tanstack/react-table'
-import { CellNS, ColumnGroupNS, ColumnNS, FooterCellNS, HeaderCellNS } from './table-components'
-import { UseTableI18nNS } from './use-i18n'
+import {
+  type CellNS,
+  type ColumnGroupNS,
+  type ColumnNS,
+  type FooterCellNS,
+  type HeaderCellNS,
+} from './table-components'
+import { type UseTableI18nNS } from './use-i18n'
+import { type BaseComponent } from '../../types'
 
+import { type ButtonNS, type ScrollViewNS } from '..'
 export namespace TableNS {
   export type CellDataType = string | number | boolean
   export type I18n = UseTableI18nNS.I18n
-  export type EndMessage = 'default-end-message' | JSX.Element | (string & {})
+  export type EndMessage = MaybeString<'default-end-message'> | JSX.Element
 
   export interface ColumnMeta {
     togglerLabel?: string

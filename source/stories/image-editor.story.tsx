@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { faker } from '@faker-js/faker'
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
-import { ImageEditor, ImageEditorNS } from '../components'
+import { ImageEditor, type ImageEditorNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 
 export default {
@@ -35,7 +35,7 @@ export default {
     reference: undefined,
     style: undefined,
   },
-} as ComponentMeta<typeof ImageEditor>
+} as Meta<typeof ImageEditor>
 
 const useImageEditorStory = () => {
   const src = randomImage(undefined, undefined, 'cats')

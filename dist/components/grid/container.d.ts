@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseComponent } from '../../types';
+import { type BaseComponent } from '../../types';
 export declare namespace ContainerNS {
     interface Props extends BaseComponent {
         fluid?: boolean;

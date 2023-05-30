@@ -2,7 +2,7 @@ import { fileToBase64 } from '@zoom-studio/zoom-js-ts-utils'
 
 import { isImage } from '../explorer/utils'
 
-import { UploaderNS } from '.'
+import { type UploaderNS } from '.'
 
 export const getFileInfo = async (
   file: File | UploaderNS.FileInterface,

@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { sentenceCase } from 'change-case'
 
-import { Button, ButtonNS, PopoverNS } from '../../../components'
+import { Button, type ButtonNS, type PopoverNS } from '../../../components'
 
 export namespace PlacementsStoryNS {
   export interface Props<Props> {
@@ -11,7 +11,7 @@ export namespace PlacementsStoryNS {
   }
 }
 
-export function PlacementsStory<Props = {}>({
+export function PlacementsStory<Props = object>({
   component: ProvidedComponent,
   props: providedProps,
 }: React.PropsWithChildren<PlacementsStoryNS.Props<Props>>): JSX.Element {

@@ -1,25 +1,25 @@
 import React, {
   Children,
   forwardRef,
-  ForwardRefExoticComponent,
-  ReactNode,
-  RefAttributes,
+  type ForwardRefExoticComponent,
+  type ReactNode,
+  type RefAttributes,
 } from 'react'
-import { MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 import { StackItem } from './stack-item'
 
 export namespace StackNS {
   export const BaseCSSValues = ['initial', 'unset', 'inherit'] as const
-  export type BaseCSSValues = typeof BaseCSSValues[number]
+  export type BaseCSSValues = (typeof BaseCSSValues)[number]
 
   export const Aligns = ['flex-start', 'center', 'flex-end', 'stretch', 'baseline'] as const
-  export type Aligns = typeof Aligns[number] | BaseCSSValues
+  export type Aligns = (typeof Aligns)[number] | BaseCSSValues
 
   export const Directions = ['row', 'row-reverse', 'column', 'column-reverse'] as const
-  export type Directions = typeof Directions[number] | BaseCSSValues
+  export type Directions = (typeof Directions)[number] | BaseCSSValues
 
   export const Justifies = [
     'flex-start',
@@ -28,7 +28,7 @@ export namespace StackNS {
     'space-between',
     'space-around',
   ] as const
-  export type Justifies = typeof Justifies[number] | BaseCSSValues
+  export type Justifies = (typeof Justifies)[number] | BaseCSSValues
 
   export interface Props extends BaseComponent {
     align?: Aligns

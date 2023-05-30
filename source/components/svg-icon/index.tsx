@@ -1,8 +1,8 @@
-import React, { ClassAttributes, forwardRef, SVGAttributes } from 'react'
+import React, { type ClassAttributes, forwardRef, type SVGAttributes } from 'react'
 import { useZoomComponent } from '../../hooks'
-import { BaseCustomComponent } from '../../types'
+import { type BaseCustomComponent } from '../../types'
 
-import { Color } from '../../types/color'
+import { type Color } from '../../types/color'
 import { color as generateColor, colorFnToColor } from '../../utils'
 
 export namespace SVGIconNS {
@@ -14,7 +14,7 @@ export namespace SVGIconNS {
     'sort-ascending',
     'not-sorted',
   ] as const
-  export type SVGIconNames = typeof SVGIconNames[number]
+  export type SVGIconNames = (typeof SVGIconNames)[number]
 
   export interface Props
     extends BaseCustomComponent<Omit<SVGAttributes<SVGSVGElement>, 'color' | 'size' | 'name'>> {

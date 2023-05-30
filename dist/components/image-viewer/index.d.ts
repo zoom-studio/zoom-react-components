@@ -1,6 +1,7 @@
-import React, { ReactElement, ReactNode } from 'react';
-import { IReactToPrintProps } from 'react-to-print';
-import { BaseComponent } from '../../types';
+import React, { type ReactElement, type ReactNode } from 'react';
+import { type IReactToPrintProps } from 'react-to-print';
+import { type BaseComponent } from '../../types';
+import { type UseImageViewerI18nNS } from './use-i18n';
 export declare namespace ImageViewerNS {
     interface ChildrenCallbackParams {
         openImageViewer: () => void;
@@ -11,18 +12,7 @@ export declare namespace ImageViewerNS {
         source: string;
         name: string;
     }
-    interface I18n {
-        closeTooltip?: string;
-        zoomInTooltip?: string;
-        zoomOutTooltip?: string;
-        downloadTooltip?: string;
-        printTooltip?: string;
-        deleteTooltip?: string;
-        deletePopConfirmTitle: string;
-        deletePopConfirmDescription?: string;
-        deletePopConfirmSubmitButton?: string;
-        deletePopConfirmCancelButton?: string;
-    }
+    type I18n = UseImageViewerI18nNS.I18n;
     interface PrintSettings extends Omit<IReactToPrintProps, 'content' | 'onBeforePrint'> {
         content: (activeImage: Image) => ReactElement;
     }
@@ -47,6 +37,7 @@ export declare namespace ImageViewerNS {
         onWillNavigate?: (type: NavigateTypes) => void;
         onWillClose?: () => void;
         onWillDoubleClick?: () => void;
+        i18n?: I18n;
     }
 }
 export declare const ImageViewer: React.ForwardRefExoticComponent<ImageViewerNS.Props & React.RefAttributes<HTMLDivElement>>;

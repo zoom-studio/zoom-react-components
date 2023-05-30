@@ -1,5 +1,5 @@
-import { FC, MutableRefObject } from 'react';
-import { TourNS } from '.';
+import { type FC, type MutableRefObject } from 'react';
+import { type TourNS } from '.';
 export declare namespace StepsNS {
     interface Props extends Omit<TourNS.Props, 'children'> {
         startTourRef: MutableRefObject<null | TourNS.ChildrenCallbackParams['startTour']>;

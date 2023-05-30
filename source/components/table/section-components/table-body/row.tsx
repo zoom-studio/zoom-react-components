@@ -1,11 +1,11 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { type CSSProperties, type FC } from 'react'
 
-import { Row, flexRender } from '@tanstack/react-table'
+import { type Row, flexRender } from '@tanstack/react-table'
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Collapse, TableNS } from '../../..'
+import { Collapse, type TableNS } from '../../..'
 
-import { UseTableInfiniteScrollNS, useTableInfiniteScroll } from '../../use-infinite-scroll'
+import { UseTableInfiniteScrollNS, type useTableInfiniteScroll } from '../../use-infinite-scroll'
 
 export namespace TableBodyRowNS {
   export interface Props

@@ -1,16 +1,16 @@
 import React, {
   cloneElement,
-  ComponentProps,
-  PropsWithChildren,
-  RefObject,
+  type ComponentProps,
+  type PropsWithChildren,
+  type RefObject,
   useCallback,
 } from 'react'
 
-import AutoSizer, { AutoSizerProps } from 'react-virtualized-auto-sizer'
-import { FixedSizeGrid, FixedSizeGridProps, GridChildComponentProps } from 'react-window'
+import AutoSizer, { type Props as AutoSizerProps, type Size } from 'react-virtualized-auto-sizer'
+import { FixedSizeGrid, type FixedSizeGridProps, type GridChildComponentProps } from 'react-window'
 
-import { VirtualizedScrollViewNS } from '..'
-import { ScrollView, ScrollViewNS } from '../..'
+import { type VirtualizedScrollViewNS } from '..'
+import { ScrollView, type ScrollViewNS } from '../..'
 import { useZoomComponent, useZoomContext } from '../../../hooks'
 
 export namespace FixedGridVirtualizedScrollViewNS {
@@ -100,7 +100,9 @@ export function FixedGridVirtualizedScrollView<DataType extends unknown[][] = un
 
   return width === 'auto' || height === 'auto' ? (
     <AutoSizer {...autoSizerProps}>
-      {({ width, height }) => <FixedSizeGrid {...getProps(width, height)} key={height + width} />}
+      {({ width, height }: Size) => (
+        <FixedSizeGrid {...getProps(width, height)} key={height + width} />
+      )}
     </AutoSizer>
   ) : (
     <FixedSizeGrid {...getProps(width, height)} />

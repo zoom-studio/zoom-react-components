@@ -4,10 +4,10 @@ import {
   useVariable,
   usernameRegEx as usernameRegularExpression,
 } from '@zoom-studio/zoom-js-ts-utils'
-import { BaseRange, Range } from 'slate'
+import { type BaseRange, Range } from 'slate'
 
-import { RichTextEditorMakerProviderNS } from '../provider'
-import { RichTextEditorMakerNS } from '../types'
+import { type RichTextEditorMakerProviderNS } from '../provider'
+import { type RichTextEditorMakerNS } from '../types'
 import { EditorCurrentWord } from '.'
 
 export namespace UseMentionNS {

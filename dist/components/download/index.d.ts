@@ -1,7 +1,10 @@
-import { FC, ReactNode } from 'react';
-import { UseDownloadNS } from '@zoom-studio/zoom-js-ts-utils';
+import { type FC, type ReactNode } from 'react';
+import { type UseDownloadNS } from '@zoom-studio/zoom-js-ts-utils';
 export declare namespace DownloadNS {
     interface ChildrenCallbackParams {
+        total: number;
+        received: number;
+        progress: number;
         isDownloading: boolean;
         startDownload: () => void;
     }

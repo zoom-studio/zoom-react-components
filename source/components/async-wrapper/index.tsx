@@ -1,6 +1,6 @@
-import React, { DependencyList, useEffect, useState } from 'react'
+import React, { type DependencyList, useEffect, useState } from 'react'
 
-import { AsyncFunction } from '@zoom-studio/zoom-js-ts-utils'
+import { type AsyncFunction } from '@zoom-studio/zoom-js-ts-utils'
 
 export namespace AsyncWrapperNS {
   export interface ChildrenCallbackParams<Processor extends AsyncFunction> {

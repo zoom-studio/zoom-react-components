@@ -1,7 +1,7 @@
 import { useVariable } from '@zoom-studio/zoom-js-ts-utils'
 
-import { EmojiNS, IconNS } from '../components'
-import { CommonVariants } from '../types'
+import { type EmojiNS, type IconNS } from '../components'
+import { type CommonVariants } from '../types'
 
 export namespace UseStatedIcon {
   export interface Params {

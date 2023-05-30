@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { Popover, PopoverNS } from '../popover'
+import { Popover, type PopoverNS } from '../popover'
 
 export namespace TooltipNS {
   export interface Props extends Pick<PopoverNS.Props, 'placement' | 'hoverDelay'> {

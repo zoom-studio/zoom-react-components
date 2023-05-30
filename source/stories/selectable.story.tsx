@@ -1,9 +1,9 @@
-import React, { FC, MouseEvent } from 'react'
+import React, { type FC, type MouseEvent } from 'react'
 
 import { faker as Faker } from '@faker-js/faker'
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Image, Selectable, SelectableNS, Text } from '../components'
+import { Image, Selectable, type SelectableNS, Text } from '../components'
 import { color } from '../utils'
 import { CommonStory, StoryPlayground } from './components'
 import { useFaker } from './hooks/use-faker'
@@ -78,7 +78,7 @@ export default {
     onClick: undefined,
     style: undefined,
   },
-} as ComponentMeta<typeof Selectable>
+} as Meta<typeof Selectable>
 
 export const Tolerance = () => {
   const { dataset, renderChildren } = useSelectableStory()

@@ -1,6 +1,6 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { Image, SVGIcon, Text, ExplorerNS } from '..'
+import { Image, SVGIcon, Text, type ExplorerNS } from '..'
 import { getFileTypeColors, isImage } from '../explorer/utils'
 
 export namespace UploaderFilePreviewNS {

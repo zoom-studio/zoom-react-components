@@ -1,6 +1,6 @@
-import React, { FunctionComponentElement, ReactNode, RefObject } from 'react';
-import { MenuNS } from '..';
-import { BaseComponent } from '../../types';
+import React, { type FunctionComponentElement, type ReactNode, type RefObject } from 'react';
+import { type MenuNS } from '..';
+import { type BaseComponent } from '../../types';
 export declare namespace ContextMenuNS {
     type Menu = FunctionComponentElement<MenuNS.Props> | null;
     interface Props extends Omit<BaseComponent, 'reference'> {

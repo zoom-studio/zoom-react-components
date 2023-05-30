@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 
-import timeShifter, { Toast as TimeShiftType } from 'react-hot-toast'
+import timeShifter, { type Toast as TimeShiftType } from 'react-hot-toast'
 
-import { Button, ButtonNS, Icon, Title } from '../..'
+import { Button, type ButtonNS, Icon, Title } from '../..'
 import { useZoomComponent } from '../../../hooks'
 import { DEFAULT_TIME_SHIFT_DURATION } from '../constants'
 

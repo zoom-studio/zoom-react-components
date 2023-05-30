@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { EmojiNS } from '../../..';
+import { type FC } from 'react';
+import { type EmojiNS } from '../../..';
 export declare namespace EmojiInserterPopoverNS {
     interface Props {
         onSelect: (emojiName: EmojiNS.Emojis.Names) => void;

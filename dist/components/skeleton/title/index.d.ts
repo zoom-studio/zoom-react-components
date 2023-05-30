@@ -1,6 +1,6 @@
 import React from 'react';
-import { Range } from '@zoom-studio/zoom-js-ts-utils';
-import { SkeletonNS } from '..';
+import { type Range } from '@zoom-studio/zoom-js-ts-utils';
+import { type SkeletonNS } from '..';
 export declare namespace TitleSkeletonNS {
     interface Props extends SkeletonNS.BaseProps {
         tagLevel?: Range<1, 7>;

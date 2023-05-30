@@ -1,9 +1,9 @@
-import { KeyboardEvent, useCallback } from 'react'
+import { type KeyboardEvent, useCallback } from 'react'
 
-import { RichTextEditorMakerNS } from '../types'
+import { type RichTextEditorMakerNS } from '../types'
 
 import { Element, Node, Path } from 'slate'
-import { RichUtils, useEditorContext } from '.'
+import { type RichUtils, useEditorContext } from '.'
 
 export namespace UseAcceleratorsNS {
   export interface Params extends Pick<RichTextEditorMakerNS.Props, 'collapseOnEscape'> {

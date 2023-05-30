@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { IconNS } from '..';
+import { type FC } from 'react';
+import { type IconNS } from '..';
 export declare namespace EditorActionButtonNS {
     interface Props {
         icon: IconNS.Names;

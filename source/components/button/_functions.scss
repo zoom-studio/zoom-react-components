@@ -1,6 +1,6 @@
 @function disabled-selector($with-and: null) {
   $and: if($with-and == true, '&', '');
-  @return '#{$and}:disabled, #{$and}[aria-disabled='true']';
+  @return '#{$and}:disabled, #{$and}[aria-disabled=' true ']';
 }
 
 @function translate-variant($variant) {

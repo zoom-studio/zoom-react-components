@@ -1,4 +1,4 @@
-import { ZoomProviderNS } from '../components';
+import { type ZoomProviderNS } from '../components';
 export declare namespace UseZoomContextNS {
     type ReturnType = Required<Omit<ZoomProviderNS.ProviderValue, 'children'>>;
 }

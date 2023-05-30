@@ -1,7 +1,7 @@
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { Button, IconNS, Tooltip } from '..'
+import { Button, type IconNS, Tooltip } from '..'
 
 export namespace EditorActionButtonNS {
   export interface Props {

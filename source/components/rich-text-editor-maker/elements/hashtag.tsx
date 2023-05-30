@@ -1,6 +1,6 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { RenderElementProps, useFocused, useSelected } from 'slate-react'
+import { type RenderElementProps, useFocused, useSelected } from 'slate-react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 

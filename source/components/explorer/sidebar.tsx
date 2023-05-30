@@ -1,17 +1,17 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import {
   Button,
-  ButtonNS,
+  type ButtonNS,
   Col,
-  ColNS,
+  type ColNS,
   Download,
-  ExplorerNS,
+  type ExplorerNS,
   Image,
   ImageEditorDialog,
-  ImageEditorNS,
+  type ImageEditorNS,
   PopConfirm,
   Row,
   ScrollView,
@@ -191,13 +191,17 @@ export const ExplorerSidebar: FC<ExplorerSidebarNS.Props> = ({
                       isImage(firstSelectedFile.type) ? (isRTL ? 'top-start' : 'top-end') : 'top'
                     }
                     confirm={handlers => ({
-                      onClick: () => handleDeleteFile(handlers.closePopover),
+                      onClick: () => {
+                        handleDeleteFile(handlers.closePopover)
+                      },
                       children: i18n.confirmDelete,
                       variant: 'error',
                       loading: isDeletingFiles,
                     })}
                     cancel={handlers => ({
-                      onClick: () => handlers.closePopover(),
+                      onClick: () => {
+                        handlers.closePopover()
+                      },
                       children: i18n.cancelDelete,
                       variant: 'success',
                       type: 'link',

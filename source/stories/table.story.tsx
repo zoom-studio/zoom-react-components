@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Progress, Table, TableNS } from '../components'
-import { Person, makeTableData } from '../fixtures'
+import { Progress, Table, type TableNS } from '../components'
+import { type Person, makeTableData } from '../fixtures'
 import { useCustomFetch } from './hooks/use-custom-fetch'
 
 const useTableStory = (maxData = 400, itemsPerQuery = 20) => {
@@ -259,7 +259,9 @@ export const WithActions = () => {
       renderActionsBar={false}
       actions={[
         {
-          onClick: data => alert(JSON.stringify(data, null, 2)),
+          onClick: data => {
+            alert(JSON.stringify(data, null, 2))
+          },
           children: 'Alert data',
           type: 'bordered',
           style: { margin: 6 },
@@ -298,7 +300,9 @@ export const StickyActions = () => {
       stickyActions
       actions={[
         {
-          onClick: data => alert(JSON.stringify(data, null, 2)),
+          onClick: data => {
+            alert(JSON.stringify(data, null, 2))
+          },
           children: 'Alert data',
           type: 'bordered',
           style: { margin: 6 },
@@ -1164,12 +1168,14 @@ export default {
     style: undefined,
     actions: [
       {
-        onClick: data => alert(JSON.stringify(data, undefined, 2)),
+        onClick: data => {
+          alert(JSON.stringify(data, undefined, 2))
+        },
         children: 'Get row data',
       },
     ],
   },
-} as ComponentMeta<typeof Table>
+} as Meta<typeof Table>
 
 export const Playground: FC<TableNS.Props<Person[]>> = props => {
   const maxData = 400

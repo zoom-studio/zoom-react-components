@@ -1,8 +1,8 @@
-import { HTMLAttributes, RefObject } from 'react';
-import { InputNS, TypographyNS } from '..';
-import { BaseComponent, CommonSize, DataEntriesState } from '../../types';
-import { SelectGroupNS } from './group';
-import { SelectOptionNS } from './option';
+import React, { type HTMLAttributes, type RefObject } from 'react';
+import { type InputNS, type TypographyNS } from '..';
+import { type BaseComponent, type CommonSize, type DataEntriesState } from '../../types';
+import { type SelectGroupNS } from './group';
+import { type SelectOptionNS } from './option';
 export declare namespace SelectNS {
     type EmptyState = 'nothing-found' | 'empty-list' | false;
     type Option<Values extends SelectOptionNS.Value> = SelectGroupNS.Props<Values> & SelectOptionNS.Props<Values>;
@@ -11,9 +11,7 @@ export declare namespace SelectNS {
     type SingleSelectedOption<Values extends SelectOptionNS.Value> = [Values, Values?];
     type SelectValue = Pick<Option<SelectOptionNS.Value>, 'label' | 'value'>;
     type SelectOptions = (currentOptions: SelectNS.GroupedOptions, selectedOptions: SelectNS.SelectedOption) => SelectNS.GroupedOptions;
-    interface GroupedOptions {
-        [value: SelectOptionNS.Value]: SelectGroupNS.GroupedProps;
-    }
+    type GroupedOptions = Record<SelectOptionNS.Value, SelectGroupNS.GroupedProps>;
     interface Props<Values extends SelectOptionNS.Value> extends BaseComponent {
         options?: Option<Values>[];
         multiSelect?: boolean;
@@ -48,4 +46,4 @@ export declare namespace SelectNS {
         onWrite?: (values: Values[]) => void;
     }
 }
-export declare const Select: <Values extends SelectOptionNS.Value>({ size: providedSize, options: providedOptions, childRef: providedChildRef, dropdownRef: providedDropdownRef, searchQuery: providedSearchQuery, labelColon, disabledOnLoading, showSearch, state, optionsPerScroll, selectAllText, deselectAllText, nothingFoundText, emptyListText, scrollOnOpen, className, searchInputRef, reference, containerProps, defaultIsOpen, defaultValue, disabled, dropdownProps, label, loading, multiSelect, onChange, onWillClose, onWillOpen, onWrite, placeholder, searchInputProps, stateMessageProps, ...rest }: SelectNS.Props<Values>) => JSX.Element;
+export declare const Select: <Values extends SelectOptionNS.Value>({ size: providedSize, options: providedOptions, childRef: providedChildRef, dropdownRef: providedDropdownRef, searchQuery: providedSearchQuery, labelColon, disabledOnLoading, showSearch, state, optionsPerScroll, selectAllText, deselectAllText, nothingFoundText, emptyListText, scrollOnOpen, className, searchInputRef, reference, containerProps, defaultIsOpen, defaultValue, disabled, dropdownProps, label, loading, multiSelect, onChange, onWillClose, onWillOpen, onWrite, placeholder, searchInputProps, stateMessageProps, ...rest }: SelectNS.Props<Values>) => React.JSX.Element;

@@ -1,6 +1,6 @@
 import React from 'react';
-import { ButtonNS } from '..';
-import { MenuItemNS } from './menu-item';
+import { type ButtonNS } from '..';
+import { type MenuItemNS } from './menu-item';
 export declare namespace MenuNS {
     type Item = MenuItemNS.Item;
     interface Props extends Omit<ButtonNS.Props, 'href'>, Pick<MenuItemNS.Props, 'closeOnItemClick'> {

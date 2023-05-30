@@ -3,7 +3,7 @@ declare module 'react-rangeslider' {
     disabled?: boolean | undefined
     format?: ((value: number) => React.ReactNode) | undefined
     handleLabel?: React.ReactNode | undefined
-    labels?: { [value: number]: React.ReactNode } | undefined
+    labels?: Record<number, React.ReactNode> | undefined
     max?: number | undefined
     min?: number | undefined
     onChange?: (value: number) => void

@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
-import { EmojiNS, IconNS, ScrollViewNS } from '..';
-import { BaseComponent, Color } from '../../types';
+import React, { type ReactNode } from 'react';
+import { type EmojiNS, type IconNS, type ScrollViewNS } from '..';
+import { type BaseComponent, type Color } from '../../types';
 export declare namespace TabNS {
     interface TabWidth {
         min?: string | number;

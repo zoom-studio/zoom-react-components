@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { Spin, VirtualizedScrollView } from '../components'
 import { color } from '../utils'
@@ -10,7 +10,7 @@ export default {
   title: 'Layout/Virtualized Scroll view',
   component: VirtualizedScrollView.FixedList,
   args: {},
-} as ComponentMeta<typeof VirtualizedScrollView.FixedList>
+} as Meta<typeof VirtualizedScrollView.FixedList>
 
 const listChild = ({ index }: VirtualizedScrollView.FixedListNS.Child) => (
   <div

@@ -1,6 +1,6 @@
-import { ColumnDef, VisibilityState } from '@tanstack/react-table'
+import { type ColumnDef, type VisibilityState } from '@tanstack/react-table'
 
-import { TableNS } from './types'
+import { type TableNS } from './types'
 
 export const getAllHiddenColumns = (
   invisibleColumnIds: VisibilityState,

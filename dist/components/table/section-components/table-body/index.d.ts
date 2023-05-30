@@ -1,8 +1,8 @@
-import { FC, RefObject } from 'react';
-import { Row, Table } from '@tanstack/react-table';
-import { TableNS } from '../../types';
-import { useTableInfiniteScroll } from '../../use-infinite-scroll';
-import { UseTableRowsNS } from '../../use-table-rows';
+import { type FC, type RefObject } from 'react';
+import { type Row, type Table } from '@tanstack/react-table';
+import { type TableNS } from '../../types';
+import { type useTableInfiniteScroll } from '../../use-infinite-scroll';
+import { type UseTableRowsNS } from '../../use-table-rows';
 export declare namespace TableBodyNS {
     interface Props extends Pick<TableNS.Props, 'selectable' | 'renderRowExpanded' | 'toggleSelectOnRowClick' | 'infiniteScroll' | 'endMessage'>, Partial<Pick<ReturnType<typeof useTableInfiniteScroll>, 'lastRowRef'>> {
         rows: Row<unknown>[];

@@ -1,4 +1,4 @@
-import { CommonVariants } from '../../types';
+import { type CommonVariants } from '../../types';
 export declare namespace UseMessageNS {
     interface BaseMessageParams {
         destroy: (toastId: string) => void;

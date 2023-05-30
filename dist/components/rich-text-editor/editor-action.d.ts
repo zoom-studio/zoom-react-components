@@ -1,7 +1,7 @@
-import { FC } from 'react';
-import { IconNS, PopoverNS } from '..';
+import { type FC } from 'react';
+import { type IconNS, type PopoverNS } from '..';
 export declare namespace EditorActionNS {
-    interface Popover extends Pick<PopoverNS.Props, 'className' | 'onClose' | 'disabled' | 'content' | 'isOpen' | 'onOpenChange' | 'width'> {
+    interface Popover extends Pick<PopoverNS.Props, 'className' | 'onClose' | 'disabled' | 'content' | 'isOpen' | 'onOpenChange' | 'width' | 'placement'> {
     }
     interface Props {
         onClick?: () => void;

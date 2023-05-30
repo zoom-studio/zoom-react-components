@@ -1,10 +1,10 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Button, Image, ImageNS } from '../components'
-import { CommonStory, CommonStoryNS, StoryPlayground } from './components'
+import { CommonStory, type CommonStoryNS, StoryPlayground } from './components'
 
 import { useI18n } from './hooks/use-i18n'
 
@@ -17,7 +17,7 @@ export default {
     width: 200,
     height: 400,
   },
-} as ComponentMeta<typeof Image>
+} as Meta<typeof Image>
 
 const ImageStory: FC<Omit<ImageNS.Props, 'src'>> = props => {
   const { t } = useI18n('image')
@@ -31,7 +31,13 @@ const ImageStory: FC<Omit<ImageNS.Props, 'src'>> = props => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', rowGap: 10 }}>
-      <Button onClick={() => setKey(k => k + 1)}>{t('reGenerate')}</Button>
+      <Button
+        onClick={() => {
+          setKey(k => k + 1)
+        }}
+      >
+        {t('reGenerate')}
+      </Button>
       <Image key={key} {...getProps()} />
     </div>
   )

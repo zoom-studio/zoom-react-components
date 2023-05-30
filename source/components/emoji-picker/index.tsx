@@ -2,9 +2,9 @@ import React, { forwardRef, useMemo, useState } from 'react'
 
 import { chunk, drop, groupBy } from 'lodash'
 
-import { Emoji, EmojiNS, Icon, IconNS, Text, Tooltip, VirtualizedScrollView } from '..'
+import { Emoji, EmojiNS, Icon, type IconNS, Text, Tooltip, VirtualizedScrollView } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace EmojiPickerNS {
   export const CACHE_KEY = 'zoomrc-emoji-picker-history'
@@ -128,7 +128,12 @@ export const EmojiPicker = forwardRef<HTMLDivElement, EmojiPickerNS.Props>(
           : chunk(allEmojis[collection], emojisPerRow)
 
       return (
-        <div className="emojis" onMouseLeave={() => setHoveredEmoji(null)}>
+        <div
+          className="emojis"
+          onMouseLeave={() => {
+            setHoveredEmoji(null)
+          }}
+        >
           <VirtualizedScrollView.FixedGrid
             dataset={emojis}
             height="auto"
@@ -145,8 +150,12 @@ export const EmojiPicker = forwardRef<HTMLDivElement, EmojiPickerNS.Props>(
               return (
                 <span
                   className="emoji-item"
-                  onMouseOver={() => setHoveredEmoji(emojiName)}
-                  onClick={() => handleSelectEmoji(emojiName)}
+                  onMouseOver={() => {
+                    setHoveredEmoji(emojiName)
+                  }}
+                  onClick={() => {
+                    handleSelectEmoji(emojiName)
+                  }}
                 >
                   <Emoji name={emojiName} />
                 </span>
@@ -164,7 +173,9 @@ export const EmojiPicker = forwardRef<HTMLDivElement, EmojiPickerNS.Props>(
             <Tooltip key={index} title={getCollectionName(item.collection)}>
               <span
                 className={`header-item${item.collection === collection ? ' active' : ''}`}
-                onClick={() => setCollection(item.collection)}
+                onClick={() => {
+                  setCollection(item.collection)
+                }}
               >
                 <Icon name={item.icon} />
               </span>

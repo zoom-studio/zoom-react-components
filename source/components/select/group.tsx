@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { Button, Title } from '..'
 import { useZoomComponent } from '../../hooks'
-import { SelectOption, SelectOptionNS } from './option'
+import { SelectOption, type SelectOptionNS } from './option'
 import { filterLabel } from './utils'
 
 export namespace SelectGroupNS {
@@ -18,9 +18,7 @@ export namespace SelectGroupNS {
     options?: SelectOptionNS.GroupedOptions
   }
 
-  export interface GroupedSelectedOptions {
-    [parentValue: SelectOptionNS.Value]: SelectOptionNS.Value[]
-  }
+  export type GroupedSelectedOptions = Record<SelectOptionNS.Value, SelectOptionNS.Value[]>
 
   export interface InnerProps {
     onSelect: (option: GroupedSelectedOptions) => void

@@ -2,9 +2,9 @@ import React, { Fragment, forwardRef, useRef, useState } from 'react'
 
 import { classNames, useFutureEffect, useVariable } from '@zoom-studio/zoom-js-ts-utils'
 
-import { ScrollView, ScrollViewNS } from '..'
+import { ScrollView, type ScrollViewNS } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 import { CellInput } from './cell-input'
 import { ColActions } from './col-actions'

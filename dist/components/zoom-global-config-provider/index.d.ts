@@ -1,7 +1,7 @@
-import React, { FC, ReactNode } from 'react';
-import { logs } from '../../constants';
-import { ImageViewerNS, EmojiPickerNS, TourNS, RichTextEditorNS, ImageEditorNS, ExplorerNS, UploaderNS, TableNS } from '..';
-export declare namespace ZoomLogProviderNS {
+import React, { type FC, type ReactNode } from 'react';
+import { type logs } from '../../constants';
+import { type ImageViewerNS, type EmojiPickerNS, type TourNS, type RichTextEditorNS, type ImageEditorNS, type ExplorerNS, type UploaderNS, type TableNS } from '..';
+export declare namespace ZoomGlobalConfigProviderNS {
     type Error = string | object;
     type Log = (description: logs, error?: Error | undefined) => undefined;
     interface ProviderValue extends Pick<Props, 'globalErrors' | 'globalI18ns'> {
@@ -26,6 +26,6 @@ export declare namespace ZoomLogProviderNS {
         };
     }
 }
-declare const ZoomLogContext: React.Context<ZoomLogProviderNS.ProviderValue>;
-export declare const ZoomLogProvider: FC<ZoomLogProviderNS.Props>;
-export { ZoomLogContext as zoomLogContext };
+declare const ZoomGlobalConfigContext: React.Context<ZoomGlobalConfigProviderNS.ProviderValue>;
+export declare const ZoomGlobalConfigProvider: FC<ZoomGlobalConfigProviderNS.Props>;
+export { ZoomGlobalConfigContext as zoomGlobalConfigContext };

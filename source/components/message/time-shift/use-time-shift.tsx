@@ -1,11 +1,11 @@
 import React from 'react'
 
 import toaster from 'react-hot-toast'
-import { useAudio, UseAudioNS } from '@zoom-studio/zoom-js-ts-utils'
+import { useAudio, type UseAudioNS } from '@zoom-studio/zoom-js-ts-utils'
 
-import { TimeShift, TimeShiftNS } from '../time-shift'
+import { TimeShift, type TimeShiftNS } from '../time-shift'
 import { DEFAULT_TIME_SHIFT_DURATION, TOASTER_CLASS_NAME } from '../constants'
-import { UseMessageNS } from '../use-message'
+import { type UseMessageNS } from '../use-message'
 
 export namespace UseTimeShiftNS {
   export type TimeShiftOptions = Omit<TimeShiftNS.Props, 'onShift' | 'message' | 'onShiftTitle'>
@@ -66,9 +66,17 @@ export const useTimeShift = (): UseTimeShiftNS.UseTimeShiftReturnType => {
 
   return {
     show: timeShift,
-    destroy: id => toaster.dismiss(id),
-    destroyAll: () => toaster.dismiss(),
-    terminate: id => toaster.remove(id),
-    terminateAll: () => toaster.remove(),
+    destroy: id => {
+      toaster.dismiss(id)
+    },
+    destroyAll: () => {
+      toaster.dismiss()
+    },
+    terminate: id => {
+      toaster.remove(id)
+    },
+    terminateAll: () => {
+      toaster.remove()
+    },
   }
 }

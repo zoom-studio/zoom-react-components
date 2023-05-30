@@ -1,7 +1,7 @@
-import { RefObject, useCallback, useEffect, useRef } from 'react'
+import { type RefObject, useCallback, useEffect, useRef } from 'react'
 
-import { ZoomGlobalConfigProviderNS } from '../../zoom-global-config-provider'
-import { TableNS } from '../types'
+import { type ZoomGlobalConfigProviderNS } from '../../zoom-global-config-provider'
+import { type TableNS } from '../types'
 
 export namespace UseTableInfiniteScrollNS {
   export const DEFAULT_THRESHOLD = 5

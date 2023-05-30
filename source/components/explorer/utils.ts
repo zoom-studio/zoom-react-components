@@ -1,4 +1,4 @@
-import { SelectNS } from '..'
+import { type SelectNS } from '..'
 
 import { ExplorerNS } from '.'
 import { color } from '../../utils'

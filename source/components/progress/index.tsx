@@ -1,18 +1,18 @@
-import React, { CSSProperties, forwardRef } from 'react'
+import React, { type CSSProperties, forwardRef } from 'react'
 
-import { MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Popover, PopoverNS } from '..'
+import { Popover, type PopoverNS } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent, Color as ColorType } from '../../types'
+import { type BaseComponent, type Color as ColorType } from '../../types'
 import { CircularProgress } from './circular'
 import { ProgressInfo } from './info'
 import { generateProgressColor, normalizePercentage } from './utils'
 
 export namespace ProgressNS {
   export const Types = ['horizontal', 'vertical', 'circular'] as const
-  export type Types = typeof Types[number]
-  export type Color = [ColorType, { [percentage: number | string]: ColorType }?]
+  export type Types = (typeof Types)[number]
+  export type Color = [ColorType, Record<number | string, ColorType>?]
   export type Size = string | number
 
   export interface Step {
@@ -90,7 +90,7 @@ export const Progress = forwardRef<HTMLDivElement, ProgressNS.Props>(
     }
 
     const isVertical = type === 'vertical'
-    const defaultPercentage = 100 / steps.length
+    const defaultPercentage = 0
     const { createClassName } = useZoomComponent('progress')
 
     const waveClasses = createClassName('', 'wave')

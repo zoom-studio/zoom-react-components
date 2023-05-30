@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react';
-import { Toast as NotificationType } from 'react-hot-toast';
-import { ButtonNS } from '../..';
-import { UseStatedIcon } from '../../../hooks';
-import { CommonVariants } from '../../../types';
+import React, { type ReactNode } from 'react';
+import { type Toast as NotificationType } from 'react-hot-toast';
+import { type ButtonNS } from '../..';
+import { type UseStatedIcon } from '../../../hooks';
+import { type CommonVariants } from '../../../types';
 export declare namespace NotificationNS {
     type Action = ButtonNS.Props | ((notificationId: string) => ButtonNS.Props);
     interface Props extends Omit<UseStatedIcon.Params, 'variant'> {

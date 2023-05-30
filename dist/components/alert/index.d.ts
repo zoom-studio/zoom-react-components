@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
-import { ButtonNS } from '..';
-import { UseStatedIcon } from '../../hooks';
-import { BaseComponent, CommonVariants } from '../../types';
+import React, { type ReactNode } from 'react';
+import { type ButtonNS } from '..';
+import { type UseStatedIcon } from '../../hooks';
+import { type BaseComponent, type CommonVariants } from '../../types';
 export declare namespace AlertNS {
     type Identifier = string | number;
     interface HandlerCallbackParams extends Pick<Props, 'identifier'> {

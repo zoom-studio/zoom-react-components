@@ -1,7 +1,7 @@
 import React from 'react';
-import { SkeletonNS } from '..';
-import { ButtonNS } from '../..';
-import { CommonSize } from '../../../types';
+import { type SkeletonNS } from '..';
+import { type ButtonNS } from '../..';
+import { type CommonSize } from '../../../types';
 export declare namespace FormSkeletonNS {
     interface Size {
         width?: string | number;

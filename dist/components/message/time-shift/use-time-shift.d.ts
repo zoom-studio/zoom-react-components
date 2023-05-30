@@ -1,5 +1,5 @@
-import { TimeShiftNS } from '../time-shift';
-import { UseMessageNS } from '../use-message';
+import { type TimeShiftNS } from '../time-shift';
+import { type UseMessageNS } from '../use-message';
 export declare namespace UseTimeShiftNS {
     type TimeShiftOptions = Omit<TimeShiftNS.Props, 'onShift' | 'message' | 'onShiftTitle'>;
     type TimeShiftCreator = (message: string, onShiftTitle: string, onShift: TimeShiftNS.Props['onShift'], opt?: TimeShiftOptions) => string;

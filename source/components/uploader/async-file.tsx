@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { type FC, useEffect, useState } from 'react'
 
-import { UploaderNS } from '.'
+import { type UploaderNS } from '.'
 import { getFileInfo } from './utils'
 
 export namespace AsyncUploaderFileNS {

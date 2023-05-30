@@ -1,6 +1,6 @@
 import { URLRegEx } from '@zoom-studio/zoom-js-ts-utils'
 
-import { RichTextEditorMakerNS } from '../types'
+import { type RichTextEditorMakerNS } from '../types'
 import { RichUtils } from '../utils'
 
 export const withPasteURL = (editor: RichTextEditorMakerNS.Editor) => {
@@ -12,7 +12,8 @@ export const withPasteURL = (editor: RichTextEditorMakerNS.Editor) => {
 
     if (plainURL && URLRegEx.test(plainURL)) {
       if (richUtils.isRangeSelected()) {
-        return richUtils.insertLink({ url: plainURL })
+        richUtils.insertLink({ url: plainURL })
+        return
       }
       richUtils.insertLink({ url: plainURL })
     }

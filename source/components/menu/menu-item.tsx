@@ -1,11 +1,11 @@
-import React, { FC, MouseEvent } from 'react'
+import React, { type FC, type MouseEvent } from 'react'
 
 import { MenuItem as MenuItemComponent } from 'react-menu-list'
 
 import { Icon } from '..'
 import { useZoomComponent } from '../../hooks'
 import { ConditionalWrapper } from '../conditional-wrapper'
-import { CustomLink, CustomLinkNS } from '../custom-link'
+import { CustomLink, type CustomLinkNS } from '../custom-link'
 
 export namespace MenuItemNS {
   export interface Item {

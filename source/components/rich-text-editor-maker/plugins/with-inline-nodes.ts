@@ -1,4 +1,4 @@
-import { RichTextEditorMakerNS } from '../types'
+import { type RichTextEditorMakerNS } from '../types'
 
 export const withInlineNodes = (editor: RichTextEditorMakerNS.Editor) => {
   const { isInline, isVoid, markableVoid } = editor

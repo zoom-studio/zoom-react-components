@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { AlertNS, ExplorerNS } from '..';
-import { UseExplorerI18nNS } from './use-i18n';
+import { type FC } from 'react';
+import { type AlertNS, type ExplorerNS } from '..';
+import { type UseExplorerI18nNS } from './use-i18n';
 export declare namespace ExplorerContentNS {
     interface Props extends Pick<ExplorerNS.Props, 'filterTypes' | 'disabled'> {
         selectable: boolean;

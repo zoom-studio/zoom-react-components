@@ -1,2 +1,2 @@
-import { UploaderNS } from '.';
+import { type UploaderNS } from '.';
 export declare const getFileInfo: (file: File | UploaderNS.FileInterface) => Promise<UploaderNS.FileInterface>;

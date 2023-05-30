@@ -1,11 +1,11 @@
-import React, { FC, ReactNode, Dispatch, SetStateAction } from 'react';
-import { CustomLinkNS } from '../custom-link';
-import { CommonSize } from '../../types';
+import React, { type FC, type ReactNode, type Dispatch, type SetStateAction } from 'react';
+import { type CustomLinkNS } from '../custom-link';
+import { type CommonSize } from '../../types';
 export declare namespace ZoomProviderNS {
     const Themes: readonly ["dark", "dark-high-contrast", "light", "light-high-contrast"];
-    type Themes = typeof Themes[number];
+    type Themes = (typeof Themes)[number];
     const Digits: readonly ["farsi", "latin"];
-    type Digits = typeof Digits[number];
+    type Digits = (typeof Digits)[number];
     interface ProviderValue {
         theme?: Themes;
         digits?: Digits;

@@ -1,7 +1,8 @@
-import React, { ComponentProps, PropsWithChildren, RefObject } from 'react';
-import { AutoSizerProps } from 'react-virtualized-auto-sizer';
-import { FixedSizeList, FixedSizeListProps, ListChildComponentProps } from 'react-window';
-import { VirtualizedScrollViewNS } from '..';
+import React, { type ComponentProps, type PropsWithChildren, type RefObject } from 'react';
+import { type Props as AutoSizerProps } from 'react-virtualized-auto-sizer';
+import { FixedSizeList, type FixedSizeListProps, type ListChildComponentProps } from 'react-window';
+import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils';
+import { type VirtualizedScrollViewNS } from '..';
 export declare namespace FixedListVirtualizedScrollViewNS {
     type Ref = FixedSizeList<any>;
     type PropsGetter<DataType extends unknown[] = unknown[]> = (width: number | string, height: number | string) => FixedSizeListProps<DataType>;
@@ -13,8 +14,8 @@ export declare namespace FixedListVirtualizedScrollViewNS {
     interface Props<DataType extends unknown[] = unknown[]> extends Omit<ComponentProps<typeof FixedSizeList>, 'children' | 'itemData' | 'outerElementType' | 'direction' | 'width' | 'height'>, VirtualizedScrollViewNS.Props {
         dataset?: DataType;
         reference?: RefObject<Ref | undefined>;
-        width: 'auto' | number | (string & {});
-        height: 'auto' | number | (string & {});
+        width: MaybeString<'auto'> | number;
+        height: MaybeString<'auto'> | number;
         autoSizerProps?: Omit<AutoSizerProps, 'children'>;
     }
     interface PropsObject<DataType extends unknown[] = unknown[]> extends Omit<PropsWithChildren<Props<DataType>>, 'children'> {

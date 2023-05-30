@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { type FC, type ReactNode, useState } from 'react'
 import { ButtonGroup, Text } from '../../../components'
 import { useI18n } from '../../hooks/use-i18n'
 
@@ -51,8 +51,18 @@ export const WithNumberStory: FC<WithNumberStoryNS.Props> = ({
         <ButtonGroup
           buttonsProps={{ type: 'dashed' }}
           buttons={[
-            { children: increaseTitle, onClick: () => setNumber(increase) },
-            { children: decreaseTitle, onClick: () => setNumber(decrease) },
+            {
+              children: increaseTitle,
+              onClick: () => {
+                setNumber(increase)
+              },
+            },
+            {
+              children: decreaseTitle,
+              onClick: () => {
+                setNumber(decrease)
+              },
+            },
           ]}
         />
 

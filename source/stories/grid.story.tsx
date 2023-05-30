@@ -1,8 +1,8 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Col, ColNS, Container, Row } from '../components'
+import { Col, type ColNS, Container, Row } from '../components'
 import { color } from '../utils'
 import { CommonStory } from './components'
 import { lorem } from '../fixtures'
@@ -10,7 +10,7 @@ import { lorem } from '../fixtures'
 export default {
   title: 'Layout/Grid',
   component: Col,
-} as ComponentMeta<typeof Col>
+} as Meta<typeof Col>
 
 const Child: FC<{ children?: ReactNode }> = ({ children }) => (
   <div

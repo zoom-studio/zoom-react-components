@@ -1,8 +1,8 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { type CSSProperties, type FC } from 'react'
 
-import { flexRender, Table } from '@tanstack/react-table'
+import { flexRender, type Table } from '@tanstack/react-table'
 
-import { TableNS } from '../../types'
+import { type TableNS } from '../../types'
 import { Spin } from '../../..'
 
 export namespace TableFooterNS {

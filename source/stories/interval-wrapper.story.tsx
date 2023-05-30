@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { IntervalWrapper, IntervalWrapperNS, Spin, Title } from '../components'
+import { IntervalWrapper, type IntervalWrapperNS, Spin, Title } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { color } from '../utils'
 
@@ -24,7 +24,7 @@ export default {
     loader,
     strategy: 'toggle',
   },
-} as ComponentMeta<typeof IntervalWrapper>
+} as Meta<typeof IntervalWrapper>
 
 export const Strategies = () => {
   return (

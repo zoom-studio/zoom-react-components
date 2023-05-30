@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { ExplorerNS } from '../..';
+import { type FC } from 'react';
+import { type ExplorerNS } from '../..';
 export declare namespace ExplorerFilesSkeletonsNS {
     interface Props {
         viewMode: ExplorerNS.ViewMode;

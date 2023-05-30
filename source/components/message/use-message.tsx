@@ -1,4 +1,4 @@
-import { CommonVariants } from '../../types'
+import { type CommonVariants } from '../../types'
 
 import { useNotification } from './notification/use-notification'
 import { useTimeShift } from './time-shift/use-time-shift'

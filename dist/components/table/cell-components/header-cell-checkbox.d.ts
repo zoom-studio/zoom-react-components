@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { Table } from '@tanstack/react-table';
-import { UseTableI18nNS } from '../use-i18n';
+import { type FC } from 'react';
+import { type Table } from '@tanstack/react-table';
+import { type UseTableI18nNS } from '../use-i18n';
 export declare namespace HeaderCellCheckboxNS {
     interface Props {
         table: Table<object>;

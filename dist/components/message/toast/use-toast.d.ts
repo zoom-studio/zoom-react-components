@@ -1,6 +1,6 @@
-import { CommonVariants } from '../../../types';
-import { ToastNS } from '.';
-import { UseMessageNS } from '../use-message';
+import { type CommonVariants } from '../../../types';
+import { type ToastNS } from '.';
+import { type UseMessageNS } from '../use-message';
 export declare namespace UseToastNS {
     type ToastOptions = Omit<ToastNS.Props, 'variant' | 'message' | 'thisToast'>;
     type ToastCreator = (message: string, variant: CommonVariants, opt?: ToastOptions) => string;

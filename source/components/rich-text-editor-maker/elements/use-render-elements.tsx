@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 
-import { RenderElementProps } from 'slate-react'
+import { type RenderElementProps } from 'slate-react'
 
 import {
   DefaultElement,

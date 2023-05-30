@@ -1,26 +1,26 @@
 import React, {
-  FC,
-  ReactNode,
+  type FC,
+  type ReactNode,
   useEffect,
   createContext,
   useState,
-  Dispatch,
-  SetStateAction,
+  type Dispatch,
+  type SetStateAction,
 } from 'react'
 
 import { Message } from '../message'
 import { AlertProvider } from '../alert/provider'
 
-import { CustomLinkNS } from '../custom-link'
-import { CommonSize } from '../../types'
+import { type CustomLinkNS } from '../custom-link'
+import { type CommonSize } from '../../types'
 import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace ZoomProviderNS {
   export const Themes = ['dark', 'dark-high-contrast', 'light', 'light-high-contrast'] as const
-  export type Themes = typeof Themes[number]
+  export type Themes = (typeof Themes)[number]
 
   export const Digits = ['farsi', 'latin'] as const
-  export type Digits = typeof Digits[number]
+  export type Digits = (typeof Digits)[number]
 
   export interface ProviderValue {
     theme?: Themes

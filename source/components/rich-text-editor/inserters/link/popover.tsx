@@ -1,7 +1,7 @@
-import React, { Dispatch, FC, FormEvent, SetStateAction } from 'react'
+import React, { type Dispatch, type FC, type FormEvent, type SetStateAction } from 'react'
 
-import { RichTextEditorNS } from '../..'
-import { Button, Checkbox, Input, RichTextEditorMakerNS, Stack } from '../../..'
+import { type RichTextEditorNS } from '../..'
+import { Button, Checkbox, Input, type RichTextEditorMakerNS, Stack } from '../../..'
 
 export namespace LinkInserterPopoverNS {
   export interface Props extends Pick<RichTextEditorNS.Props, 'enableAdvancedLinkInserter'> {

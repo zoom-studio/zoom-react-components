@@ -1,17 +1,17 @@
-import React, { FC, ReactNode, useEffect } from 'react'
+import React, { type FC, type ReactNode, useEffect } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { CommonStory, StoryPlayground, WithButtonsStory } from './components'
 
 import { COMMON_VARIANTS } from '../constants'
 import { useI18n } from './hooks/use-i18n'
 
-import { ButtonNS, useMessage } from '..'
+import { type ButtonNS, useMessage } from '..'
 
 import { DEFAULT_NOTIFICATION_DURATION } from '../components/message/constants'
-import { Notification, NotificationNS } from '../components/message/notification'
-import { UseNotificationNS } from '../components/message/notification/use-notification'
+import { Notification, type NotificationNS } from '../components/message/notification'
+import { type UseNotificationNS } from '../components/message/notification/use-notification'
 
 interface NotificationStoryProps {
   children?: (notification: UseNotificationNS.UseNotificationReturnType) => ReactNode
@@ -65,7 +65,7 @@ export default {
     playSound: true,
     variant: 'neutral',
   },
-} as ComponentMeta<typeof Notification>
+} as Meta<typeof Notification>
 
 export const Variants: FC = () => {
   const { t } = useI18n('notification')
@@ -135,7 +135,9 @@ export const WithSomeActions: FC = () => {
     notificationId => ({
       children: t('dismiss'),
       variant: 'error',
-      onClick: () => notify.destroy(notificationId),
+      onClick: () => {
+        notify.destroy(notificationId)
+      },
     }),
   ]
 
@@ -398,9 +400,16 @@ export const UpdateExistNotify: FC = () => {
       onMount={reset}
       defaultButtons={{}}
       moreButtons={notify => [
-        { onClick: () => reset(notify), children: 'Push new or reset to default' },
         {
-          onClick: () => update(notify),
+          onClick: () => {
+            reset(notify)
+          },
+          children: 'Push new or reset to default',
+        },
+        {
+          onClick: () => {
+            update(notify)
+          },
           children: 'Push new or update the exist',
         },
       ]}

@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Avatar, AvatarNS } from '../components'
+import { Avatar, type AvatarNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 
 const generateProfile = (length = 1): string[] =>
@@ -18,7 +18,7 @@ export default {
     containerProps: {},
     withImageViewer: true,
   },
-} as ComponentMeta<typeof Avatar>
+} as Meta<typeof Avatar>
 
 export const Models = () => {
   return (

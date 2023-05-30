@@ -1,6 +1,6 @@
-import { MutableRefObject } from 'react'
+import { type MutableRefObject } from 'react'
 
-import { TableGeneratorNS, ZoomGlobalConfigProviderNS } from '../..'
+import { TableGeneratorNS, type ZoomGlobalConfigProviderNS } from '../..'
 import { logs } from '../../constants'
 
 export namespace UseTableGeneratorDomNS {
@@ -18,7 +18,8 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
     const { current: table } = tableRef
 
     if (!table) {
-      return sendLog(logs.tableGeneratorTableRefNotFound, logDescription)
+      sendLog(logs.tableGeneratorTableRefNotFound, logDescription)
+      return
     }
     callback?.(table)
 
@@ -31,7 +32,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
         `.${TableGeneratorNS.CLASS_NAMES.colActions}.active`,
       )
 
-      currentActiveColActions.forEach(colAction => colAction.classList.remove('active'))
+      currentActiveColActions.forEach(colAction => {
+        colAction.classList.remove('active')
+      })
     })
   }
 
@@ -40,7 +43,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
       const currentActiveRowActions = table.querySelectorAll(
         `.${TableGeneratorNS.CLASS_NAMES.rowActions}.active`,
       )
-      currentActiveRowActions.forEach(rowAction => rowAction.classList.remove('active'))
+      currentActiveRowActions.forEach(rowAction => {
+        rowAction.classList.remove('active')
+      })
     })
   }
 
@@ -64,7 +69,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
     getTable('unRemovalAllRemovalInputCells fn', table => {
       table
         .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.removal`)
-        .forEach(inputCell => inputCell.classList.remove('removal'))
+        .forEach(inputCell => {
+          inputCell.classList.remove('removal')
+        })
     })
   }
 
@@ -74,7 +81,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
         .querySelectorAll(
           `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-col-index="${colIndex}"]`,
         )
-        .forEach(inputCell => inputCell.classList.add('removal'))
+        .forEach(inputCell => {
+          inputCell.classList.add('removal')
+        })
     })
   }
 
@@ -84,7 +93,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
         .querySelectorAll(
           `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-row-index="${rowIndex}"]`,
         )
-        .forEach(inputCell => inputCell.classList.add('removal'))
+        .forEach(inputCell => {
+          inputCell.classList.add('removal')
+        })
     })
   }
 
@@ -92,7 +103,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
     getTable('removeAllMarkedAsAppendToLeftInputCells fn', table => {
       table
         .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.append-to-left`)
-        .forEach(inputCell => inputCell.classList.remove('append-to-left'))
+        .forEach(inputCell => {
+          inputCell.classList.remove('append-to-left')
+        })
     })
   }
 
@@ -100,7 +113,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
     getTable('removeAllMarkedAsAppendToRightInputCells fn', table => {
       table
         .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.append-to-right`)
-        .forEach(inputCell => inputCell.classList.remove('append-to-right'))
+        .forEach(inputCell => {
+          inputCell.classList.remove('append-to-right')
+        })
     })
   }
 
@@ -108,7 +123,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
     getTable('removeAllMarkedAsAppendToTopInputCells fn', table => {
       table
         .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.append-to-top`)
-        .forEach(inputCell => inputCell.classList.remove('append-to-top'))
+        .forEach(inputCell => {
+          inputCell.classList.remove('append-to-top')
+        })
     })
   }
 
@@ -116,7 +133,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
     getTable('removeAllMarkedAsAppendToBottomInputCells fn', table => {
       table
         .querySelectorAll(`.${TableGeneratorNS.CLASS_NAMES.inputCell}.append-to-bottom`)
-        .forEach(inputCell => inputCell.classList.remove('append-to-bottom'))
+        .forEach(inputCell => {
+          inputCell.classList.remove('append-to-bottom')
+        })
     })
   }
 
@@ -126,7 +145,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
         .querySelectorAll(
           `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-col-index="${colIndex}"]`,
         )
-        .forEach(inputCell => inputCell.classList.add('append-to-left'))
+        .forEach(inputCell => {
+          inputCell.classList.add('append-to-left')
+        })
     })
   }
 
@@ -136,7 +157,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
         .querySelectorAll(
           `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-col-index="${colIndex}"]`,
         )
-        .forEach(inputCell => inputCell.classList.add('append-to-right'))
+        .forEach(inputCell => {
+          inputCell.classList.add('append-to-right')
+        })
     })
   }
 
@@ -146,7 +169,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
         .querySelectorAll(
           `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-row-index="${rowIndex}"]`,
         )
-        .forEach(inputCell => inputCell.classList.add('append-to-top'))
+        .forEach(inputCell => {
+          inputCell.classList.add('append-to-top')
+        })
     })
   }
 
@@ -156,7 +181,9 @@ export const useTableGeneratorDOM = ({ sendLog, tableRef }: UseTableGeneratorDom
         .querySelectorAll(
           `.${TableGeneratorNS.CLASS_NAMES.inputCell}[data-row-index="${rowIndex}"]`,
         )
-        .forEach(inputCell => inputCell.classList.add('append-to-bottom'))
+        .forEach(inputCell => {
+          inputCell.classList.add('append-to-bottom')
+        })
     })
   }
 

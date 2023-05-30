@@ -1,7 +1,7 @@
 import { ListType, withLists as createWithLists, withListsReact } from '@prezly/slate-lists'
 import { Element } from 'slate'
 
-import { RichTextEditorMakerNS } from '../types'
+import { type RichTextEditorMakerNS } from '../types'
 
 const withListsPlugin = createWithLists({
   isConvertibleToListTextNode: node => Element.isElementType(node, 'paragraph'),

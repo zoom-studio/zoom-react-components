@@ -1,8 +1,8 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Alert, Collapse, CollapseNS } from '../components'
+import { Alert, Collapse, type CollapseNS } from '../components'
 import { WithButtonsStory } from './components'
 
 export default {
@@ -13,7 +13,7 @@ export default {
     transition: { property: 'all' },
     childHeight: 'auto-detect',
   },
-} as ComponentMeta<typeof Collapse>
+} as Meta<typeof Collapse>
 
 export const Playground: FC<CollapseNS.Props> = props => {
   const [expanded, setExpanded] = useState(!!props.expanded)
@@ -23,7 +23,9 @@ export const Playground: FC<CollapseNS.Props> = props => {
       groupedButtons={false}
       buttons={[
         {
-          onClick: () => setExpanded(expanded => !expanded),
+          onClick: () => {
+            setExpanded(expanded => !expanded)
+          },
           style: { margin: '0 0 20px 0' },
           children: expanded ? 'Collapse alert' : 'Expand alert',
         },

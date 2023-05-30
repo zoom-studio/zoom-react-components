@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 
-import { usePopover } from './use-popover'
+import { type usePopover } from './use-popover'
 
 export namespace UsePopoverContextNS {
   export type ContextType = ReturnType<typeof usePopover> | null

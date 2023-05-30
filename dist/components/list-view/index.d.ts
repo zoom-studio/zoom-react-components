@@ -1,7 +1,7 @@
-import { MouseEvent, ReactNode, RefObject } from 'react';
-import { BaseComponent } from '../../types';
-import { AvatarNS, BadgeNS, ButtonGroupNS, ButtonNS, CheckboxNS, ContextMenuNS, EmojiNS, IconNS, ImageNS, InfiniteScrollViewNS, RadioButtonNS, ScrollViewNS, SwitchNS } from '..';
-import { CustomLinkNS } from '../custom-link';
+import { type MouseEvent, type ReactNode, type RefObject } from 'react';
+import { type BaseComponent } from '../../types';
+import { type AvatarNS, type BadgeNS, type ButtonGroupNS, type ButtonNS, type CheckboxNS, type ContextMenuNS, type EmojiNS, type IconNS, type ImageNS, type InfiniteScrollViewNS, type RadioButtonNS, type ScrollViewNS, type SwitchNS } from '..';
+import { type CustomLinkNS } from '../custom-link';
 export declare namespace ListViewNS {
     type ImageProps = Pick<ImageNS.Props, 'lazy' | 'withImageViewer' | 'imageViewerOpenerIconSize' | 'imageViewerCustomImages' | 'shape' | 'imageViewerProps' | 'erroredStateIconFontSize'>;
     type AvatarProps = Pick<AvatarNS.Props, 'withImageViewer' | 'imageProps'>;
@@ -53,4 +53,4 @@ export declare namespace ListViewNS {
         hover?: boolean;
     }
 }
-export declare const ListView: <ContentType extends unknown = unknown>({ itemsContainerProps: providedItemsContainerProps, dataset, className, containerProps, reference, infiniteScroll, scrollViewProps, maxHeight, id, onClick, style, ...listViewItemProps }: ListViewNS.Props<ContentType>) => JSX.Element;
+export declare const ListView: <ContentType = unknown>({ itemsContainerProps: providedItemsContainerProps, dataset, className, containerProps, reference, infiniteScroll, scrollViewProps, maxHeight, id, onClick, style, ...listViewItemProps }: ListViewNS.Props<ContentType>) => JSX.Element;

@@ -1,11 +1,11 @@
-import { Dispatch, FC, RefObject, SetStateAction } from 'react';
-import { CropperRef } from 'react-advanced-cropper';
-import { ZoomLogProviderNS } from '../zoom-log-provider';
-import { ImageEditorNS } from '.';
+import { type Dispatch, type FC, type RefObject, type SetStateAction } from 'react';
+import { type CropperRef } from 'react-advanced-cropper';
+import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider';
+import { type ImageEditorNS } from '.';
 export declare namespace ResetChangesNS {
     interface Props {
         cropperRef: RefObject<CropperRef>;
-        sendLog: ZoomLogProviderNS.Log;
+        sendLog: ZoomGlobalConfigProviderNS.Log;
         i18n: Required<ImageEditorNS.I18n>;
         setAdjustments: Dispatch<SetStateAction<ImageEditorNS.Adjustments>>;
         confirmBeforeReset: boolean;

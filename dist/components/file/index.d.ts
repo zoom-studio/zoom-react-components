@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExplorerNS } from '../..';
-import { BaseComponent, CommonSize } from '../../types';
+import { type BaseComponent, type CommonSize } from '../../types';
 export declare namespace FileNS {
     interface DownloadableSettings {
         percentage: number;

@@ -1,13 +1,13 @@
-import React, { CSSProperties, forwardRef, ReactNode } from 'react'
+import React, { type CSSProperties, forwardRef, type ReactNode } from 'react'
 
-import { Emoji, EmojiNS, Icon, IconNS, Text } from '..'
+import { Emoji, type EmojiNS, Icon, type IconNS, Text } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
-import { BaseComponent, Color, CommonSize } from '../../types'
+import { type BaseComponent, type Color, type CommonSize } from '../../types'
 import { colorFnToColor } from '../../utils'
 
 export namespace BadgeNS {
   export const Direction = ['row', 'row-reverse', 'column', 'column-reverse'] as const
-  export type Direction = typeof Direction[number]
+  export type Direction = (typeof Direction)[number]
 
   export interface Props extends BaseComponent {
     direction?: Direction

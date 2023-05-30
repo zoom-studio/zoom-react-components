@@ -18,7 +18,7 @@ import {
 } from '..'
 import { CustomLink } from '../custom-link'
 
-import { ListViewNS } from '.'
+import { type ListViewNS } from '.'
 
 export namespace ListViewItemNS {
   export interface Props<ContentType>
@@ -40,7 +40,7 @@ export namespace ListViewItemNS {
   }
 }
 
-export const ListViewItem = <ContentType extends unknown = unknown>({
+export const ListViewItem = <ContentType = unknown,>({
   hover = true,
   badgeHolderGutter,
   badgeHolderGutterReversed,

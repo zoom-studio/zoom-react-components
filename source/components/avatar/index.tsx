@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 
-import { Image, ImageNS } from '..'
+import { Image, type ImageNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { BaseComponent, CommonSize } from '../../types'
+import { type BaseComponent, type CommonSize } from '../../types'
 
 export namespace AvatarNS {
   export interface Props extends BaseComponent {

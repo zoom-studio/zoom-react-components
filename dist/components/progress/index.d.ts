@@ -1,13 +1,11 @@
 import React from 'react';
-import { MaybeArray } from '@zoom-studio/zoom-js-ts-utils';
-import { PopoverNS } from '..';
-import { BaseComponent, Color as ColorType } from '../../types';
+import { type MaybeArray } from '@zoom-studio/zoom-js-ts-utils';
+import { type PopoverNS } from '..';
+import { type BaseComponent, type Color as ColorType } from '../../types';
 export declare namespace ProgressNS {
     const Types: readonly ["horizontal", "vertical", "circular"];
-    type Types = typeof Types[number];
-    type Color = [ColorType, {
-        [percentage: number | string]: ColorType;
-    }?];
+    type Types = (typeof Types)[number];
+    type Color = [ColorType, Record<number | string, ColorType>?];
     type Size = string | number;
     interface Step {
         percentage?: number;

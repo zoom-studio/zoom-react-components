@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 export declare namespace ConditionalWrapperNS {
     type Wrapper = (children?: ReactNode) => JSX.Element;
     interface Props {

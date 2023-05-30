@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Select, SelectNS } from '..'
+import { Select, type SelectNS } from '..'
 import { DYNAMIC_SIMPLE_SELECT, SELECT_OPTIONS, SIMPLE_SELECT_OPTIONS } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -16,7 +16,7 @@ export default {
     placeholder: 'پلیس هولدر',
     options: SIMPLE_SELECT_OPTIONS,
   },
-} as ComponentMeta<typeof Select>
+} as Meta<typeof Select>
 
 const useSelectStory = () => {
   const { t } = useI18n('select')

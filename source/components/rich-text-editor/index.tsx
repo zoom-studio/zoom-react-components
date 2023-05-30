@@ -4,19 +4,19 @@ import { isValidURL, useObjectedState } from '@zoom-studio/zoom-js-ts-utils'
 
 import {
   Divider,
-  ExplorerNS,
+  type ExplorerNS,
   RichTextEditorMaker,
-  RichTextEditorMakerNS,
+  type RichTextEditorMakerNS,
   ScrollView,
   Stack,
 } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 import { EditorAction } from './editor-action'
 import { ResizeEditorHandle } from './resize-editor-handle'
-import { UseRichTextEditorI18nNS, useRichTextEditorI18n } from './use-i18n'
+import { type UseRichTextEditorI18nNS, useRichTextEditorI18n } from './use-i18n'
 
-import { RichTextEditorMakerProviderNS } from '../rich-text-editor-maker/provider'
+import { type RichTextEditorMakerProviderNS } from '../rich-text-editor-maker/provider'
 import {
   EmojiInserterPopover,
   FileExplorer,
@@ -28,7 +28,7 @@ import {
 } from './inserters'
 
 export namespace RichTextEditorNS {
-  export type Actions = typeof Actions[number]
+  export type Actions = (typeof Actions)[number]
   export const Actions = [
     'h1',
     'h2',
@@ -390,7 +390,9 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                                 className: 'insert-table-popover',
                                 content: ({ closePopover }) => (
                                   <TableInserterPopover
-                                    onSelect={(cols, rows) => handlers.insertTable({ cols, rows })}
+                                    onSelect={(cols, rows) => {
+                                      handlers.insertTable({ cols, rows })
+                                    }}
                                     closePopover={closePopover}
                                     i18n={i18n}
                                   />

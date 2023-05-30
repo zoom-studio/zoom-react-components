@@ -1,6 +1,6 @@
-import { RefObject } from 'react';
-import { ZoomLogProviderNS } from '../../zoom-log-provider';
-import { TableNS } from '../types';
+import { type RefObject } from 'react';
+import { type ZoomGlobalConfigProviderNS } from '../../zoom-global-config-provider';
+import { type TableNS } from '../types';
 export declare namespace UseTableInfiniteScrollNS {
     const DEFAULT_THRESHOLD = 5;
     interface Prams {
@@ -8,7 +8,7 @@ export declare namespace UseTableInfiniteScrollNS {
         virtualizedSettings?: TableNS.VirtualizedSettings;
         dataset: unknown[];
         isLoading: boolean;
-        sendLog: ZoomLogProviderNS.Log;
+        sendLog: ZoomGlobalConfigProviderNS.Log;
         scrollableContainerRef: RefObject<HTMLDivElement>;
     }
 }

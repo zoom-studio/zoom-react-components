@@ -1,10 +1,19 @@
 import React, { forwardRef } from 'react'
 
-import toaster, { Toast as ToastType } from 'react-hot-toast'
+import toaster, { type Toast as ToastType } from 'react-hot-toast'
 
-import { Button, ConditionalWrapper, Emoji, EmojiNS, Icon, IconNS, Spin, Text } from '../..'
-import { useStatedIcon, UseStatedIcon, useZoomComponent } from '../../../hooks'
-import { CommonVariants } from '../../../types'
+import {
+  Button,
+  ConditionalWrapper,
+  Emoji,
+  type EmojiNS,
+  Icon,
+  type IconNS,
+  Spin,
+  Text,
+} from '../..'
+import { useStatedIcon, type UseStatedIcon, useZoomComponent } from '../../../hooks'
+import { type CommonVariants } from '../../../types'
 
 export namespace ToastNS {
   export interface Props extends Omit<UseStatedIcon.Params, 'variant'> {

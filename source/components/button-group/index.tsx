@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
-import { Button, ButtonNS } from '..'
+import { type BaseComponent } from '../../types'
+import { Button, type ButtonNS } from '..'
 
 export namespace ButtonGroupNS {
   export interface Props extends BaseComponent {

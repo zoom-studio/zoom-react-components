@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { TableGenerator, TableGeneratorNS } from '../components'
+import { TableGenerator, type TableGeneratorNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 
 export default {
@@ -27,7 +27,7 @@ export default {
     onClick: undefined,
     containerProps: undefined,
   },
-} as ComponentMeta<typeof TableGenerator>
+} as Meta<typeof TableGenerator>
 
 export const Basic: FC = () => {
   return (

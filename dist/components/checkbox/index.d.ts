@@ -1,6 +1,6 @@
-import React, { HTMLAttributes } from 'react';
-import { TypographyNS } from '..';
-import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types';
+import React, { type HTMLAttributes } from 'react';
+import { type TypographyNS } from '..';
+import { type BaseComponent, type BaseInputComponent, type CommonSize, type DataEntriesState } from '../../types';
 export declare namespace CheckboxNS {
     interface Props extends BaseInputComponent, BaseComponent {
         stateMessageProps?: TypographyNS.TextNS.Props;

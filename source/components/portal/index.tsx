@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 
 export namespace PortalNS {

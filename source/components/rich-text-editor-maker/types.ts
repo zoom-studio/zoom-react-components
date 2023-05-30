@@ -1,25 +1,25 @@
 import {
-  Dispatch,
-  ForwardRefExoticComponent,
-  ReactNode,
-  RefAttributes,
-  SetStateAction,
+  type Dispatch,
+  type ForwardRefExoticComponent,
+  type ReactNode,
+  type RefAttributes,
+  type SetStateAction,
 } from 'react'
 
-import { BaseEditor } from 'slate'
-import { ReactEditor } from 'slate-react'
+import { type BaseEditor } from 'slate'
+import { type ReactEditor } from 'slate-react'
 
-import { RichTextEditorMakerProvider } from './provider'
-import { LinkUtils, RichUtils } from './utils'
-import { BaseComponent } from '../../types'
-import { ExplorerNS } from '../explorer'
+import { type RichTextEditorMakerProvider } from './provider'
+import { type LinkUtils, type RichUtils } from './utils'
+import { type BaseComponent } from '../../types'
+import { type ExplorerNS } from '../explorer'
 
 export namespace RichTextEditorMakerNS {
   export type Editor = BaseEditor & ReactEditor
 
   export type ListTypes = Extract<BlockTypes, 'ordered-list' | 'unordered-list'>
 
-  export type BlockTypes = typeof BlockTypes[number]
+  export type BlockTypes = (typeof BlockTypes)[number]
   export const BlockTypes = [
     'paragraph',
     'normal',
@@ -42,7 +42,7 @@ export namespace RichTextEditorMakerNS {
     'rule',
   ] as const
 
-  export type MarkTypes = typeof MarkTypes[number]
+  export type MarkTypes = (typeof MarkTypes)[number]
   export const MarkTypes = [
     'bold',
     'italic',
@@ -55,7 +55,7 @@ export namespace RichTextEditorMakerNS {
     'strikethrough',
   ] as const
 
-  export type ElementTypes = typeof ElementTypes[number]
+  export type ElementTypes = (typeof ElementTypes)[number]
   export const ElementTypes = [...BlockTypes, ...MarkTypes] as const
 
   export interface LinkInfo {

@@ -1,9 +1,9 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { Button, ButtonNS } from '..'
-import { CommonStory, CommonStoryNS, StoryPlayground } from './components'
+import { CommonStory, type CommonStoryNS, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 import { COMMON_VARIANTS } from '../constants/common-variants'
 
@@ -23,7 +23,7 @@ export default {
     innerClassName: 'class-for-inner-child',
     children: 'Sample button',
   },
-} as ComponentMeta<typeof Button>
+} as Meta<typeof Button>
 
 const generateVariantsAndTypes = (
   children: ReactNode,

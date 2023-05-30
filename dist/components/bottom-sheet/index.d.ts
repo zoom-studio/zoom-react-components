@@ -1,6 +1,6 @@
-import React, { HTMLAttributes, MouseEvent, ReactNode } from 'react';
-import { BaseComponent, CommonSize } from '../../types';
-import { ButtonNS } from '..';
+import React, { type HTMLAttributes, type MouseEvent, type ReactNode } from 'react';
+import { type BaseComponent, type CommonSize } from '../../types';
+import { type ButtonNS } from '..';
 export declare namespace BottomSheetNS {
     type Action = ButtonNS.Props;
     interface Props extends Omit<BaseComponent, 'children'> {

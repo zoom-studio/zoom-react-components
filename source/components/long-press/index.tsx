@@ -1,7 +1,7 @@
-import React, { forwardRef, MouseEvent, useState } from 'react'
+import React, { forwardRef, type MouseEvent, useState } from 'react'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace LongPressNS {
   export interface Props extends BaseComponent {

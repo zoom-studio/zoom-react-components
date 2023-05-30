@@ -1,42 +1,42 @@
-import React, { FormEvent, forwardRef, useMemo, useState } from 'react'
+import React, { type FormEvent, forwardRef, useMemo, useState } from 'react'
 
-import { useFutureEffect, useObjectedState } from '@zoom-studio/zoom-js-ts-utils'
+import { useFutureEffect, useObjectedState, type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
 
 import {
-  AlertNS,
+  type AlertNS,
   Dialog,
-  ImageEditorNS,
+  type ImageEditorNS,
   Input,
   UploaderDialog,
-  UploaderDialogNS,
-  UploaderNS,
+  type UploaderDialogNS,
+  type UploaderNS,
 } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 import { ExplorerContent } from './content'
 
 import { ExplorerHeader } from './header'
 import { ExplorerSidebar } from './sidebar'
-import { UseExplorerI18n, UseExplorerI18nNS } from './use-i18n'
+import { UseExplorerI18n, type UseExplorerI18nNS } from './use-i18n'
 import { customizeFileTypeColors, excludeFileExtension, getDefaultViewMode } from './utils'
 
 export namespace ExplorerNS {
   export const VIEW_MODE_STORE_KEY = 'zoomrc-explorer-view-mode'
 
   export const ViewMode = ['grid', 'row'] as const
-  export type ViewMode = typeof ViewMode[number]
+  export type ViewMode = (typeof ViewMode)[number]
 
   export const ImageType = ['png', 'jpg', 'jpeg', 'webp'] as const
-  export type ImageType = typeof ImageType[number]
-  export type MaybeImageType = ImageType | (string & {})
+  export type ImageType = (typeof ImageType)[number]
+  export type MaybeImageType = MaybeString<ImageType>
 
   export const VideoType = ['webm', 'mkv', 'ogg', 'avi', 'mov', 'amv', 'mp4', '3gp'] as const
-  export type VideoType = typeof VideoType[number]
-  export type MaybeVideoType = VideoType | (string & {})
+  export type VideoType = (typeof VideoType)[number]
+  export type MaybeVideoType = MaybeString<VideoType>
 
   export const FileType = [...ImageType, ...VideoType, 'pdf'] as const
-  export type FileType = typeof FileType[number]
-  export type MaybeFileType = FileType | (string & {})
+  export type FileType = (typeof FileType)[number]
+  export type MaybeFileType = MaybeString<FileType>
 
   export const NotPreviewedKnownFileType = [
     'unknowns',
@@ -56,12 +56,12 @@ export namespace ExplorerNS {
     'zip',
     'txt',
   ] as const
-  export type NotPreviewedKnownFileType = typeof NotPreviewedKnownFileType[number]
-  export type MaybeNotPreviewedKnownFileType = NotPreviewedKnownFileType | (string & {})
+  export type NotPreviewedKnownFileType = (typeof NotPreviewedKnownFileType)[number]
+  export type MaybeNotPreviewedKnownFileType = MaybeString<NotPreviewedKnownFileType>
 
   export const AllFileTypes = [...FileType, ...NotPreviewedKnownFileType] as const
-  export type AllFileTypes = typeof AllFileTypes[number]
-  export type MaybeAllFileTypes = AllFileTypes | (string & {})
+  export type AllFileTypes = (typeof AllFileTypes)[number]
+  export type MaybeAllFileTypes = MaybeString<AllFileTypes>
   export type MaybeAllFileTypesWithAll = MaybeAllFileTypes | 'all'
 
   export type ID = string | number
@@ -288,7 +288,9 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
           actions={[
             {
               children: i18n.confirmRename,
-              onClick: () => handleRenameFile(),
+              onClick: () => {
+                handleRenameFile()
+              },
               loading: isRenamingFile,
             },
           ]}

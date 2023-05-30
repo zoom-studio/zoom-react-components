@@ -1,6 +1,6 @@
 import { Transforms } from 'slate'
 
-import { RichTextEditorMakerNS } from '../types'
+import { type RichTextEditorMakerNS } from '../types'
 
 export const withSoftBreak = (editor: RichTextEditorMakerNS.Editor) => {
   editor.insertBreak = () => {

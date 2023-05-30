@@ -1,19 +1,24 @@
 import React from 'react'
 
-import { ColumnDef, ColumnHelper, GroupColumnDef, IdentifiedColumnDef } from '@tanstack/react-table'
+import {
+  type ColumnDef,
+  type ColumnHelper,
+  type GroupColumnDef,
+  type IdentifiedColumnDef,
+} from '@tanstack/react-table'
 import { get } from 'lodash'
 
 import {
   Cell,
-  CellNS,
+  type CellNS,
   Column,
   ColumnGroup,
-  ColumnGroupNS,
-  ColumnNS,
+  type ColumnGroupNS,
+  type ColumnNS,
   FooterCell,
-  FooterCellNS,
+  type FooterCellNS,
   HeaderCell,
-  HeaderCellNS,
+  type HeaderCellNS,
 } from '../table-components'
 import { randomString, toArray } from '@zoom-studio/zoom-js-ts-utils'
 

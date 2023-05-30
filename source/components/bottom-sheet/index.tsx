@@ -1,9 +1,15 @@
-import React, { forwardRef, HTMLAttributes, MouseEvent, ReactNode, useEffect } from 'react'
+import React, {
+  forwardRef,
+  type HTMLAttributes,
+  type MouseEvent,
+  type ReactNode,
+  useEffect,
+} from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { BaseComponent, CommonSize } from '../../types'
+import { type BaseComponent, type CommonSize } from '../../types'
 
-import { Button, ButtonNS, ScrollView, Title, Portal } from '..'
+import { Button, type ButtonNS, ScrollView, Title, Portal } from '..'
 
 export namespace BottomSheetNS {
   export type Action = ButtonNS.Props
@@ -66,7 +72,8 @@ export const BottomSheet = forwardRef<HTMLDivElement, BottomSheetNS.Props>(
 
     const handleOnCancelButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
       if (onCancelButtonClick) {
-        return onCancelButtonClick(evt, close)
+        onCancelButtonClick(evt, close)
+        return
       }
       onWillCancelButtonClick?.(evt)
       close()

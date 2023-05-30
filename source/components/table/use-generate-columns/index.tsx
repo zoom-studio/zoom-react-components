@@ -1,15 +1,15 @@
 import { Fragment, useMemo, useRef } from 'react'
 
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
-import { toArray, MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { type ColumnDef, createColumnHelper } from '@tanstack/react-table'
+import { toArray, type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Cell, Column, ColumnGroup, FooterCell, HeaderCell } from '../table-components'
-import { TableNS } from '../types'
+import { type TableNS } from '../types'
 import { addCheckBoxes } from './add-checkboxes'
 import { addExpanders } from './add-expanders'
 import { addActions } from './add-actions'
 import { createColumn } from './create-column'
-import { UseTableI18nNS } from '../use-i18n'
+import { type UseTableI18nNS } from '../use-i18n'
 
 export namespace UseGenerateColumnsNS {
   export interface Params<Dataset extends unknown[]>

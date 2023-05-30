@@ -1,9 +1,9 @@
-import React, { CSSProperties, forwardRef } from 'react'
+import React, { type CSSProperties, forwardRef } from 'react'
 
 import { useZoomComponent } from '../../../hooks'
 
-import { SkeletonNS } from '..'
-import { Icon, IconNS } from '../../icon'
+import { type SkeletonNS } from '..'
+import { Icon, type IconNS } from '../../icon'
 import { useSkeleton } from '../use-skeleton'
 
 export namespace PaperSkeletonNS {

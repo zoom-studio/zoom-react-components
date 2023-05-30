@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import { ButtonNS, Dialog, DialogNS, Explorer, ExplorerNS } from '..'
+import { type ButtonNS, Dialog, type DialogNS, Explorer, type ExplorerNS } from '..'
 import { useZoomComponent } from '../../hooks'
 
 export namespace ExplorerDialogNS {
@@ -11,10 +11,10 @@ export namespace ExplorerDialogNS {
     'title',
     'cancelButton',
   ] as const
-  export type PickedDialogProps = typeof PickedDialogProps[number]
+  export type PickedDialogProps = (typeof PickedDialogProps)[number]
 
   export const OmittedDialogProps = ['actions', 'secondaryActions'] as const
-  export type OmittedDialogProps = typeof OmittedDialogProps[number]
+  export type OmittedDialogProps = (typeof OmittedDialogProps)[number]
 
   export interface Props extends ExplorerNS.Props, Pick<DialogNS.Props, PickedDialogProps> {
     dialogProps?: Omit<DialogNS.Props, PickedDialogProps | OmittedDialogProps>

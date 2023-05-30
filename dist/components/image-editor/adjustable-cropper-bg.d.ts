@@ -1,5 +1,5 @@
 import React from 'react';
-import { AdjustablePreviewBackgroundNS } from './adjustable-preview-bg';
+import { type AdjustablePreviewBackgroundNS } from './adjustable-preview-bg';
 export declare namespace AdjustableCropperBackgroundNS {
     interface Props {
         className?: string;

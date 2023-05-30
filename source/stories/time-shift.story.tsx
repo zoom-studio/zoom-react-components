@@ -1,13 +1,13 @@
-import React, { FC, ReactNode, useEffect } from 'react'
+import React, { type FC, type ReactNode, useEffect } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { CommonStory, StoryPlayground, WithButtonsStory } from './components'
 
-import { ButtonNS, useMessage } from '..'
+import { type ButtonNS, useMessage } from '..'
 
-import { TimeShift, TimeShiftNS } from '../components/message/time-shift'
-import { UseTimeShiftNS } from '../components/message/time-shift/use-time-shift'
+import { TimeShift, type TimeShiftNS } from '../components/message/time-shift'
+import { type UseTimeShiftNS } from '../components/message/time-shift/use-time-shift'
 import { useI18n } from './hooks/use-i18n'
 import { DEFAULT_TIME_SHIFT_DURATION } from '../components/message/constants'
 
@@ -57,10 +57,12 @@ export default {
     id: undefined,
     message: 'Hey there, Undo this action',
     moreActions: [],
-    onShift: () => alert('Shifted'),
+    onShift: () => {
+      alert('Shifted')
+    },
     playSound: true,
   },
-} as ComponentMeta<typeof TimeShift>
+} as Meta<typeof TimeShift>
 
 const useTimeShiftStory = () => {
   const { t } = useI18n('timeShift')
@@ -249,9 +251,16 @@ export const UpdateExistTimeShift: FC = () => {
       onMount={reset}
       defaultButtons={{}}
       moreButtons={timeShift => [
-        { onClick: () => reset(timeShift), children: 'Push new or reset to default' },
         {
-          onClick: () => update(timeShift),
+          onClick: () => {
+            reset(timeShift)
+          },
+          children: 'Push new or reset to default',
+        },
+        {
+          onClick: () => {
+            update(timeShift)
+          },
           children: 'Push new or update the exist',
         },
       ]}
@@ -281,7 +290,14 @@ export const UpdateExistTimeShift: FC = () => {
 
 export const Playground: FC<TimeShiftNS.Props> = props => {
   const handleCreateTimeShift = (timeShift: UseTimeShiftNS.UseTimeShiftReturnType) => {
-    timeShift.show(props.message, props.onShiftTitle, () => alert('Shifted'), { ...props })
+    timeShift.show(
+      props.message,
+      props.onShiftTitle,
+      () => {
+        alert('Shifted')
+      },
+      { ...props },
+    )
   }
   return (
     <TimeShiftStory creator={handleCreateTimeShift} onMount={handleCreateTimeShift}>

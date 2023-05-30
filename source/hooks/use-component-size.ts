@@ -1,4 +1,4 @@
-import { CommonSize } from '../types'
+import { type CommonSize } from '../types'
 import { useZoomContext } from './use-zoom-context'
 
 export const useComponentSize = (providedSize?: CommonSize): CommonSize => {

@@ -1,5 +1,5 @@
-import { FC, MouseEvent } from 'react';
-import { BaseComponent } from '../../types';
+import React, { type FC, type MouseEvent } from 'react';
+import { type BaseComponent } from '../../types';
 export declare namespace SelectableNS {
     interface ChildrenCallbackParams<DataType extends unknown[]> {
         data: DataType[0];
@@ -19,4 +19,4 @@ export declare namespace SelectableNS {
         children: (SelectableComponent: FC<ItemComponentProps>, params: ChildrenCallbackParams<DataType>) => JSX.Element;
     }
 }
-export declare const Selectable: <ItemComponentProps extends object, DataType extends unknown[]>({ deselectOnOutsideClick, tolerance, multiSelect, defaultSelections, className, containerProps, itemComponent, disabled, dataset, children, onSelect, ...rest }: SelectableNS.Props<ItemComponentProps, DataType>) => JSX.Element;
+export declare const Selectable: <ItemComponentProps extends object, DataType extends unknown[]>({ deselectOnOutsideClick, tolerance, multiSelect, defaultSelections, className, containerProps, itemComponent, disabled, dataset, children, onSelect, ...rest }: SelectableNS.Props<ItemComponentProps, DataType>) => React.JSX.Element;

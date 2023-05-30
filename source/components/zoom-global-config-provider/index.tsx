@@ -1,16 +1,16 @@
-import React, { createContext, FC, ReactNode } from 'react'
+import React, { createContext, type FC, type ReactNode } from 'react'
 
-import { logs } from '../../constants'
+import { type logs } from '../../constants'
 
 import {
-  ImageViewerNS,
-  EmojiPickerNS,
-  TourNS,
-  RichTextEditorNS,
-  ImageEditorNS,
-  ExplorerNS,
-  UploaderNS,
-  TableNS,
+  type ImageViewerNS,
+  type EmojiPickerNS,
+  type TourNS,
+  type RichTextEditorNS,
+  type ImageEditorNS,
+  type ExplorerNS,
+  type UploaderNS,
+  type TableNS,
 } from '..'
 
 export namespace ZoomGlobalConfigProviderNS {

@@ -1,5 +1,5 @@
-import { Range } from '@zoom-studio/zoom-js-ts-utils'
-import { Color } from '../types/color'
+import { type Range } from '@zoom-studio/zoom-js-ts-utils'
+import { type Color } from '../types/color'
 export declare namespace ColorNS {
   const MODES: readonly ['lighter', 'darker', 'glassy']
   const THEME_SOURCES: readonly ['layer', 'text', 'border', 'accent']
@@ -27,10 +27,10 @@ export declare namespace ColorNS {
   ]
   type Tone = Range<1, 4>
   type Weight = Range<1, 10>
-  type Mode = typeof MODES[number]
-  type Sources = typeof SOURCES[number]
-  type BaseSources = typeof BASE_SOURCES[number]
-  type ThemeSources = typeof THEME_SOURCES[number]
+  type Mode = (typeof MODES)[number]
+  type Sources = (typeof SOURCES)[number]
+  type BaseSources = (typeof BASE_SOURCES)[number]
+  type ThemeSources = (typeof THEME_SOURCES)[number]
   interface Parameters {
     source?: Sources
     tone?: Tone

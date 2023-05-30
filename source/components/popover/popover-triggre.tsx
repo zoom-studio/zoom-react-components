@@ -1,8 +1,8 @@
-import React, { FC, FocusEvent, MouseEvent, useEffect, useRef } from 'react'
+import React, { type FC, type FocusEvent, type MouseEvent, useEffect, useRef } from 'react'
 
 import { useMergeRefs } from '@floating-ui/react'
 
-import { PopoverNS } from '.'
+import { type PopoverNS } from '.'
 import { usePopoverContext } from './use-popover-context'
 import { useZoomComponent } from '../../hooks'
 

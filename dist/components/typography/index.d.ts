@@ -1,10 +1,10 @@
 import React from 'react';
-import { Range } from '@zoom-studio/zoom-js-ts-utils';
-import { BaseComponent } from '../../types';
+import { type Range } from '@zoom-studio/zoom-js-ts-utils';
+import { type BaseComponent } from '../../types';
 export declare namespace TypographyNS {
     namespace TextNS {
         const Types: readonly ["common", "bold", "light", "underlined", "strikethrough"];
-        type Types = typeof Types[number];
+        type Types = (typeof Types)[number];
         interface TypeProps {
             common?: boolean;
             bold?: boolean;

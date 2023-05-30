@@ -1,6 +1,6 @@
-import React, { FC, MutableRefObject, useContext, useEffect, useState } from 'react'
+import React, { type FC, type MutableRefObject, useContext, useEffect, useState } from 'react'
 
-import { TourNS } from '.'
+import { type TourNS } from '.'
 import { Button, Container, Emoji, Icon, Spin, Text, Title, zoomGlobalConfigContext } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
 
@@ -138,10 +138,11 @@ export const Steps: FC<StepsNS.Props> = ({
 
     switch (key) {
       case 'ArrowRight': {
-        return handleNavigateTo('next')
+        handleNavigateTo('next')
+        return
       }
       case 'ArrowLeft': {
-        return handleNavigateTo('prev')
+        handleNavigateTo('prev')
       }
     }
   }
@@ -225,7 +226,9 @@ export const Steps: FC<StepsNS.Props> = ({
                     <div className="navigate-buttons">
                       {activeStep > 0 && (
                         <Button
-                          onClick={() => handleNavigateTo('prev')}
+                          onClick={() => {
+                            handleNavigateTo('prev')
+                          }}
                           type="link"
                           variant="success"
                         >
@@ -238,7 +241,12 @@ export const Steps: FC<StepsNS.Props> = ({
                           {i18n.finishButton}
                         </Button>
                       ) : (
-                        <Button onClick={() => handleNavigateTo('next')} variant="success">
+                        <Button
+                          onClick={() => {
+                            handleNavigateTo('next')
+                          }}
+                          variant="success"
+                        >
                           {i18n.nextButton} ({activeStep + 1}/{steps.length})
                         </Button>
                       )}

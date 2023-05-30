@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { MenuItemNS } from './menu-item';
+import { type FC } from 'react';
+import { type MenuItemNS } from './menu-item';
 export declare namespace ItemsNS {
     interface Props extends Pick<MenuItemNS.Props, 'linkComponent' | 'closeOnItemClick'> {
         items: MenuItemNS.Item[];

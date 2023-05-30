@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { RangeSlider, RangeSliderNS } from '../components'
+import { RangeSlider, type RangeSliderNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -33,7 +33,7 @@ export default {
     reference: undefined,
     stateMessageProps: undefined,
   },
-} as ComponentMeta<typeof RangeSlider>
+} as Meta<typeof RangeSlider>
 
 const useRangeSliderStory = () => {
   const { t } = useI18n('rangeSlider')

@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Button, ConditionalWrapper, IconNS, Popover, PopoverNS, Text, Tooltip } from '..'
+import { Button, ConditionalWrapper, type IconNS, Popover, type PopoverNS, Text, Tooltip } from '..'
 
 export namespace EditorActionNS {
   export interface Popover

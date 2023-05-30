@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
-import { StackNS } from '.'
+import { type StackNS } from '.'
 
 export namespace StackItemNS {
   export interface Props extends BaseComponent {

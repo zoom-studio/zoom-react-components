@@ -1,13 +1,14 @@
-import { FC, MouseEvent, RefObject } from 'react';
-import { ButtonNS, ScrollViewNS } from '..';
-import { BaseComponent } from '../../types';
-import { ColumnDef } from '@tanstack/react-table';
-import { CellNS, ColumnGroupNS, ColumnNS, FooterCellNS, HeaderCellNS } from './table-components';
-import { UseTableI18nNS } from './use-i18n';
+import { type FC, type MouseEvent, type RefObject } from 'react';
+import { type ColumnDef } from '@tanstack/react-table';
+import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils';
+import { type CellNS, type ColumnGroupNS, type ColumnNS, type FooterCellNS, type HeaderCellNS } from './table-components';
+import { type UseTableI18nNS } from './use-i18n';
+import { type BaseComponent } from '../../types';
+import { type ButtonNS, type ScrollViewNS } from '..';
 export declare namespace TableNS {
     type CellDataType = string | number | boolean;
     type I18n = UseTableI18nNS.I18n;
-    type EndMessage = 'default-end-message' | JSX.Element | (string & {});
+    type EndMessage = MaybeString<'default-end-message'> | JSX.Element;
     interface ColumnMeta {
         togglerLabel?: string;
         hidden?: boolean;
@@ -52,6 +53,7 @@ export declare namespace TableNS {
         id: string;
         resizableColumns?: boolean;
         hoverable?: boolean;
+        i18n?: I18n;
         onSelectionChange?: (selectedRows: number[]) => void;
         striped?: boolean;
         actions?: Action<Dataset>[];

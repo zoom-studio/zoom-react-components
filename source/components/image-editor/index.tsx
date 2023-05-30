@@ -1,4 +1,10 @@
-import React, { ComponentProps, forwardRef, MutableRefObject, useRef, useState } from 'react'
+import React, {
+  type ComponentProps,
+  forwardRef,
+  type MutableRefObject,
+  useRef,
+  useState,
+} from 'react'
 
 import {
   base64ToFile,
@@ -10,17 +16,17 @@ import {
   CircleStencil,
   Cropper,
   CropperPreview,
-  CropperPreviewRef,
-  CropperRef,
-  CropperState,
-  RawAspectRatio,
+  type CropperPreviewRef,
+  type CropperRef,
+  type CropperState,
+  type RawAspectRatio,
   RectangleStencil,
   SimpleHandler,
 } from 'react-advanced-cropper'
 
 import { Skeleton } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 import { logs } from '../../constants'
 import { RangeSlider } from '../range-slider'
@@ -28,18 +34,18 @@ import { AdjustableCropperBackground } from './adjustable-cropper-bg'
 import { AdjustablePreviewBackground } from './adjustable-preview-bg'
 import { EditorActions } from './editor-actions'
 import { ResetChanges } from './reset-changes'
-import { useImageEditorI18n, UseImageEditorI18nNS } from './use-i18n'
+import { useImageEditorI18n, type UseImageEditorI18nNS } from './use-i18n'
 import { getHandlers, requireDefaultAdjustments } from './utils'
 
 export namespace ImageEditorNS {
   export const EditorMode = ['crop', 'saturation', 'brightness', 'contrast', 'hue'] as const
-  export type EditorMode = typeof EditorMode[number]
+  export type EditorMode = (typeof EditorMode)[number]
 
   export const Flip = ['flipVertically', 'flipHorizontally'] as const
-  export type Flip = typeof Flip[number]
+  export type Flip = (typeof Flip)[number]
 
   export const Rotate = ['rotateRight', 'rotateLeft'] as const
-  export type Rotate = typeof Rotate[number]
+  export type Rotate = (typeof Rotate)[number]
 
   export type I18n = UseImageEditorI18nNS.I18n
 
@@ -159,13 +165,15 @@ export const ImageEditor = forwardRef<HTMLDivElement, ImageEditorNS.Props>(
       const { current: cropper } = cropperRef
 
       if (!cropper) {
-        return sendLog(logs.imageEditorNotFoundCropperRef, 'handleGetResult fn')
+        sendLog(logs.imageEditorNotFoundCropperRef, 'handleGetResult fn')
+        return
       }
 
       onGettingResultStart?.()
       const canvas = cropper.getCanvas()
       if (!canvas) {
-        return sendLog(logs.imageEditorNotFoundCanvasElement, 'handleGetResult fn')
+        sendLog(logs.imageEditorNotFoundCanvasElement, 'handleGetResult fn')
+        return
       }
 
       const base64 = canvas.toDataURL()
@@ -213,8 +221,12 @@ export const ImageEditor = forwardRef<HTMLDivElement, ImageEditorNS.Props>(
             backgroundComponent={AdjustableCropperBackground}
             onUpdate={handleOnUpdate}
             backgroundProps={getAdjustments()}
-            onError={() => setHasError(true)}
-            onReady={() => setHasError(false)}
+            onError={() => {
+              setHasError(true)
+            }}
+            onReady={() => {
+              setHasError(false)
+            }}
             stencilProps={{
               grid,
               aspectRatio,

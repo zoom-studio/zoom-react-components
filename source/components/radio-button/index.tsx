@@ -1,9 +1,14 @@
-import React, { ChangeEvent, FormEvent, forwardRef, HTMLAttributes } from 'react'
+import React, { type ChangeEvent, type FormEvent, forwardRef, type HTMLAttributes } from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
-import { InputNS, Spin, Text, TypographyNS } from '..'
-import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types'
+import { type InputNS, Spin, Text, type TypographyNS } from '..'
+import {
+  type BaseComponent,
+  type BaseInputComponent,
+  type CommonSize,
+  type DataEntriesState,
+} from '../../types'
 
 export namespace RadioButtonNS {
   export type Value = number | string

@@ -1,4 +1,4 @@
-import { useZoomComponent } from '../../hooks';
+import { type useZoomComponent } from '../../hooks';
 export declare namespace UseImageEditorI18nNS {
     interface I18n {
         saturation?: string;
@@ -16,4 +16,4 @@ export declare namespace UseImageEditorI18nNS {
         cancelReset?: string;
     }
 }
-export declare const useImageEditorI18n: (globalI18ns: ReturnType<typeof useZoomComponent>['globalI18ns']) => Required<UseImageEditorI18nNS.I18n>;
+export declare const useImageEditorI18n: (globalI18ns: ReturnType<typeof useZoomComponent>['globalI18ns'], componentI18n?: UseImageEditorI18nNS.I18n) => Required<UseImageEditorI18nNS.I18n>;

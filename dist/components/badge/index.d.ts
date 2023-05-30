@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
-import { EmojiNS, IconNS } from '..';
-import { BaseComponent, Color, CommonSize } from '../../types';
+import React, { type ReactNode } from 'react';
+import { type EmojiNS, type IconNS } from '..';
+import { type BaseComponent, type Color, type CommonSize } from '../../types';
 export declare namespace BadgeNS {
     const Direction: readonly ["row", "row-reverse", "column", "column-reverse"];
-    type Direction = typeof Direction[number];
+    type Direction = (typeof Direction)[number];
     interface Props extends BaseComponent {
         direction?: Direction;
         showZero?: boolean;

@@ -1,8 +1,8 @@
-import React, { CSSProperties, FC, useState } from 'react'
+import React, { type CSSProperties, type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { ConditionalWrapper, ConditionalWrapperNS, Title } from '../components'
+import { ConditionalWrapper, type ConditionalWrapperNS, Title } from '../components'
 import { color } from '../utils'
 import { WithButtonsStory } from './components'
 
@@ -31,7 +31,7 @@ export default {
       <span style={{ background: '#3608b1', ...wrappersStyles }}>{children}</span>
     ),
   },
-} as ComponentMeta<typeof ConditionalWrapper>
+} as Meta<typeof ConditionalWrapper>
 
 export const Playground: FC<ConditionalWrapperNS.Props> = props => {
   const [status, setStatus] = useState(!!props.condition)
@@ -39,8 +39,18 @@ export const Playground: FC<ConditionalWrapperNS.Props> = props => {
   return (
     <WithButtonsStory
       buttons={[
-        { onClick: () => setStatus(true), children: 'Set condition to true' },
-        { onClick: () => setStatus(false), children: 'Set condition to false' },
+        {
+          onClick: () => {
+            setStatus(true)
+          },
+          children: 'Set condition to true',
+        },
+        {
+          onClick: () => {
+            setStatus(false)
+          },
+          children: 'Set condition to false',
+        },
       ]}
     >
       <ConditionalWrapper {...props} condition={status} />

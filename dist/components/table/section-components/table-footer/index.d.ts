@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { Table } from '@tanstack/react-table';
-import { TableNS } from '../../types';
+import { type FC } from 'react';
+import { type Table } from '@tanstack/react-table';
+import { type TableNS } from '../../types';
 export declare namespace TableFooterNS {
     interface Props extends Pick<TableNS.Props, 'selectable' | 'renderRowExpanded'> {
         table: Table<unknown>;

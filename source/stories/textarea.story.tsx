@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Textarea, TextareaNS } from '..'
+import { Textarea, type TextareaNS } from '..'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -15,7 +15,7 @@ export default {
     disabled: false,
     loading: false,
   },
-} as ComponentMeta<typeof Textarea>
+} as Meta<typeof Textarea>
 
 const useTextareaStory = () => {
   const { t } = useI18n('textarea')

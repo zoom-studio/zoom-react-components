@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
 
-import { DeepKeys, MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeString, type DeepKeys, type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
 
-import { TableNS } from '../types'
+import { type TableNS } from '../types'
 
 export namespace ColumnNS {
   export interface Props<Dataset extends unknown[]> extends TableNS.ColumnMeta {
@@ -10,7 +10,7 @@ export namespace ColumnNS {
     sortable?: boolean
     hidable?: boolean
     resizable?: boolean
-    id?: DeepKeys<Dataset[0]> | (string & {})
+    id?: DeepKeys<Dataset[0]> | MaybeString
     accessor: DeepKeys<Dataset[0]>
     children?: MaybeArray<JSX.Element>
     summary?: ReactNode

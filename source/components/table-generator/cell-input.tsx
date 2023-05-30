@@ -1,6 +1,6 @@
-import React, { ChangeEvent, FC, KeyboardEvent } from 'react'
+import React, { type ChangeEvent, type FC, type KeyboardEvent } from 'react'
 
-import { TableGeneratorNS } from '.'
+import { type TableGeneratorNS } from '.'
 import { findInput } from './utils'
 
 export namespace CellInputNS {

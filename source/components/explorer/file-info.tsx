@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ExplorerNS, Text } from '..'
+import { type ExplorerNS, Text } from '..'
 
 export namespace ExplorerFileInfoNS {
   export interface Props extends ExplorerNS.MoreInfo {}

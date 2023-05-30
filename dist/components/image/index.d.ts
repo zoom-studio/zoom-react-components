@@ -1,9 +1,9 @@
-import React, { MouseEvent } from 'react';
-import { ImageViewerNS } from '..';
-import { BaseComponent } from '../../types';
+import React, { type MouseEvent } from 'react';
+import { type ImageViewerNS } from '..';
+import { type BaseComponent } from '../../types';
 export declare namespace ImageNS {
     const Shapes: readonly ["default", "sharp", "sharp-square", "square", "semi-circle", "circle"];
-    type Shapes = typeof Shapes[number];
+    type Shapes = (typeof Shapes)[number];
     interface Props extends BaseComponent<HTMLImageElement> {
         src: string;
         name?: string;

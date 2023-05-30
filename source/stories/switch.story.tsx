@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Switch, SwitchNS } from '..'
+import { Switch, type SwitchNS } from '..'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -12,7 +12,7 @@ export default {
   args: {
     label: 'Some label for the switch',
   },
-} as ComponentMeta<typeof Switch>
+} as Meta<typeof Switch>
 
 export const Sizes = () => {
   const { t } = useI18n('switch')

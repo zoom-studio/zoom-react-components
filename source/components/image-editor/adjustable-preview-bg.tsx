@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import {
-  CropperImage,
-  CropperState,
-  CropperTransitions,
+  type CropperImage,
+  type CropperState,
+  type CropperTransitions,
   getPreviewStyle,
-  Size,
+  type Size,
 } from 'react-advanced-cropper'
 
 import { AdjustableImage } from './adjustable-image'

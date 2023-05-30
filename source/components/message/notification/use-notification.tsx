@@ -1,13 +1,13 @@
 import React from 'react'
 
 import toaster from 'react-hot-toast'
-import { useAudio, UseAudioNS } from '@zoom-studio/zoom-js-ts-utils'
+import { useAudio, type UseAudioNS } from '@zoom-studio/zoom-js-ts-utils'
 
-import { CommonVariants } from '../../../types'
+import { type CommonVariants } from '../../../types'
 
-import { UseMessageNS } from '../use-message'
+import { type UseMessageNS } from '../use-message'
 import { DEFAULT_NOTIFICATION_DURATION, TOASTER_CLASS_NAME } from '../constants'
-import { Notification, NotificationNS } from '.'
+import { Notification, type NotificationNS } from '.'
 
 export namespace UseNotificationNS {
   export type NotificationOptions = Omit<
@@ -82,10 +82,18 @@ export const useNotification = (): UseNotificationNS.UseNotificationReturnType =
 
   return {
     notify,
-    destroy: id => toaster.dismiss(id),
-    destroyAll: () => toaster.dismiss(),
-    terminate: id => toaster.remove(id),
-    terminateAll: () => toaster.remove(),
+    destroy: id => {
+      toaster.dismiss(id)
+    },
+    destroyAll: () => {
+      toaster.dismiss()
+    },
+    terminate: id => {
+      toaster.remove(id)
+    },
+    terminateAll: () => {
+      toaster.remove()
+    },
     neutral: (ttl, msg, opt) => notify(ttl, msg, 'neutral', opt),
     success: (ttl, msg, opt) => notify(ttl, msg, 'success', opt),
     info: (ttl, msg, opt) => notify(ttl, msg, 'info', opt),

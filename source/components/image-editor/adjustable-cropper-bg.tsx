@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react'
 import { getBackgroundStyle } from 'react-advanced-cropper'
 
 import { AdjustableImage } from './adjustable-image'
-import { AdjustablePreviewBackgroundNS } from './adjustable-preview-bg'
+import { type AdjustablePreviewBackgroundNS } from './adjustable-preview-bg'
 
 export namespace AdjustableCropperBackgroundNS {
   export interface Props {

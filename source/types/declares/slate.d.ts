@@ -1,8 +1,8 @@
-import { BaseEditor, Descendant, BaseRange as SlateBaseRange } from 'slate'
-import { ReactEditor } from 'slate-react'
+import { type BaseEditor, type Descendant, type BaseRange as SlateBaseRange } from 'slate'
+import { type ReactEditor } from 'slate-react'
 
-import { EmojiNS, RichTextEditorMakerNS } from '../../components'
-import { TableElementNS } from '../../components/rich-text-editor-maker/elements/table/types'
+import { type EmojiNS, type RichTextEditorMakerNS } from '../../components'
+import { type TableElementNS } from '../../components/rich-text-editor-maker/elements/table/types'
 
 declare module 'slate' {
   interface CustomElement {

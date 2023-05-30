@@ -1,4 +1,4 @@
-import { RenderElementProps } from 'slate-react'
+import { type RenderElementProps } from 'slate-react'
 
 export namespace TableElementNS {
   export type VerticalSide = 'top' | 'bottom'
@@ -10,7 +10,7 @@ export namespace TableElementNS {
     'with-sidebar',
     'with-header-and-sidebar',
   ] as const
-  export type TableStyles = typeof TableStyles[number]
+  export type TableStyles = (typeof TableStyles)[number]
 
   export interface CellInfo {
     rowIndex: number

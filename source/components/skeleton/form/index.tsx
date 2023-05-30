@@ -1,10 +1,10 @@
-import React, { CSSProperties, forwardRef } from 'react'
+import React, { type CSSProperties, forwardRef } from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../../hooks'
 
-import { SkeletonNS } from '..'
-import { ButtonNS } from '../..'
-import { CommonSize } from '../../../types'
+import { type SkeletonNS } from '..'
+import { type ButtonNS } from '../..'
+import { type CommonSize } from '../../../types'
 import { useSkeleton } from '../use-skeleton'
 
 export namespace FormSkeletonNS {

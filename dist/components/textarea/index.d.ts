@@ -1,6 +1,6 @@
-import React, { HTMLAttributes, RefObject } from 'react';
-import { SpinNS, TypographyNS } from '..';
-import { BaseComponent, BaseTextareaComponent, CommonSize, DataEntriesState } from '../../types';
+import React, { type HTMLAttributes, type RefObject } from 'react';
+import { type SpinNS, type TypographyNS } from '..';
+import { type BaseComponent, type BaseTextareaComponent, type CommonSize, type DataEntriesState } from '../../types';
 export declare namespace TextareaNS {
     type TextSize = Pick<TypographyNS.TextNS.Props, 'small' | 'normal' | 'large'>;
     interface Props extends BaseComponent, BaseTextareaComponent {

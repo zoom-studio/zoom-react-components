@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { Button, Divider, Stack, StackNS } from '../components'
 import { color } from '../utils'
@@ -19,7 +19,7 @@ export default {
     inline: false,
     dividerFirst: false,
   },
-} as ComponentMeta<typeof Stack>
+} as Meta<typeof Stack>
 
 export const FlexDirection = () => {
   return (

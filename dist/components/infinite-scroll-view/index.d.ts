@@ -1,6 +1,6 @@
-import { ReactNode, RefObject } from 'react';
-import { ScrollViewNS, SpinNS } from '..';
-import { BaseComponent } from '../../types';
+import { type ReactNode, type RefObject } from 'react';
+import { type ScrollViewNS, type SpinNS } from '..';
+import { type BaseComponent } from '../../types';
 export declare namespace InfiniteScrollViewNS {
     type PickedScrollViewProps = 'maxWidth' | 'maxHeight' | 'autoHide';
     interface ChildrenCallbackParams {
@@ -22,9 +22,7 @@ export declare namespace InfiniteScrollViewNS {
         itemsContainerProps?: Omit<BaseComponent, 'children'>;
         itemContainerProps?: Omit<BaseComponent, 'children'>;
         itemsReferenceKey?: string;
-        handleSetProps?: (index: number, reference: null | undefined) => {
-            [prop: string]: any;
-        };
+        handleSetProps?: (index: number, reference: null | undefined) => Record<string, any>;
     }
 }
 export declare const InfiniteScrollView: <DataType extends unknown[] = unknown[]>({ itemsReferenceKey, reverseScroll, loadOnMount, threshold, endMessage, isLoading, className, children, spinProps, handleSetProps, containerProps, reference, dataset, scrollViewProps, maxHeight, maxWidth, handleOnLoadMore, maxDatasetLength, autoHide, itemsContainerProps, itemContainerProps, ...rest }: InfiniteScrollViewNS.Props<DataType>) => JSX.Element;

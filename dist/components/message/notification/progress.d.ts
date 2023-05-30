@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { CommonVariants } from '../../../types';
+import { type FC } from 'react';
+import { type CommonVariants } from '../../../types';
 export declare namespace MessageProgressNS {
     interface Props {
         duration: number;

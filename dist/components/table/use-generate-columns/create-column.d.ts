@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { ColumnDef, ColumnHelper } from '@tanstack/react-table';
+import { type ColumnDef, type ColumnHelper } from '@tanstack/react-table';
 export declare namespace CreateColumnNS {
     interface Params {
         columnHelper: ColumnHelper<object>;

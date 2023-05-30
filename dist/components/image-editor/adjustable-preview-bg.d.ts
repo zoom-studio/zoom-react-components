@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { CropperImage, CropperState, CropperTransitions, Size } from 'react-advanced-cropper';
+import { type FC } from 'react';
+import { type CropperImage, type CropperState, type CropperTransitions, type Size } from 'react-advanced-cropper';
 export declare namespace AdjustablePreviewBackgroundNS {
     interface DesiredCropperRef {
         getState: () => CropperState;

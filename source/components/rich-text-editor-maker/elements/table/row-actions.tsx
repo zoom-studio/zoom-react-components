@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { Button, ButtonNS, RichTextEditorMakerNS } from '../../..'
+import { Button, type ButtonNS, type RichTextEditorMakerNS } from '../../..'
 
-import { TableElementNS } from './types'
+import { type TableElementNS } from './types'
 import { useTableDOM } from './use-dom'
 
 export namespace RowActionsNS {
@@ -59,7 +59,9 @@ export const RowActions: FC<RowActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={() => addRow('top')}
+        onClick={() => {
+          addRow('top')
+        }}
         containerProps={{
           onMouseOver: onMouseOverAddToTopButton,
           onMouseLeave: onMouseLeaveAddButtons,
@@ -82,7 +84,9 @@ export const RowActions: FC<RowActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={() => addRow('bottom')}
+        onClick={() => {
+          addRow('bottom')
+        }}
         containerProps={{
           onMouseOver: onMouseOverAddToBottomButton,
           onMouseLeave: onMouseLeaveAddButtons,

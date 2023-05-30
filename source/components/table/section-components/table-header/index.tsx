@@ -1,10 +1,10 @@
-import React, { CSSProperties, FC, MouseEvent } from 'react'
+import React, { type CSSProperties, type FC, type MouseEvent } from 'react'
 
-import { flexRender, Header, Table } from '@tanstack/react-table'
+import { flexRender, type Header, type Table } from '@tanstack/react-table'
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { TableNS } from '../../types'
-import { SVGIcon, SVGIconNS } from '../../../'
+import { type TableNS } from '../../types'
+import { SVGIcon, type SVGIconNS } from '../../../'
 
 export namespace TableHeaderNS {
   export interface Props

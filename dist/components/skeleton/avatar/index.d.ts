@@ -1,6 +1,6 @@
 import React from 'react';
-import { SkeletonNS } from '..';
-import { CommonSize } from '../../../types';
+import { type SkeletonNS } from '..';
+import { type CommonSize } from '../../../types';
 export declare namespace AvatarSkeletonNS {
     interface Props extends SkeletonNS.BaseProps {
         type?: 'group' | 'single';

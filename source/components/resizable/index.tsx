@@ -1,10 +1,10 @@
-import React, { CSSProperties, FC, ReactNode, useRef } from 'react'
+import React, { type CSSProperties, type FC, type ReactNode, useRef } from 'react'
 
 import { classNames, toKebabCase } from '@zoom-studio/zoom-js-ts-utils'
 
 import { ResizableMaker, ResizableMakerNS } from '../resizable-maker'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace ResizableNS {
   export type Size = number | string
@@ -90,7 +90,9 @@ export const Resizable: FC<ResizableNS.Props> = ({
             isEnabled(handler) ? (
               <span
                 key={index}
-                onMouseDown={evt => resize(handler)(evt)}
+                onMouseDown={evt => {
+                  resize(handler)(evt)
+                }}
                 className={createHandlerClassName(handler)}
               />
             ) : (

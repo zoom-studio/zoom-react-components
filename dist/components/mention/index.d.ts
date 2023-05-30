@@ -1,9 +1,9 @@
 import React from 'react';
-import { TextareaNS } from '..';
-import { BaseComponent } from '../../types';
+import { type TextareaNS } from '..';
+import { type BaseComponent } from '../../types';
 export declare namespace MentionNS {
     const ReservedKeys: readonly ["ArrowDown", "ArrowUp", "Enter"];
-    type ReservedKeys = typeof ReservedKeys[number];
+    type ReservedKeys = (typeof ReservedKeys)[number];
     interface User {
         name: string;
         username: string;

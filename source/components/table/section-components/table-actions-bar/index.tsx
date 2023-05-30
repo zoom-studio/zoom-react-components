@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { Table } from '@tanstack/react-table'
+import { type Table } from '@tanstack/react-table'
 import { useDebounce } from '@zoom-studio/zoom-js-ts-utils'
 
-import { TableNS } from '../../types'
-import { Button, ButtonNS, Input, Popover, Title, Tooltip } from '../../..'
+import { type TableNS } from '../../types'
+import { Button, type ButtonNS, Input, Popover, Title, Tooltip } from '../../..'
 
 import { ColumnsToggles } from './columns-toggles'
 

@@ -1,10 +1,10 @@
-import React, { CSSProperties, forwardRef } from 'react'
+import React, { type CSSProperties, forwardRef } from 'react'
 
 import { useComponentSize, useZoomComponent } from '../../../hooks'
 
-import { SkeletonNS } from '..'
-import { Icon, IconNS, SVGIcon } from '../..'
-import { CommonSize } from '../../../types'
+import { type SkeletonNS } from '..'
+import { Icon, type IconNS, SVGIcon } from '../..'
+import { type CommonSize } from '../../../types'
 import { useSkeleton } from '../use-skeleton'
 
 export namespace ImageSkeletonNS {

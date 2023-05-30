@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { TableGeneratorNS } from '..';
-import { UseTableGeneratorDomNS } from './use-dom';
+import { type FC } from 'react';
+import { type TableGeneratorNS } from '..';
+import { type UseTableGeneratorDomNS } from './use-dom';
 export declare namespace ColActionsNS {
     interface Props extends UseTableGeneratorDomNS.Params {
         colIndex: number;

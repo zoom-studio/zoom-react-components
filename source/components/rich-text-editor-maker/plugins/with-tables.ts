@@ -1,6 +1,6 @@
 import { Editor, Element, Path, Point, Range } from 'slate'
 
-import { RichTextEditorMakerNS } from '../types'
+import { type RichTextEditorMakerNS } from '../types'
 
 export const withTables = (editor: RichTextEditorMakerNS.Editor) => {
   const { deleteBackward, deleteForward } = editor

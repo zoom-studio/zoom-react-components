@@ -1,5 +1,5 @@
-import React, { MutableRefObject } from 'react';
-import { PopoverNS } from '.';
+import React, { type MutableRefObject } from 'react';
+import { type PopoverNS } from '.';
 export declare namespace PopoverContentNS {
     interface Props extends Omit<PopoverNS.Props, 'isOpen' | 'onOpenChange' | 'onOpen' | 'onClose'> {
         arrowRef: MutableRefObject<SVGSVGElement | null>;

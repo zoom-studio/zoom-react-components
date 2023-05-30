@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { RichTextEditor, RichTextEditorNS } from '../components'
+import { RichTextEditor, type RichTextEditorNS } from '../components'
 
 import { FULL_FEATURE_RICH_TEXT, generateExplorerFiles } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
@@ -74,7 +74,7 @@ export default {
     onClick: undefined,
     style: {},
   },
-} as ComponentMeta<typeof RichTextEditor>
+} as Meta<typeof RichTextEditor>
 
 export const Placeholder = () => {
   return (

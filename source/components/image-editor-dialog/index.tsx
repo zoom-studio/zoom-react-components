@@ -1,6 +1,6 @@
-import React, { forwardRef, MouseEvent, useRef, useState } from 'react'
+import React, { forwardRef, type MouseEvent, useRef, useState } from 'react'
 
-import { ButtonNS, Dialog, DialogNS, ImageEditor, ImageEditorNS } from '..'
+import { type ButtonNS, Dialog, type DialogNS, ImageEditor, type ImageEditorNS } from '..'
 import { useZoomComponent } from '../../hooks'
 
 export namespace ImageEditorDialogNS {
@@ -11,10 +11,10 @@ export namespace ImageEditorDialogNS {
     'title',
     'cancelButton',
   ] as const
-  export type PickedDialogProps = typeof PickedDialogProps[number]
+  export type PickedDialogProps = (typeof PickedDialogProps)[number]
 
   export const OmittedDialogProps = ['actions', 'secondaryActions'] as const
-  export type OmittedDialogProps = typeof OmittedDialogProps[number]
+  export type OmittedDialogProps = (typeof OmittedDialogProps)[number]
 
   export interface Props extends ImageEditorNS.Props, Pick<DialogNS.Props, PickedDialogProps> {
     dialogProps?: Omit<DialogNS.Props, PickedDialogProps | OmittedDialogProps>

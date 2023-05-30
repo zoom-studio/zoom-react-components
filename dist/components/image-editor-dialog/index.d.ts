@@ -1,10 +1,10 @@
 import React from 'react';
-import { ButtonNS, DialogNS, ImageEditorNS } from '..';
+import { type ButtonNS, type DialogNS, type ImageEditorNS } from '..';
 export declare namespace ImageEditorDialogNS {
     const PickedDialogProps: readonly ["isOpen", "onClose", "closable", "title", "cancelButton"];
-    type PickedDialogProps = typeof PickedDialogProps[number];
+    type PickedDialogProps = (typeof PickedDialogProps)[number];
     const OmittedDialogProps: readonly ["actions", "secondaryActions"];
-    type OmittedDialogProps = typeof OmittedDialogProps[number];
+    type OmittedDialogProps = (typeof OmittedDialogProps)[number];
     interface Props extends ImageEditorNS.Props, Pick<DialogNS.Props, PickedDialogProps> {
         dialogProps?: Omit<DialogNS.Props, PickedDialogProps | OmittedDialogProps>;
         saveButton?: string;

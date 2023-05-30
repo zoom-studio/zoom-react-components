@@ -1,7 +1,7 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
-import { ButtonNS, PopoverNS } from '..';
-import { UseStatedIcon } from '../../hooks';
-import { CommonVariants } from '../../types';
+import React, { type HTMLAttributes, type ReactNode } from 'react';
+import { type ButtonNS, type PopoverNS } from '..';
+import { type UseStatedIcon } from '../../hooks';
+import { type CommonVariants } from '../../types';
 export declare namespace PopConfirmNS {
     type Action = ButtonNS.Props | ((handlers: PopoverNS.Handlers) => ButtonNS.Props);
     interface Props extends Omit<UseStatedIcon.Params, 'variant'>, Pick<PopoverNS.Props, 'onOpen' | 'onClose' | 'defaultIsOpen' | 'placement' | 'autoCloseDelay' | 'hoverDelay' | 'width'> {

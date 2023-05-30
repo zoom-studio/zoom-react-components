@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { Table } from '@tanstack/react-table';
+import { type FC } from 'react';
+import { type Table } from '@tanstack/react-table';
 export declare namespace ColumnsTogglesNS {
     interface Props {
         table: Table<unknown>;

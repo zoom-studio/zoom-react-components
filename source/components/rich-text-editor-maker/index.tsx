@@ -7,9 +7,9 @@ import { useZoomComponent } from '../../hooks'
 
 import { useRenderElements, useRenderLeaf } from './elements'
 import { RichTextEditorMakerProvider } from './provider'
-import { RichTextEditorMakerNS } from './types'
+import { type RichTextEditorMakerNS } from './types'
 import { LinkUtils, RichUtils, useAccelerators, useEditorContext } from './utils'
-import { NodeEntry, Range, Text } from 'slate'
+import { type NodeEntry, type Range, Text } from 'slate'
 
 type CB = RichTextEditorMakerNS.ChildrenCallback
 
@@ -74,6 +74,26 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
       openInNewTab: blankedLink.val ?? false,
     }))
 
+    const renderEditor: CB['renderEditor'] = () => {
+      return (
+        <Editable
+          {...containerProps}
+          onClick={onClick}
+          style={style}
+          id={editorContext.id}
+          className={classes}
+          placeholder={placeholder}
+          renderElement={renderElements}
+          decorate={decorate}
+          renderLeaf={renderLeaf}
+          onKeyDown={evt => {
+            editorContext.handleListsOnKeyDown(evt)
+            handleAccelerators(evt)
+          }}
+        />
+      )
+    }
+
     const combineHandlers = (): CB => ({
       ...richUtils,
       ...linkUtils,
@@ -108,26 +128,6 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
         linkUtils.resetLinkInfo()
       }
     }, [editor.selection])
-
-    const renderEditor: CB['renderEditor'] = () => {
-      return (
-        <Editable
-          {...containerProps}
-          onClick={onClick}
-          style={style}
-          id={editorContext.id}
-          className={classes}
-          placeholder={placeholder}
-          renderElement={renderElements}
-          decorate={decorate}
-          renderLeaf={renderLeaf}
-          onKeyDown={evt => {
-            editorContext.handleListsOnKeyDown(evt)
-            handleAccelerators(evt)
-          }}
-        />
-      )
-    }
 
     return <>{typeof children === 'function' ? children(combineHandlers()) : children}</>
   },

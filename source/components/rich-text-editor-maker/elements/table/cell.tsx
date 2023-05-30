@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
-import { RenderElementProps } from 'slate-react'
+import { type RenderElementProps } from 'slate-react'
 
 import { RichUtils, useEditorContext } from '../../utils'
 import { RowActions } from './row-actions'

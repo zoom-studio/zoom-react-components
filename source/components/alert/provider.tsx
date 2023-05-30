@@ -1,6 +1,6 @@
-import React, { createContext, FC, ReactNode, useState } from 'react'
+import React, { createContext, type FC, type ReactNode, useState } from 'react'
 
-import { AlertNS } from '.'
+import { type AlertNS } from '.'
 
 export namespace AlertProviderNS {
   export type Alert = AlertNS.Identifier

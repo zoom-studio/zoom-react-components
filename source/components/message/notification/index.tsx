@@ -1,21 +1,21 @@
-import React, { forwardRef, ReactNode, useState } from 'react'
+import React, { forwardRef, type ReactNode, useState } from 'react'
 
-import notifier, { Toast as NotificationType } from 'react-hot-toast'
+import notifier, { type Toast as NotificationType } from 'react-hot-toast'
 
 import {
   Button,
-  ButtonNS,
+  type ButtonNS,
   ConditionalWrapper,
   Emoji,
-  EmojiNS,
+  type EmojiNS,
   Icon,
-  IconNS,
+  type IconNS,
   Spin,
   Text,
   Title,
 } from '../..'
-import { useStatedIcon, UseStatedIcon, useZoomComponent } from '../../../hooks'
-import { CommonVariants } from '../../../types'
+import { useStatedIcon, type UseStatedIcon, useZoomComponent } from '../../../hooks'
+import { type CommonVariants } from '../../../types'
 
 import { DEFAULT_NOTIFICATION_DURATION } from '../constants'
 import { MessageProgress } from './progress'

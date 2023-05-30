@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-target-blank */
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { RichTextEditorMakerNS } from '../../../rich-text-editor-maker/types'
+import { type RichTextEditorMakerNS } from '../../../rich-text-editor-maker/types'
 import { Button, Popover, Stack } from '../../../..'
 
 export namespace LinkElementNS {
@@ -31,15 +31,21 @@ export const LinkElement: FC<LinkElementNS.Props> = ({
       onOpenChange={setIsPopoverOpen}
       trigger="click"
       className="link-element-popover"
-      onClick={evt => evt.stopPropagation()}
+      onClick={evt => {
+        evt.stopPropagation()
+      }}
       content={
         <Stack className="link-element-popover-content">
           <a
             href={url}
             target="_blank"
             rel="noreferrer"
-            onClick={evt => evt.stopPropagation()}
-            onContextMenu={evt => evt.stopPropagation()}
+            onClick={evt => {
+              evt.stopPropagation()
+            }}
+            onContextMenu={evt => {
+              evt.stopPropagation()
+            }}
             className="link-url"
           >
             {url}

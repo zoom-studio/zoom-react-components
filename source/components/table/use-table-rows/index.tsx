@@ -1,10 +1,10 @@
-import React, { ReactNode, useRef } from 'react'
+import React, { type ReactNode, useRef } from 'react'
 
-import { Row, Table } from '@tanstack/react-table'
+import { type Row, type Table } from '@tanstack/react-table'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useVariable } from '@zoom-studio/zoom-js-ts-utils'
 
-import { TableNS } from '../types'
+import { type TableNS } from '../types'
 
 export namespace UseTableRowsNS {
   export interface VirtualizedRowObservers {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Toast as ToastType } from 'react-hot-toast';
-import { UseStatedIcon } from '../../../hooks';
-import { CommonVariants } from '../../../types';
+import { type Toast as ToastType } from 'react-hot-toast';
+import { type UseStatedIcon } from '../../../hooks';
+import { type CommonVariants } from '../../../types';
 export declare namespace ToastNS {
     interface Props extends Omit<UseStatedIcon.Params, 'variant'> {
         variant?: CommonVariants;

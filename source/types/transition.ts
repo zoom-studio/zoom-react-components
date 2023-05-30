@@ -1,3 +1,5 @@
+import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
+
 export type TransitionTimingFunctions =
   | 'ease'
   | 'ease-in'
@@ -10,6 +12,6 @@ export type TransitionTimingFunctions =
 export interface Transition {
   duration?: string
   delay?: string
-  timingFunction?: TransitionTimingFunctions | (string & {})
+  timingFunction?: MaybeString<TransitionTimingFunctions>
   property?: string
 }

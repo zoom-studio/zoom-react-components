@@ -1,9 +1,15 @@
-import React, { FC, RefObject, useEffect } from 'react'
+import React, { type FC, type RefObject, useEffect } from 'react'
 
-import { CropperRef } from 'react-advanced-cropper'
-import { classNames, UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+import { type CropperRef } from 'react-advanced-cropper'
+import { classNames, type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Divider, IconNS, ImageEditorNS, Stack, ZoomGlobalConfigProviderNS } from '..'
+import {
+  Divider,
+  type IconNS,
+  type ImageEditorNS,
+  Stack,
+  type ZoomGlobalConfigProviderNS,
+} from '..'
 import { logs } from '../../constants'
 
 import { EditorActionButton } from './action-button'
@@ -46,7 +52,8 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({
   const handleFlip = (flipType: ImageEditorNS.Flip) => () => {
     const { current: cropper } = cropperRef
     if (!cropper) {
-      return sendLog(logs.imageEditorNotFoundCropperRef, 'handleFlip fn')
+      sendLog(logs.imageEditorNotFoundCropperRef, 'handleFlip fn')
+      return
     }
 
     cropper.flipImage(flipType === 'flipVertically', flipType === 'flipHorizontally')
@@ -55,7 +62,8 @@ export const EditorActions: FC<EditorActionsNS.Props> = ({
   const handleRotate = (rotation: ImageEditorNS.Rotate | number) => () => {
     const { current: cropper } = cropperRef
     if (!cropper) {
-      return sendLog(logs.imageEditorNotFoundCropperRef, 'handleRotate fn')
+      sendLog(logs.imageEditorNotFoundCropperRef, 'handleRotate fn')
+      return
     }
 
     cropper.rotateImage(

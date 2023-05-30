@@ -1,8 +1,8 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Button, ButtonGroup, ButtonNS } from '../../../components'
+import { Button, ButtonGroup, type ButtonNS } from '../../../components'
 
 export namespace WithButtonsStoryNS {
   export interface Props {

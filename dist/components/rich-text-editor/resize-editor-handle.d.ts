@@ -1,5 +1,5 @@
-import { FC, RefObject } from 'react';
-import { ZoomLogProviderNS } from '../zoom-log-provider';
+import { type FC, type RefObject } from 'react';
+import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider';
 export declare namespace ResizeEditorHandleNS {
     interface ResizableInfo {
         clientY: number;
@@ -8,7 +8,7 @@ export declare namespace ResizeEditorHandleNS {
     }
     interface Props {
         editorContainerRef: RefObject<HTMLDivElement>;
-        sendLog: ZoomLogProviderNS.Log;
+        sendLog: ZoomGlobalConfigProviderNS.Log;
     }
 }
 export declare const ResizeEditorHandle: FC<ResizeEditorHandleNS.Props>;

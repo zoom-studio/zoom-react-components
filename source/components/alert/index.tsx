@@ -1,21 +1,21 @@
-import React, { forwardRef, ReactNode, useEffect } from 'react'
+import React, { forwardRef, type ReactNode, useEffect } from 'react'
 
 import {
   Button,
-  ButtonNS,
+  type ButtonNS,
   ConditionalWrapper,
   Container,
   Emoji,
-  EmojiNS,
+  type EmojiNS,
   Icon,
-  IconNS,
+  type IconNS,
   Spin,
   Text,
   Title,
   useAlert,
 } from '..'
-import { UseStatedIcon, useStatedIcon, useZoomComponent } from '../../hooks'
-import { BaseComponent, CommonVariants } from '../../types'
+import { type UseStatedIcon, useStatedIcon, useZoomComponent } from '../../hooks'
+import { type BaseComponent, type CommonVariants } from '../../types'
 
 export namespace AlertNS {
   export type Identifier = string | number

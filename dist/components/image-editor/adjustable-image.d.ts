@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { type CSSProperties } from 'react';
 export declare namespace AdjustableImageNS {
     interface Props {
         src?: string;

@@ -1,10 +1,11 @@
-import { KeyboardEvent } from 'react';
-import { RichTextEditorMakerNS } from '../types';
-import { RichUtils } from './rich-utils';
+import { type KeyboardEvent } from 'react';
+import { type RichTextEditorMakerNS } from '../types';
+import { type RichUtils } from '.';
 export declare namespace UseAcceleratorsNS {
-    interface Params {
+    interface Params extends Pick<RichTextEditorMakerNS.Props, 'collapseOnEscape'> {
         editor: RichTextEditorMakerNS.Editor;
         richUtils: RichUtils;
+        combineHandlers: () => RichTextEditorMakerNS.ChildrenCallback;
     }
 }
-export declare const useAccelerators: ({ editor, richUtils }: UseAcceleratorsNS.Params) => (evt: KeyboardEvent<HTMLDivElement>) => void;
+export declare const useAccelerators: ({ editor, richUtils, combineHandlers, collapseOnEscape, }: UseAcceleratorsNS.Params) => (evt: KeyboardEvent<HTMLDivElement>) => void;

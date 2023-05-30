@@ -1,4 +1,4 @@
-import { useZoomComponent } from '../../hooks';
+import { type useZoomComponent } from '../../hooks';
 export declare namespace UseRichTextEditorI18nNS {
     interface I18n {
         linkURLPlaceholder?: string;
@@ -30,11 +30,13 @@ export declare namespace UseRichTextEditorI18nNS {
         images?: string;
         horizontalRule?: string;
         table?: string;
+        insertTable?: string;
+        tableNxN?: string;
         video?: string;
         videos?: string;
-        sticker?: string;
         undo?: string;
         redo?: string;
+        search?: string;
     }
 }
-export declare const useRichTextEditorI18n: (globalI18ns: ReturnType<typeof useZoomComponent>['globalI18ns']) => Required<UseRichTextEditorI18nNS.I18n>;
+export declare const useRichTextEditorI18n: (globalI18ns: ReturnType<typeof useZoomComponent>['globalI18ns'], componentI18n?: UseRichTextEditorI18nNS.I18n) => Required<UseRichTextEditorI18nNS.I18n>;

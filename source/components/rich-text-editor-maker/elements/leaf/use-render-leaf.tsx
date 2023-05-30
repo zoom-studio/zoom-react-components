@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
 
-import { RenderLeafProps } from 'slate-react'
+import { type RenderLeafProps } from 'slate-react'
 
 import { LeafElement } from '.'
-import { RichTextEditorMakerNS } from '../../types'
+import { type RichTextEditorMakerNS } from '../../types'
 
 export namespace UseRenderLeafNS {
   export interface Params extends Pick<RichTextEditorMakerNS.Props, 'renderLinkElement'> {

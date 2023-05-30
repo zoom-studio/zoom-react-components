@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { UploaderNS } from '.';
+import { type FC } from 'react';
+import { type UploaderNS } from '.';
 export declare namespace AsyncUploaderFileNS {
     interface Props {
         file: UploaderNS.FileInterface | File;

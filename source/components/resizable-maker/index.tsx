@@ -1,9 +1,9 @@
-import React, { FC, MouseEvent, ReactNode, RefObject, useState } from 'react'
+import React, { type FC, type MouseEvent, type ReactNode, type RefObject, useState } from 'react'
 
 export namespace ResizableMakerNS {
   export type Evt = MouseEvent<HTMLElement> | globalThis.MouseEvent
 
-  export type ResizeDirection = typeof ResizeDirection[number]
+  export type ResizeDirection = (typeof ResizeDirection)[number]
   export const ResizeDirection = [
     'topEnd',
     'top',

@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { RichTextEditorMakerNS } from '../../../rich-text-editor-maker/types';
+import { type FC } from 'react';
+import { type RichTextEditorMakerNS } from '../../../rich-text-editor-maker/types';
 export declare namespace LinkElementNS {
     interface Props extends RichTextEditorMakerNS.RenderLinkInfoCallbackParams {
         openLinkPopover: () => void;

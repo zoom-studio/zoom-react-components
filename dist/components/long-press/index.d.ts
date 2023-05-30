@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseComponent } from '../../types';
+import { type BaseComponent } from '../../types';
 export declare namespace LongPressNS {
     interface Props extends BaseComponent {
         interval?: number;

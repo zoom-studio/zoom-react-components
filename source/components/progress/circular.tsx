@@ -1,6 +1,6 @@
-import React, { forwardRef, SVGAttributes } from 'react'
+import React, { forwardRef, type SVGAttributes } from 'react'
 
-import { ProgressNS } from '.'
+import { type ProgressNS } from '.'
 import { useZoomComponent } from '../../hooks'
 import { ProgressInfo } from './info'
 import { generateProgressColor, normalizePercentage } from './utils'

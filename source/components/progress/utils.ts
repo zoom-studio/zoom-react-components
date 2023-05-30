@@ -1,4 +1,4 @@
-import { ProgressNS } from '.'
+import { type ProgressNS } from '.'
 import { color, colorFnToColor } from '../../utils'
 
 export const generateProgressColor = (

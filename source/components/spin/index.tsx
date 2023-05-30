@@ -1,10 +1,10 @@
 import React, { forwardRef } from 'react'
 
-import { Text, TypographyNS } from '..'
+import { Text, type TypographyNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
-import { BaseComponent, CommonSize } from '../../types'
-import { Color } from '../../types/color'
+import { type BaseComponent, type CommonSize } from '../../types'
+import { type Color } from '../../types/color'
 import { color as generateColor, colorFnToColor } from '../../utils/color'
 
 export namespace SpinNS {

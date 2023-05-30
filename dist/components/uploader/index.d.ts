@@ -1,12 +1,13 @@
 import React from 'react';
-import { ExplorerNS, TypographyNS } from '..';
-import { BaseComponent, DataEntriesState } from '../../types';
-import { UseUploaderI18nNS } from './use-i18n';
+import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils';
+import { ExplorerNS, type TypographyNS } from '..';
+import { type BaseComponent, type DataEntriesState } from '../../types';
+import { type UseUploaderI18nNS } from './use-i18n';
 export declare namespace UploaderNS {
     type I18n = UseUploaderI18nNS.I18n;
     const AcceptableTypes: readonly ["audio/*", "video/*", "image/*"];
-    type AcceptableTypes = typeof AcceptableTypes[number];
-    type MaybeAcceptableTypes = AcceptableTypes | (string & {});
+    type AcceptableTypes = (typeof AcceptableTypes)[number];
+    type MaybeAcceptableTypes = MaybeString<AcceptableTypes>;
     interface FileInterface {
         name: string;
         type: ExplorerNS.MaybeAllFileTypes;
@@ -25,6 +26,7 @@ export declare namespace UploaderNS {
         onWrite?: (files: File[]) => void;
         onRemove?: (fileIndex: number, closePopConfirm: () => void) => void;
         state?: DataEntriesState;
+        i18n?: I18n;
         disabledOnLoading?: boolean;
         files?: (FileInterface | File)[];
         stateMessageProps?: TypographyNS.TextNS.Props;

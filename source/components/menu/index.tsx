@@ -2,10 +2,10 @@ import React, { forwardRef } from 'react'
 
 import { Dropdown, MenuButton, MenuList } from 'react-menu-list'
 
-import { Button, ButtonNS } from '..'
+import { Button, type ButtonNS } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
 
-import { MenuItemNS } from './menu-item'
+import { type MenuItemNS } from './menu-item'
 import { Items } from './menu-items'
 
 export namespace MenuNS {

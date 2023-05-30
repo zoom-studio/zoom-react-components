@@ -1,10 +1,10 @@
 import React from 'react';
-import { ButtonNS, DialogNS, UploaderNS } from '..';
+import { type ButtonNS, type DialogNS, type UploaderNS } from '..';
 export declare namespace UploaderDialogNS {
     const PickedDialogProps: readonly ["isOpen", "onClose", "closable", "title", "cancelButton"];
-    type PickedDialogProps = typeof PickedDialogProps[number];
+    type PickedDialogProps = (typeof PickedDialogProps)[number];
     const OmittedDialogProps: readonly ["actions", "secondaryActions", "size"];
-    type OmittedDialogProps = typeof OmittedDialogProps[number];
+    type OmittedDialogProps = (typeof OmittedDialogProps)[number];
     interface Props extends UploaderNS.Props, Pick<DialogNS.Props, PickedDialogProps> {
         dialogProps?: Omit<DialogNS.Props, PickedDialogProps | OmittedDialogProps>;
         minFiles?: number;

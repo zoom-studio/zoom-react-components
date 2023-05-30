@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Button, Download, DownloadNS, Progress } from '../components'
+import { Button, Download, type DownloadNS, Progress } from '../components'
 import { formatFileSize } from '@zoom-studio/zoom-js-ts-utils'
 
 export default {
@@ -11,7 +11,7 @@ export default {
   args: {
     link: 'https://speed.hetzner.de/100MB.bin',
   },
-} as ComponentMeta<typeof Download>
+} as Meta<typeof Download>
 
 export const Playground: FC<DownloadNS.Props> = props => {
   return (

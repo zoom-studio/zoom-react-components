@@ -1,6 +1,6 @@
 import React from 'react';
-import { Range } from '@zoom-studio/zoom-js-ts-utils';
-import { BaseComponent } from '../../types';
+import { type Range } from '@zoom-studio/zoom-js-ts-utils';
+import { type BaseComponent } from '../../types';
 export declare namespace ColNS {
     type ColumnsRange = Range<1, 25>;
     interface Props extends BaseComponent {

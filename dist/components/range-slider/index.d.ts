@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
-import { EmojiNS, IconNS, TypographyNS } from '..';
-import { BaseComponent, CommonSize, DataEntriesState } from '../../types';
+import React, { type ReactNode } from 'react';
+import { type EmojiNS, type IconNS, type TypographyNS } from '..';
+import { type BaseComponent, type CommonSize, type DataEntriesState } from '../../types';
 export declare namespace RangeSliderNS {
     type ThumbContent = {
         icon: IconNS.Names;
@@ -13,9 +13,7 @@ export declare namespace RangeSliderNS {
         value?: number;
         step?: number;
         disabled?: boolean;
-        masks?: {
-            [value: number]: ReactNode;
-        } | undefined;
+        masks?: Record<number, ReactNode> | undefined;
         onWrite?: (value: number) => void;
         renderPopover?: ((value: number) => ReactNode) | false;
         thumbContent?: ThumbContent;

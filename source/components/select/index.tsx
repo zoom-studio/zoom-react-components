@@ -1,8 +1,8 @@
 import React, {
-  CSSProperties,
-  FormEvent,
-  HTMLAttributes,
-  RefObject,
+  type CSSProperties,
+  type FormEvent,
+  type HTMLAttributes,
+  type RefObject,
   useEffect,
   useRef,
   useState,
@@ -10,13 +10,13 @@ import React, {
 
 import { classNames, sleep, useOutsideClick } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Icon, Input, InputNS, Spin, SVGIcon, Text, TypographyNS } from '..'
+import { Icon, Input, type InputNS, Spin, SVGIcon, Text, type TypographyNS } from '..'
 import { BREAKPOINTS, logs } from '../../constants'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { BaseComponent, CommonSize, DataEntriesState } from '../../types'
+import { type BaseComponent, type CommonSize, type DataEntriesState } from '../../types'
 import { color } from '../../utils'
-import { SelectGroup, SelectGroupNS } from './group'
-import { SelectOption, SelectOptionNS } from './option'
+import { SelectGroup, type SelectGroupNS } from './group'
+import { SelectOption, type SelectOptionNS } from './option'
 import { defaultEmpty, focusSearchBox, groupOptions, scrollToTop } from './utils'
 import { SelectValue } from './value'
 
@@ -39,9 +39,7 @@ export namespace SelectNS {
     selectedOptions: SelectNS.SelectedOption,
   ) => SelectNS.GroupedOptions
 
-  export interface GroupedOptions {
-    [value: SelectOptionNS.Value]: SelectGroupNS.GroupedProps
-  }
+  export type GroupedOptions = Record<SelectOptionNS.Value, SelectGroupNS.GroupedProps>
 
   export interface Props<Values extends SelectOptionNS.Value> extends BaseComponent {
     options?: Option<Values>[]
@@ -203,7 +201,8 @@ export const Select = <Values extends SelectOptionNS.Value>({
     const { current: optionsList } = optionsListRef
     if (!optionsList) {
       if (isOpen) {
-        return sendLog(logs.selectNotFoundOptionsListRef, 'handleSetEmptyList function')
+        sendLog(logs.selectNotFoundOptionsListRef, 'handleSetEmptyList function')
+        return
       }
       return
     }
@@ -266,8 +265,12 @@ export const Select = <Values extends SelectOptionNS.Value>({
   }
 
   useOutsideClick(close, childRef, dropdownRef)
-  useEffect(() => setIsOpen(defaultIsOpen), [defaultIsOpen])
-  useEffect(() => setSearchQuery(searchQuery || ''), [searchQuery])
+  useEffect(() => {
+    setIsOpen(defaultIsOpen)
+  }, [defaultIsOpen])
+  useEffect(() => {
+    setSearchQuery(searchQuery || '')
+  }, [searchQuery])
   useEffect(() => {
     setOptions(groupOptions(providedOptions, defaultValue))
     void handleSetEmptyList()
@@ -334,8 +337,12 @@ export const Select = <Values extends SelectOptionNS.Value>({
               option.options ? (
                 <SelectGroup
                   {...option}
-                  onSelect={value => handleSelectOptions(value)}
-                  onSelectAll={values => handleSelectOptions(values)}
+                  onSelect={value => {
+                    handleSelectOptions(value)
+                  }}
+                  onSelectAll={values => {
+                    handleSelectOptions(values)
+                  }}
                   multiSelect={!!multiSelect}
                   selectAllText={selectAllText}
                   deselectAllText={deselectAllText}

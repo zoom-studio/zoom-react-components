@@ -1,10 +1,10 @@
-import React, { HTMLAttributes, ReactNode } from 'react';
-import { SpinNS, TypographyNS } from '..';
-import { BaseComponent } from '../../types';
+import React, { type HTMLAttributes, type ReactNode } from 'react';
+import { type SpinNS, type TypographyNS } from '..';
+import { type BaseComponent } from '../../types';
 export declare namespace PopoverNS {
     export const Trigger: readonly ["click", "focus", "hover"];
-    export type Trigger = typeof Trigger[number];
-    export type Placement = typeof Placement[number];
+    export type Trigger = (typeof Trigger)[number];
+    export type Placement = (typeof Placement)[number];
     const Placement: readonly ["top-start", "top", "top-end", "right-start", "right", "right-end", "bottom-start", "bottom", "bottom-end", "left-start", "left", "left-end"];
     export interface Handlers {
         openPopover: () => void;

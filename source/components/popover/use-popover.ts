@@ -1,4 +1,4 @@
-import { MutableRefObject, useMemo, useState } from 'react'
+import { type MutableRefObject, useMemo, useState } from 'react'
 
 import {
   autoUpdate,
@@ -13,7 +13,7 @@ import {
   arrow,
 } from '@floating-ui/react'
 
-import { PopoverNS } from '.'
+import { type PopoverNS } from '.'
 
 export namespace UsePopoverNS {
   export interface Params
@@ -75,9 +75,10 @@ export const usePopover = ({
 
   const toggle = () => {
     if (isOpen) {
-      return close()
+      close()
+      return
     }
-    return open()
+    open()
   }
 
   const open = () => {

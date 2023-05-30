@@ -1,6 +1,6 @@
 import React from 'react';
-import { Toast as TimeShiftType } from 'react-hot-toast';
-import { ButtonNS } from '../..';
+import { type Toast as TimeShiftType } from 'react-hot-toast';
+import { type ButtonNS } from '../..';
 export declare namespace TimeShiftNS {
     interface Props {
         message: string;

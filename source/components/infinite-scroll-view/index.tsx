@@ -1,9 +1,16 @@
-import React, { ReactNode, RefObject, useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  type ReactNode,
+  type RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
-import { ScrollView, ScrollViewNS, Spin, SpinNS, Title } from '..'
+import { ScrollView, type ScrollViewNS, Spin, type SpinNS, Title } from '..'
 import { logs } from '../../constants'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace InfiniteScrollViewNS {
   export type PickedScrollViewProps = 'maxWidth' | 'maxHeight' | 'autoHide'
@@ -30,7 +37,7 @@ export namespace InfiniteScrollViewNS {
     itemsContainerProps?: Omit<BaseComponent, 'children'>
     itemContainerProps?: Omit<BaseComponent, 'children'>
     itemsReferenceKey?: string
-    handleSetProps?: (index: number, reference: null | undefined) => { [prop: string]: any }
+    handleSetProps?: (index: number, reference: null | undefined) => Record<string, any>
   }
 }
 
@@ -101,7 +108,8 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
   const handleOnScroll = (evt: Event) => {
     const scrollableTarget = evt.target as HTMLDivElement | null
     if (!scrollableTarget) {
-      return sendLog(logs.infiniteScrollViewScrollableTargetNotFound, 'handleOnScroll fn')
+      sendLog(logs.infiniteScrollViewScrollableTargetNotFound, 'handleOnScroll fn')
+      return
     }
 
     if (scrollableTarget.scrollTop < 2) {

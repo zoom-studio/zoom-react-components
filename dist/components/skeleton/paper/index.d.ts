@@ -1,6 +1,6 @@
 import React from 'react';
-import { SkeletonNS } from '..';
-import { IconNS } from '../../icon';
+import { type SkeletonNS } from '..';
+import { type IconNS } from '../../icon';
 export declare namespace PaperSkeletonNS {
     interface Size {
         width: string | number;

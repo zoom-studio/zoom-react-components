@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react'
+import React, { type FC, type ReactNode, useEffect, useState } from 'react'
 
 export namespace DelayedWrapperNS {
   export interface Props {

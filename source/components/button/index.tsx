@@ -1,10 +1,10 @@
-import React, { forwardRef, ReactNode } from 'react'
+import React, { forwardRef, type ReactNode } from 'react'
 
 import { Link } from 'react-router-dom'
 
-import { Emoji, EmojiNS, Icon, IconNS, Spin } from '..'
+import { Emoji, type EmojiNS, Icon, type IconNS, Spin } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { BaseComponent, CommonSize, CommonVariants } from '../../types'
+import { type BaseComponent, type CommonSize, type CommonVariants } from '../../types'
 import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace ButtonNS {
@@ -12,10 +12,10 @@ export namespace ButtonNS {
   export type HtmlTargets = '_self' | '_blank' | '_parent' | '_top'
 
   export const Types = ['primary', 'secondary', 'dashed', 'link', 'text', 'bordered'] as const
-  export type Types = typeof Types[number]
+  export type Types = (typeof Types)[number]
 
   export const Shapes = ['default', 'circle', 'sharp', 'square', 'sharp-square', 'rounded'] as const
-  export type Shapes = typeof Shapes[number]
+  export type Shapes = (typeof Shapes)[number]
 
   export type MaterialIcon = IconNS.Names
   export type EmojiIcon = EmojiNS.Emojis.Names
@@ -81,6 +81,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonNS.Props>(
     const isDisabled = disabledOnLoading ? loading || disabled : disabled
 
     const classNames = createClassName(className, `${type}-${variant}`, {
+      [`${createClassName()}`]: true,
       [`${createClassName(undefined, size)}`]: true,
       [`${createClassName(undefined, shape)}`]: true,
       [`${createClassName(undefined, 'full')}`]: full,

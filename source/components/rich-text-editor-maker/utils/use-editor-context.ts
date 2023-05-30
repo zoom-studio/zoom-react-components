@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { EditorContext, RichTextEditorMakerProviderNS } from '../provider'
+import { EditorContext, type RichTextEditorMakerProviderNS } from '../provider'
 
 export const useEditorContext = () => {
   const ctx = useContext(EditorContext)

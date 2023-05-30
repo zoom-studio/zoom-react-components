@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { SelectOptionNS } from './option';
+import { type FC } from 'react';
+import { type SelectOptionNS } from './option';
 export declare namespace SelectGroupNS {
     interface Props<Values extends SelectOptionNS.Value> {
         options?: SelectOptionNS.Props<Values>[];
@@ -11,9 +11,7 @@ export declare namespace SelectGroupNS {
     interface GroupedProps extends Omit<Props<SelectOptionNS.Value>, 'options'> {
         options?: SelectOptionNS.GroupedOptions;
     }
-    interface GroupedSelectedOptions {
-        [parentValue: SelectOptionNS.Value]: SelectOptionNS.Value[];
-    }
+    type GroupedSelectedOptions = Record<SelectOptionNS.Value, SelectOptionNS.Value[]>;
     interface InnerProps {
         onSelect: (option: GroupedSelectedOptions) => void;
         onSelectAll: (options: GroupedSelectedOptions) => void;

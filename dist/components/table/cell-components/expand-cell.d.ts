@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from 'react';
+import { type FC, type MouseEvent } from 'react';
 export declare namespace ExpandButtonNS {
     interface Props {
         isExpanded: boolean;

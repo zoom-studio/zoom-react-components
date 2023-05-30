@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Emoji, InfiniteScrollView, InfiniteScrollViewNS } from '../components'
+import { Emoji, InfiniteScrollView, type InfiniteScrollViewNS } from '../components'
 import { CommonStory, StoryPlayground, WithButtonsStory } from './components'
 import { useFetch } from './hooks/use-fetch'
 import { useI18n } from './hooks/use-i18n'
@@ -36,7 +36,7 @@ export default {
     autoHide: true,
     maxDatasetLength: Number.MAX_SAFE_INTEGER,
   },
-} as ComponentMeta<typeof InfiniteScrollView>
+} as Meta<typeof InfiniteScrollView>
 
 export const Endless = () => {
   const { data, isLoading, sendQuery } = useFetch()

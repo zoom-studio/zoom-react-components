@@ -1,9 +1,15 @@
-import React, { forwardRef, HTMLAttributes, MouseEvent, SyntheticEvent, useState } from 'react'
+import React, {
+  forwardRef,
+  type HTMLAttributes,
+  type MouseEvent,
+  type SyntheticEvent,
+  useState,
+} from 'react'
 
-import { ConditionalWrapper, Icon, ImageViewer, ImageViewerNS, Skeleton } from '..'
+import { ConditionalWrapper, Icon, ImageViewer, type ImageViewerNS, Skeleton } from '..'
 import { logs } from '../../constants'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace ImageNS {
   export const Shapes = [
@@ -14,7 +20,7 @@ export namespace ImageNS {
     'semi-circle',
     'circle',
   ] as const
-  export type Shapes = typeof Shapes[number]
+  export type Shapes = (typeof Shapes)[number]
 
   export interface Props extends BaseComponent<HTMLImageElement> {
     src: string

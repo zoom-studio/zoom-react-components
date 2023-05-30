@@ -1,9 +1,9 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { Text, TypographyNS } from '..'
-import { CommonStory, CommonStoryNS, StoryPlayground } from './components'
+import { CommonStory, type CommonStoryNS, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 import { color } from '../utils'
 import { COMMON_SIZES } from '../constants'
@@ -15,7 +15,7 @@ export default {
     children: 'Some text here...',
     style: { color: color({ source: 'text' }) },
   },
-} as ComponentMeta<typeof Text>
+} as Meta<typeof Text>
 
 const { TextNS } = TypographyNS
 

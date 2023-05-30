@@ -1,9 +1,9 @@
 import React, {
-  Dispatch,
-  FC,
-  KeyboardEvent,
-  ReactNode,
-  SetStateAction,
+  type Dispatch,
+  type FC,
+  type KeyboardEvent,
+  type ReactNode,
+  type SetStateAction,
   createContext,
   useMemo,
   useState,
@@ -11,7 +11,7 @@ import React, {
 
 import { onKeyDown } from '@prezly/slate-lists'
 import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
-import { Descendant, createEditor } from 'slate'
+import { type Descendant, createEditor } from 'slate'
 import { HistoryEditor, withHistory } from 'slate-history'
 import { Slate, withReact } from 'slate-react'
 
@@ -23,7 +23,7 @@ import {
   withSoftBreak,
   withTables,
 } from './plugins'
-import { RichTextEditorMakerNS } from './types'
+import { type RichTextEditorMakerNS } from './types'
 import { useHashtag, useMention } from './utils'
 
 export namespace RichTextEditorMakerProviderNS {

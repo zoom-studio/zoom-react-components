@@ -1,5 +1,5 @@
-import { FC, ReactNode } from 'react';
-import { CommonVariants } from '../../types';
+import { type FC, type ReactNode } from 'react';
+import { type CommonVariants } from '../../types';
 export declare namespace CopyToClipboardNS {
     type State = 'copying' | 'copied' | 'errored' | 'initial';
     interface ChildrenCallback {

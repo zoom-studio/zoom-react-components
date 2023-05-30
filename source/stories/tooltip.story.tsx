@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Text, Tooltip, TooltipNS } from '..'
+import { Text, Tooltip, type TooltipNS } from '..'
 import { color } from '../utils'
 import { CommonStory, PlacementsStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -23,7 +23,7 @@ export default {
       </div>
     ),
   },
-} as ComponentMeta<typeof Tooltip>
+} as Meta<typeof Tooltip>
 
 export const Basic: FC = () => {
   const { t } = useI18n('tooltip')

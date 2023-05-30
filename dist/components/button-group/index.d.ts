@@ -1,6 +1,6 @@
 import React from 'react';
-import { BaseComponent } from '../../types';
-import { ButtonNS } from '..';
+import { type BaseComponent } from '../../types';
+import { type ButtonNS } from '..';
 export declare namespace ButtonGroupNS {
     interface Props extends BaseComponent {
         buttonsProps?: ButtonNS.Props;

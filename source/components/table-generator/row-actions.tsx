@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { Button, ButtonNS, TableGeneratorNS } from '..'
-import { UseTableGeneratorDomNS, useTableGeneratorDOM } from './use-dom'
+import { Button, type ButtonNS, type TableGeneratorNS } from '..'
+import { type UseTableGeneratorDomNS, useTableGeneratorDOM } from './use-dom'
 
 export namespace RowActionsNS {
   export interface Props extends UseTableGeneratorDomNS.Params {
@@ -55,7 +55,9 @@ export const RowActions: FC<RowActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={() => addRow({ appendTo: 'top' })}
+        onClick={() => {
+          addRow({ appendTo: 'top' })
+        }}
         containerProps={{
           onMouseOver: onMouseOverAddToTopButton,
           onMouseLeave: onMouseLeaveAddButtons,
@@ -77,7 +79,9 @@ export const RowActions: FC<RowActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={() => addRow({ appendTo: 'bottom' })}
+        onClick={() => {
+          addRow({ appendTo: 'bottom' })
+        }}
         containerProps={{
           onMouseOver: onMouseOverAddToBottomButton,
           onMouseLeave: onMouseLeaveAddButtons,

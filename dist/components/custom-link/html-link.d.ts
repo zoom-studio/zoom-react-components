@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes } from 'react';
+import { type FC, type HTMLAttributes } from 'react';
 export declare namespace HTMLLinkNS {
     interface Props extends HTMLAttributes<HTMLAnchorElement> {
         href?: string;

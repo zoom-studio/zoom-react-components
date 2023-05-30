@@ -1,7 +1,7 @@
-import { MutableRefObject } from 'react';
-import { ColumnDef, ColumnHelper } from '@tanstack/react-table';
-import { UseTableI18nNS } from '../use-i18n';
-import { TableNS } from '../types';
+import { type MutableRefObject } from 'react';
+import { type ColumnDef, type ColumnHelper } from '@tanstack/react-table';
+import { type UseTableI18nNS } from '../use-i18n';
+import { type TableNS } from '../types';
 export declare namespace AddCheckBoxesNS {
     interface Params extends Pick<TableNS.Props, 'dragToSelect'> {
         columnHelper: ColumnHelper<object>;

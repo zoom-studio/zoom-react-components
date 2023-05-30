@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { Column, Table } from '@tanstack/react-table'
-import { ListView, ListViewNS } from '../../../list-view'
-import { TableNS } from '../../types'
+import { type Column, type Table } from '@tanstack/react-table'
+import { ListView, type ListViewNS } from '../../../list-view'
+import { type TableNS } from '../../types'
 
 export namespace ColumnsTogglesNS {
   export interface Props {

@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Spin, SpinNS } from '../components'
+import { Spin, type SpinNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -13,7 +13,7 @@ export default {
     speed: '0.5s',
     size: 'normal',
   },
-} as ComponentMeta<typeof Spin>
+} as Meta<typeof Spin>
 
 export const Sizes: FC = () => {
   return (

@@ -1,13 +1,13 @@
-import React, { CSSProperties, FC, RefObject } from 'react'
+import React, { type CSSProperties, type FC, type RefObject } from 'react'
 
-import { Row, Table } from '@tanstack/react-table'
+import { type Row, type Table } from '@tanstack/react-table'
 
 import { Button, SVGIcon, Text, Tooltip } from '../../..'
 
 import { CellSkeleton } from '../../cell-components'
-import { TableNS } from '../../types'
-import { useTableInfiniteScroll } from '../../use-infinite-scroll'
-import { UseTableRowsNS } from '../../use-table-rows'
+import { type TableNS } from '../../types'
+import { type useTableInfiniteScroll } from '../../use-infinite-scroll'
+import { type UseTableRowsNS } from '../../use-table-rows'
 
 import { TableBodyRow } from './row'
 

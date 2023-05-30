@@ -1,10 +1,15 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
-import { ExplorerDialog, ExplorerNS, RichTextEditorMakerNS, RichTextEditorNS } from '../../..'
+import {
+  ExplorerDialog,
+  type ExplorerNS,
+  type RichTextEditorMakerNS,
+  type RichTextEditorNS,
+} from '../../..'
 
-import { useRichTextEditorI18n } from '../../use-i18n'
+import { type useRichTextEditorI18n } from '../../use-i18n'
 
 export namespace FileExplorerNS {
   export interface Props extends Pick<RichTextEditorNS.Props, 'fileExplorerProps'> {
@@ -30,9 +35,9 @@ export const FileExplorer: FC<FileExplorerNS.Props> = ({
 
   const handleInsertFiles = () => {
     const selectedFiles = getSelectedFiles()
-    selectedFiles.forEach(file =>
-      handleCreateFile({ name: file.name, size: file.size, src: file.link, type: file.type }),
-    )
+    selectedFiles.forEach(file => {
+      handleCreateFile({ name: file.name, size: file.size, src: file.link, type: file.type })
+    })
     closeDialog()
   }
 

@@ -1,5 +1,5 @@
-import React, { FC, ReactNode } from 'react';
-import { AlertNS } from '.';
+import React, { type FC, type ReactNode } from 'react';
+import { type AlertNS } from '.';
 export declare namespace AlertProviderNS {
     type Alert = AlertNS.Identifier;
     interface ProviderValue {

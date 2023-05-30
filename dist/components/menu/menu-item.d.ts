@@ -1,5 +1,5 @@
-import { FC, MouseEvent } from 'react';
-import { CustomLinkNS } from '../custom-link';
+import { type FC, type MouseEvent } from 'react';
+import { type CustomLinkNS } from '../custom-link';
 export declare namespace MenuItemNS {
     interface Item {
         title?: string;

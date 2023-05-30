@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-import { FATranslations } from '../../i18n/locales'
+import { type FATranslations } from '../../i18n/locales'
 
 export const useI18n = (storyScope: keyof typeof FATranslations) => {
   const { t: translate } = useTranslation()

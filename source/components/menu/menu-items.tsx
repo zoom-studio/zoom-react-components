@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { Dropdown, MenuList } from 'react-menu-list'
 
 import { SubMenuItem } from './sub-item'
-import { MenuItem, MenuItemNS } from './menu-item'
+import { MenuItem, type MenuItemNS } from './menu-item'
 import { useZoomComponent } from '../../hooks'
 
 export namespace ItemsNS {

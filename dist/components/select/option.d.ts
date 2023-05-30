@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 export declare namespace SelectOptionNS {
     type Value = string | number;
     interface Props<Values extends SelectOptionNS.Value> {
@@ -7,9 +7,7 @@ export declare namespace SelectOptionNS {
         disabled?: boolean;
         selected?: boolean;
     }
-    interface GroupedOptions {
-        [value: Value]: Props<SelectOptionNS.Value>;
-    }
+    type GroupedOptions = Record<Value, Props<SelectOptionNS.Value>>;
     interface InnerProps {
         onSelect: (option: Value) => void;
         searchQuery: string;

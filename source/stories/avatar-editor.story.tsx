@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
-import { AvatarEditor, AvatarEditorNS } from '../components'
+import { AvatarEditor, type AvatarEditorNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 
 export default {
@@ -26,7 +26,7 @@ export default {
     loading: false,
     crossOrigin: 'anonymous',
   },
-} as ComponentMeta<typeof AvatarEditor>
+} as Meta<typeof AvatarEditor>
 
 const useAvatarEditorStory = () => {
   const src = randomImage(undefined, undefined, 'cats')

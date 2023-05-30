@@ -1,13 +1,13 @@
-import React, { ClassAttributes, forwardRef, HTMLAttributes } from 'react'
+import React, { type ClassAttributes, forwardRef, type HTMLAttributes } from 'react'
 
-import { classNames, Range } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, type Range } from '@zoom-studio/zoom-js-ts-utils'
 
-import { BaseComponent, CommonSize } from '../../types'
+import { type BaseComponent, type CommonSize } from '../../types'
 
 export namespace TypographyNS {
   export namespace TextNS {
     export const Types = ['common', 'bold', 'light', 'underlined', 'strikethrough'] as const
-    export type Types = typeof Types[number]
+    export type Types = (typeof Types)[number]
 
     export interface TypeProps {
       common?: boolean

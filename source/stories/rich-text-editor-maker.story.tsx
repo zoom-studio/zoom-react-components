@@ -1,10 +1,16 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
-import { ButtonNS, RichTextEditorMaker, RichTextEditorMakerNS, Stack, Text } from '../components'
-import { RichTextEditorMakerProviderNS } from '../components/rich-text-editor-maker/provider'
+import {
+  type ButtonNS,
+  RichTextEditorMaker,
+  type RichTextEditorMakerNS,
+  Stack,
+  Text,
+} from '../components'
+import { type RichTextEditorMakerProviderNS } from '../components/rich-text-editor-maker/provider'
 import { FULL_FEATURE_RICH_TEXT } from '../fixtures'
 import { color } from '../utils'
 import { WithButtonsStory } from './components'
@@ -30,7 +36,7 @@ export default {
       color: color({ source: 'text', tone: 2 }),
     },
   },
-} as ComponentMeta<typeof RichTextEditorMaker> & ComponentMeta<typeof RichTextEditorMaker.provider>
+} as Meta<typeof RichTextEditorMaker>
 
 export const Playground: FC<RichTextEditorMakerNS.Props & RichTextEditorMakerProviderNS.Props> = ({
   defaultValue,
@@ -196,7 +202,9 @@ export const Playground: FC<RichTextEditorMakerNS.Props & RichTextEditorMakerPro
                         ...buttonProps,
                         active: handlers.isActive('link'),
                         children: 'Link',
-                        onClick: () => handlers.insertLink({ url: 'example.com' }),
+                        onClick: () => {
+                          handlers.insertLink({ url: 'example.com' })
+                        },
                       },
                       {
                         ...buttonProps,
@@ -225,30 +233,40 @@ export const Playground: FC<RichTextEditorMakerNS.Props & RichTextEditorMakerPro
                         ...buttonProps,
                         active: handlers.isActive('table'),
                         children: 'Table',
-                        onClick: () => handlers.insertTable({ cols: 5, rows: 5 }),
+                        onClick: () => {
+                          handlers.insertTable({ cols: 5, rows: 5 })
+                        },
                       },
                       {
                         ...buttonProps,
                         active: handlers.isActive('emoji'),
                         children: 'Emoji',
-                        onClick: () => handlers.insertEmoji('smiling face'),
+                        onClick: () => {
+                          handlers.insertEmoji('smiling face')
+                        },
                       },
                       {
                         ...buttonProps,
                         active: handlers.isActive('mention'),
                         children: 'Mention',
-                        onClick: () => handlers.insertMention({ displayName: 'mention' }),
+                        onClick: () => {
+                          handlers.insertMention({ displayName: 'mention' })
+                        },
                       },
                       {
                         ...buttonProps,
                         active: handlers.isActive('hashtag'),
                         children: 'Hashtag',
-                        onClick: () => handlers.insertHashtag({ displayName: 'hashtag' }),
+                        onClick: () => {
+                          handlers.insertHashtag({ displayName: 'hashtag' })
+                        },
                       },
                       {
                         ...buttonProps,
                         children: 'Video',
-                        onClick: () => handlers.insertVideo({ src: VIDEO }),
+                        onClick: () => {
+                          handlers.insertVideo({ src: VIDEO })
+                        },
                       },
                       {
                         ...buttonProps,
@@ -273,19 +291,21 @@ export const Playground: FC<RichTextEditorMakerNS.Props & RichTextEditorMakerPro
                       {
                         ...buttonProps,
                         children: 'Image',
-                        onClick: () =>
-                          handlers.insertImage({ src: randomImage(undefined, undefined, 'cats') }),
+                        onClick: () => {
+                          handlers.insertImage({ src: randomImage(undefined, undefined, 'cats') })
+                        },
                       },
                       {
                         ...buttonProps,
                         children: 'File',
-                        onClick: () =>
+                        onClick: () => {
                           handlers.insertFile({
                             name: 'some-file-name.pdf',
                             size: 12365842,
                             src: VIDEO,
                             type: 'pdf',
-                          }),
+                          })
+                        },
                       },
                     ]}
                   >

@@ -1,6 +1,6 @@
-import { RawAspectRatio } from 'react-advanced-cropper'
+import { type RawAspectRatio } from 'react-advanced-cropper'
 
-import { ImageEditorNS } from '.'
+import { type ImageEditorNS } from '.'
 
 export const getHandlers = (
   isOnCropMode: boolean,

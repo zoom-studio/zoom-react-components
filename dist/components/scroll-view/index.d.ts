@@ -1,6 +1,6 @@
 import React from 'react';
-import { OverlayScrollbarsComponentRef, UseOverlayScrollbarsParams } from 'overlayscrollbars-react';
-import { BaseComponent } from '../../types';
+import { type OverlayScrollbarsComponentRef, type UseOverlayScrollbarsParams } from 'overlayscrollbars-react';
+import { type BaseComponent } from '../../types';
 export declare namespace ScrollViewNS {
     type ContainerNode = OverlayScrollbarsComponentRef;
     interface Props extends Omit<BaseComponent, 'reference'> {

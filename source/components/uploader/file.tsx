@@ -1,12 +1,21 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { formatFileSize } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Button, ButtonNS, ExplorerNS, PopConfirm, Progress, Text, Tooltip, UploaderNS } from '..'
+import {
+  Button,
+  type ButtonNS,
+  type ExplorerNS,
+  PopConfirm,
+  Progress,
+  Text,
+  Tooltip,
+  type UploaderNS,
+} from '..'
 import { getFileTypeColors } from '../explorer/utils'
 
 import { UploaderFilePreview } from './file-preview'
-import { UseUploaderI18nNS } from './use-i18n'
+import { type UseUploaderI18nNS } from './use-i18n'
 
 export namespace UploaderFileNS {
   export interface Props

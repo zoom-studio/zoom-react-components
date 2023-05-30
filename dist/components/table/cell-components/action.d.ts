@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { TableNS } from '../types';
+import { type FC } from 'react';
+import { type TableNS } from '../types';
 export declare namespace CellActionsNS {
     interface Props {
         actions: TableNS.Action<unknown[]>[];

@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { SVGIcon, SVGIconNS } from '..'
 import { ListStory, StoryPlayground } from './components'
@@ -11,7 +11,7 @@ export default {
   args: {
     name: 'empty-box',
   },
-} as ComponentMeta<typeof SVGIcon>
+} as Meta<typeof SVGIcon>
 
 export const AllSVGIcons: FC = () => {
   return (

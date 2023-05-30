@@ -1,16 +1,16 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 
-import { AsyncWrapper, Spin } from '../components'
+import { AsyncWrapper, Spin, Title } from '../components'
 import { color } from '../utils'
 
 export default {
   title: 'Utility/AsyncWrapper',
   component: AsyncWrapper,
   args: {},
-} as ComponentMeta<typeof AsyncWrapper>
+} as Meta<typeof AsyncWrapper>
 
 export const Playground: FC = () => {
   const sampleProcessor = async (processable: string) => {
@@ -25,11 +25,12 @@ export const Playground: FC = () => {
           <div
             style={{
               border: `1px solid ${color({ source: 'border', tone: 2 })}`,
+              color: color({ source: 'text' }),
               margin: '10px 0',
               borderRadius: 8,
             }}
           >
-            {isProcessing ? <Spin /> : processed}
+            {isProcessing ? <Spin /> : <Title h1>{processed}</Title>}
           </div>
         )}
       </AsyncWrapper>

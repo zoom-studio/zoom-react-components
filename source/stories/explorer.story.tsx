@@ -1,8 +1,8 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Explorer, ExplorerNS } from '../components'
+import { Explorer, type ExplorerNS } from '../components'
 import { generateExplorerFiles } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 
@@ -38,7 +38,7 @@ export default {
     typeColors: undefined,
     filterTypes: undefined,
   },
-} as ComponentMeta<typeof Explorer>
+} as Meta<typeof Explorer>
 
 const useExplorerStory = (withInitialFiles = true) => {
   const [isRenamingFile, setIsRenamingFile] = useState(false)
@@ -115,8 +115,12 @@ const useExplorerStory = (withInitialFiles = true) => {
     files: queriedFiles,
     uploaderProps: {
       files: uploaderFiles,
-      handleClearFiles: () => setUploaderFiles([]),
-      onWrite: files => setUploaderFiles(currentFiles => currentFiles.concat(files)),
+      handleClearFiles: () => {
+        setUploaderFiles([])
+      },
+      onWrite: files => {
+        setUploaderFiles(currentFiles => currentFiles.concat(files))
+      },
     },
   }
 

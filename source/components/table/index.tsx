@@ -1,8 +1,8 @@
-import React, { CSSProperties, UIEvent, useState } from 'react'
+import React, { type CSSProperties, type UIEvent, useState } from 'react'
 
 import {
-  SortingState,
-  VisibilityState,
+  type SortingState,
+  type VisibilityState,
   getCoreRowModel,
   getExpandedRowModel,
   getSortedRowModel,
@@ -14,7 +14,7 @@ import { useZoomComponent } from '../../hooks'
 
 import { logs } from '../../constants'
 import { TableActionsBar, TableBody, TableFooter, TableHeader } from './section-components'
-import { TableNS } from './types'
+import { type TableNS } from './types'
 import { useGenerateColumns } from './use-generate-columns'
 import { useTableI18n } from './use-i18n'
 import { useTableInfiniteScroll } from './use-infinite-scroll'
@@ -153,7 +153,8 @@ export const Table = <Dataset extends unknown[]>({
   const handleScrollToTop = () => {
     const { current: tableContainer } = tableContainerRef
     if (!tableContainer) {
-      return sendLog(logs.tableContainerRefNotFound, 'handleScrollToTop fn')
+      sendLog(logs.tableContainerRefNotFound, 'handleScrollToTop fn')
+      return
     }
 
     tableContainer.scrollTop = 0

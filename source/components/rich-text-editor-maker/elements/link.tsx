@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-target-blank */
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { RichTextEditorMakerNS } from '../types'
+import { type RichTextEditorMakerNS } from '../types'
 
 export namespace LinkElementNS {
   export interface Props extends RichTextEditorMakerNS.LinkInfo {

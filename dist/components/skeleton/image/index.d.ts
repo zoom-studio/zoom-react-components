@@ -1,7 +1,7 @@
 import React from 'react';
-import { SkeletonNS } from '..';
-import { IconNS } from '../..';
-import { CommonSize } from '../../../types';
+import { type SkeletonNS } from '..';
+import { type IconNS } from '../..';
+import { type CommonSize } from '../../../types';
 export declare namespace ImageSkeletonNS {
     interface Size {
         width?: string | number;

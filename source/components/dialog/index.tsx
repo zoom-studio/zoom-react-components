@@ -1,8 +1,8 @@
 import React, {
   forwardRef,
-  HTMLAttributes,
-  MouseEvent,
-  RefObject,
+  type HTMLAttributes,
+  type MouseEvent,
+  type RefObject,
   useEffect,
   useRef,
   useState,
@@ -12,9 +12,9 @@ import { makeElementDraggable } from '@zoom-studio/zoom-js-ts-utils'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 
-import { Button, ButtonNS, Icon, Portal, Title } from '..'
+import { Button, type ButtonNS, Icon, Portal, Title } from '..'
 import { logs } from '../../constants'
-import { BaseComponent, CommonSize } from '../../types'
+import { type BaseComponent, type CommonSize } from '../../types'
 
 export namespace DialogNS {
   export type Action = ButtonNS.Props
@@ -123,7 +123,8 @@ export const Dialog = forwardRef<HTMLDivElement, DialogNS.Props>(
 
     const handleOnCancelButtonClick = (evt: MouseEvent<HTMLButtonElement>) => {
       if (onCancelButtonClick) {
-        return onCancelButtonClick(evt, close)
+        onCancelButtonClick(evt, close)
+        return
       }
       onWillCancelButtonClick?.(evt)
       close()
@@ -152,12 +153,15 @@ export const Dialog = forwardRef<HTMLDivElement, DialogNS.Props>(
       window.addEventListener('keydown', onEscape)
 
       if (!dialog) {
-        return sendLog(logs.dialogNotFoundDialogRef, 'handleOnOpen function')
+        sendLog(logs.dialogNotFoundDialogRef, 'handleOnOpen function')
+        return
       }
 
       makeElementDraggable({
         element: dialog,
-        onDragStart: () => setIsFullscreen(false),
+        onDragStart: () => {
+          setIsFullscreen(false)
+        },
         whiteList: ['draggable-area'],
       })
     }

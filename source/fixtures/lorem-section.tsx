@@ -1,4 +1,4 @@
-import React, { FC, RefObject, useRef } from 'react'
+import React, { type FC, type RefObject, useRef } from 'react'
 
 import { faker } from '@faker-js/faker'
 

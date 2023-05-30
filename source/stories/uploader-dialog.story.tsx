@@ -1,23 +1,35 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Button, UploaderDialog, UploaderDialogNS } from '../components'
+import { Button, UploaderDialog, type UploaderDialogNS } from '../components'
 
 export default {
   title: 'Data entry/Uploader dialog',
   component: UploaderDialog,
   args: {},
-} as ComponentMeta<typeof UploaderDialog>
+} as Meta<typeof UploaderDialog>
 
 export const Playground: FC<UploaderDialogNS.Props> = props => {
   const [isOpen, setIsOpen] = useState(true)
 
   return (
     <>
-      <UploaderDialog {...props} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <UploaderDialog
+        {...props}
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false)
+        }}
+      />
 
-      <Button onClick={() => setIsOpen(isOpen => !isOpen)}>Open dialog</Button>
+      <Button
+        onClick={() => {
+          setIsOpen(isOpen => !isOpen)
+        }}
+      >
+        Open dialog
+      </Button>
     </>
   )
 }

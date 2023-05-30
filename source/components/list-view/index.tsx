@@ -1,28 +1,28 @@
-import React, { MouseEvent, ReactNode, RefObject } from 'react'
+import React, { type MouseEvent, type ReactNode, type RefObject } from 'react'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 import {
-  AvatarNS,
-  BadgeNS,
-  ButtonGroupNS,
-  ButtonNS,
-  CheckboxNS,
-  ContextMenuNS,
-  EmojiNS,
-  IconNS,
-  ImageNS,
+  type AvatarNS,
+  type BadgeNS,
+  type ButtonGroupNS,
+  type ButtonNS,
+  type CheckboxNS,
+  type ContextMenuNS,
+  type EmojiNS,
+  type IconNS,
+  type ImageNS,
   InfiniteScrollView,
-  InfiniteScrollViewNS,
-  RadioButtonNS,
+  type InfiniteScrollViewNS,
+  type RadioButtonNS,
   ScrollView,
-  ScrollViewNS,
-  SwitchNS,
+  type ScrollViewNS,
+  type SwitchNS,
 } from '..'
 
 import { ListViewItem } from './list-item'
-import { CustomLinkNS } from '../custom-link'
+import { type CustomLinkNS } from '../custom-link'
 
 export namespace ListViewNS {
   export type ImageProps = Pick<
@@ -113,7 +113,7 @@ export namespace ListViewNS {
   }
 }
 
-export const ListView = <ContentType extends unknown = unknown>({
+export const ListView = <ContentType = unknown,>({
   itemsContainerProps: providedItemsContainerProps,
   dataset,
   className,

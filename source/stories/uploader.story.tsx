@@ -1,10 +1,10 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { pullAt } from 'lodash'
 import { faker } from '@faker-js/faker'
 
-import { Uploader, UploaderNS } from '../components'
+import { Uploader, type UploaderNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -33,7 +33,7 @@ export default {
     onRemove: undefined,
     onClick: undefined,
   },
-} as ComponentMeta<typeof Uploader>
+} as Meta<typeof Uploader>
 
 const useUploaderStory = (withInitialFiles = false) => {
   const { t } = useI18n('uploader')

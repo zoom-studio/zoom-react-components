@@ -1,8 +1,8 @@
-import React, { FC, RefObject } from 'react'
+import React, { type FC, type RefObject } from 'react'
 
 import { ResizableMaker } from '..'
 import { logs } from '../../constants'
-import { ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
+import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
 
 export namespace ResizeEditorHandleNS {
   export interface ResizableInfo {

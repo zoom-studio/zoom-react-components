@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseComponent } from '../../types';
+import { type BaseComponent } from '../../types';
 import { EMOJI_GROUP_NAMES, EMOJI_NAMES, EMOJI_SUBGROUP_NAMES } from './constants';
 export declare namespace EmojiNS {
     const EmojiData: {
@@ -13,9 +13,9 @@ export declare namespace EmojiNS {
         asSpan?: boolean;
     }
     namespace Emojis {
-        type GroupNames = typeof EMOJI_GROUP_NAMES[number];
-        type SubgroupNames = typeof EMOJI_SUBGROUP_NAMES[number];
-        type Names = typeof EMOJI_NAMES[number];
+        type GroupNames = (typeof EMOJI_GROUP_NAMES)[number];
+        type SubgroupNames = (typeof EMOJI_SUBGROUP_NAMES)[number];
+        type Names = (typeof EMOJI_NAMES)[number];
         interface Emoji {
             collection: GroupNames;
             group: SubgroupNames;

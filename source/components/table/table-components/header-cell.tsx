@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { BaseComponent } from '../../../types'
+import { type BaseComponent } from '../../../types'
 
 export namespace HeaderCellNS {
   export interface Props extends BaseComponent<HTMLTableCellElement> {}

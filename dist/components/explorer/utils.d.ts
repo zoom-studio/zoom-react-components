@@ -1,4 +1,4 @@
-import { SelectNS } from '..';
+import { type SelectNS } from '..';
 import { ExplorerNS } from '.';
 export declare const getFileTypesFilterOptions: (i18n: Required<ExplorerNS.I18n>, defaultTypeQuery?: ExplorerNS.MaybeAllFileTypesWithAll) => SelectNS.Option<ExplorerNS.MaybeAllFileTypesWithAll>[];
 export declare const isImage: (fileType: ExplorerNS.MaybeAllFileTypes) => boolean;

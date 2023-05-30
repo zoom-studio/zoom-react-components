@@ -2,7 +2,7 @@ import React, { forwardRef, useCallback, useMemo } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 import { EMOJIS, EMOJI_GROUP_NAMES, EMOJI_NAMES, EMOJI_SUBGROUP_NAMES } from './constants'
 
 export namespace EmojiNS {
@@ -19,9 +19,9 @@ export namespace EmojiNS {
   }
 
   export namespace Emojis {
-    export type GroupNames = typeof EMOJI_GROUP_NAMES[number]
-    export type SubgroupNames = typeof EMOJI_SUBGROUP_NAMES[number]
-    export type Names = typeof EMOJI_NAMES[number]
+    export type GroupNames = (typeof EMOJI_GROUP_NAMES)[number]
+    export type SubgroupNames = (typeof EMOJI_SUBGROUP_NAMES)[number]
+    export type Names = (typeof EMOJI_NAMES)[number]
     export interface Emoji {
       collection: GroupNames
       group: SubgroupNames

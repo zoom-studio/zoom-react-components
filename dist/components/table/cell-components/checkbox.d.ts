@@ -1,6 +1,6 @@
-import { FC, MutableRefObject } from 'react';
-import { Row } from '@tanstack/react-table';
-import { CheckboxNS } from '../..';
+import { type FC, type MutableRefObject } from 'react';
+import { type Row } from '@tanstack/react-table';
+import { type CheckboxNS } from '../..';
 export declare namespace CellCheckboxNS {
     interface Props extends CheckboxNS.Props {
         indeterminate: boolean;

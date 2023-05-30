@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils';
-import { ExplorerNS } from '..';
+import { type FC } from 'react';
+import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils';
+import { type ExplorerNS } from '..';
 export declare namespace ExplorerSidebarNS {
     interface Props extends Pick<ExplorerNS.Props, 'onEditImage' | 'onDeleteFiles' | 'isSavingEditedImage' | 'isDeletingFiles' | 'isRenamingFile'> {
         i18n: Required<ExplorerNS.I18n>;

@@ -1,8 +1,8 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { RenderLeafProps } from 'slate-react'
+import { type RenderLeafProps } from 'slate-react'
 
-import { LinkElement, UseRenderLeafNS } from '..'
+import { LinkElement, type UseRenderLeafNS } from '..'
 
 export namespace LeafElementNS {
   export interface Props extends RenderLeafProps, UseRenderLeafNS.Params {

@@ -1,11 +1,11 @@
-import { Range, randomString } from '@zoom-studio/zoom-js-ts-utils'
+import { type Range, randomString } from '@zoom-studio/zoom-js-ts-utils'
 import {
-  BaseRange,
-  Descendant,
+  type BaseRange,
+  type Descendant,
   Editor,
   Element,
   Node,
-  NodeMatch,
+  type NodeMatch,
   Path,
   Range as SlateRange,
   Text,
@@ -13,11 +13,11 @@ import {
 } from 'slate'
 import { ReactEditor } from 'slate-react'
 
-import { EmojiNS, RichTextEditorMakerNS } from '../..'
+import { type EmojiNS, RichTextEditorMakerNS } from '../..'
 
 import { EditorCurrentWord } from '.'
 import { TableElementNS } from '../elements/table/types'
-import { RichTextEditorMakerProviderNS } from '../provider'
+import { type RichTextEditorMakerProviderNS } from '../provider'
 
 export namespace RichUtilsNS {
   export interface Params {
@@ -723,7 +723,7 @@ export class RichUtils {
 
   getLinkInfo = (): RichTextEditorMakerNS.LinkInfo | undefined => {
     const currentMark = Editor.marks(this.editor)
-    if (!currentMark || !currentMark.link || !currentMark.linkInfo) {
+    if (!currentMark?.link || !currentMark.linkInfo) {
       return undefined
     }
     return currentMark.linkInfo

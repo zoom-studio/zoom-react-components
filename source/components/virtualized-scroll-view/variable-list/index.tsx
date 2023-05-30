@@ -1,16 +1,21 @@
 import React, {
   cloneElement,
-  ComponentProps,
-  PropsWithChildren,
-  RefObject,
+  type ComponentProps,
+  type PropsWithChildren,
+  type RefObject,
   useCallback,
 } from 'react'
 
-import AutoSizer, { AutoSizerProps } from 'react-virtualized-auto-sizer'
-import { ListChildComponentProps, VariableSizeList, VariableSizeListProps } from 'react-window'
+import AutoSizer, { type Props as AutoSizerProps, type Size } from 'react-virtualized-auto-sizer'
+import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
+import {
+  type ListChildComponentProps,
+  VariableSizeList,
+  type VariableSizeListProps,
+} from 'react-window'
 
-import { VirtualizedScrollViewNS } from '..'
-import { ScrollView, ScrollViewNS } from '../..'
+import { type VirtualizedScrollViewNS } from '..'
+import { ScrollView, type ScrollViewNS } from '../..'
 import { useZoomComponent, useZoomContext } from '../../../hooks'
 
 export namespace VariableListVirtualizedScrollViewNS {
@@ -34,8 +39,8 @@ export namespace VariableListVirtualizedScrollViewNS {
       VirtualizedScrollViewNS.Props {
     dataset?: DataType
     reference?: RefObject<Ref | undefined>
-    width: 'auto' | number | (string & {})
-    height: 'auto' | number | (string & {})
+    width: MaybeString<'auto'> | number
+    height: MaybeString<'auto'> | number
     autoSizerProps?: Omit<AutoSizerProps, 'children'>
   }
 
@@ -91,7 +96,7 @@ export function VariableListVirtualizedScrollView<DataType extends unknown[] = u
 
   return width === 'auto' || height === 'auto' ? (
     <AutoSizer {...autoSizerProps}>
-      {({ width, height }) => (
+      {({ width, height }: Size) => (
         <VariableSizeList {...getProps(width, height)} key={height + width} />
       )}
     </AutoSizer>

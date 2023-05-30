@@ -1,7 +1,7 @@
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ExplorerNS, Skeleton } from '../..'
+import { type ExplorerNS, Skeleton } from '../..'
 
 export namespace ExplorerFilesSkeletonsNS {
   export interface Props {

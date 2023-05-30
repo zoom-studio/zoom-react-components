@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { FilterButton, FilterButtonNS, useMessage } from '..'
+import { FilterButton, type FilterButtonNS, useMessage } from '..'
 import { CommonStory, StoryPlayground, ToggleStory } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -24,7 +24,7 @@ export default {
     href: '',
     useSpan: false,
   },
-} as ComponentMeta<typeof FilterButton>
+} as Meta<typeof FilterButton>
 
 const useFilterButtonStory = () => {
   const { t } = useI18n('filterButton')

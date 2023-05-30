@@ -1,2 +1,2 @@
-import { CommonVariants } from '.';
-export declare type DataEntriesState = [CommonVariants, string?];
+import { type CommonVariants } from '.';
+export type DataEntriesState = [CommonVariants, string?];

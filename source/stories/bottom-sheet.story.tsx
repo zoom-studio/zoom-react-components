@@ -1,11 +1,11 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { BottomSheet, BottomSheetNS, Button, ButtonNS } from '../components'
-import { CommonStory, CommonStoryNS, StoryPlayground } from './components'
+import { BottomSheet, type BottomSheetNS, Button, type ButtonNS } from '../components'
+import { CommonStory, type CommonStoryNS, StoryPlayground } from './components'
 import { LoremPage, useCreateLoremSectionRefs } from '../fixtures'
-import { CommonSize } from '../types'
+import { type CommonSize } from '../types'
 import { useI18n } from './hooks/use-i18n'
 
 const Children = () => {
@@ -27,14 +27,16 @@ export default {
     actions: [{ children: 'Custom action' }],
     children: <Children />,
   },
-} as ComponentMeta<typeof BottomSheet>
+} as Meta<typeof BottomSheet>
 
 export const Sizes = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [dialogSize, setDialogSize] = useState<CommonSize>('normal')
   const { t } = useI18n('bottomSheet')
 
-  const close = () => setIsOpen(false)
+  const close = () => {
+    setIsOpen(false)
+  }
   const open = (size: CommonSize) => () => {
     setDialogSize(size)
     setIsOpen(true)

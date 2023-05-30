@@ -1,10 +1,14 @@
-import React, { cloneElement, FC, MouseEvent, useMemo, useState } from 'react'
+import React, { cloneElement, type FC, type MouseEvent, useMemo, useState } from 'react'
 
-import { createSelectable, ReactSelectableComponentProps, SelectableGroup } from 'react-selectable'
+import {
+  createSelectable,
+  type ReactSelectableComponentProps,
+  SelectableGroup,
+} from 'react-selectable'
 import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace SelectableNS {
   export interface ChildrenCallbackParams<DataType extends unknown[]> {

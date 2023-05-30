@@ -1,8 +1,8 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Button, ExplorerDialog, ExplorerDialogNS } from '../components'
+import { Button, ExplorerDialog, type ExplorerDialogNS } from '../components'
 import { explorerRandomFile } from '../fixtures'
 
 export default {
@@ -11,16 +11,28 @@ export default {
   args: {
     files: Array.from(Array(20)).map(explorerRandomFile),
   },
-} as ComponentMeta<typeof ExplorerDialog>
+} as Meta<typeof ExplorerDialog>
 
 export const Playground: FC<ExplorerDialogNS.Props> = props => {
   const [isOpen, setIsOpen] = useState(true)
 
   return (
     <>
-      <ExplorerDialog {...props} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <ExplorerDialog
+        {...props}
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false)
+        }}
+      />
 
-      <Button onClick={() => setIsOpen(isOpen => !isOpen)}>Open dialog</Button>
+      <Button
+        onClick={() => {
+          setIsOpen(isOpen => !isOpen)
+        }}
+      >
+        Open dialog
+      </Button>
     </>
   )
 }

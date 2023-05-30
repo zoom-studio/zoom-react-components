@@ -1,13 +1,13 @@
 import React from 'react'
 
 import toaster from 'react-hot-toast'
-import { useAudio, UseAudioNS } from '@zoom-studio/zoom-js-ts-utils'
+import { useAudio, type UseAudioNS } from '@zoom-studio/zoom-js-ts-utils'
 
-import { CommonVariants } from '../../../types'
+import { type CommonVariants } from '../../../types'
 
 import { DEFAULT_TOAST_DURATION, TOASTER_CLASS_NAME } from '../constants'
-import { Toast, ToastNS } from '.'
-import { UseMessageNS } from '../use-message'
+import { Toast, type ToastNS } from '.'
+import { type UseMessageNS } from '../use-message'
 
 export namespace UseToastNS {
   export type ToastOptions = Omit<ToastNS.Props, 'variant' | 'message' | 'thisToast'>
@@ -61,10 +61,18 @@ export const useToast = (): UseToastNS.UseToastReturnType => {
 
   return {
     toast,
-    destroy: id => toaster.dismiss(id),
-    destroyAll: () => toaster.dismiss(),
-    terminate: id => toaster.remove(id),
-    terminateAll: () => toaster.remove(),
+    destroy: id => {
+      toaster.dismiss(id)
+    },
+    destroyAll: () => {
+      toaster.dismiss()
+    },
+    terminate: id => {
+      toaster.remove(id)
+    },
+    terminateAll: () => {
+      toaster.remove()
+    },
     neutral: (msg, opt) => toast(msg, 'neutral', opt),
     success: (msg, opt) => toast(msg, 'success', opt),
     info: (msg, opt) => toast(msg, 'info', opt),

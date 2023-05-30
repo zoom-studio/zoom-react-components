@@ -1,20 +1,20 @@
 import React, {
   createElement,
   forwardRef,
-  FunctionComponentElement,
-  MouseEvent,
-  MutableRefObject,
-  ReactNode,
-  RefObject,
+  type FunctionComponentElement,
+  type MouseEvent,
+  type MutableRefObject,
+  type ReactNode,
+  type RefObject,
   useRef,
   useState,
 } from 'react'
 
 import { useZoomComponent } from '../../hooks'
 
-import { Menu, MenuNS } from '..'
+import { Menu, type MenuNS } from '..'
 import { logs } from '../../constants'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace ContextMenuNS {
   export type Menu = FunctionComponentElement<MenuNS.Props> | null
@@ -72,7 +72,9 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuNS.Props>(
     const menuProps: MenuNS.Props & { ref: MutableRefObject<HTMLButtonElement | null> } = {
       ...userMenuProps,
       items,
-      onClose: () => setMenuComponent(null),
+      onClose: () => {
+        setMenuComponent(null)
+      },
       ref: menuButtonRef,
       style: { visibility: 'hidden', position: 'fixed' },
     }

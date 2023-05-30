@@ -1,8 +1,8 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { type CSSProperties, type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Resizable, ResizableNS } from '../components'
+import { Resizable, type ResizableNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { color } from '../utils'
 
@@ -62,7 +62,7 @@ export default {
     children: renderChildren,
     style: containerStyles,
   },
-} as ComponentMeta<typeof Resizable>
+} as Meta<typeof Resizable>
 
 export const InitialSizes: FC = () => {
   return (

@@ -1,11 +1,20 @@
-import React, { forwardRef, ReactNode, useEffect, useState } from 'react'
+import React, { forwardRef, type ReactNode, useEffect, useState } from 'react'
 
 import Slider from 'react-rangeslider'
 import { useVariable } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Emoji, EmojiNS, Icon, IconNS, InputNS, Spin, Text, TypographyNS } from '..'
+import {
+  Emoji,
+  type EmojiNS,
+  Icon,
+  type IconNS,
+  type InputNS,
+  Spin,
+  Text,
+  type TypographyNS,
+} from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { BaseComponent, CommonSize, DataEntriesState } from '../../types'
+import { type BaseComponent, type CommonSize, type DataEntriesState } from '../../types'
 
 export namespace RangeSliderNS {
   export type ThumbContent = { icon: IconNS.Names } | { emoji: EmojiNS.Emojis.Names } | JSX.Element
@@ -16,7 +25,7 @@ export namespace RangeSliderNS {
     value?: number
     step?: number
     disabled?: boolean
-    masks?: { [value: number]: ReactNode } | undefined
+    masks?: Record<number, ReactNode> | undefined
     onWrite?: (value: number) => void
     renderPopover?: ((value: number) => ReactNode) | false
     thumbContent?: ThumbContent

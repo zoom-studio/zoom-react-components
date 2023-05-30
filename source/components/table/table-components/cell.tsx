@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react'
+import React, { type ReactNode } from 'react'
 
-import { BaseComponent } from '../../../types'
+import { type BaseComponent } from '../../../types'
 
 export namespace CellNS {
   export interface Props<Dataset extends unknown[]>

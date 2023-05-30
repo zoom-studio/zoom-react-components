@@ -1,6 +1,6 @@
-import React, { HTMLAttributes, HTMLInputTypeAttribute, RefObject } from 'react';
-import { SpinNS, TypographyNS } from '..';
-import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types';
+import React, { type HTMLAttributes, type HTMLInputTypeAttribute, type RefObject } from 'react';
+import { type SpinNS, type TypographyNS } from '..';
+import { type BaseComponent, type BaseInputComponent, type CommonSize, type DataEntriesState } from '../../types';
 export declare namespace InputNS {
     type TextSize = Pick<TypographyNS.TextNS.Props, 'small' | 'normal' | 'large'>;
     type Type = Exclude<HTMLInputTypeAttribute, 'button' | 'checkbox' | 'radio' | object> | 'numeral-keypad-text';

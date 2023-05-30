@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { type FC, type ReactNode } from 'react';
 export declare namespace DelayedWrapperNS {
     interface Props {
         timeout: number;

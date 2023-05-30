@@ -23,8 +23,6 @@ div[class^='zoomrc-reaction-'] {
     }
 
     > .zoomrc-button-small-inner-child {
-      height: 100%;
-
       > .zoomrc-spin-small {
         display: flex;
         align-items: center;
@@ -40,5 +38,22 @@ div[class^='zoomrc-reaction-'] {
         }
       }
     }
+  }
+}
+
+.zoomrc-reaction-rate {
+  &-small > .zoomrc-button {
+    max-width: 32px;
+    max-height: 32px;
+  }
+
+  &-normal > .zoomrc-button {
+    max-width: 40px;
+    max-height: 40px;
+  }
+
+  &-large > .zoomrc-button {
+    max-width: 46px;
+    max-height: 46px;
   }
 }

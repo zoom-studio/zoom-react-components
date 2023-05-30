@@ -1,6 +1,6 @@
-import React, { MouseEvent } from 'react'
+import React, { type MouseEvent } from 'react'
 
-import { ColumnDef, ColumnHelper, Row } from '@tanstack/react-table'
+import { type ColumnDef, type ColumnHelper, type Row } from '@tanstack/react-table'
 
 import { ExpandButton } from '../cell-components'
 

@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 
-import { Title, TypographyNS } from '..'
+import { Title, type TypographyNS } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace DividerNS {
   export interface Props extends BaseComponent {

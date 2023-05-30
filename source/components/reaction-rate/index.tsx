@@ -1,10 +1,10 @@
-import React, { forwardRef, MouseEvent } from 'react'
+import React, { forwardRef, type MouseEvent } from 'react'
 
-import { Range } from '@zoom-studio/zoom-js-ts-utils'
+import { type Range } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Button, Emoji, EmojiNS } from '..'
+import { Button, Emoji, type EmojiNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { BaseComponent, CommonSize } from '../../types'
+import { type BaseComponent, type CommonSize } from '../../types'
 
 export namespace ReactionRateNS {
   export type EmojiName = EmojiNS.Emojis.Names
@@ -48,6 +48,7 @@ export const ReactionRate = forwardRef<HTMLDivElement, ReactionRateNS.Props>(
 
     const classes = createClassName(className, type, {
       [`${createClassName(undefined, size)}`]: true,
+      [createClassName()]: true,
     })
 
     const reactions = type === 'quintuple' ? emojis : [emojis[0], emojis[1]]
@@ -61,7 +62,7 @@ export const ReactionRate = forwardRef<HTMLDivElement, ReactionRateNS.Props>(
         {reactions.map((reaction, index) => (
           <Button
             key={index}
-            size="small"
+            size={size}
             type="secondary"
             active={isSelected(index)}
             loading={isLoading(index)}

@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Button, ReactionRate, Switch, Text, Tour, TourNS, useMessage } from '../components'
+import { Button, ReactionRate, Switch, Text, Tour, type TourNS, useMessage } from '../components'
 import { LoremPage, useCreateLoremSectionRefs } from '../fixtures'
 import { WithButtonsStory } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -21,13 +21,28 @@ const renderContent = (
       <ReactionRate />
       <Switch label={switchMe} />
       <Text>{description}</Text>
-      <Button size="small" onClick={() => handlers.navigateTo('next')}>
+      <Button
+        size="small"
+        onClick={() => {
+          handlers.navigateTo('next')
+        }}
+      >
         {next}
       </Button>
-      <Button size="small" onClick={() => handlers.navigateTo('prev')}>
+      <Button
+        size="small"
+        onClick={() => {
+          handlers.navigateTo('prev')
+        }}
+      >
         {prev}
       </Button>
-      <Button size="small" onClick={() => handlers.navigateTo(2)}>
+      <Button
+        size="small"
+        onClick={() => {
+          handlers.navigateTo(2)
+        }}
+      >
         {toStep3}
       </Button>
       <Button size="small" onClick={handlers.stopTour}>
@@ -56,7 +71,7 @@ export default {
     containerProps: {},
     onClick: undefined,
   },
-} as ComponentMeta<typeof Tour>
+} as Meta<typeof Tour>
 
 const useTourStory = () => {
   const refs = useCreateLoremSectionRefs()

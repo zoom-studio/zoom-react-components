@@ -1,19 +1,24 @@
 import React, {
-  ChangeEvent,
-  FocusEvent,
-  FormEvent,
+  type ChangeEvent,
+  type FocusEvent,
+  type FormEvent,
   forwardRef,
-  HTMLAttributes,
-  HTMLInputTypeAttribute,
-  InputHTMLAttributes,
-  RefObject,
+  type HTMLAttributes,
+  type HTMLInputTypeAttribute,
+  type InputHTMLAttributes,
+  type RefObject,
   useRef,
 } from 'react'
 
-import { Button, Icon, LongPress, Spin, SpinNS, Text, TypographyNS } from '..'
+import { Button, Icon, LongPress, Spin, type SpinNS, Text, type TypographyNS } from '..'
 import { logs } from '../../constants'
 import { useComponentSize, useInputDirectionHandler, useZoomComponent } from '../../hooks'
-import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types'
+import {
+  type BaseComponent,
+  type BaseInputComponent,
+  type CommonSize,
+  type DataEntriesState,
+} from '../../types'
 
 import { color } from '../../utils/color'
 
@@ -103,7 +108,9 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
 
     const handleDirection = useInputDirectionHandler(
       inputRef,
-      () => sendLog(logs.inputNotFoundInputRef, 'useInputDirectionHandler hook'),
+      () => {
+        sendLog(logs.inputNotFoundInputRef, 'useInputDirectionHandler hook')
+      },
       (isText || isSearch) && autoDirection,
     )
 
@@ -129,7 +136,8 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
     const handleOnPasswordButtonClick = () => {
       const { current: input } = inputRef
       if (!input) {
-        return sendLog(logs.inputNotFoundInputRef, 'handleOnPasswordButtonClick fn')
+        sendLog(logs.inputNotFoundInputRef, 'handleOnPasswordButtonClick fn')
+        return
       }
 
       if (!isPassword || !passwordToggleButton) {
@@ -147,7 +155,8 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
     const handleClearSearchButtonClick = () => {
       const { current: input } = inputRef
       if (!input) {
-        return sendLog(logs.inputNotFoundInputRef, 'handleClearSearchButtonClick fn')
+        sendLog(logs.inputNotFoundInputRef, 'handleClearSearchButtonClick fn')
+        return
       }
 
       if (!isSearch || !searchClearButton) {
@@ -161,7 +170,8 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
     const handleNumberButtonHandlers = (handler: 'increase' | 'decrease') => () => {
       const { current: input } = inputRef
       if (!input) {
-        return sendLog(logs.inputNotFoundInputRef, 'handleNumberButtonHandlers fn')
+        sendLog(logs.inputNotFoundInputRef, 'handleNumberButtonHandlers fn')
+        return
       }
 
       if (!isNumber || !numberButtonHandlers) {

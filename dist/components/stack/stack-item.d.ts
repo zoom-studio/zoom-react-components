@@ -1,6 +1,6 @@
 import React from 'react';
-import { BaseComponent } from '../../types';
-import { StackNS } from '.';
+import { type BaseComponent } from '../../types';
+import { type StackNS } from '.';
 export declare namespace StackItemNS {
     interface Props extends BaseComponent {
         align?: StackNS.Aligns;

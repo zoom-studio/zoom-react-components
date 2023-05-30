@@ -25,4 +25,6 @@ export declare enum logs {
   richTextEditorMakerEditorRefIsFunction = 'ZOOMRC/RICH_TEXT_EDITOR_MAKER/EDITOR_REF_IS_FUNCTION',
   tableContainerRefNotFound = 'ZOOMRC/TABLE/CONTAINER_REF_NOT_FOUND',
   tableGeneratorTableRefNotFound = 'ZOOMRC/TABLE_GENERATOR/TABLE_REF_NOT_FOUND',
+  tableTableElementTableRefNotFound = 'ZOOMRC/TABLE_TABLE_ELEMENT_TABLE_REF_NOT_FOUND',
+  avatarEditorContainerRefNotFound = 'ZOOMRC/AVATAR_EDITOR/CONTAINER_REF_NOT_FOUND',
 }

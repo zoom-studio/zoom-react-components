@@ -1,8 +1,8 @@
-import React, { FC, useRef, useState } from 'react'
+import React, { type FC, useRef, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Alert, Portal, PortalNS, Text } from '../components'
+import { Alert, Portal, type PortalNS, Text } from '../components'
 import { WithButtonsStory } from './components'
 import { color } from '../utils'
 
@@ -12,7 +12,7 @@ export default {
   args: {
     container: document.body,
   },
-} as ComponentMeta<typeof Portal>
+} as Meta<typeof Portal>
 
 export const InsideCustomContainer: FC = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -20,7 +20,14 @@ export const InsideCustomContainer: FC = () => {
 
   return (
     <WithButtonsStory
-      buttons={[{ children: 'Open portal children', onClick: () => setIsOpen(true) }]}
+      buttons={[
+        {
+          children: 'Open portal children',
+          onClick: () => {
+            setIsOpen(true)
+          },
+        },
+      ]}
       secondaryChild={
         <div ref={customContainerRef}>
           <Text style={{ color: color({ source: 'text' }) }}>
@@ -32,7 +39,9 @@ export const InsideCustomContainer: FC = () => {
       {isOpen && (
         <Portal container={customContainerRef.current}>
           <Alert
-            onWillClose={() => setIsOpen(false)}
+            onWillClose={() => {
+              setIsOpen(false)
+            }}
             identifier="portal-alert"
             title="Alert as a portal"
             description="This alert has been dynamically rendered to the custom div element"
@@ -48,12 +57,21 @@ export const Playground: FC<PortalNS.Props> = props => {
 
   return (
     <WithButtonsStory
-      buttons={[{ children: 'Open portal children', onClick: () => setIsOpen(true) }]}
+      buttons={[
+        {
+          children: 'Open portal children',
+          onClick: () => {
+            setIsOpen(true)
+          },
+        },
+      ]}
     >
       {isOpen && (
         <Portal {...props}>
           <Alert
-            onWillClose={() => setIsOpen(false)}
+            onWillClose={() => {
+              setIsOpen(false)
+            }}
             identifier="portal-alert"
             title="Alert as a portal"
             description="This alert has been dynamically rendered to the target dom"

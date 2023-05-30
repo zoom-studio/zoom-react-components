@@ -1,4 +1,4 @@
-import { useZoomComponent } from '../../hooks';
+import { type useZoomComponent } from '../../hooks';
 export declare namespace UseExplorerI18nNS {
     interface I18n {
         uploadNewFile?: string;
@@ -28,4 +28,4 @@ export declare namespace UseExplorerI18nNS {
         loadingFiles?: string;
     }
 }
-export declare const UseExplorerI18n: (globalI18ns: ReturnType<typeof useZoomComponent>['globalI18ns']) => Required<UseExplorerI18nNS.I18n>;
+export declare const UseExplorerI18n: (globalI18ns: ReturnType<typeof useZoomComponent>['globalI18ns'], componentI18n?: UseExplorerI18nNS.I18n) => Required<UseExplorerI18nNS.I18n>;

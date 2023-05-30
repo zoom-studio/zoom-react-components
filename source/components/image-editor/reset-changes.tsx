@@ -1,12 +1,12 @@
-import React, { Dispatch, FC, RefObject, SetStateAction } from 'react'
+import React, { type Dispatch, type FC, type RefObject, type SetStateAction } from 'react'
 
-import { CropperRef } from 'react-advanced-cropper'
+import { type CropperRef } from 'react-advanced-cropper'
 
-import { Button, ButtonNS, PopConfirm, Tooltip } from '..'
+import { Button, type ButtonNS, PopConfirm, Tooltip } from '..'
 import { logs } from '../../constants'
-import { ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
+import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
 
-import { ImageEditorNS } from '.'
+import { type ImageEditorNS } from '.'
 
 export namespace ResetChangesNS {
   export interface Props {
@@ -32,7 +32,8 @@ export const ResetChanges: FC<ResetChangesNS.Props> = ({
   const handleResetChanges = (closePopover?: () => void) => () => {
     const { current: cropper } = cropperRef
     if (!cropper) {
-      return sendLog(logs.imageEditorNotFoundCropperRef, 'handleResetChanges fn')
+      sendLog(logs.imageEditorNotFoundCropperRef, 'handleResetChanges fn')
+      return
     }
 
     cropper.reset()

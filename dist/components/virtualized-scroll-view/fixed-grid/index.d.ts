@@ -1,7 +1,7 @@
-import React, { ComponentProps, PropsWithChildren, RefObject } from 'react';
-import { AutoSizerProps } from 'react-virtualized-auto-sizer';
-import { FixedSizeGrid, FixedSizeGridProps, GridChildComponentProps } from 'react-window';
-import { VirtualizedScrollViewNS } from '..';
+import React, { type ComponentProps, type PropsWithChildren, type RefObject } from 'react';
+import { type Props as AutoSizerProps } from 'react-virtualized-auto-sizer';
+import { FixedSizeGrid, type FixedSizeGridProps, type GridChildComponentProps } from 'react-window';
+import { type VirtualizedScrollViewNS } from '..';
 export declare namespace FixedGridVirtualizedScrollViewNS {
     type Ref = FixedSizeGrid<any>;
     type PropsGetter<DataType extends unknown[][] = unknown[][]> = (width: number, height: number) => FixedSizeGridProps<DataType>;

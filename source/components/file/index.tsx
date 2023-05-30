@@ -1,10 +1,10 @@
-import React, { MouseEvent, forwardRef, useRef, Ref } from 'react'
+import React, { type MouseEvent, forwardRef, useRef, type Ref } from 'react'
 
 import { formatFileSize } from '@zoom-studio/zoom-js-ts-utils'
 
 import { ConditionalWrapper, ExplorerNS, Icon, Image, Progress, SVGIcon, Text, Title } from '../..'
 import { useComponentSize, useZoomComponent, useZoomContext } from '../../hooks'
-import { BaseComponent, CommonSize } from '../../types'
+import { type BaseComponent, type CommonSize } from '../../types'
 import { customizeFileTypeColors, getFileTypeColors, isImage } from '../explorer/utils'
 import { CustomLink } from '../custom-link'
 
@@ -149,7 +149,9 @@ export const File = forwardRef<HTMLDivElement, FileNS.Props>(
                   <Image
                     src={url}
                     className="image-preview"
-                    onOpenImageViewerClick={evt => evt.preventDefault()}
+                    onOpenImageViewerClick={evt => {
+                      evt.preventDefault()
+                    }}
                     withImageViewer={withImageViewer}
                     imageViewerOpenerIconSize={previewSize / 2}
                     width={previewSize}

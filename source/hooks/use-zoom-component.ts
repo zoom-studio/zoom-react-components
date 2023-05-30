@@ -8,9 +8,7 @@ export namespace UseZoomComponentNS {
   export type CreateClassNameFN = (
     userClassNames?: string,
     staticClassNameSuffix?: string,
-    dynamicClassNames?: {
-      [name: string]: boolean
-    },
+    dynamicClassNames?: Record<string, boolean>,
   ) => string
 }
 

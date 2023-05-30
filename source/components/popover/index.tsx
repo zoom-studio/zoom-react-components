@@ -1,7 +1,7 @@
-import React, { forwardRef, HTMLAttributes, ReactNode, useRef } from 'react'
+import React, { forwardRef, type HTMLAttributes, type ReactNode, useRef } from 'react'
 
-import { SpinNS, TypographyNS } from '..'
-import { BaseComponent } from '../../types'
+import { type SpinNS, type TypographyNS } from '..'
+import { type BaseComponent } from '../../types'
 
 import { PopoverContent } from './popover-content'
 import { PopoverTrigger } from './popover-triggre'
@@ -10,9 +10,9 @@ import { PopoverContext } from './use-popover-context'
 
 export namespace PopoverNS {
   export const Trigger = ['click', 'focus', 'hover'] as const
-  export type Trigger = typeof Trigger[number]
+  export type Trigger = (typeof Trigger)[number]
 
-  export type Placement = typeof Placement[number]
+  export type Placement = (typeof Placement)[number]
   const Placement = [
     'top-start',
     'top',

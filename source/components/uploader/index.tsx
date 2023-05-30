@@ -1,23 +1,23 @@
-import React, { DragEvent, FormEvent, forwardRef, useRef, useState } from 'react'
+import React, { type DragEvent, type FormEvent, forwardRef, useRef, useState } from 'react'
 
-import { classNames, fileListToArray } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, fileListToArray, type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
 
-import { AsyncWrapper, Button, ExplorerNS, Icon, Text, Title, TypographyNS } from '..'
+import { AsyncWrapper, Button, ExplorerNS, Icon, Text, Title, type TypographyNS } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
-import { BaseComponent, DataEntriesState } from '../../types'
+import { type BaseComponent, type DataEntriesState } from '../../types'
 import { customizeFileTypeColors } from '../explorer/utils'
 
 import { logs } from '../../constants'
 import { UploaderFile } from './file'
-import { useUploaderI18n, UseUploaderI18nNS } from './use-i18n'
+import { useUploaderI18n, type UseUploaderI18nNS } from './use-i18n'
 import { getFileInfo } from './utils'
 
 export namespace UploaderNS {
   export type I18n = UseUploaderI18nNS.I18n
 
   export const AcceptableTypes = ['audio/*', 'video/*', 'image/*'] as const
-  export type AcceptableTypes = typeof AcceptableTypes[number]
-  export type MaybeAcceptableTypes = AcceptableTypes | (string & {})
+  export type AcceptableTypes = (typeof AcceptableTypes)[number]
+  export type MaybeAcceptableTypes = MaybeString<AcceptableTypes>
 
   export interface FileInterface {
     name: string
@@ -101,7 +101,8 @@ export const Uploader = forwardRef<HTMLDivElement, UploaderNS.Props>(
 
       const { current: fileInput } = fileInputRef
       if (!fileInput) {
-        return sendLog(logs.uploaderNotFoundFileInputRef, 'handleOpenFileDialog fn')
+        sendLog(logs.uploaderNotFoundFileInputRef, 'handleOpenFileDialog fn')
+        return
       }
 
       fileInput.click()
@@ -123,7 +124,8 @@ export const Uploader = forwardRef<HTMLDivElement, UploaderNS.Props>(
 
       const { current: fileInput } = fileInputRef
       if (!fileInput) {
-        return sendLog(logs.uploaderNotFoundFileInputRef, 'handleOnInputChange fn')
+        sendLog(logs.uploaderNotFoundFileInputRef, 'handleOnInputChange fn')
+        return
       }
       fileInput.value = ''
     }

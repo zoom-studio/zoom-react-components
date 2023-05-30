@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
-import { Row, Table } from '@tanstack/react-table';
-import { TableNS } from '../types';
+import React, { type ReactNode } from 'react';
+import { type Row, type Table } from '@tanstack/react-table';
+import { type TableNS } from '../types';
 export declare namespace UseTableRowsNS {
     interface VirtualizedRowObservers {
         firstRow: ReactNode;

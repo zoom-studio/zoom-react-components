@@ -1,11 +1,11 @@
 import React, { forwardRef } from 'react'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
-import { ICON_NAMES } from './constants/icon-names'
+import { type BaseComponent } from '../../types'
+import { type ICON_NAMES } from './constants/icon-names'
 
 export namespace IconNS {
-  export type Names = typeof ICON_NAMES[number]
+  export type Names = (typeof ICON_NAMES)[number]
 
   export interface Props extends BaseComponent<HTMLSpanElement> {
     name: Names

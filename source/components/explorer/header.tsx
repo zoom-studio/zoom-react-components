@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Button, Input, Select } from '..'
 
@@ -49,7 +49,9 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
           size="small"
           className="file-type-select"
           defaultValue={typeQuery.val}
-          onWrite={values => typeQuery.set(values[0])}
+          onWrite={values => {
+            typeQuery.set(values[0])
+          }}
           disabled={isTypeSelectDisabled || disabled}
         />
 

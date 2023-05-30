@@ -1,13 +1,14 @@
-import { Editor, Element, Node, Path, Range, Transforms } from 'slate'
+import { Editor, type Element, Node, Path, Range, Transforms } from 'slate'
 
-import { RichTextEditorMakerNS } from '../types'
+import { type RichTextEditorMakerNS } from '../types'
 
 export const withCorrectVoidBehavior = (editor: RichTextEditorMakerNS.Editor) => {
   const { deleteBackward, insertBreak } = editor
 
   editor.insertBreak = () => {
     if (!editor.selection || !Range.isCollapsed(editor.selection)) {
-      return insertBreak()
+      insertBreak()
+      return
     }
     const selectedNodePath = Path.parent(editor.selection.anchor.path)
     const selectedNode = Node.get(editor, selectedNodePath)
@@ -27,7 +28,8 @@ export const withCorrectVoidBehavior = (editor: RichTextEditorMakerNS.Editor) =>
       !Range.isCollapsed(editor.selection) ||
       editor.selection.anchor.offset !== 0
     ) {
-      return deleteBackward(unit)
+      deleteBackward(unit)
+      return
     }
     const parentPath = Path.parent(editor.selection.anchor.path)
     const parentNode = Node.get(editor, parentPath)
@@ -36,7 +38,8 @@ export const withCorrectVoidBehavior = (editor: RichTextEditorMakerNS.Editor) =>
       const prevNodePath = Path.previous(parentPath)
       const prevNode = Node.get(editor, prevNodePath)
       if (Editor.isVoid(editor, <Element>prevNode)) {
-        return Transforms.removeNodes(editor)
+        Transforms.removeNodes(editor)
+        return
       }
     }
     deleteBackward(unit)

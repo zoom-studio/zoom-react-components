@@ -1,11 +1,17 @@
 const path = require('path')
 
-module.exports = {
-  framework: '@storybook/react',
-  stories: ['../source/stories/*/*.story.mdx', '../source/stories/*.story.tsx'],
+import { StorybookConfig } from '@storybook/react-webpack5'
+
+module.exports = <StorybookConfig>{
+  framework: { name: '@storybook/react-webpack5', options: {} },
+  docs: { autodocs: 'tag' },
+  stories: ['../source/stories/*/*.mdx', '../source/stories/*.story.tsx'],
   staticDirs: ['../public'],
   webpackFinal: async (config, { configType }) => {
-    config.module.rules.push(
+    if (!config.module) {
+      config.module = { rules: [] }
+    }
+    config.module.rules!.push(
       {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
@@ -24,7 +30,6 @@ module.exports = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    'storybook-addon-performance/register',
     'storybook-dark-mode',
     '@storybook/addon-a11y',
     {

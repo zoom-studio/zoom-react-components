@@ -1,6 +1,6 @@
-import React, { HTMLAttributes, MouseEvent, RefObject } from 'react';
-import { ButtonNS } from '..';
-import { BaseComponent, CommonSize } from '../../types';
+import React, { type HTMLAttributes, type MouseEvent, type RefObject } from 'react';
+import { type ButtonNS } from '..';
+import { type BaseComponent, type CommonSize } from '../../types';
 export declare namespace DialogNS {
     type Action = ButtonNS.Props;
     type ButtonProps = ButtonNS.Props;

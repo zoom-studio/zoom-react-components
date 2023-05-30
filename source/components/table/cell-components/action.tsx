@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 import { Button } from '../../button'
 
-import { TableNS } from '../types'
+import { type TableNS } from '../types'
 
 export namespace CellActionsNS {
   export interface Props {

@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode, RefObject, MouseEvent, CSSProperties, InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
+import { type HTMLAttributes, type ReactNode, type RefObject, type MouseEvent, type CSSProperties, type InputHTMLAttributes, type TextareaHTMLAttributes } from 'react';
 export interface BaseComponent<Container extends HTMLElement = HTMLDivElement> {
     containerProps?: Omit<HTMLAttributes<Container>, 'className' | 'id' | 'ref' | 'style' | 'onClick'>;
     children?: ReactNode;
@@ -8,15 +8,15 @@ export interface BaseComponent<Container extends HTMLElement = HTMLDivElement> {
     style?: CSSProperties;
 }
 declare const VitalInputPropsObject: readonly ["onChange", "onInput", "defaultChecked", "checked", "value", "defaultValue", "accept", "required", "onBlur", "onFocus", "placeholder", "autoFocus"];
-declare type VitalInputProps = typeof VitalInputPropsObject[number];
-declare type InputProps = Pick<InputHTMLAttributes<HTMLInputElement>, VitalInputProps>;
+type VitalInputProps = (typeof VitalInputPropsObject)[number];
+type InputProps = Pick<InputHTMLAttributes<HTMLInputElement>, VitalInputProps>;
 export interface BaseInputComponent extends InputProps {
     inputProps?: Omit<InputHTMLAttributes<HTMLInputElement>, VitalInputProps>;
     inputRef?: RefObject<HTMLInputElement>;
 }
 declare const VitalTextareaPropsObject: readonly ["onChange", "onInput", "value", "defaultValue", "required", "onBlur", "onFocus", "placeholder", "onMouseUp", "onKeyDown", "autoFocus"];
-declare type VitalTextareaProps = typeof VitalTextareaPropsObject[number];
-declare type TextareaProps = Pick<TextareaHTMLAttributes<HTMLTextAreaElement>, VitalTextareaProps>;
+type VitalTextareaProps = (typeof VitalTextareaPropsObject)[number];
+type TextareaProps = Pick<TextareaHTMLAttributes<HTMLTextAreaElement>, VitalTextareaProps>;
 export interface BaseTextareaComponent extends TextareaProps {
     textareaProps?: Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, VitalTextareaProps>;
     textareaRef?: RefObject<HTMLTextAreaElement>;

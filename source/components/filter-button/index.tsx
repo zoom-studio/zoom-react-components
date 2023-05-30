@@ -1,8 +1,8 @@
 import React, { forwardRef } from 'react'
 
-import { Button, ButtonNS, Spin } from '..'
+import { Button, type ButtonNS, Spin } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent, Color } from '../../types'
+import { type BaseComponent, type Color } from '../../types'
 import { colorFnToColor } from '../../utils'
 
 export namespace FilterButtonNS {

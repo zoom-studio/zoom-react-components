@@ -1,38 +1,43 @@
 import React, {
   forwardRef,
-  MouseEvent,
-  ReactElement,
-  ReactNode,
   useCallback,
   useRef,
   useState,
+  type MouseEvent,
+  type ReactElement,
+  type ReactNode,
 } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 import { renderToString } from 'react-dom/server'
-import { IReactToPrintProps, useReactToPrint } from 'react-to-print'
-import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
+import { useReactToPrint, type IReactToPrintProps } from 'react-to-print'
+import {
+  TransformComponent,
+  TransformWrapper,
+  type ReactZoomPanPinchRef,
+} from 'react-zoom-pan-pinch'
 
 import {
   Button,
-  ButtonNS,
   Download,
   Icon,
-  IconNS,
   Image,
   PopConfirm,
-  PopoverNS,
   Portal,
   ScrollView,
   Text,
   Title,
   Tooltip,
+  type ButtonNS,
+  type IconNS,
+  type PopoverNS,
 } from '..'
 import { BREAKPOINTS } from '../../constants'
 import { useZoomComponent, useZoomContext } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
-import { UseImageViewerI18nNS, useImageViewerI18n } from './use-i18n'
+import { useImageViewerI18n, type UseImageViewerI18nNS } from './use-i18n'
+import { WithTransformInfo } from './with-transform-info'
 
 export namespace ImageViewerNS {
   export interface ChildrenCallbackParams {
@@ -242,7 +247,9 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
       centerView: ReactZoomPanPinchRef['centerView'],
     ): void => {
       setActiveImageIndex(index)
-      setTimeout(() => centerView?.(1), 500)
+      setTimeout(() => {
+        centerView?.(1)
+      }, 500)
     }
 
     const handleOnImageChange = ({ resetTransform, centerView }: ReactZoomPanPinchRef) => {
@@ -327,150 +334,165 @@ export const ImageViewer = forwardRef<HTMLDivElement, ImageViewerNS.Props>(
               maxScale={MAXIMUM_ZOOM_SCALE}
               onZoomStart={() => onWillZoom?.('handy')}
             >
-              {({ zoomIn, zoomOut, state, resetTransform, centerView }) => (
-                <div {...rest} {...containerProps} ref={reference} className={classes}>
-                  <div className="header">
-                    <Title h5 className="image-name">
-                      {showName && images[activeImageIndex].name}
-                    </Title>
+              {({ zoomIn, zoomOut, resetTransform, centerView }) => (
+                <WithTransformInfo>
+                  {transformInfo => (
+                    <div {...rest} {...containerProps} ref={reference} className={classes}>
+                      <div className="header">
+                        <Title h5 className="image-name">
+                          {showName && images[activeImageIndex].name}
+                        </Title>
 
-                    <div className="handlers">
-                      <div className={controllerGroupClasses()}>
-                        <Tooltip title={i18n.closeTooltip} placement="bottom-end">
-                          <Button {...getHandlerButtonProps('close')} onClick={handleClose} />
-                        </Tooltip>
+                        <div className="handlers">
+                          <div className={controllerGroupClasses()}>
+                            <Tooltip title={i18n.closeTooltip} placement="bottom-end">
+                              <Button {...getHandlerButtonProps('close')} onClick={handleClose} />
+                            </Tooltip>
+                          </div>
+
+                          {showZoomControls && (
+                            <div className={controllerGroupClasses('zoom-controllers')}>
+                              <Tooltip title={i18n.zoomOutTooltip} placement="bottom-end">
+                                <Button
+                                  {...getHandlerButtonProps('remove_circle_outline')}
+                                  onClick={() => {
+                                    handleZoom('out', zoomOut)
+                                  }}
+                                  disabled={(transformInfo?.state.scale ?? 1) <= 1}
+                                />
+                              </Tooltip>
+
+                              <Tooltip title={i18n.zoomInTooltip} placement="bottom-end">
+                                <Button
+                                  {...getHandlerButtonProps('add_circle_outline')}
+                                  onClick={() => {
+                                    handleZoom('in', zoomIn)
+                                  }}
+                                  disabled={(transformInfo?.state.scale ?? 1) >= MAXIMUM_ZOOM_SCALE}
+                                />
+                              </Tooltip>
+                            </div>
+                          )}
+                        </div>
                       </div>
 
-                      {showZoomControls && (
-                        <div className={controllerGroupClasses('zoom-controllers')}>
-                          <Tooltip title={i18n.zoomOutTooltip} placement="bottom-end">
-                            <Button
-                              {...getHandlerButtonProps('remove_circle_outline')}
-                              onClick={() => handleZoom('out', zoomOut)}
-                              disabled={state.scale <= 1}
-                            />
-                          </Tooltip>
+                      <div
+                        className="body"
+                        onDoubleClick={evt => {
+                          handleOnDoubleClick(
+                            evt,
+                            transformInfo?.state.scale ?? 1,
+                            centerView,
+                            resetTransform,
+                          )
+                        }}
+                      >
+                        {renderNavigatorHandler('forward')}
 
-                          <Tooltip title={i18n.zoomInTooltip} placement="bottom-end">
-                            <Button
-                              {...getHandlerButtonProps('add_circle_outline')}
-                              onClick={() => handleZoom('in', zoomIn)}
-                              disabled={state.scale >= MAXIMUM_ZOOM_SCALE}
-                            />
-                          </Tooltip>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                        <TransformComponent key={activeImageIndex}>
+                          <img src={images[activeImageIndex].source} className="opened-image" />
+                        </TransformComponent>
 
-                  <div
-                    className="body"
-                    onDoubleClick={evt =>
-                      handleOnDoubleClick(evt, state.scale, centerView, resetTransform)
-                    }
-                  >
-                    {renderNavigatorHandler('forward')}
+                        {renderNavigatorHandler('backward')}
+                      </div>
 
-                    <TransformComponent key={activeImageIndex}>
-                      <img src={images[activeImageIndex].source} className="opened-image" />
-                    </TransformComponent>
+                      <div className="footer">
+                        <div className="utilities">
+                          {showDownload && (
+                            <Download
+                              link={images[activeImageIndex].source}
+                              fileName={images[activeImageIndex].name}
+                              onWillDownload={onWillDownload}
+                            >
+                              {({ startDownload, isDownloading }) => (
+                                <Tooltip
+                                  title={i18n.downloadTooltip}
+                                  placement={utilityButtonsPopoverPlacement}
+                                >
+                                  <Button
+                                    {...getUtilButtonProps('file_download', isDownloading)}
+                                    onClick={startDownload}
+                                  />
+                                </Tooltip>
+                              )}
+                            </Download>
+                          )}
 
-                    {renderNavigatorHandler('backward')}
-                  </div>
-
-                  <div className="footer">
-                    <div className="utilities">
-                      {showDownload && (
-                        <Download
-                          link={images[activeImageIndex].source}
-                          fileName={images[activeImageIndex].name}
-                          onWillDownload={onWillDownload}
-                        >
-                          {({ startDownload, isDownloading }) => (
+                          {showPrint && (
                             <Tooltip
-                              title={i18n.downloadTooltip}
+                              title={i18n.printTooltip}
                               placement={utilityButtonsPopoverPlacement}
                             >
                               <Button
-                                {...getUtilButtonProps('file_download', isDownloading)}
-                                onClick={startDownload}
+                                {...getUtilButtonProps('print', isLoadingPrint)}
+                                onClick={handlePrintImage}
                               />
                             </Tooltip>
                           )}
-                        </Download>
-                      )}
 
-                      {showPrint && (
-                        <Tooltip
-                          title={i18n.printTooltip}
-                          placement={utilityButtonsPopoverPlacement}
-                        >
-                          <Button
-                            {...getUtilButtonProps('print', isLoadingPrint)}
-                            onClick={handlePrintImage}
-                          />
-                        </Tooltip>
-                      )}
-
-                      {showDelete && onDelete && (
-                        <Tooltip
-                          title={i18n.deleteTooltip}
-                          placement={utilityButtonsPopoverPlacement}
-                        >
-                          {confirmBeforeDelete ? (
-                            <PopConfirm
-                              title={i18n.deletePopConfirmTitle}
-                              description={i18n.deletePopConfirmDescription}
-                              confirm={{
-                                children: i18n.deletePopConfirmSubmitButton,
-                                onClick: onDelete,
-                              }}
-                              cancel={{ children: i18n.deletePopConfirmCancelButton }}
+                          {showDelete && onDelete && (
+                            <Tooltip
+                              title={i18n.deleteTooltip}
                               placement={utilityButtonsPopoverPlacement}
-                              buttonProps={{ ...getUtilButtonProps('delete', isDeleting) }}
-                            />
-                          ) : (
-                            <Button
-                              {...getUtilButtonProps('delete', isDeleting)}
-                              onClick={onDelete}
-                            />
-                          )}
-                        </Tooltip>
-                      )}
-                    </div>
-
-                    <div className="images-slider-container">
-                      {showSlides && images.length > 1 && (
-                        <div className="slides-container" ref={slidesContainerRef}>
-                          <ScrollView className="slides" autoHide maxHeight="unset">
-                            {images.map((image, index) => (
-                              <div
-                                key={index}
-                                tabIndex={index + 1}
-                                className={imageSlideClasses(index)}
-                                onClick={() => handleSetActiveImageIndex(index, centerView)}
-                              >
-                                <Image
-                                  src={image.source}
-                                  className="slide"
-                                  lazy={false}
-                                  width={window.innerWidth <= BREAKPOINTS.md ? 30 : 48}
-                                  shape="square"
+                            >
+                              {confirmBeforeDelete ? (
+                                <PopConfirm
+                                  title={i18n.deletePopConfirmTitle}
+                                  description={i18n.deletePopConfirmDescription}
+                                  confirm={{
+                                    children: i18n.deletePopConfirmSubmitButton,
+                                    onClick: onDelete,
+                                  }}
+                                  cancel={{ children: i18n.deletePopConfirmCancelButton }}
+                                  placement={utilityButtonsPopoverPlacement}
+                                  buttonProps={{ ...getUtilButtonProps('delete', isDeleting) }}
                                 />
-                              </div>
-                            ))}
-                          </ScrollView>
+                              ) : (
+                                <Button
+                                  {...getUtilButtonProps('delete', isDeleting)}
+                                  onClick={onDelete}
+                                />
+                              )}
+                            </Tooltip>
+                          )}
                         </div>
-                      )}
-                    </div>
 
-                    {showCounter && images.length > 1 && (
-                      <Text className="counter" large>
-                        {activeImageIndex + 1}/{images.length}
-                      </Text>
-                    )}
-                  </div>
-                </div>
+                        <div className="images-slider-container">
+                          {showSlides && images.length > 1 && (
+                            <div className="slides-container" ref={slidesContainerRef}>
+                              <ScrollView className="slides" autoHide maxHeight="unset">
+                                {images.map((image, index) => (
+                                  <div
+                                    key={index}
+                                    tabIndex={index + 1}
+                                    className={imageSlideClasses(index)}
+                                    onClick={() => {
+                                      handleSetActiveImageIndex(index, centerView)
+                                    }}
+                                  >
+                                    <Image
+                                      src={image.source}
+                                      className="slide"
+                                      lazy={false}
+                                      width={window.innerWidth <= BREAKPOINTS.md ? 30 : 48}
+                                      shape="square"
+                                    />
+                                  </div>
+                                ))}
+                              </ScrollView>
+                            </div>
+                          )}
+                        </div>
+
+                        {showCounter && images.length > 1 && (
+                          <Text className="counter" large>
+                            {activeImageIndex + 1}/{images.length}
+                          </Text>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </WithTransformInfo>
               )}
             </TransformWrapper>
           )}

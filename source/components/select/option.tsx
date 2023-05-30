@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { useZoomComponent } from '../../hooks'
 import { Icon, Text } from '..'
@@ -14,9 +14,7 @@ export namespace SelectOptionNS {
     selected?: boolean
   }
 
-  export interface GroupedOptions {
-    [value: Value]: Props<SelectOptionNS.Value>
-  }
+  export type GroupedOptions = Record<Value, Props<SelectOptionNS.Value>>
 
   export interface InnerProps {
     onSelect: (option: Value) => void

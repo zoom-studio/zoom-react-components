@@ -1,12 +1,14 @@
 import React, { cloneElement, forwardRef, useEffect, useRef, useState } from 'react'
 
-import { Transition } from '../../types'
+import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
+
+import { type Transition } from '../../types'
 
 export namespace CollapseNS {
   export interface Props {
     expanded?: boolean
     children?: JSX.Element
-    childHeight?: 'auto-detect' | number | (string & {}) | ((detectedHeight: number) => number)
+    childHeight?: MaybeString<'auto-detect'> | number | ((detectedHeight: number) => number)
     transition?: Transition
   }
 }

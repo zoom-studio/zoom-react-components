@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { RenderElementProps } from 'slate-react'
+import { type RenderElementProps } from 'slate-react'
 
 export namespace TableRowElementNS {
   export interface Props extends RenderElementProps {}

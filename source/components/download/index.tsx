@@ -1,11 +1,12 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { useDownload, UseDownloadNS } from '@zoom-studio/zoom-js-ts-utils'
+import { useDownload, type UseDownloadNS } from '@zoom-studio/zoom-js-ts-utils'
 
 export namespace DownloadNS {
   export interface ChildrenCallbackParams {
     total: number
     received: number
+    progress: number
     isDownloading: boolean
     startDownload: () => void
   }
@@ -16,7 +17,9 @@ export namespace DownloadNS {
 }
 
 export const Download: FC<DownloadNS.Props> = ({ children, ...rest }) => {
-  const { handleDownload, isDownloading, receivedLength, totalLength } = useDownload({ ...rest })
+  const { handleDownload, isDownloading, receivedLength, totalLength, progress } = useDownload({
+    ...rest,
+  })
 
   return (
     <>
@@ -25,6 +28,7 @@ export const Download: FC<DownloadNS.Props> = ({ children, ...rest }) => {
         startDownload: handleDownload,
         total: totalLength,
         received: receivedLength,
+        progress,
       })}
     </>
   )

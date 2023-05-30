@@ -1,6 +1,6 @@
-import { Dispatch, FC, SetStateAction } from 'react';
-import { RichTextEditorNS } from '../..';
-import { RichTextEditorMakerNS } from '../../..';
+import { type Dispatch, type FC, type SetStateAction } from 'react';
+import { type RichTextEditorNS } from '../..';
+import { type RichTextEditorMakerNS } from '../../..';
 export declare namespace LinkInserterPopoverNS {
     interface Props extends Pick<RichTextEditorNS.Props, 'enableAdvancedLinkInserter'> {
         isValidURL: (URL: string | undefined) => boolean;

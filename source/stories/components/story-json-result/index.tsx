@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import ReactJson from 'react-json-view'
 import { Button, CopyToClipboard } from '../../../components'

@@ -1,10 +1,15 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
-import { ExplorerDialog, ExplorerNS, RichTextEditorMakerNS, RichTextEditorNS } from '../../..'
+import {
+  ExplorerDialog,
+  ExplorerNS,
+  type RichTextEditorMakerNS,
+  type RichTextEditorNS,
+} from '../../..'
 
-import { useRichTextEditorI18n } from '../../use-i18n'
+import { type useRichTextEditorI18n } from '../../use-i18n'
 
 export namespace VideoExplorerNS {
   export interface Props extends Pick<RichTextEditorNS.Props, 'videoExplorerProps'> {
@@ -30,7 +35,9 @@ export const VideoExplorer: FC<VideoExplorerNS.Props> = ({
 
   const handleInsertVideos = () => {
     const selectedFiles = getSelectedFiles()
-    selectedFiles.forEach(file => handleCreateVideo({ src: file.link }))
+    selectedFiles.forEach(file => {
+      handleCreateVideo({ src: file.link })
+    })
     closeDialog()
   }
 

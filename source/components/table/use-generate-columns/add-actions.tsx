@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { ColumnDef, ColumnHelper } from '@tanstack/react-table'
+import { type ColumnDef, type ColumnHelper } from '@tanstack/react-table'
 
-import { TableNS } from '../types'
+import { type TableNS } from '../types'
 import { CellActions } from '../cell-components'
 
 export namespace AddActionsNS {

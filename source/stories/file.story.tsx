@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { faker } from '@faker-js/faker'
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { randomNumber, randomPDF } from '@zoom-studio/zoom-js-ts-utils'
 
-import { File, FileNS } from '../components'
+import { File, type FileNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 
 export default {
@@ -28,7 +28,7 @@ export default {
     style: undefined,
     typeColors: undefined,
   },
-} as ComponentMeta<typeof File>
+} as Meta<typeof File>
 
 const useFileStory = () => {
   const fileName = () => faker.system.fileName({ extensionCount: 0 })

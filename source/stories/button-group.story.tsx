@@ -1,9 +1,9 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { ButtonGroup, ButtonGroupNS, ButtonNS } from '..'
-import { CommonStory, CommonStoryNS, StoryPlayground } from './components'
+import { ButtonGroup, type ButtonGroupNS, ButtonNS } from '..'
+import { CommonStory, type CommonStoryNS, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
 export default {
@@ -18,7 +18,7 @@ export default {
       { children: 'Fourth button' },
     ],
   },
-} as ComponentMeta<typeof ButtonGroup>
+} as Meta<typeof ButtonGroup>
 
 const generateSampleButtons = (children: ReactNode, props?: ButtonNS.Props): ButtonNS.Props[] =>
   Array.from(Array(4)).map(() => ({ children, ...props }))

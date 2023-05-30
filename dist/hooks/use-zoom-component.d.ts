@@ -1,19 +1,17 @@
 export declare namespace UseZoomComponentNS {
-    type CreateClassNameFN = (userClassNames?: string, staticClassNameSuffix?: string, dynamicClassNames?: {
-        [name: string]: boolean;
-    }) => string;
+    type CreateClassNameFN = (userClassNames?: string, staticClassNameSuffix?: string, dynamicClassNames?: Record<string, boolean>) => string;
 }
 export declare const useZoomComponent: (componentName: string) => {
     createClassName: UseZoomComponentNS.CreateClassNameFN;
-    sendLog: import("../components").ZoomLogProviderNS.Log;
+    sendLog: import("../components").ZoomGlobalConfigProviderNS.Log;
     globalErrors: {
         onCopyFailure?: string | undefined;
         onCopySuccess?: string | undefined;
     } | undefined;
     globalI18ns: {
-        imageViewer?: import("../components").ImageViewerNS.I18n | undefined;
+        imageViewer?: import("../components/image-viewer/use-i18n").UseImageViewerI18nNS.I18n | undefined;
         emojiPicker?: import("../components").EmojiPickerNS.I18n | undefined;
-        tour?: import("../components").TourNS.I18n | undefined;
+        tour?: import("../components/tour/use-i18n").UseTourI18nNS.I18n | undefined;
         richTextEditor?: import("../components/rich-text-editor/use-i18n").UseRichTextEditorI18nNS.I18n | undefined;
         imageEditor?: import("../components/image-editor/use-i18n").UseImageEditorI18nNS.I18n | undefined;
         explorer?: import("../components/explorer/use-i18n").UseExplorerI18nNS.I18n | undefined;

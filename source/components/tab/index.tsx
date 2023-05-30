@@ -1,20 +1,20 @@
-import React, { forwardRef, HTMLAttributes, ReactNode } from 'react'
+import React, { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
 import {
   ConditionalWrapper,
   Emoji,
-  EmojiNS,
+  type EmojiNS,
   Icon,
-  IconNS,
+  type IconNS,
   ScrollView,
-  ScrollViewNS,
+  type ScrollViewNS,
   Spin,
   Text,
 } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
-import { BaseComponent, Color } from '../../types'
+import { type BaseComponent, type Color } from '../../types'
 import { colorFnToColor } from '../../utils'
 import { CustomLink } from '../custom-link'
 

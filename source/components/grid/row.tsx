@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace RowNS {
   export interface Props extends BaseComponent {

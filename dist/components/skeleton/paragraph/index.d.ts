@@ -1,5 +1,5 @@
 import React from 'react';
-import { SkeletonNS } from '..';
+import { type SkeletonNS } from '..';
 export declare namespace ParagraphSkeletonNS {
     interface Props extends SkeletonNS.BaseProps {
         lines?: number;

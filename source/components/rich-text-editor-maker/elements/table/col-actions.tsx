@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { Button, ButtonNS, RichTextEditorMakerNS } from '../../..'
+import { Button, type ButtonNS, type RichTextEditorMakerNS } from '../../..'
 
 import { useTableDOM } from './use-dom'
-import { TableElementNS } from './types'
+import { type TableElementNS } from './types'
 import { useZoomContext } from '../../../../hooks'
 
 export namespace ColActionsNS {
@@ -61,7 +61,9 @@ export const ColActions: FC<ColActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={() => addColumn(isRTL ? 'right' : 'left')}
+        onClick={() => {
+          addColumn(isRTL ? 'right' : 'left')
+        }}
         containerProps={{
           onMouseOver: onMouseOverAddToPrevButton,
           onMouseLeave: onMouseLeaveAddButtons,
@@ -84,7 +86,9 @@ export const ColActions: FC<ColActionsNS.Props> = ({
         {...actionButtonsProps}
         variant="success"
         prefixMaterialIcon="add"
-        onClick={() => addColumn(isRTL ? 'left' : 'right')}
+        onClick={() => {
+          addColumn(isRTL ? 'left' : 'right')
+        }}
         containerProps={{
           onMouseOver: onMouseOverAddToNextButton,
           onMouseLeave: onMouseLeaveAddButtons,

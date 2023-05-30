@@ -1,9 +1,9 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
-import { ImageEditorDialog, ImageEditorDialogNS } from '../components'
+import { ImageEditorDialog, type ImageEditorDialogNS } from '../components'
 import { StoryPlayground, WithButtonsStory } from './components'
 
 export default {
@@ -13,18 +13,31 @@ export default {
     src: randomImage(undefined, undefined, 'cats'),
     allowScaleOut: false,
   },
-} as ComponentMeta<typeof ImageEditorDialog>
+} as Meta<typeof ImageEditorDialog>
 
 export const Playground: FC<ImageEditorDialogNS.Props> = props => {
   const [isOpen, setIsOpen] = useState(true)
 
   return (
     <WithButtonsStory
-      buttons={[{ children: 'Open avatar editor dialog', onClick: () => setIsOpen(true) }]}
+      buttons={[
+        {
+          children: 'Open avatar editor dialog',
+          onClick: () => {
+            setIsOpen(true)
+          },
+        },
+      ]}
     >
       <StoryPlayground
         component={ImageEditorDialog}
-        props={{ ...props, isOpen, onClose: () => setIsOpen(false) }}
+        props={{
+          ...props,
+          isOpen,
+          onClose: () => {
+            setIsOpen(false)
+          },
+        }}
       />
     </WithButtonsStory>
   )

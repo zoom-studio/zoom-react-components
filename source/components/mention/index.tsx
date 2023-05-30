@@ -1,9 +1,9 @@
 import React, {
-  FocusEvent,
+  type FocusEvent,
   forwardRef,
-  KeyboardEvent,
-  MouseEvent,
-  ReactNode,
+  type KeyboardEvent,
+  type MouseEvent,
+  type ReactNode,
   useEffect,
   useRef,
   useState,
@@ -11,14 +11,14 @@ import React, {
 
 import { sleep, usernameRegEx as usernameRegularExpression } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Avatar, ScrollView, Text, Textarea, TextareaNS } from '..'
+import { Avatar, ScrollView, Text, Textarea, type TextareaNS } from '..'
 import { logs } from '../../constants'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace MentionNS {
   export const ReservedKeys = ['ArrowDown', 'ArrowUp', 'Enter'] as const
-  export type ReservedKeys = typeof ReservedKeys[number]
+  export type ReservedKeys = (typeof ReservedKeys)[number]
 
   export interface User {
     name: string
@@ -87,7 +87,8 @@ export const Mention = forwardRef<HTMLDivElement, MentionNS.Props>(
       setActiveUserIndex(0)
       let { selectionStart, value, selectionEnd } = entryElement
       if (selectionStart !== selectionEnd) {
-        return handleResetStates()
+        handleResetStates()
+        return
       }
 
       selectionStart = selectionStart ?? 0
@@ -95,13 +96,15 @@ export const Mention = forwardRef<HTMLDivElement, MentionNS.Props>(
 
       const lastAtSymbol = value.lastIndexOf(symbol)
       if (lastAtSymbol < 0) {
-        return handleResetStates()
+        handleResetStates()
+        return
       }
 
       value = value.slice(lastAtSymbol, value.length)
       const mention = value.slice(1)
       if (!usernameRegex.test(mention) && value !== symbol) {
-        return handleResetStates()
+        handleResetStates()
+        return
       }
 
       setMention(mention)
@@ -153,7 +156,8 @@ export const Mention = forwardRef<HTMLDivElement, MentionNS.Props>(
       const { username } = users[handySelectedUserIndex ?? activeUserIndex]
       const { current: textarea } = textareaRef
       if (!textarea) {
-        return sendLog(logs.mentionNotFoundTextareaRef, 'handleSelectUser function')
+        sendLog(logs.mentionNotFoundTextareaRef, 'handleSelectUser function')
+        return
       }
 
       let { selectionStart, value } = textarea

@@ -28,7 +28,9 @@ export const useTableDOM = (tableID: string) => {
   const activeColActions = (colIndex: number) => {
     find(
       `> thead > tr > td > div.${TableElementNS.CLASS_NAMES.colActions}[data-col-index="${colIndex}"]`,
-      element => element.classList.add('active'),
+      element => {
+        element.classList.add('active')
+      },
     )
   }
 

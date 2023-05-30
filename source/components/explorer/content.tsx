@@ -1,12 +1,12 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Alert, AlertNS, ExplorerNS, ScrollView, Selectable } from '..'
+import { Alert, type AlertNS, type ExplorerNS, ScrollView, Selectable } from '..'
 
 import { ExplorerFile } from './file'
 import { ExplorerFilesSkeletons } from './files-skeletons'
-import { UseExplorerI18nNS } from './use-i18n'
+import { type UseExplorerI18nNS } from './use-i18n'
 
 export namespace ExplorerContentNS {
   export interface Props extends Pick<ExplorerNS.Props, 'filterTypes' | 'disabled'> {

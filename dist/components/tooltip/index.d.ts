@@ -1,5 +1,5 @@
 import React from 'react';
-import { PopoverNS } from '../popover';
+import { type PopoverNS } from '../popover';
 export declare namespace TooltipNS {
     interface Props extends Pick<PopoverNS.Props, 'placement' | 'hoverDelay'> {
         title: string;

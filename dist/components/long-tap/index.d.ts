@@ -1,5 +1,5 @@
-import React, { MouseEvent, TouchEvent } from 'react';
-import { BaseComponent } from '../../types';
+import React, { type MouseEvent, type TouchEvent } from 'react';
+import { type BaseComponent } from '../../types';
 export declare namespace LongTapNS {
     interface Props extends BaseComponent {
         timeout?: number;

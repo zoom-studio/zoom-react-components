@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Button, Emoji, Popover, PopoverNS } from '..'
+import { Button, Emoji, Popover, type PopoverNS } from '..'
 import { lorem } from '../fixtures'
 import { CommonStory, PlacementsStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -28,7 +28,7 @@ export default {
     placement: 'top-end',
     defaultIsOpen: true,
   },
-} as ComponentMeta<typeof Popover>
+} as Meta<typeof Popover>
 
 export const Placements: FC = () => {
   const { t } = useI18n('popover')

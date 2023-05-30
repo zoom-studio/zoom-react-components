@@ -1,6 +1,6 @@
 import React from 'react';
-import { EmojiNS, IconNS } from '..';
-import { BaseComponent } from '../../types';
+import { EmojiNS, type IconNS } from '..';
+import { type BaseComponent } from '../../types';
 export declare namespace EmojiPickerNS {
     const CACHE_KEY = "zoomrc-emoji-picker-history";
     type Collection = EmojiNS.Emojis.GroupNames | 'History';

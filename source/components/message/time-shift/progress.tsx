@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useMemo, useState } from 'react'
+import React, { type FC, useEffect, useMemo, useState } from 'react'
 
 import { useZoomComponent } from '../../../hooks'
 
-import { Progress, ProgressNS } from '../..'
+import { Progress, type ProgressNS } from '../..'
 import { color } from '../../../utils'
 
 export namespace TimeShiftProgressNS {

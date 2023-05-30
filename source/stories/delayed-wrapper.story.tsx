@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { DelayedWrapper, DelayedWrapperNS, Spin, Title } from '../components'
+import { DelayedWrapper, type DelayedWrapperNS, Spin, Title } from '../components'
 import { color } from '../utils'
 import { StoryPlayground } from './components'
 
@@ -18,7 +18,7 @@ export default {
     ),
     loader: <Spin />,
   },
-} as ComponentMeta<typeof DelayedWrapper>
+} as Meta<typeof DelayedWrapper>
 
 export const Playground: FC<DelayedWrapperNS.Props> = props => {
   return <StoryPlayground component={DelayedWrapper} props={props} />

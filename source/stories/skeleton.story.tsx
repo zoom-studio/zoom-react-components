@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { Skeleton } from '../components'
 import { CommonStory } from './components'
@@ -8,7 +8,7 @@ import { CommonStory } from './components'
 export default {
   title: 'Loaders/Skeleton',
   component: Skeleton.Avatar,
-} as ComponentMeta<typeof Skeleton.Avatar>
+} as Meta<typeof Skeleton.Avatar>
 
 export const Avatar: FC = () => {
   return (

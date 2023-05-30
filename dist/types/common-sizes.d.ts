@@ -1,2 +1,2 @@
-import { COMMON_SIZES } from '../constants';
-export declare type CommonSize = typeof COMMON_SIZES[number];
+import { type COMMON_SIZES } from '../constants';
+export type CommonSize = (typeof COMMON_SIZES)[number];

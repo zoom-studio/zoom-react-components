@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { ProgressNS } from '.';
+import { type FC } from 'react';
+import { type ProgressNS } from '.';
 export declare namespace ProgressInfoNS {
     interface Props extends Pick<ProgressNS.Props, 'info' | 'failed' | 'dynamicColors' | 'dynamicInfo'> {
         percentage: number;

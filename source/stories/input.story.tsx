@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Input, InputNS } from '..'
+import { Input, type InputNS } from '..'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -15,7 +15,7 @@ export default {
     disabled: false,
     loading: false,
   },
-} as ComponentMeta<typeof Input>
+} as Meta<typeof Input>
 
 const useInputStory = () => {
   const { t } = useI18n('input')
@@ -88,8 +88,9 @@ export const Types: FC = () => {
               name: 'Password input with callback',
               props: {
                 type: 'password',
-                onTogglePasswordVisibility: isVisible =>
-                  alert(`Is visible now? \n ${isVisible ? 'Yes it is' : "Nope it's not"}`),
+                onTogglePasswordVisibility: isVisible => {
+                  alert(`Is visible now? \n ${isVisible ? 'Yes it is' : "Nope it's not"}`)
+                },
                 label,
                 placeholder,
               },

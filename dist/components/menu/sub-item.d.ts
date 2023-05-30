@@ -1,5 +1,5 @@
-import { FC, ReactNode } from 'react';
-import { SubMenuItemProps } from 'react-menu-list';
+import { type FC, type ReactNode } from 'react';
+import { type SubMenuItemProps } from 'react-menu-list';
 export declare namespace SubMenuItemNS {
     interface Props extends Omit<SubMenuItemProps, 'menu' | 'children'> {
         title?: string;

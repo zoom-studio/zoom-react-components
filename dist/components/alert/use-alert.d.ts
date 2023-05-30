@@ -1,4 +1,4 @@
-import { AlertProviderNS } from './provider';
+import { type AlertProviderNS } from './provider';
 export declare namespace UseAlertNS {
     type ReturnType = Required<AlertProviderNS.ProviderValue>;
 }

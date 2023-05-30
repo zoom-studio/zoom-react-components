@@ -1,4 +1,4 @@
-import React, { CSSProperties, forwardRef, useLayoutEffect, useRef } from 'react'
+import React, { type CSSProperties, forwardRef, useLayoutEffect, useRef } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 import { CropperSource, mergeRefs } from 'react-advanced-cropper'

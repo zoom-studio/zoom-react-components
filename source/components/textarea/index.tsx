@@ -1,17 +1,22 @@
 import React, {
-  ChangeEvent,
-  FocusEvent,
-  FormEvent,
+  type ChangeEvent,
+  type FocusEvent,
+  type FormEvent,
   forwardRef,
-  HTMLAttributes,
-  RefObject,
+  type HTMLAttributes,
+  type RefObject,
   useRef,
 } from 'react'
 
-import { Spin, SpinNS, Text, TypographyNS } from '..'
+import { Spin, type SpinNS, Text, type TypographyNS } from '..'
 import { logs } from '../../constants'
 import { useComponentSize, useInputDirectionHandler, useZoomComponent } from '../../hooks'
-import { BaseComponent, BaseTextareaComponent, CommonSize, DataEntriesState } from '../../types'
+import {
+  type BaseComponent,
+  type BaseTextareaComponent,
+  type CommonSize,
+  type DataEntriesState,
+} from '../../types'
 
 import { color } from '../../utils/color'
 
@@ -86,7 +91,9 @@ export const Textarea = forwardRef<HTMLDivElement, TextareaNS.Props>(
 
     const handleDirection = useInputDirectionHandler(
       textareaRef,
-      () => sendLog(logs.inputNotFoundInputRef, 'useInputDirectionHandler hook'),
+      () => {
+        sendLog(logs.inputNotFoundInputRef, 'useInputDirectionHandler hook')
+      },
       autoDirection,
     )
 
@@ -113,7 +120,8 @@ export const Textarea = forwardRef<HTMLDivElement, TextareaNS.Props>(
     const handleAutoHeight = () => {
       const { current: textarea } = textareaRef
       if (!textarea) {
-        return sendLog(logs.textareaNotFoundTextareaRef, 'handleAutoHeight function')
+        sendLog(logs.textareaNotFoundTextareaRef, 'handleAutoHeight function')
+        return
       }
       textarea.style.height = '5px'
       textarea.style.height = `${textarea.scrollHeight}px`

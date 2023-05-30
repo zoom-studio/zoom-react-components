@@ -1,14 +1,14 @@
-import React, { forwardRef, MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, { forwardRef, type MutableRefObject, useEffect, useRef, useState } from 'react'
 
 import { useVariable, base64ToFile, canvasToBlobURL } from '@zoom-studio/zoom-js-ts-utils'
 import AvatarEditorComponent, {
-  ImageState as AvatarEditorAvatarState,
-  Position,
+  type ImageState as AvatarEditorAvatarState,
+  type Position,
 } from 'react-avatar-editor'
 
-import { Button, ButtonNS, IconNS, RangeSlider, RangeSliderNS, Skeleton } from '..'
+import { Button, type ButtonNS, type IconNS, RangeSlider, type RangeSliderNS, Skeleton } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 import { color } from '../../utils'
 import { logs } from '../../constants'
 
@@ -144,7 +144,9 @@ export const AvatarEditor = forwardRef<HTMLDivElement, AvatarEditorNS.Props>(
       return {
         prefixMaterialIcon: icon,
         shape: 'square',
-        onClick: () => rotateTo(dir),
+        onClick: () => {
+          rotateTo(dir)
+        },
         className: 'rotate-button',
         type: 'link',
         disabled: hasError,

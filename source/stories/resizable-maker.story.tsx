@@ -1,6 +1,6 @@
-import React, { CSSProperties, FC, useRef } from 'react'
+import React, { type CSSProperties, type FC, useRef } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { Emoji, ResizableMaker, ResizableMakerNS } from '../components'
 import { color } from '../utils'
@@ -9,7 +9,7 @@ export default {
   title: 'Utility/Resizable maker',
   component: ResizableMaker,
   args: {},
-} as ComponentMeta<typeof ResizableMaker>
+} as Meta<typeof ResizableMaker>
 
 const useResizableMakerStory = () => {
   const resizable = useRef<HTMLDivElement | null>(null)

@@ -6,6 +6,7 @@ import external from 'rollup-plugin-peer-deps-external'
 import scss from 'rollup-plugin-scss'
 import { terser } from 'rollup-plugin-terser'
 import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
 
 export default [
   {
@@ -51,8 +52,9 @@ export default [
       }),
       external(),
       resolve(),
-      typescript(),
+      typescript({ sourceMap: true }),
       terser(),
+      json(),
     ],
   },
 ]

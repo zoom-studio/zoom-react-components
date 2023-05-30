@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { TableGeneratorNS } from '.';
+import { type FC } from 'react';
+import { type TableGeneratorNS } from '.';
 export declare namespace CellInputNS {
     interface Props {
         rowIndex: number;

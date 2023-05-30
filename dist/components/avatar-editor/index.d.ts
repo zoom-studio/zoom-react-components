@@ -1,6 +1,6 @@
-import React, { MutableRefObject } from 'react';
-import { ImageState as AvatarEditorAvatarState } from 'react-avatar-editor';
-import { BaseComponent } from '../../types';
+import React, { type MutableRefObject } from 'react';
+import { type ImageState as AvatarEditorAvatarState } from 'react-avatar-editor';
+import { type BaseComponent } from '../../types';
 export declare namespace AvatarEditorNS {
     enum RotateDir {
         left = 0,

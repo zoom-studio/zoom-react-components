@@ -1,4 +1,4 @@
-import { SkeletonNS } from '.';
+import { type SkeletonNS } from '.';
 export declare const useSkeleton: ({ animated }: SkeletonNS.BaseProps) => {
     animatedClasses: string;
 };

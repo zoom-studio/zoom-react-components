@@ -1,6 +1,6 @@
 import React from 'react';
-import { TypographyNS } from '..';
-import { BaseComponent } from '../../types';
+import { type TypographyNS } from '..';
+import { type BaseComponent } from '../../types';
 export declare namespace DividerNS {
     interface Props extends BaseComponent {
         vertical?: boolean;

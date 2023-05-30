@@ -1,5 +1,5 @@
-import { ColumnDef, ColumnHelper } from '@tanstack/react-table';
-import { TableNS } from '../types';
+import { type ColumnDef, type ColumnHelper } from '@tanstack/react-table';
+import { type TableNS } from '../types';
 export declare namespace AddActionsNS {
     interface Params extends Pick<TableNS.Props, 'actionsColumnWidth'> {
         columnHelper: ColumnHelper<object>;

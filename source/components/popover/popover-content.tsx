@@ -1,4 +1,4 @@
-import React, { forwardRef, MutableRefObject } from 'react'
+import React, { forwardRef, type MutableRefObject } from 'react'
 
 import { FloatingArrow, FloatingPortal, useMergeRefs } from '@floating-ui/react'
 
@@ -6,7 +6,7 @@ import { ConditionalWrapper, Spin, Text, Title } from '..'
 import { useZoomComponent } from '../../hooks'
 import { usePopoverContext } from './use-popover-context'
 
-import { PopoverNS } from '.'
+import { type PopoverNS } from '.'
 import { color } from '../../utils'
 
 export namespace PopoverContentNS {

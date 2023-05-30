@@ -1,6 +1,6 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { RenderElementProps } from 'slate-react'
+import { type RenderElementProps } from 'slate-react'
 
 export namespace DefaultElementNS {
   export interface Props extends RenderElementProps {

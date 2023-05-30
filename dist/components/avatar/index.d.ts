@@ -1,6 +1,6 @@
 import React from 'react';
-import { ImageNS } from '..';
-import { BaseComponent, CommonSize } from '../../types';
+import { type ImageNS } from '..';
+import { type BaseComponent, type CommonSize } from '../../types';
 export declare namespace AvatarNS {
     interface Props extends BaseComponent {
         avatars: string[];

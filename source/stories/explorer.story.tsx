@@ -1,4 +1,4 @@
-import React, { type FC, useState } from 'react'
+import React, { useState, type FC } from 'react'
 
 import { type Meta } from '@storybook/react'
 
@@ -10,7 +10,6 @@ export default {
   title: 'Data display/Explorer',
   component: Explorer,
   args: {
-    viewMode: 'grid',
     defaultTypeQuery: 'all',
     loading: false,
     disabled: false,
@@ -127,23 +126,6 @@ const useExplorerStory = (withInitialFiles = true) => {
   return { commonProps }
 }
 
-export const ViewMode: FC = () => {
-  const { commonProps } = useExplorerStory()
-  return (
-    <CommonStory
-      component={Explorer}
-      stories={[
-        {
-          group: [
-            { name: 'grid (Default)', props: { ...commonProps, viewMode: 'grid' } },
-            { name: 'row', props: { ...commonProps, viewMode: 'row' } },
-          ],
-        },
-      ]}
-    />
-  )
-}
-
 export const DefaultFilesType = () => {
   const explorer1 = useExplorerStory()
   const explorer2 = useExplorerStory()
@@ -177,10 +159,7 @@ export const LoadingState = () => {
       component={Explorer}
       stories={[
         {
-          group: [
-            { name: 'In grid view', props: { ...commonProps, loading: true, viewMode: 'grid' } },
-            { name: 'In row view', props: { ...commonProps, loading: true, viewMode: 'row' } },
-          ],
+          group: [{ props: { ...commonProps, loading: true } }],
         },
       ]}
     />

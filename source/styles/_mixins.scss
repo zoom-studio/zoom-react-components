@@ -19,7 +19,7 @@
 }
 
 /**
- * $type: common | heading | bold | light | underlined | strikethrough
+ * $type: common | heading | bold | light | underlined | strikethrough | italic
  * $size: small | normal | large (for none header) or 1 to 6 (for heading)
 **/
 @mixin text($type: 'common', $size: 'normal') {
@@ -69,6 +69,11 @@
   } @else if $type == 'light' {
     @include font-face-mixin('extra-light');
     @include font-size-mixin($size);
+  } @else if $type == 'italic' {
+    @include font-face-mixin('regular');
+    @include font-size-mixin($size);
+
+    font-style: italic;
   } @else if $type == 'underlined' {
     @include font-face-mixin('regular');
     @include font-size-mixin($size);

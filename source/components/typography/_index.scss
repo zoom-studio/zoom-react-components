@@ -50,6 +50,10 @@
     &-strikethrough {
       @include generate-none-heading-variants('strikethrough');
     }
+
+    &-italic {
+      @include generate-none-heading-variants('italic');
+    }
   }
 
   &-typography {

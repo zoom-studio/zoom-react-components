@@ -6,15 +6,18 @@ import { type BaseComponent, type CommonSize } from '../../types'
 
 export namespace TypographyNS {
   export namespace TextNS {
-    export const Types = ['common', 'bold', 'light', 'underlined', 'strikethrough'] as const
+    export const Types = [
+      'common',
+      'bold',
+      'light',
+      'underlined',
+      'strikethrough',
+      'italic',
+    ] as const
     export type Types = (typeof Types)[number]
 
-    export interface TypeProps {
-      common?: boolean
-      bold?: boolean
-      light?: boolean
-      underlined?: boolean
-      strikethrough?: boolean
+    export type TypeProps = {
+      [type in Types]?: boolean
     }
 
     export interface SizeProps {
@@ -49,6 +52,7 @@ export const Text = forwardRef<HTMLParagraphElement, TypographyNS.TextNS.Props>(
       bold,
       light,
       underlined,
+      italic,
       strikethrough,
       small,
       normal,
@@ -70,6 +74,8 @@ export const Text = forwardRef<HTMLParagraphElement, TypographyNS.TextNS.Props>(
       ? 'underlined'
       : strikethrough
       ? 'strikethrough'
+      : italic
+      ? 'italic'
       : 'common'
 
     const size: CommonSize = small ? 'small' : normal ? 'normal' : large ? 'large' : 'normal'

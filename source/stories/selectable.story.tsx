@@ -1,9 +1,9 @@
-import React, { type FC, type MouseEvent } from 'react'
+import React, { type FC } from 'react'
 
 import { faker as Faker } from '@faker-js/faker'
 import { type Meta } from '@storybook/react'
 
-import { Image, Selectable, type SelectableNS, Text } from '../components'
+import { Image, Selectable, Text, type SelectableNS } from '../components'
 import { color } from '../utils'
 import { CommonStory, StoryPlayground } from './components'
 import { useFaker } from './hooks/use-faker'
@@ -13,13 +13,15 @@ interface DataType {
   address: string
 }
 
-interface ItemComponentProps extends DataType {
+interface ItemComponentProps extends DataType, SelectableNS.ChildrenItemProps {
   isSelected: boolean
-  select: (evt: MouseEvent<Element>) => void
+  select: () => void
+  className: string
 }
 
-const ItemComponent = ({ address, profile, isSelected, select }: ItemComponentProps) => (
+const ItemComponent = ({ address, profile, isSelected, select, ...props }: ItemComponentProps) => (
   <div
+    {...props}
     onClick={select}
     style={{
       border: `1px solid ${color({ source: 'border', tone: 2 })}`,
@@ -48,9 +50,9 @@ const useSelectableStory = () => {
 
   const renderChildren = (
     Item: FC<ItemComponentProps>,
-    { data, select, isSelected }: SelectableNS.ChildrenCallbackParams<DataType[]>,
+    { data, isSelected, props, select }: SelectableNS.ChildrenCallbackParams<DataType[]>,
   ) => {
-    return <Item {...data} isSelected={isSelected} select={select} />
+    return <Item {...data} {...props} select={select} isSelected={isSelected} />
   }
 
   return { dataset, renderChildren }
@@ -70,7 +72,7 @@ export default {
     disabled: false,
     deselectOnOutsideClick: true,
     children: undefined,
-    defaultSelections: [],
+    defaultSelections: new Set(),
     onSelect: undefined,
     id: 'my-selectable-component',
     className: 'my-selectable-comonent',
@@ -80,35 +82,6 @@ export default {
   },
 } as Meta<typeof Selectable>
 
-export const Tolerance = () => {
-  const { dataset, renderChildren } = useSelectableStory()
-
-  return (
-    <CommonStory
-      component={Selectable}
-      stories={[
-        {
-          title: 'tolerance: 0 (Default)',
-          custom: (
-            <Selectable itemComponent={ItemComponent} dataset={dataset} children={renderChildren} />
-          ),
-        },
-        {
-          title: 'tolerance: 10',
-          custom: (
-            <Selectable
-              tolerance={10}
-              itemComponent={ItemComponent}
-              dataset={dataset}
-              children={renderChildren}
-            />
-          ),
-        },
-      ]}
-    />
-  )
-}
-
 export const MultiSelect = () => {
   const { dataset, renderChildren } = useSelectableStory()
 
@@ -116,12 +89,6 @@ export const MultiSelect = () => {
     <CommonStory
       component={Selectable}
       stories={[
-        {
-          title: 'Multi select (Default)',
-          custom: (
-            <Selectable itemComponent={ItemComponent} dataset={dataset} children={renderChildren} />
-          ),
-        },
         {
           title: 'Single select',
           custom: (
@@ -131,6 +98,12 @@ export const MultiSelect = () => {
               dataset={dataset}
               children={renderChildren}
             />
+          ),
+        },
+        {
+          title: 'Multi select (Default)',
+          custom: (
+            <Selectable itemComponent={ItemComponent} dataset={dataset} children={renderChildren} />
           ),
         },
       ]}
@@ -161,35 +134,6 @@ export const DisableState = () => {
   )
 }
 
-export const DeselectOnOutsideClick = () => {
-  const { dataset, renderChildren } = useSelectableStory()
-
-  return (
-    <CommonStory
-      component={Selectable}
-      stories={[
-        {
-          title: 'Deselect on outside click (Default)',
-          custom: (
-            <Selectable itemComponent={ItemComponent} dataset={dataset} children={renderChildren} />
-          ),
-        },
-        {
-          title: 'Do nothing when outside clicked',
-          custom: (
-            <Selectable
-              deselectOnOutsideClick={false}
-              itemComponent={ItemComponent}
-              dataset={dataset}
-              children={renderChildren}
-            />
-          ),
-        },
-      ]}
-    />
-  )
-}
-
 export const WithDefaultSelection = () => {
   const { dataset, renderChildren } = useSelectableStory()
 
@@ -203,7 +147,7 @@ export const WithDefaultSelection = () => {
               itemComponent={ItemComponent}
               dataset={dataset}
               children={renderChildren}
-              defaultSelections={[2, 4, 6, 8]}
+              defaultSelections={new Set([2, 4, 6, 8])}
             />
           ),
         },
@@ -222,8 +166,14 @@ export const Playground: FC<SelectableNS.Props<DataType, DataType[]>> = props =>
         ...props,
         dataset,
         itemComponent: ItemComponent as FC<object>,
-        children: (Item: FC<ItemComponentProps>, { data, select, isSelected }) => (
-          <Item {...(data as DataType)} isSelected={isSelected} select={select} />
+        children: (Item: FC<ItemComponentProps>, { data, isSelected, props, index, select }) => (
+          <Item
+            {...(data as DataType)}
+            {...props}
+            select={select}
+            data-key={index}
+            isSelected={isSelected}
+          />
         ),
       }}
     />

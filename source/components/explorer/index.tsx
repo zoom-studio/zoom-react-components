@@ -1,13 +1,14 @@
-import React, { type FormEvent, forwardRef, useMemo, useState } from 'react'
+import React, { forwardRef, useMemo, useState, type FormEvent } from 'react'
 
 import { useFutureEffect, useObjectedState, type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
 
 import {
-  type AlertNS,
   Dialog,
-  type ImageEditorNS,
   Input,
   UploaderDialog,
+  type AlertNS,
+  type ImageEditorNS,
+  type InfiniteScrollViewNS,
   type UploaderDialogNS,
   type UploaderNS,
 } from '..'
@@ -18,13 +19,10 @@ import { ExplorerContent } from './content'
 import { ExplorerHeader } from './header'
 import { ExplorerSidebar } from './sidebar'
 import { UseExplorerI18n, type UseExplorerI18nNS } from './use-i18n'
-import { customizeFileTypeColors, excludeFileExtension, getDefaultViewMode } from './utils'
+import { customizeFileTypeColors, excludeFileExtension } from './utils'
 
 export namespace ExplorerNS {
   export const VIEW_MODE_STORE_KEY = 'zoomrc-explorer-view-mode'
-
-  export const ViewMode = ['grid', 'row'] as const
-  export type ViewMode = (typeof ViewMode)[number]
 
   export const ImageType = ['png', 'jpg', 'jpeg', 'webp'] as const
   export type ImageType = (typeof ImageType)[number]
@@ -121,8 +119,12 @@ export namespace ExplorerNS {
     handleClearFiles: () => void
   }
 
+  export type InfiniteScrollProps = Omit<
+    InfiniteScrollViewNS.Props,
+    'dataset' | 'children' | 'maxHeight'
+  >
+
   export interface Props extends Omit<BaseComponent, 'children'> {
-    viewMode?: ViewMode
     typeColors?: Partial<TypeColors>
     filterTypes?: ((file: FileInterface) => boolean) | MaybeAllFileTypes[]
     defaultTypeQuery?: MaybeAllFileTypesWithAll
@@ -159,7 +161,6 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
   (
     {
       typeColors: providedTypeColors,
-      viewMode: providedViewMode,
       i18n: componentI18n,
       selectable = true,
       multiSelect = true,
@@ -224,7 +225,6 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
     const isDisabled = disabled || loading
 
     const [isUploaderDialogOpen, setIsUploaderDialogOpen] = useState(false)
-    const viewMode = useObjectedState(getDefaultViewMode(providedViewMode))
     const selectedFiles = useObjectedState<number[]>([])
     const typeQuery = useObjectedState<ExplorerNS.MaybeAllFileTypesWithAll>(defaultTypeQuery)
     const searchQuery = useObjectedState('')
@@ -314,7 +314,6 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
         />
 
         <ExplorerHeader
-          viewMode={viewMode}
           i18n={i18n}
           openUploaderDialog={handleOpenUploaderDialog}
           typeQuery={typeQuery}
@@ -333,7 +332,6 @@ export const Explorer = forwardRef<HTMLDivElement, ExplorerNS.Props>(
             files={filteredFiles}
             filterTypes={filterTypes}
             loading={loading}
-            viewMode={viewMode.val!}
             selectedFiles={selectedFiles.val!}
             alert={alert}
             onSelectionChange={handleOnSelectionChange}

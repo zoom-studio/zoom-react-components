@@ -79,9 +79,21 @@ export const ReversedEndless = () => {
                 endMessage,
                 dataset: data,
                 handleOnLoadMore: sendQuery,
-                maxHeight: 'calc(100vh - 100px)',
+                maxHeight: 300,
                 children: renderData,
                 reverseScroll: true,
+              },
+            },
+            {
+              props: {
+                isLoading,
+                endMessage,
+                dataset: data,
+                handleOnLoadMore: sendQuery,
+                maxHeight: 300,
+                children: renderData,
+                reverseScroll: true,
+                useScrollViewComponent: false,
               },
             },
           ],
@@ -266,6 +278,45 @@ export const CustomizedScrollView = () => {
                 maxHeight: 'calc(100vh - 100px)',
                 children: renderData,
                 autoHide: true,
+              },
+            },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
+export const ParentComponent: FC = () => {
+  const { data, isLoading, sendQuery } = useFetch({ maxItems: 50 })
+  return (
+    <CommonStory
+      component={InfiniteScrollView}
+      stories={[
+        {
+          group: [
+            {
+              name: 'ScrollView component (Default)',
+              props: {
+                isLoading,
+                dataset: data,
+                handleOnLoadMore: sendQuery,
+                maxHeight: '36vh',
+                children: renderData,
+                maxDatasetLength: 50,
+                useScrollViewComponent: true,
+              },
+            },
+            {
+              name: 'Native scrollbar',
+              props: {
+                isLoading,
+                dataset: data,
+                handleOnLoadMore: sendQuery,
+                maxHeight: '36vh',
+                children: renderData,
+                maxDatasetLength: 50,
+                useScrollViewComponent: false,
               },
             },
           ],

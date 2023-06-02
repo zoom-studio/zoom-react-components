@@ -2,7 +2,7 @@ import React, { type FC } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Alert, type AlertNS, type ExplorerNS, ScrollView, Selectable } from '..'
+import { Alert, Selectable, type AlertNS, type ExplorerNS } from '..'
 
 import { ExplorerFile } from './file'
 import { ExplorerFilesSkeletons } from './files-skeletons'
@@ -13,7 +13,6 @@ export namespace ExplorerContentNS {
     selectable: boolean
     files: ExplorerNS.FileInterface[]
     multiSelect: boolean
-    viewMode: ExplorerNS.ViewMode
     typeColors: ExplorerNS.TypeColors
     selectedFiles: number[]
     alert?: AlertNS.Props
@@ -28,25 +27,20 @@ export const ExplorerContent: FC<ExplorerContentNS.Props> = ({
   selectable,
   files,
   multiSelect,
-  viewMode,
   typeColors,
   alert,
   onSelectionChange,
-  filterTypes,
   disabled,
   loading,
   selectedFiles,
   i18n,
   openRenameModal,
 }) => {
-  const selectableClasses = classNames('selectable-container', {
-    disabled,
-    [`${viewMode}-view-mode`]: true,
-  })
+  const selectableClasses = classNames('selectable-container', { disabled })
 
   return (
     <div className="items">
-      <ScrollView maxHeight="100%" minHeight="100%" className="explorer-scroll-view">
+      <div className="explorer-scroll-view">
         {alert && (
           <div className="explorer-alert">
             <Alert {...alert} banner />
@@ -54,7 +48,7 @@ export const ExplorerContent: FC<ExplorerContentNS.Props> = ({
         )}
 
         {loading ? (
-          <ExplorerFilesSkeletons viewMode={viewMode} />
+          <ExplorerFilesSkeletons />
         ) : (
           <Selectable
             className={selectableClasses}
@@ -64,11 +58,11 @@ export const ExplorerContent: FC<ExplorerContentNS.Props> = ({
             disabled={!selectable}
             multiSelect={multiSelect}
           >
-            {(File, { data, isSelected, select }) => (
+            {(File, { data, isSelected, select, index, props }) => (
               <File
                 {...data}
+                {...props}
                 typeColors={typeColors}
-                viewMode={viewMode}
                 onClick={disabled ? undefined : select}
                 isSelected={isSelected && selectedFiles.length > 0}
                 i18n={i18n}
@@ -77,7 +71,7 @@ export const ExplorerContent: FC<ExplorerContentNS.Props> = ({
             )}
           </Selectable>
         )}
-      </ScrollView>
+      </div>
     </div>
   )
 }

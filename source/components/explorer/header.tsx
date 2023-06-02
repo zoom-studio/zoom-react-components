@@ -4,7 +4,7 @@ import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Button, Input, Select } from '..'
 
-import { ExplorerNS } from '.'
+import { type ExplorerNS } from '.'
 import { getFileTypesFilterOptions } from './utils'
 
 export namespace ExplorerHeaderNS {
@@ -13,7 +13,6 @@ export namespace ExplorerHeaderNS {
       ExplorerNS.Props,
       'isSearchInputDisabled' | 'isTypeSelectDisabled' | 'disabled' | 'defaultTypeQuery'
     > {
-    viewMode: UseObjectedStateNS.ReturnType<ExplorerNS.ViewMode>
     i18n: Required<ExplorerNS.I18n>
     typeQuery: UseObjectedStateNS.ReturnType<ExplorerNS.MaybeAllFileTypesWithAll>
     searchQuery: UseObjectedStateNS.ReturnType<string>
@@ -22,7 +21,6 @@ export namespace ExplorerHeaderNS {
 }
 
 export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
-  viewMode,
   i18n,
   typeQuery,
   searchQuery,
@@ -32,14 +30,6 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
   openUploaderDialog,
   defaultTypeQuery,
 }) => {
-  const handleToggleViewMode = () => {
-    viewMode.set(currentViewMode => {
-      const newViewMode = currentViewMode === 'grid' ? 'row' : 'grid'
-      localStorage.setItem(ExplorerNS.VIEW_MODE_STORE_KEY, newViewMode)
-      return newViewMode
-    })
-  }
-
   return (
     <div className="header">
       <div className="filters">
@@ -67,16 +57,6 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
       </div>
 
       <div className="actions">
-        <Button
-          suffixMaterialIcon={viewMode.val === 'grid' ? 'view_list' : 'grid_view'}
-          onClick={handleToggleViewMode}
-          type="link"
-          shape="square"
-          size="large"
-          disabled={disabled}
-          className="toggle-view-mode"
-        />
-
         <Button
           disabled={disabled}
           suffixMaterialIcon="add"

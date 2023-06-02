@@ -1,12 +1,10 @@
 import React from 'react';
 import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils';
-import { type AlertNS, type ImageEditorNS, type UploaderDialogNS, type UploaderNS } from '..';
+import { type AlertNS, type ImageEditorNS, type InfiniteScrollViewNS, type UploaderDialogNS, type UploaderNS } from '..';
 import { type BaseComponent } from '../../types';
 import { type UseExplorerI18nNS } from './use-i18n';
 export declare namespace ExplorerNS {
     const VIEW_MODE_STORE_KEY = "zoomrc-explorer-view-mode";
-    const ViewMode: readonly ["grid", "row"];
-    type ViewMode = (typeof ViewMode)[number];
     const ImageType: readonly ["png", "jpg", "jpeg", "webp"];
     type ImageType = (typeof ImageType)[number];
     type MaybeImageType = MaybeString<ImageType>;
@@ -54,8 +52,8 @@ export declare namespace ExplorerNS {
     interface UploaderProps extends Omit<UploaderNS.Props, 'title'>, Pick<UploaderDialogNS.Props, 'isUploadingFiles'> {
         handleClearFiles: () => void;
     }
+    type InfiniteScrollProps = Omit<InfiniteScrollViewNS.Props, 'dataset' | 'children' | 'maxHeight'>;
     interface Props extends Omit<BaseComponent, 'children'> {
-        viewMode?: ViewMode;
         typeColors?: Partial<TypeColors>;
         filterTypes?: ((file: FileInterface) => boolean) | MaybeAllFileTypes[];
         defaultTypeQuery?: MaybeAllFileTypesWithAll;

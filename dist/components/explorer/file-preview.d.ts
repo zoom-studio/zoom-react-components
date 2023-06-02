@@ -5,7 +5,6 @@ export declare namespace ExplorerFilePreviewNS {
         type: ExplorerNS.MaybeAllFileTypes;
         link: string;
         typeColors: ExplorerNS.TypeColors;
-        viewMode: ExplorerNS.ViewMode;
     }
 }
 export declare const ExplorerFilePreview: FC<ExplorerFilePreviewNS.Props>;

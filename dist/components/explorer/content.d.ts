@@ -6,7 +6,6 @@ export declare namespace ExplorerContentNS {
         selectable: boolean;
         files: ExplorerNS.FileInterface[];
         multiSelect: boolean;
-        viewMode: ExplorerNS.ViewMode;
         typeColors: ExplorerNS.TypeColors;
         selectedFiles: number[];
         alert?: AlertNS.Props;

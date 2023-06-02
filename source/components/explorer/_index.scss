@@ -187,181 +187,147 @@
       flex: 1;
 
       > .explorer-scroll-view {
-        > .os-viewport {
-          > .files-skeletons {
-            display: flex;
-            flex-wrap: wrap;
+        height: 100%;
 
-            &.grid {
-              > .zoomrc-skeleton-paper {
-                margin: 6px;
-              }
-            }
+        > .files-skeletons {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 10px 16px;
 
-            &.row {
-              padding: 10px 16px;
+          > .zoomrc-skeleton-paper {
+            margin: 2px 0;
+          }
+        }
 
-              > .zoomrc-skeleton-paper {
-                margin: 2px 0;
-              }
-            }
+        > .explorer-alert {
+          width: 100%;
+
+          > .zoomrc-alert {
+            padding: 0 14px;
+          }
+        }
+
+        > .selectable-container {
+          @include scrollbar;
+
+          display: flex;
+          user-select: none;
+          overflow: auto;
+          max-height: 100%;
+          flex-direction: column;
+          padding: 6px 12px;
+          min-height: 100%;
+
+          &.disabled {
+            pointer-events: none;
           }
 
-          > .explorer-alert {
+          > div:not([style])[data-key] {
             width: 100%;
+            height: unset;
+            margin: 0;
+            cursor: pointer;
 
-            > .zoomrc-alert {
-              padding: 0 14px;
-            }
-          }
-
-          > .selectable-container {
-            display: flex;
-            flex-wrap: wrap;
-            user-select: none;
-
-            &.disabled {
-              pointer-events: none;
+            &:not(.selected):hover {
+              background-color: color(accent, 1, glassy, 1);
             }
 
-            &.row-view-mode {
-              flex-direction: column;
-              padding: 6px 12px;
+            > .file-context-menu {
+              width: 100%;
+              height: 100%;
+              border-radius: 0;
+              border: unset;
+              background-color: transparent;
 
-              > div:not([style])[id] {
-                width: 100%;
-                height: unset;
-                margin: 0;
-
-                > .file-context-menu {
-                  border-radius: 0;
-                  border: unset;
-                  background-color: transparent;
-
-                  &:not(.selected):hover {
-                    background-color: color(accent, 1, glassy, 1);
-                  }
-
-                  > .explorer-file {
-                    flex-direction: row-reverse;
-                    column-gap: 10px;
-
-                    > .explorer-file-preview {
-                      width: unset;
-                    }
-
-                    > .file-info {
-                      flex: 1;
-                      display: flex;
-                      align-items: center;
-                      flex-direction: row-reverse;
-                      justify-content: space-between;
-
-                      > .file-name {
-                        @include truncate;
-
-                        flex: 1;
-                        justify-content: flex-start;
-                        max-width: 200px;
-                      }
-                    }
-                  }
-                }
+              &:hover {
+                border-color: color(accent, 1, glassy, 5);
               }
-            }
 
-            > div:not([style])[id] {
-              width: 100px;
-              height: 100px;
-              margin: 6px;
-              cursor: pointer;
+              &.selected {
+                border-color: color(accent);
+                background-color: color(accent, 1, glassy, 4);
+              }
 
-              > .file-context-menu {
+              > .explorer-file {
                 width: 100%;
                 height: 100%;
-                border-radius: 4px;
-                border: 1px solid color(border, 2);
-                background-color: color(layer, 2, glassy, 5);
+                display: flex;
+                padding: 6px;
+                justify-content: space-between;
+                pointer-events: none;
+                flex-direction: row-reverse;
+                column-gap: 10px;
 
-                &:hover {
-                  border-color: color(accent, 1, glassy, 5);
-                }
-
-                &.selected {
-                  border-color: color(accent);
-                  background-color: color(accent, 1, glassy, 4);
-                }
-
-                > .explorer-file {
-                  width: 100%;
-                  height: 100%;
+                > .file-info {
+                  flex: 1;
                   display: flex;
-                  flex-direction: column;
-                  padding: 6px;
+                  align-items: center;
+                  flex-direction: row-reverse;
                   justify-content: space-between;
-                  pointer-events: none;
 
-                  > .file-info {
-                    > .file-date {
-                      > .date {
-                        @include truncate;
+                  > .file-date {
+                    > .date {
+                      @include truncate;
 
-                        margin: 0;
-                        color: color(text, 3);
-                      }
-                    }
-
-                    > .file-name {
-                      color: color(text, 2);
-                      display: flex;
-                      justify-content: center;
-
-                      &,
-                      & * {
-                        direction: ltr;
-                      }
-
-                      > .name,
-                      > .type {
-                        margin: 0;
-                      }
-
-                      > .name {
-                        @include truncate;
-                      }
+                      margin: 0;
+                      color: color(text, 3);
                     }
                   }
 
-                  > .explorer-file-preview {
-                    width: 100%;
+                  > .file-name {
+                    @include truncate;
+
+                    color: color(text, 2);
                     display: flex;
-                    align-items: center;
-                    justify-content: center;
+                    flex: 1;
+                    justify-content: flex-start;
+                    max-width: 200px;
 
-                    > .unknown-preview {
-                      position: relative;
-                      height: inherit;
+                    &,
+                    & * {
+                      direction: ltr;
+                    }
 
-                      > .file-icon {
-                        height: 100%;
-                        display: inline-block;
-                      }
+                    > .name,
+                    > .type {
+                      margin: 0;
+                    }
 
-                      > .file-type {
-                        @include truncate;
+                    > .name {
+                      @include truncate;
+                    }
+                  }
+                }
 
-                        direction: ltr !important;
-                        position: absolute;
-                        color: color(text);
-                        text-align: center;
-                        left: 0;
-                        right: 0;
-                        top: 10px;
-                        bottom: 0;
-                        margin: auto;
-                        width: 34px;
-                        height: 20px;
-                      }
+                > .explorer-file-preview {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  width: unset;
+
+                  > .unknown-preview {
+                    position: relative;
+                    height: inherit;
+
+                    > .file-icon {
+                      height: 100%;
+                      display: inline-block;
+                    }
+
+                    > .file-type {
+                      @include truncate;
+
+                      direction: ltr !important;
+                      position: absolute;
+                      color: color(text);
+                      text-align: center;
+                      left: 0;
+                      right: 0;
+                      top: 10px;
+                      bottom: 0;
+                      margin: auto;
+                      width: 34px;
+                      height: 20px;
                     }
                   }
                 }
@@ -384,18 +350,14 @@
 
       > .items {
         > .explorer-scroll-view {
-          > .os-viewport {
-            > .selectable-container {
-              &.row-view-mode {
-                > div:not([style])[id] {
-                  > .file-context-menu {
-                    > .explorer-file {
-                      flex-direction: row;
+          > .selectable-container {
+            > div:not([style])[id] {
+              > .file-context-menu {
+                > .explorer-file {
+                  flex-direction: row;
 
-                      > .file-info {
-                        flex-direction: row;
-                      }
-                    }
+                  > .file-info {
+                    flex-direction: row;
                   }
                 }
               }

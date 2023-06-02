@@ -1,26 +1,12 @@
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 import React, { type FC } from 'react'
 
-import { type ExplorerNS, Skeleton } from '../..'
+import { Skeleton } from '../..'
 
-export namespace ExplorerFilesSkeletonsNS {
-  export interface Props {
-    viewMode: ExplorerNS.ViewMode
-  }
-}
-
-export const ExplorerFilesSkeletons: FC<ExplorerFilesSkeletonsNS.Props> = ({ viewMode }) => {
-  const classes = classNames('files-skeletons', {
-    [viewMode]: true,
-  })
-
+export const ExplorerFilesSkeletons: FC = () => {
   return (
-    <div className={classes}>
-      {Array.from(Array(viewMode === 'grid' ? 26 : 10)).map((_, index) => (
-        <Skeleton.Paper
-          key={index}
-          size={viewMode === 'grid' ? { width: 100, height: 100 } : { width: '100%', height: 28 }}
-        />
+    <div className="files-skeletons">
+      {Array.from(Array(10)).map((_, index) => (
+        <Skeleton.Paper key={index} size={{ width: '100%', height: 28 }} />
       ))}
     </div>
   )

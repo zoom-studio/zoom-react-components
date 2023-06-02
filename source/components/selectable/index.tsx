@@ -1,32 +1,39 @@
-import React, { cloneElement, type FC, type MouseEvent, useMemo, useState } from 'react'
+import React, { cloneElement, useState, type FC } from 'react'
 
-import {
-  createSelectable,
-  type ReactSelectableComponentProps,
-  SelectableGroup,
-} from 'react-selectable'
-import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
+import SelectionArea, { type SelectionEvent } from '@viselect/react'
+import { classNames, useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
 
+import { ConditionalWrapper } from '..'
 import { useZoomComponent } from '../../hooks'
 import { type BaseComponent } from '../../types'
 
 export namespace SelectableNS {
+  export const KEY = 'data-key'
+  export const CLASSNAMES = {
+    SELECTED: 'ZOOMRC-SELECTABLE-SELECTED-ITEM',
+    SELECTABLE: 'ZOOMRC-SELECTABLE-SELECTABLE-ITEM',
+  }
+
+  export interface ChildrenItemProps {
+    [KEY]: number
+    className: string
+  }
+
   export interface ChildrenCallbackParams<DataType extends unknown[]> {
     data: DataType[0]
     isSelected: boolean
-    select: (evt: MouseEvent) => void
-    deselect: () => void
+    index: number
+    props: ChildrenItemProps
+    select: () => void
   }
 
   export interface Props<ItemComponentProps extends object, DataType extends unknown[]>
     extends Omit<BaseComponent, 'reference' | 'children'> {
     itemComponent: FC<ItemComponentProps>
     disabled?: boolean
-    tolerance?: number
     dataset?: DataType
-    deselectOnOutsideClick?: boolean
     multiSelect?: boolean
-    defaultSelections?: number[]
+    defaultSelections?: Set<number>
     onSelect?: (selectedIndexes: number[]) => void
     children: (
       SelectableComponent: FC<ItemComponentProps>,
@@ -36,10 +43,8 @@ export namespace SelectableNS {
 }
 
 export const Selectable = <ItemComponentProps extends object, DataType extends unknown[]>({
-  deselectOnOutsideClick = true,
-  tolerance = 0,
   multiSelect = true,
-  defaultSelections = [],
+  defaultSelections = new Set(),
   className,
   containerProps,
   itemComponent,
@@ -49,133 +54,104 @@ export const Selectable = <ItemComponentProps extends object, DataType extends u
   onSelect,
   ...rest
 }: SelectableNS.Props<ItemComponentProps, DataType>) => {
-  const ItemComponent = useMemo(() => createSelectable(itemComponent), [])
   const { createClassName } = useZoomComponent('selectable')
-
-  const [selectedItems, setSelectedItems] = useState<number[]>(defaultSelections)
+  const [selected, setSelected] = useState<Set<number>>(defaultSelections)
 
   const classes = createClassName(className)
 
-  const handleOnSelection = (selectedIndexes: number[]) => {
-    setSelectedItems(selectedIndexes)
+  const extractIds = (elements: Element[]): number[] => {
+    return elements
+      .map(element => element.getAttribute(SelectableNS.KEY))
+      .filter(Boolean)
+      .map(Number)
   }
 
-  const handleSelectSingleIndex = (index: number) => {
-    if (disabled) {
-      return
+  const onStart = ({ event, selection }: SelectionEvent) => {
+    if (!event?.ctrlKey && !event?.metaKey) {
+      selection.clearSelection()
+      setSelected(() => new Set())
     }
+  }
 
-    setSelectedItems(currentSelectedItems => {
-      return currentSelectedItems.length === 1 && currentSelectedItems[0] === index ? [] : [index]
+  const handleSingleSelect = (itemIndex: number) => () => {
+    if (!multiSelect) {
+      setSelected(currentSelection => {
+        return currentSelection.has(itemIndex) ? new Set() : new Set([itemIndex])
+      })
+    }
+  }
+
+  const onMove = ({
+    store: {
+      changed: { added, removed },
+    },
+  }: SelectionEvent) => {
+    setSelected(prev => {
+      const next = new Set(prev)
+      extractIds(added).forEach(id => next.add(id))
+      extractIds(removed).forEach(id => next.delete(id))
+      return next
     })
   }
 
-  const handleAppendSingleIndex = (index: number) => {
-    if (disabled) {
-      return
-    }
-
-    setSelectedItems(currentSelectedItems => {
-      if (currentSelectedItems.includes(index)) {
-        return currentSelectedItems.filter(selectedItem => selectedItem !== index)
-      }
-      return [...currentSelectedItems, index]
+  const getItemsClassNames = (isSelected: boolean): string => {
+    return classNames(SelectableNS.CLASSNAMES.SELECTABLE, {
+      [SelectableNS.CLASSNAMES.SELECTED]: isSelected,
     })
-  }
-
-  const handleShiftilySelectIndex = (index: number) => {
-    if (disabled) {
-      return
-    }
-
-    if (selectedItems.length === 0) {
-      handleSelectSingleIndex(index)
-    } else {
-      const biggestSelectionIndex = Math.max(...selectedItems)
-      let fromIndex = biggestSelectionIndex
-      let toIndex = index
-
-      if (toIndex < fromIndex) {
-        const to = toIndex
-        toIndex = fromIndex
-        fromIndex = to
-      }
-
-      const newSelections = Array.from(Array(toIndex - fromIndex + 1)).map(
-        (_, index) => index + fromIndex,
-      )
-
-      setSelectedItems(newSelections)
-    }
-  }
-
-  const handleSelectItems = (clickedItemIndex: number) => (evt?: MouseEvent) => {
-    if (disabled) {
-      return
-    }
-
-    if (multiSelect && evt) {
-      if (evt.ctrlKey) {
-        handleAppendSingleIndex(clickedItemIndex)
-      } else if (evt.shiftKey) {
-        handleShiftilySelectIndex(clickedItemIndex)
-      } else {
-        handleSelectSingleIndex(clickedItemIndex)
-      }
-    } else {
-      handleSelectSingleIndex(clickedItemIndex)
-    }
-  }
-
-  const handleDeselectItems = (clickedItemIndex: number) => () => {
-    setSelectedItems(currentSelectedItems =>
-      currentSelectedItems.filter(index => clickedItemIndex !== index),
-    )
   }
 
   const handleRenderChildren = (data: DataType[0], index: number): JSX.Element => {
-    const isSelected = selectedItems.includes(index)
+    const isSelected = selected.has(index)
 
-    return cloneElement<ReactSelectableComponentProps>(
-      children(ItemComponent as any, {
+    return cloneElement(
+      children(itemComponent, {
         data,
+        index,
         isSelected,
-        select: handleSelectItems(index),
-        deselect: handleDeselectItems(index),
+        select: handleSingleSelect(index),
+        props: {
+          className: getItemsClassNames(isSelected),
+          [SelectableNS.KEY]: index,
+        },
       }),
-      {
-        selectableKey: index,
-        key: index,
-        selected: isSelected,
-      },
+      { selected: isSelected, key: index },
     )
   }
 
-  const handleOnOutsideClick = () => {
-    if (disabled) {
-      return
-    }
-
-    if (deselectOnOutsideClick) {
-      setSelectedItems([])
-    }
-  }
-
   useFutureEffect(() => {
-    onSelect?.(selectedItems)
-  }, [selectedItems])
+    onSelect?.([...selected])
+  }, [selected])
 
   return (
-    <SelectableGroup
-      {...rest}
-      {...containerProps}
-      className={classes}
-      enabled={!disabled && multiSelect}
-      onSelection={handleOnSelection}
-      onNonItemClick={handleOnOutsideClick}
-      tolerance={tolerance}
+    <ConditionalWrapper
+      condition={disabled || !multiSelect}
+      trueWrapper={child => (
+        <div {...containerProps} {...rest} className={classes}>
+          {child}
+        </div>
+      )}
+      falseWrapper={child => (
+        <SelectionArea
+          {...containerProps}
+          {...rest}
+          className={classes}
+          onStart={onStart}
+          onMove={onMove}
+          selectables={`.${SelectableNS.CLASSNAMES.SELECTABLE}`}
+          // features={{
+          //   range: false,
+          //   touch: true,
+          //   singleTap: {
+          //     allow: true,
+          //     intersect: 'native',
+          //   },
+          // }}
+        >
+          {child}
+        </SelectionArea>
+      )}
     >
       {dataset?.map(handleRenderChildren)}
-    </SelectableGroup>
+    </ConditionalWrapper>
   )
 }

@@ -2,7 +2,7 @@ import React, { type FC, type MouseEvent } from 'react'
 
 import { classNames, useDownload } from '@zoom-studio/zoom-js-ts-utils'
 
-import { ContextMenu, Text } from '..'
+import { ContextMenu, type SelectableNS, Text } from '..'
 import { type MenuItemNS } from '../menu/menu-item'
 
 import { type ExplorerNS } from '.'
@@ -10,17 +10,18 @@ import { ExplorerFilePreview } from './file-preview'
 import { type UseExplorerI18nNS } from './use-i18n'
 
 export namespace ExplorerFileNS {
-  export interface Props extends ExplorerNS.FileInterface {
+  export interface Props extends ExplorerNS.FileInterface, SelectableNS.ChildrenItemProps {
     isSelected: boolean
     typeColors: ExplorerNS.TypeColors
     onClick?: (evt: MouseEvent) => void
-    viewMode: ExplorerNS.ViewMode
     i18n: Required<UseExplorerI18nNS.I18n>
     rename: () => void
   }
 }
 
 export const ExplorerFile: FC<ExplorerFileNS.Props> = ({
+  'data-key': dataKey,
+  className,
   name,
   type,
   isSelected,
@@ -28,9 +29,7 @@ export const ExplorerFile: FC<ExplorerFileNS.Props> = ({
   typeColors,
   createdAt,
   onClick,
-  viewMode,
   i18n,
-  id,
   rename,
 }) => {
   const { handleDownload } = useDownload({ link, fileName: name })
@@ -50,27 +49,27 @@ export const ExplorerFile: FC<ExplorerFileNS.Props> = ({
   ]
 
   return (
-    <ContextMenu items={contextMenuItems} className={classes} onClick={onClick}>
-      <div className="explorer-file">
-        <ExplorerFilePreview viewMode={viewMode} link={link} type={type} typeColors={typeColors} />
+    <div data-key={dataKey} className={className} onClick={onClick}>
+      <ContextMenu items={contextMenuItems} className={classes}>
+        <div className="explorer-file">
+          <ExplorerFilePreview link={link} type={type} typeColors={typeColors} />
 
-        <div className="file-info">
-          <div className="file-name">
-            <Text className="name">{name.split('.')[0]}</Text>
-            <Text className="type" bold>
-              .{type}
-            </Text>
-          </div>
+          <div className="file-info">
+            <div className="file-name">
+              <Text className="name">{name.split('.')[0]}</Text>
+              <Text className="type" bold>
+                .{type}
+              </Text>
+            </div>
 
-          {viewMode === 'row' && (
             <div className="file-date">
               <Text small className="date">
                 {createdAt}
               </Text>
             </div>
-          )}
+          </div>
         </div>
-      </div>
-    </ContextMenu>
+      </ContextMenu>
+    </div>
   )
 }

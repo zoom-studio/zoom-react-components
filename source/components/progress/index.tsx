@@ -137,12 +137,14 @@ export const Progress = forwardRef<HTMLDivElement, ProgressNS.Props>(
                 )}%`,
               }}
             >
-              <Popover
-                description={step.title}
-                trigger="hover"
-                placement={isVertical ? 'right' : 'top'}
-                {...step.popoverProps}
-              />
+              {(step.title || step.popoverProps) && (
+                <Popover
+                  description={step.title}
+                  trigger="hover"
+                  placement={isVertical ? 'right' : 'top'}
+                  {...step.popoverProps}
+                />
+              )}
               {step.withWave && <span className={waveClasses} />}
             </div>
           ))}

@@ -2332,11 +2332,11 @@ body {
 }
 div[class^='zoomrc-reaction-'] {
   display: inline-flex;
+  gap: 2px;
 }
 div[class^='zoomrc-reaction-'] > button[class^='zoomrc-button-'] {
   width: 46px;
   height: 46px;
-  margin: 0 2px;
 }
 div[class^='zoomrc-reaction-'] > button[class^='zoomrc-button-']:first-child {
   margin-left: 0;
@@ -2497,6 +2497,24 @@ div[class^='zoomrc-reaction-']
   text-decoration: line-through;
   direction: rtl;
 }
+.zoomrc-text-italic-small {
+  font-weight: var(--zoomrc-face-regular) !important;
+  font-size: var(--zoomrc-size-small) !important;
+  font-style: italic;
+  direction: rtl;
+}
+.zoomrc-text-italic-normal {
+  font-weight: var(--zoomrc-face-regular) !important;
+  font-size: var(--zoomrc-size-normal) !important;
+  font-style: italic;
+  direction: rtl;
+}
+.zoomrc-text-italic-large {
+  font-weight: var(--zoomrc-face-regular) !important;
+  font-size: var(--zoomrc-size-large) !important;
+  font-style: italic;
+  direction: rtl;
+}
 .zoomrc-typography {
   direction: rtl;
   text-align: right;
@@ -2570,7 +2588,7 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child)[aria-disabled='tru
   padding: 2px;
   justify-content: center;
 }
-> .zoomrc-button-small-inner-child {
+.zoomrc-button-small-inner-child {
   text-decoration: none;
   color: inherit;
   text-align: center;
@@ -2581,11 +2599,11 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child)[aria-disabled='tru
   align-items: center;
   padding: 4px 10px;
 }
-> .zoomrc-button-small-inner-child > .zoomrc-spin-small > .spinner {
+.zoomrc-button-small-inner-child > .zoomrc-spin-small > .spinner {
   width: 17px;
   height: 17px;
 }
-> .zoomrc-button-small-inner-child .zoomrc-emoji {
+.zoomrc-button-small-inner-child .zoomrc-emoji {
   width: 18px;
 }
 .zoomrc-button-normal {
@@ -2605,7 +2623,7 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child)[aria-disabled='tru
   padding: 2px;
   justify-content: center;
 }
-> .zoomrc-button-normal-inner-child {
+.zoomrc-button-normal-inner-child {
   text-decoration: none;
   color: inherit;
   text-align: center;
@@ -2616,11 +2634,11 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child)[aria-disabled='tru
   align-items: center;
   padding: 6px 20px;
 }
-> .zoomrc-button-normal-inner-child > .zoomrc-spin-normal > .spinner {
+.zoomrc-button-normal-inner-child > .zoomrc-spin-normal > .spinner {
   width: 20px;
   height: 20px;
 }
-> .zoomrc-button-normal-inner-child .zoomrc-emoji {
+.zoomrc-button-normal-inner-child .zoomrc-emoji {
   width: 20px;
 }
 .zoomrc-button-large {
@@ -2640,7 +2658,7 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child)[aria-disabled='tru
   padding: 2px;
   justify-content: center;
 }
-> .zoomrc-button-large-inner-child {
+.zoomrc-button-large-inner-child {
   text-decoration: none;
   color: inherit;
   text-align: center;
@@ -2651,11 +2669,11 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child)[aria-disabled='tru
   align-items: center;
   padding: 10px 24px;
 }
-> .zoomrc-button-large-inner-child > .zoomrc-spin-large > .spinner {
+.zoomrc-button-large-inner-child > .zoomrc-spin-large > .spinner {
   width: 23px;
   height: 23px;
 }
-> .zoomrc-button-large-inner-child .zoomrc-emoji {
+.zoomrc-button-large-inner-child .zoomrc-emoji {
   width: 24px;
 }
 .zoomrc-button-primary-success {
@@ -6715,6 +6733,7 @@ div.zoomrc-scroll-view .os-scrollbar:hover .os-scrollbar-handle {
 }
 div.zoomrc-popover {
   z-index: 100;
+  display: inline-block;
 }
 @keyframes zoomrc-popover-component-open-from-top-animation {
   from {
@@ -7295,6 +7314,9 @@ html[dir='ltr']
   height: 1px;
   position: absolute;
   z-index: -10;
+}
+.zoomrc-image.errored .zoomrc-skeleton {
+  cursor: default;
 }
 .zoomrc-image > img {
   width: 100%;
@@ -8201,7 +8223,7 @@ html[dir='ltr'] .zoomrc-avatar-grouped > .zoomrc-image:not(:last-child) {
   display: flex;
   column-gap: 6px;
   align-items: flex-start;
-  padding: 6px;
+  padding: 6px 12px;
 }
 .zoomrc-alert > .zoomrc-container > .symbol-container {
   display: flex;
@@ -8737,6 +8759,36 @@ html[dir='ltr'] .zoomrc-tour-steps-container-bottom-end > .zoomrc-tour {
   > .link-content
   > .zoomrc-list-view-item-content.hover:hover {
   background-color: var(--zoomrc-color-layer-2-darker-1);
+}
+.zoomrc-infinite-scroll-view > .zoomrc-scroll-view > .os-viewport.native-scrollbar {
+  scrollbar-color: gray rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
+  overflow: auto;
+}
+.zoomrc-infinite-scroll-view
+  > .zoomrc-scroll-view
+  > .os-viewport.native-scrollbar::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: rgba(0, 0, 0, 0);
+}
+.zoomrc-infinite-scroll-view
+  > .zoomrc-scroll-view
+  > .os-viewport.native-scrollbar::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0);
+}
+.zoomrc-infinite-scroll-view
+  > .zoomrc-scroll-view
+  > .os-viewport.native-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: gray;
+}
+.zoomrc-infinite-scroll-view
+  > .zoomrc-scroll-view
+  > .os-viewport.native-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
 }
 .zoomrc-infinite-scroll-view
   > .zoomrc-scroll-view
@@ -10886,89 +10938,103 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
 .zoomrc-explorer > .content > .items {
   flex: 1;
 }
-.zoomrc-explorer > .content > .items > .explorer-scroll-view > .os-viewport > .files-skeletons {
+.zoomrc-explorer > .content > .items > .explorer-scroll-view {
+  height: 100%;
+}
+.zoomrc-explorer > .content > .items > .explorer-scroll-view > .files-skeletons {
   display: flex;
   flex-wrap: wrap;
-}
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .files-skeletons.grid
-  > .zoomrc-skeleton-paper {
-  margin: 6px;
-}
-.zoomrc-explorer > .content > .items > .explorer-scroll-view > .os-viewport > .files-skeletons.row {
   padding: 10px 16px;
 }
 .zoomrc-explorer
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .files-skeletons.row
+  > .files-skeletons
   > .zoomrc-skeleton-paper {
   margin: 2px 0;
 }
-.zoomrc-explorer > .content > .items > .explorer-scroll-view > .os-viewport > .explorer-alert {
+.zoomrc-explorer > .content > .items > .explorer-scroll-view > .explorer-alert {
   width: 100%;
 }
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .explorer-alert
-  > .zoomrc-alert {
+.zoomrc-explorer > .content > .items > .explorer-scroll-view > .explorer-alert > .zoomrc-alert {
   padding: 0 14px;
 }
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container {
+.zoomrc-explorer > .content > .items > .explorer-scroll-view > .selectable-container {
+  scrollbar-color: gray rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
   display: flex;
-  flex-wrap: wrap;
   user-select: none;
+  overflow: auto;
+  max-height: 100%;
+  flex-direction: column;
+  padding: 6px 12px;
+  min-height: 100%;
 }
 .zoomrc-explorer
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.disabled {
+  > .selectable-container::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: rgba(0, 0, 0, 0);
+}
+.zoomrc-explorer
+  > .content
+  > .items
+  > .explorer-scroll-view
+  > .selectable-container::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0);
+}
+.zoomrc-explorer
+  > .content
+  > .items
+  > .explorer-scroll-view
+  > .selectable-container::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: gray;
+}
+.zoomrc-explorer
+  > .content
+  > .items
+  > .explorer-scroll-view
+  > .selectable-container::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+.zoomrc-explorer > .content > .items > .explorer-scroll-view > .selectable-container.disabled {
   pointer-events: none;
 }
 .zoomrc-explorer
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode {
-  flex-direction: column;
-  padding: 6px 12px;
-}
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
-  > div:not([style])[id] {
+  > .selectable-container
+  > div:not([style])[data-key] {
   width: 100%;
   height: unset;
   margin: 0;
+  cursor: pointer;
 }
 .zoomrc-explorer
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
-  > div:not([style])[id]
+  > .selectable-container
+  > div:not([style])[data-key]:not(.selected):hover {
+  background-color: var(--zoomrc-color-accent-1-glassy-1);
+}
+.zoomrc-explorer
+  > .content
+  > .items
+  > .explorer-scroll-view
+  > .selectable-container
+  > div:not([style])[data-key]
   > .file-context-menu {
+  width: 100%;
+  height: 100%;
   border-radius: 0;
   border: unset;
   background-color: rgba(0, 0, 0, 0);
@@ -10977,21 +11043,35 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
-  > div:not([style])[id]
-  > .file-context-menu:not(.selected):hover {
-  background-color: var(--zoomrc-color-accent-1-glassy-1);
+  > .selectable-container
+  > div:not([style])[data-key]
+  > .file-context-menu:hover {
+  border-color: var(--zoomrc-color-accent-1-glassy-5);
 }
 .zoomrc-explorer
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
-  > div:not([style])[id]
+  > .selectable-container
+  > div:not([style])[data-key]
+  > .file-context-menu.selected {
+  border-color: var(--zoomrc-color-accent-1);
+  background-color: var(--zoomrc-color-accent-1-glassy-4);
+}
+.zoomrc-explorer
+  > .content
+  > .items
+  > .explorer-scroll-view
+  > .selectable-container
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 6px;
+  justify-content: space-between;
+  pointer-events: none;
   flex-direction: row-reverse;
   column-gap: 10px;
 }
@@ -10999,21 +11079,8 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
-  > div:not([style])[id]
-  > .file-context-menu
-  > .explorer-file
-  > .explorer-file-preview {
-  width: unset;
-}
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
-  > div:not([style])[id]
+  > .selectable-container
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .file-info {
@@ -11027,92 +11094,8 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
-  > div:not([style])[id]
-  > .file-context-menu
-  > .explorer-file
-  > .file-info
-  > .file-name {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  max-width: 100%;
-  flex: 1;
-  justify-content: flex-start;
-  max-width: 200px;
-}
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id] {
-  width: 100px;
-  height: 100px;
-  margin: 6px;
-  cursor: pointer;
-}
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container
-  > div:not([style])[id]
-  > .file-context-menu {
-  width: 100%;
-  height: 100%;
-  border-radius: 4px;
-  border: 1px solid var(--zoomrc-color-border-2);
-  background-color: var(--zoomrc-color-layer-2-glassy-5);
-}
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container
-  > div:not([style])[id]
-  > .file-context-menu:hover {
-  border-color: var(--zoomrc-color-accent-1-glassy-5);
-}
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container
-  > div:not([style])[id]
-  > .file-context-menu.selected {
-  border-color: var(--zoomrc-color-accent-1);
-  background-color: var(--zoomrc-color-accent-1-glassy-4);
-}
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container
-  > div:not([style])[id]
-  > .file-context-menu
-  > .explorer-file {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 6px;
-  justify-content: space-between;
-  pointer-events: none;
-}
-.zoomrc-explorer
-  > .content
-  > .items
-  > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .file-info
@@ -11129,24 +11112,28 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .file-info
   > .file-name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
   color: var(--zoomrc-color-text-2);
   display: flex;
-  justify-content: center;
+  flex: 1;
+  justify-content: flex-start;
+  max-width: 200px;
 }
 .zoomrc-explorer
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .file-info
@@ -11155,9 +11142,8 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .file-info
@@ -11169,9 +11155,8 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .file-info
@@ -11181,9 +11166,8 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .file-info
@@ -11195,9 +11179,8 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .file-info
@@ -11212,24 +11195,22 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .explorer-file-preview {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: unset;
 }
 .zoomrc-explorer
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .explorer-file-preview
@@ -11241,9 +11222,8 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .explorer-file-preview
@@ -11256,9 +11236,8 @@ html[dir='ltr'] .zoomrc-range-slider > .zoomrc-range-slider-state-message {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
   > .selectable-container
-  > div:not([style])[id]
+  > div:not([style])[data-key]
   > .file-context-menu
   > .explorer-file
   > .explorer-file-preview
@@ -11290,8 +11269,7 @@ html[dir='ltr'] .zoomrc-explorer > .content > .sidebar {
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
+  > .selectable-container
   > div:not([style])[id]
   > .file-context-menu
   > .explorer-file,
@@ -11300,8 +11278,7 @@ html[dir='ltr']
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
+  > .selectable-container
   > div:not([style])[id]
   > .file-context-menu
   > .explorer-file {
@@ -11312,8 +11289,7 @@ html[dir='ltr']
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
+  > .selectable-container
   > div:not([style])[id]
   > .file-context-menu
   > .explorer-file
@@ -11323,18 +11299,20 @@ html[dir='ltr']
   > .content
   > .items
   > .explorer-scroll-view
-  > .os-viewport
-  > .selectable-container.row-view-mode
+  > .selectable-container
   > div:not([style])[id]
   > .file-context-menu
   > .explorer-file
   > .file-info {
   flex-direction: row;
 }
-.zoomrc-selectable > div:not([id], [class])[style] > span:not([id], [class])[style] {
-  border: 1px solid var(--zoomrc-color-accent-1-glassy-5) !important;
+.zoomrc-selectable {
+  user-select: none;
+}
+.selection-area {
+  border: 1px solid var(--zoomrc-color-accent-1-glassy-5);
   border-radius: 4px;
-  background-color: var(--zoomrc-color-accent-1-glassy-1) !important;
+  background-color: var(--zoomrc-color-accent-1-glassy-1);
 }
 .zoomrc-image-editor-dialog > .zoomrc-dialog-body {
   padding: 0;

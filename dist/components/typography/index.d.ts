@@ -3,15 +3,11 @@ import { type Range } from '@zoom-studio/zoom-js-ts-utils';
 import { type BaseComponent } from '../../types';
 export declare namespace TypographyNS {
     namespace TextNS {
-        const Types: readonly ["common", "bold", "light", "underlined", "strikethrough"];
+        const Types: readonly ["common", "bold", "light", "underlined", "strikethrough", "italic"];
         type Types = (typeof Types)[number];
-        interface TypeProps {
-            common?: boolean;
-            bold?: boolean;
-            light?: boolean;
-            underlined?: boolean;
-            strikethrough?: boolean;
-        }
+        type TypeProps = {
+            [type in Types]?: boolean;
+        };
         interface SizeProps {
             small?: boolean;
             normal?: boolean;

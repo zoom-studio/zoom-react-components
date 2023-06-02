@@ -1,24 +1,18 @@
-import React, {
-  FC,
-  FocusEvent,
-  HTMLAttributes,
-  MouseEvent,
-  ReactNode,
-  useEffect,
-  useRef,
-} from 'react'
+import React, { forwardRef, type HTMLAttributes, type ReactNode, useRef } from 'react'
 
-import { Spin, SpinNS, Text, Title, TypographyNS } from '..'
-import { logs } from '../../constants'
-import { useOutsideClick, useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
-import { ConditionalWrapper } from '../conditional-wrapper'
+import { type SpinNS, type TypographyNS } from '..'
+import { type BaseComponent } from '../../types'
+
+import { PopoverContent } from './popover-content'
+import { PopoverTrigger } from './popover-triggre'
+import { usePopover } from './use-popover'
+import { PopoverContext } from './use-popover-context'
 
 export namespace PopoverNS {
   export const Trigger = ['click', 'focus', 'hover'] as const
-  export type Trigger = typeof Trigger[number]
+  export type Trigger = (typeof Trigger)[number]
 
-  export type Placement = typeof Placement[number]
+  export type Placement = (typeof Placement)[number]
   const Placement = [
     'top-start',
     'top',
@@ -34,217 +28,62 @@ export namespace PopoverNS {
     'left-end',
   ] as const
 
-  export interface Props extends BaseComponent {
+  export interface Handlers {
+    openPopover: () => void
+    closePopover: () => void
+  }
+
+  export interface Props extends Omit<BaseComponent, 'children'> {
     title?: string | ReactNode
-    titleProps?: TypographyNS.TitleNS.Props
-    popoverProps?: HTMLAttributes<HTMLDivElement>
-    content?: ReactNode
-    contentProps?: HTMLAttributes<HTMLDivElement>
+    content?: ReactNode | ((handlers: Handlers) => ReactNode)
     description?: string
-    descriptionProps?: TypographyNS.TextNS.Props
     trigger?: Trigger
-    onOpen?: VoidFunction
-    onClose?: VoidFunction
-    defaultIsOpen?: boolean
     loading?: boolean
-    loadingTitle?: string
     placement?: Placement
     showArrow?: boolean
     spinProps?: SpinNS.Props
+    defaultIsOpen?: boolean
     hoverDelay?: number
     width?: string | number
     autoCloseDelay?: number
+    children?: JSX.Element | ((handlers: Handlers) => JSX.Element)
+    isOpen?: boolean
+    titleProps?: TypographyNS.TitleNS.Props
+    contentProps?: HTMLAttributes<HTMLDivElement>
+    popoverProps?: HTMLAttributes<HTMLDivElement>
+    descriptionProps?: TypographyNS.TextNS.Props
+    disabled?: boolean
+    onOpen?: () => void
+    onClose?: () => void
+    onOpenChange?: (isOpen: boolean) => void
   }
 }
 
-export const Popover: FC<PopoverNS.Props> = ({
-  reference: customContainerRef,
-  trigger = 'hover',
-  placement = 'top',
-  showArrow = true,
-  hoverDelay = 0,
-  children,
-  className,
-  title,
-  titleProps,
-  popoverProps,
-  content,
-  contentProps,
-  description,
-  descriptionProps,
-  onOpen,
-  onClose,
-  defaultIsOpen,
-  loading,
-  loadingTitle,
-  spinProps,
-  width,
-  autoCloseDelay,
-  containerProps,
-  ...rest
-}) => {
-  const OPEN = 'open'
-  const containerRef = customContainerRef ?? useRef<HTMLDivElement>(null)
-  const timeout = useRef<number | null>(null)
-  const { createClassName, sendLog } = useZoomComponent('popover')
-  const isValidPopover = !!title || !!description || !!content || loading
+export const Popover = forwardRef<HTMLDivElement, PopoverNS.Props>(
+  ({ trigger = 'hover', placement = 'top', showArrow = true, ...props }, reference) => {
+    const allProps = { ...props, trigger, placement, showArrow }
+    const arrowRef = useRef<SVGSVGElement | null>(null)
+    const popover = usePopover({ ...allProps, arrowRef })
 
-  const titleClasses = createClassName(titleProps?.className, 'title')
-  const descriptionClasses = createClassName(descriptionProps?.className, 'description')
-  const contentClasses = createClassName(contentProps?.className, 'content')
-  const classes = createClassName(className, '', {
-    [createClassName('', placement)]: true,
-    [createClassName('', 'loading')]: !!loading,
-  })
-  const popoverClasses = createClassName(popoverProps?.className, 'container', {
-    'with-arrow': !!showArrow,
-  })
-
-  const isOpen = (): boolean => {
-    const { current: container } = containerRef
-    if (!container) {
-      if (isValidPopover) {
-        sendLog(logs.popoverNotFoundContainerRef, 'isOpen function')
-      }
-      return false
-    }
-    return container.classList.contains(OPEN)
-  }
-
-  const toggle = () => (isOpen() ? close : open)()
-
-  const open = (): boolean => {
-    onOpen?.()
-    const { current: container } = containerRef
-    if (!container) {
-      if (isValidPopover) {
-        sendLog(logs.popoverNotFoundContainerRef, 'open function')
-      }
-      return isOpen()
-    }
-    container.classList.add(OPEN)
-    if (autoCloseDelay) {
-      setTimeout(close, autoCloseDelay)
-    }
-    return true
-  }
-
-  const close = (): boolean => {
-    onClose?.()
-    const { current: container } = containerRef
-    if (!container) {
-      if (isValidPopover) {
-        sendLog(logs.popoverNotFoundContainerRef, 'close function')
-      }
-      return isOpen()
-    }
-    container.classList.remove(OPEN)
-    container.blur()
-    return false
-  }
-
-  const handleOnFocusOrBlur = (evt: FocusEvent<HTMLDivElement>) => {
-    const isFocused = evt.type === 'focus'
-    if (trigger === 'focus') {
-      if (isFocused) open()
-      else close()
-    }
-    if (isFocused) containerProps?.onFocus?.(evt)
-    else containerProps?.onBlur?.(evt)
-  }
-
-  const handleOnMouseEnterOrLeave = (evt: MouseEvent<HTMLDivElement>) => {
-    const isMouseEntered = evt.type === 'mouseenter'
-    if (trigger === 'hover') {
-      if (isMouseEntered) {
-        timeout.current = window.setTimeout(open, hoverDelay)
-      } else {
-        if (timeout.current) {
-          clearTimeout(timeout.current)
-        }
-        close()
-      }
-    }
-    if (isMouseEntered) containerProps?.onMouseEnter?.(evt)
-    else containerProps?.onMouseLeave?.(evt)
-  }
-
-  const handleOnClick = (evt: MouseEvent<HTMLDivElement>) => {
-    if (trigger === 'click') {
-      toggle()
-    }
-    rest?.onClick?.(evt)
-  }
-
-  useEffect(() => {
-    if (defaultIsOpen) {
-      open()
-    }
-
-    return () => {
-      if (timeout.current) {
-        clearTimeout(timeout.current)
-      }
-    }
-  }, [])
-
-  useOutsideClick(close, containerRef)
-  return (
-    <ConditionalWrapper
-      condition={isValidPopover}
-      trueWrapper={child => <>{child}</>}
-      falseWrapper={() => <>{children}</>}
-    >
-      <div
-        {...rest}
-        {...containerProps}
-        className={classes}
-        ref={containerRef}
-        onFocus={handleOnFocusOrBlur}
-        onBlur={handleOnFocusOrBlur}
-        onMouseEnter={handleOnMouseEnterOrLeave}
-        onMouseLeave={handleOnMouseEnterOrLeave}
-        onClick={handleOnClick}
-      >
-        <div {...popoverProps} className={popoverClasses} style={{ width: width ?? 'max-content' }}>
-          <div className="container-children">
-            {showArrow && <span className="arrow" />}
-
-            {loading ? (
-              <div className="popover-loader">
-                <Spin {...spinProps} tip={loadingTitle || spinProps?.tip} />
-              </div>
-            ) : (
-              <>
-                <ConditionalWrapper
-                  condition={typeof title === 'string'}
-                  falseWrapper={children => <>{children}</>}
-                  trueWrapper={children => (
-                    <Title h5 {...titleProps} className={titleClasses}>
-                      {children}
-                    </Title>
-                  )}
-                >
-                  {title}
-                </ConditionalWrapper>
-
-                {description && (
-                  <Text {...descriptionProps} className={descriptionClasses}>
-                    {description}
-                  </Text>
-                )}
-
-                {content && (
-                  <div {...contentProps} className={contentClasses}>
-                    {content}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-        {children}
-      </div>
-    </ConditionalWrapper>
-  )
-}
+    return (
+      <PopoverContext.Provider value={popover}>
+        {!allProps.disabled && (
+          <PopoverContent
+            {...allProps}
+            arrowRef={arrowRef}
+            close={popover.close}
+            open={popover.open}
+            toggle={popover.toggle}
+            ref={reference}
+          />
+        )}
+        <PopoverTrigger
+          {...allProps}
+          close={popover.close}
+          open={popover.open}
+          toggle={popover.toggle}
+        />
+      </PopoverContext.Provider>
+    )
+  },
+)

@@ -1,4 +1,4 @@
-import React, { FC, RefObject, useRef } from 'react'
+import React, { type FC, type RefObject, useRef } from 'react'
 
 import { faker } from '@faker-js/faker'
 
@@ -22,15 +22,15 @@ export const createLoremSection = (
     }}
   >
     <Col md={12} sm={24} xs={24}>
-      <Title reference={titleRef}>{lorem(1)}</Title>
-      <Text reference={descriptionRef}>{lorem(6)}</Text>
-      <Button reference={buttonRef}>Sample button</Button>
+      <Title ref={titleRef}>{lorem(1)}</Title>
+      <Text ref={descriptionRef}>{lorem(6)}</Text>
+      <Button ref={buttonRef}>Sample button</Button>
     </Col>
     <Col md={12} sm={24} xs={24}>
       <Image
         src={faker.image.image(500, 400)}
         withImageViewer
-        reference={imgRef}
+        ref={imgRef}
         width="100%"
         height={400}
       />

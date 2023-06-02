@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { ScrollView, ScrollViewNS } from '..'
+import { ScrollView, type ScrollViewNS } from '..'
 import { CommonStory, StoryPlayground } from './components'
 import { lorem } from '../fixtures'
 import { color } from '../utils'
@@ -18,7 +18,7 @@ export default {
     children: <Children />,
     maxHeight: '70vh',
   },
-} as ComponentMeta<typeof ScrollView>
+} as Meta<typeof ScrollView>
 
 export const IndicatorVisibility: FC = () => {
   return (

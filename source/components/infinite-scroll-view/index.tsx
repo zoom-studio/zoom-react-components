@@ -1,9 +1,19 @@
-import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  type ReactNode,
+  type RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type MutableRefObject,
+} from 'react'
 
-import { ScrollView, ScrollViewNS, Spin, SpinNS, Title } from '..'
+import { type Nullish } from '@zoom-studio/zoom-js-ts-utils'
+
+import { ScrollView, type ScrollViewNS, Spin, type SpinNS, Title, ConditionalWrapper } from '..'
 import { logs } from '../../constants'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace InfiniteScrollViewNS {
   export type PickedScrollViewProps = 'maxWidth' | 'maxHeight' | 'autoHide'
@@ -24,16 +34,19 @@ export namespace InfiniteScrollViewNS {
     reverseScroll?: boolean
     loadOnMount?: boolean
     threshold?: number
+    reference?: RefObject<HTMLDivElement>
     spinProps?: SpinNS.Props
     endMessage?: string | ReactNode
     itemsContainerProps?: Omit<BaseComponent, 'children'>
     itemContainerProps?: Omit<BaseComponent, 'children'>
     itemsReferenceKey?: string
-    handleSetProps?: (index: number, reference: null | undefined) => { [prop: string]: any }
+    handleSetProps?: (index: number, reference: null | undefined) => Record<string, any>
+    useScrollViewComponent?: boolean
   }
 }
 
 export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
+  useScrollViewComponent = true,
   itemsReferenceKey = 'ref',
   reverseScroll = false,
   loadOnMount = true,
@@ -57,7 +70,8 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
   itemContainerProps,
   ...rest
 }: InfiniteScrollViewNS.Props<DataType>): JSX.Element => {
-  const scrollViewRef = useRef<ScrollViewNS.ContainerNode | null>(null)
+  const nativeViewportRef = useRef<HTMLDivElement>(null)
+  const scrollViewRef = useRef<ScrollViewNS.ContainerNode | HTMLDivElement | null>(null)
   const [isScrollAtBottom, setIsScrollAtBottom] = useState(false)
   const observerRef = useRef<IntersectionObserver | null>(null)
   const { createClassName, sendLog } = useZoomComponent('infinite-scroll-view')
@@ -94,18 +108,29 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
     reversed: !!reverseScroll,
   })
 
-  const contentContainerClasses = createClassName(itemsContainerProps?.className, 'content')
   const itemContainerClasses = createClassName(itemContainerProps?.className, 'item')
+
+  const contentContainerClasses = createClassName(itemsContainerProps?.className, 'content')
 
   const handleOnScroll = (evt: Event) => {
     const scrollableTarget = evt.target as HTMLDivElement | null
     if (!scrollableTarget) {
-      return sendLog(logs.infiniteScrollViewScrollableTargetNotFound, 'handleOnScroll fn')
+      sendLog(logs.infiniteScrollViewScrollableTargetNotFound, 'handleOnScroll fn')
+      return
     }
 
     if (scrollableTarget.scrollTop < 2) {
       scrollableTarget.scrollTop = 2
     }
+  }
+
+  const getViewport = (): Nullish<HTMLElement> => {
+    if (useScrollViewComponent) {
+      const { osInstance } = (scrollViewRef as MutableRefObject<ScrollViewNS.ContainerNode>).current
+      const elements = osInstance()?.elements()
+      return elements?.viewport
+    }
+    return nativeViewportRef.current
   }
 
   useEffect(() => {
@@ -116,10 +141,9 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
 
   useEffect(() => {
     if (dataset.length > 0 && reverseScroll && scrollViewRef.current) {
-      const { osInstance } = scrollViewRef.current
-      const elements = osInstance()?.elements()
-      if (elements) {
-        const { viewport } = elements
+      const viewport = getViewport()
+
+      if (viewport) {
         const { clientHeight } = viewport
         viewport.scrollTo({ top: clientHeight })
         setIsScrollAtBottom(true)
@@ -131,13 +155,34 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
 
   return (
     <div {...containerProps} {...rest} className={classes} ref={reference}>
-      <ScrollView
-        {...scrollViewProps}
-        autoHide={autoHide}
-        reference={scrollViewRef}
-        maxHeight={maxHeight}
-        maxWidth={maxWidth}
-        onScroll={handleOnScroll}
+      <ConditionalWrapper
+        condition={useScrollViewComponent}
+        falseWrapper={child => (
+          <div
+            ref={scrollViewRef as MutableRefObject<HTMLDivElement>}
+            className="zoomrc-scroll-view"
+          >
+            <div
+              className="os-viewport native-scrollbar"
+              ref={nativeViewportRef}
+              style={{ maxHeight, maxWidth }}
+            >
+              {child}
+            </div>
+          </div>
+        )}
+        trueWrapper={child => (
+          <ScrollView
+            {...scrollViewProps}
+            autoHide={autoHide}
+            ref={scrollViewRef as MutableRefObject<ScrollViewNS.ContainerNode>}
+            maxHeight={maxHeight}
+            maxWidth={maxWidth}
+            onScroll={handleOnScroll}
+          >
+            {child}
+          </ScrollView>
+        )}
       >
         <div {...itemsContainerProps} className={contentContainerClasses}>
           {dataset.map((data, index) => (
@@ -167,7 +212,7 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
             )
           )}
         </div>
-      </ScrollView>
+      </ConditionalWrapper>
     </div>
   )
 }

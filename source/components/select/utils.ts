@@ -1,14 +1,15 @@
-import { RefObject } from 'react'
+import { type RefObject } from 'react'
 
 import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 
-import { SelectNS } from '.'
-import { ZoomLogProviderNS } from '../zoom-log-provider'
+import { type SelectNS } from '.'
+import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
 import { logs } from '../../constants'
+import { type SelectOptionNS } from './option'
 
 export const groupOptions = (
-  options?: SelectNS.Option[],
-  defaultValue?: SelectNS.Props['defaultValue'],
+  options?: SelectNS.Option<SelectOptionNS.Value>[],
+  defaultValue?: SelectNS.Props<SelectOptionNS.Value>['defaultValue'],
 ): SelectNS.GroupedOptions => {
   const groupedOptions: SelectNS.GroupedOptions = {}
 
@@ -79,11 +80,12 @@ export const getSelectedOptions = (
 export const scrollToTop = (
   containerRef: RefObject<HTMLDivElement>,
   scrollOnOpen: boolean,
-  sendLog: ZoomLogProviderNS.Log,
+  sendLog: ZoomGlobalConfigProviderNS.Log,
 ) => {
   const { current: container } = containerRef
   if (!container) {
-    return sendLog(logs.selectNotFoundContainerRef, 'scrollToTop function')
+    sendLog(logs.selectNotFoundContainerRef, 'scrollToTop function')
+    return
   }
   if (!scrollOnOpen) {
     return
@@ -93,17 +95,18 @@ export const scrollToTop = (
 
 export const focusSearchBox = async (
   inputRef: RefObject<HTMLInputElement>,
-  sendLog: ZoomLogProviderNS.Log,
+  sendLog: ZoomGlobalConfigProviderNS.Log,
 ) => {
   await sleep(2)
   const { current: searchBox } = inputRef
   if (!searchBox) {
-    return sendLog(logs.selectNotFoundInputRef, 'focusSearchBox function')
+    sendLog(logs.selectNotFoundInputRef, 'focusSearchBox function')
+    return
   }
   searchBox.focus()
 }
 
-export const defaultEmpty = (options?: SelectNS.Option[]) => {
+export const defaultEmpty = (options?: SelectNS.Option<SelectOptionNS.Value>[]) => {
   return (options || []).length === 0 ? 'empty-list' : false
 }
 

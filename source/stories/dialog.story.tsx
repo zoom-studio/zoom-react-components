@@ -1,17 +1,17 @@
-import React, { FC, useRef, useState } from 'react'
+import React, { type FC, useRef, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Dialog, Button, DialogNS, ButtonNS } from '..'
-import { StoryPlayground, CommonStory, CommonStoryNS } from './components'
+import { Dialog, Button, type DialogNS, type ButtonNS } from '..'
+import { StoryPlayground, CommonStory, type CommonStoryNS, WithButtonsStory } from './components'
 import { lorem } from '../fixtures'
 import { useI18n } from './hooks/use-i18n'
-import { CommonSize } from '../types'
+import { type CommonSize } from '../types'
 
 export default {
   title: 'Feedback/Dialog',
   component: Dialog,
-} as ComponentMeta<typeof Dialog>
+} as Meta<typeof Dialog>
 
 export const Sizes = () => {
   const dialogRef = useRef<HTMLDivElement>(null)
@@ -19,7 +19,9 @@ export const Sizes = () => {
   const [dialogSize, setDialogSize] = useState<CommonSize>('normal')
   const { t } = useI18n('dialog')
 
-  const close = () => setIsOpen(false)
+  const close = () => {
+    setIsOpen(false)
+  }
   const open = (size: CommonSize) => () => {
     setDialogSize(size)
     setIsOpen(true)
@@ -85,7 +87,7 @@ export const Sizes = () => {
         headerProps={{ className: 'my-dialog-header' }}
         bodyProps={{ className: 'my-dialog-body' }}
         footerProps={{ className: 'my-dialog-footer' }}
-        reference={dialogRef}
+        ref={dialogRef}
         backdropRef={undefined}
       >
         {lorem(10)}
@@ -94,10 +96,60 @@ export const Sizes = () => {
   )
 }
 
+export const MultipleDialogs: FC = () => {
+  const [isDialogsOpen, setIsDialogsOpen] = useState(false)
+  const { t } = useI18n('dialog')
+
+  return (
+    <WithButtonsStory
+      buttons={[
+        {
+          children: t('open'),
+          onClick: () => {
+            setIsDialogsOpen(true)
+          },
+        },
+      ]}
+    >
+      <Dialog
+        isOpen={isDialogsOpen}
+        onClose={() => {
+          setIsDialogsOpen(false)
+        }}
+        size="small"
+      >
+        {lorem(10)}
+      </Dialog>
+      <Dialog
+        isOpen={isDialogsOpen}
+        onClose={() => {
+          setIsDialogsOpen(false)
+        }}
+        size="normal"
+      >
+        {lorem(10)}
+      </Dialog>
+      <Dialog
+        isOpen={isDialogsOpen}
+        onClose={() => {
+          setIsDialogsOpen(false)
+        }}
+        size="large"
+      >
+        {lorem(10)}
+      </Dialog>
+    </WithButtonsStory>
+  )
+}
+
 export const Playground: FC<DialogNS.Props> = props => {
   const [isOpen, setIsOpen] = useState(!!props.isOpen)
-  const open = () => setIsOpen(true)
-  const close = () => setIsOpen(false)
+  const open = () => {
+    setIsOpen(true)
+  }
+  const close = () => {
+    setIsOpen(false)
+  }
   const { t } = useI18n('dialog')
 
   return (

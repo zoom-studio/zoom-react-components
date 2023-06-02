@@ -1,4 +1,4 @@
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace SkeletonNS {
   export interface BaseProps extends BaseComponent {

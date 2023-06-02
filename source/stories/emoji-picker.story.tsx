@@ -1,6 +1,6 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { type FC, useEffect, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { EmojiPicker, EmojiPickerNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
@@ -10,12 +10,14 @@ export default {
   component: EmojiPicker,
   args: {
     containerProps: {},
-    onSelect: name => alert(name),
+    onSelect: name => {
+      alert(name)
+    },
     cacheLength: 50,
     defaultActiveCollection: 'History',
     emojisPerRow: 10,
   },
-} as ComponentMeta<typeof EmojiPicker>
+} as Meta<typeof EmojiPicker>
 
 export const EmojisPerRow: FC = () => {
   return (

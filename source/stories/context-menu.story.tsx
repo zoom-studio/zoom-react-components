@@ -1,20 +1,20 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Button, ContextMenu, ContextMenuNS } from '..'
+import { Button, ContextMenu, type ContextMenuNS } from '..'
 import { enMenuItems, faMenuItems } from '../fixtures'
 import { BannerStory } from './components'
 import { useI18n } from './hooks/use-i18n'
 import { useSettings } from './hooks/use-settings'
 
 export default {
-  title: 'Menu/Context menu',
+  title: 'Navigation/Context menu',
   component: ContextMenu,
   args: {
     items: enMenuItems,
   },
-} as ComponentMeta<typeof ContextMenu>
+} as Meta<typeof ContextMenu>
 
 export const ComplexMenu: FC = () => {
   const { language } = useSettings()

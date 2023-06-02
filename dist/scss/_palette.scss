@@ -1,0 +1,105 @@
+$palettes: (
+  dark: (
+    // layers
+    'layer-1': rgb(33 32 36),
+    'layer-2': rgb(44 45 48),
+    'layer-3': rgb(34 34 37),
+    // texts
+    'text-1': rgb(255 255 255),
+    'text-2': rgb(193 199 205),
+    'text-3': rgb(125 132 138),
+    // borders
+    'border-1': rgb(39 37 43),
+    'border-2': rgb(50 51 55),
+    'border-3': rgb(40 40 45),
+    // accents
+    'accent-1': rgb(36 151 89),
+    'accent-2': rgb(63 189 121),
+    'accent-3': rgb(76 221 143),
+    // bases
+    'warning': rgb(255 193 7),
+    'error': rgb(220 53 69),
+    'success': rgb(40 167 69),
+    'info': rgb(23 162 184),
+    'backdrop': rgba(0 0 0 / 60%),
+    'placeholder': rgb(100 100 100),
+    'skeleton': rgb(55 56 58),
+  ),
+  dark-high-contrast: (
+    // layers
+    'layer-1': rgb(0 0 0),
+    'layer-2': rgb(0 0 0),
+    'layer-3': rgb(0 0 0),
+    // texts
+    'text-1': rgb(255 255 255),
+    'text-2': rgb(255 255 255),
+    'text-3': rgb(255 255 255),
+    // borders
+    'border-1': rgb(255 255 255),
+    'border-2': rgb(255 255 255),
+    'border-3': rgb(255 255 255),
+    // accents
+    'accent-1': rgb(36 151 89),
+    'accent-2': rgb(63 189 121),
+    'accent-3': rgb(76 221 143),
+    // bases
+    'warning': rgb(255 193 7),
+    'error': rgb(220 53 69),
+    'success': rgb(40 167 69),
+    'info': rgb(23 162 184),
+    'backdrop': rgba(0 0 0 / 60%),
+    'placeholder': rgb(184 184 184),
+    'skeleton': rgb(37 37 37),
+  ),
+  light: (
+    // layers
+    'layer-1': rgb(243 244 246),
+    'layer-2': rgb(255 255 255),
+    'layer-3': rgb(232 234 237),
+    // texts
+    'text-1': rgb(0 0 0),
+    'text-2': rgb(87 91 96),
+    'text-3': rgb(164 171 181),
+    // borders
+    'border-1': rgb(233 235 237),
+    'border-2': rgb(222 225 230),
+    'border-3': rgb(224 225 227),
+    // accents
+    'accent-1': rgb(36 151 89),
+    'accent-2': rgb(63 189 121),
+    'accent-3': rgb(76 221 143),
+    // bases
+    'warning': rgb(255 193 7),
+    'error': rgb(220 53 69),
+    'success': rgb(40 167 69),
+    'info': rgb(23 162 184),
+    'backdrop': rgba(0 0 0 / 60%),
+    'placeholder': rgb(177 177 177),
+    'skeleton': rgb(239 239 239),
+  ),
+  light-high-contrast: (
+    // layers
+    'layer-1': rgb(255 255 255),
+    'layer-2': rgb(255 255 255),
+    'layer-3': rgb(255 255 255),
+    // texts
+    'text-1': rgb(0 0 0),
+    'text-2': rgb(0 0 0),
+    'text-3': rgb(0 0 0),
+    // borders
+    'border-1': rgb(0 0 0),
+    'border-2': rgb(0 0 0),
+    'border-3': rgb(0 0 0),
+    // accents
+    'accent-1': rgb(36 151 89),
+    'accent-2': rgb(63 189 121),
+    'accent-3': rgb(76 221 143),
+    // bases
+    'warning': rgb(255 193 7),
+    'error': rgb(220 53 69),
+    'success': rgb(40 167 69),
+    'info': rgb(23 162 184),
+    'backdrop': rgba(0 0 0 / 60%),
+    'placeholder': rgb(220 220 220),
+  ),
+);

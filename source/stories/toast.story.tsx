@@ -1,17 +1,17 @@
-import React, { FC, ReactNode, useEffect } from 'react'
+import React, { type FC, type ReactNode, useEffect } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { CommonStory, StoryPlayground, WithButtonsStory } from './components'
 
 import { COMMON_VARIANTS } from '../constants'
 import { useI18n } from './hooks/use-i18n'
 
-import { ButtonNS, useMessage } from '..'
+import { type ButtonNS, useMessage } from '..'
 
 import { DEFAULT_TOAST_DURATION } from '../components/message/constants'
-import { Toast, ToastNS } from '../components/message/toast'
-import { UseToastNS } from '../components/message/toast/use-toast'
+import { Toast, type ToastNS } from '../components/message/toast'
+import { type UseToastNS } from '../components/message/toast/use-toast'
 
 const SOUND = 'https://soundbible.com/mp3/Music_Box-Big_Daddy-1389738694.mp3'
 
@@ -61,7 +61,7 @@ export default {
     icon: undefined,
     variant: 'neutral',
   },
-} as ComponentMeta<typeof Toast>
+} as Meta<typeof Toast>
 
 export const Variants: FC = () => {
   const { t } = useI18n('toast')
@@ -133,9 +133,8 @@ export const Closable: FC = () => {
   const { t } = useI18n('toast')
   const message = t('message')
   const createToasts = (toast: UseToastNS.UseToastReturnType) => {
-    COMMON_VARIANTS.forEach(variant => {
-      toast.toast(t('message'), variant, { closable: true })
-    })
+    toast.toast(t('message'), 'neutral', { closable: true })
+    toast.toast(t('message'), 'neutral', { closable: false })
   }
   return (
     <ToastStory creator={createToasts} onMount={createToasts}>
@@ -145,11 +144,8 @@ export const Closable: FC = () => {
           stories={[
             {
               group: [
-                { name: 'Neutral', props: { closable: true, message, variant: 'neutral' } },
-                { name: 'Success', props: { closable: true, message, variant: 'success' } },
-                { name: 'Info', props: { closable: true, message, variant: 'info' } },
-                { name: 'Warning', props: { closable: true, message, variant: 'warning' } },
-                { name: 'Error', props: { closable: true, message, variant: 'error' } },
+                { name: 'Closable', props: { closable: true, message } },
+                { name: 'None closable', props: { closable: false, message } },
               ],
             },
           ]}
@@ -259,9 +255,16 @@ export const UpdateExistToast: FC = () => {
       onMount={reset}
       defaultButtons={{}}
       moreButtons={toast => [
-        { onClick: () => reset(toast), children: 'Push new or reset to default' },
         {
-          onClick: () => update(toast),
+          onClick: () => {
+            reset(toast)
+          },
+          children: 'Push new or reset to default',
+        },
+        {
+          onClick: () => {
+            update(toast)
+          },
           children: 'Push new or update the exist',
         },
       ]}

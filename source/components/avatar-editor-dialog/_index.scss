@@ -1,0 +1,15 @@
+.zoomrc-avatar-editor-dialog {
+  width: fit-content;
+
+  > .zoomrc-dialog-body {
+    padding: 0;
+    width: fit-content;
+
+    > .zoomrc-avatar-editor {
+      background-color: transparent;
+      border-radius: 0;
+      border: 0;
+      margin-bottom: 20px;
+    }
+  }
+}

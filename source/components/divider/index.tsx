@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
 
-import { Title, TypographyNS } from '..'
+import { Title, type TypographyNS } from '..'
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace DividerNS {
   export interface Props extends BaseComponent {
@@ -16,50 +16,56 @@ export namespace DividerNS {
   }
 }
 
-export const Divider: FC<DividerNS.Props> = ({
-  childrenPlacement = 'start',
-  truncate = true,
-  verticalHeight = '1.5rem',
-  selectableTitle,
-  dashed,
-  children,
-  className,
-  containerProps,
-  reference,
-  titleProps,
-  vertical,
-  style,
-}) => {
-  const { createClassName } = useZoomComponent('divider')
+export const Divider = forwardRef<HTMLDivElement, DividerNS.Props>(
+  (
+    {
+      childrenPlacement = 'start',
+      truncate = true,
+      verticalHeight = '1.5rem',
+      selectableTitle,
+      dashed,
+      children,
+      className,
+      containerProps,
+      titleProps,
+      vertical,
+      style,
+      ...rest
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('divider')
 
-  const classes = createClassName(className, '', {
-    [createClassName('', vertical ? 'vertical' : 'horizontal')]: true,
-    [createClassName('', dashed ? 'dashed' : 'solid')]: true,
-    [createClassName('', childrenPlacement)]: true,
-    [createClassName('', 'truncate')]: !!truncate,
-    [createClassName('', 'selectable')]: !!selectableTitle,
-  })
+    const classes = createClassName(className, '', {
+      [createClassName('', vertical ? 'vertical' : 'horizontal')]: true,
+      [createClassName('', dashed ? 'dashed' : 'solid')]: true,
+      [createClassName('', childrenPlacement)]: true,
+      [createClassName('', 'truncate')]: !!truncate,
+      [createClassName('', 'selectable')]: !!selectableTitle,
+    })
 
-  const titleClasses = createClassName(titleProps?.className, 'title')
+    const titleClasses = createClassName(titleProps?.className, 'title')
 
-  return (
-    <div
-      {...containerProps}
-      className={classes}
-      ref={reference}
-      style={{ ...style, height: vertical ? verticalHeight : style?.height }}
-    >
-      {!vertical && children && (
-        <div className="title-container">
-          {typeof children === 'string' ? (
-            <Title h6 {...titleProps} className={titleClasses}>
-              {children}
-            </Title>
-          ) : (
-            children
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
+    return (
+      <div
+        {...rest}
+        {...containerProps}
+        className={classes}
+        ref={reference}
+        style={{ ...style, height: vertical ? verticalHeight : style?.height }}
+      >
+        {!vertical && children && (
+          <div className="title-container">
+            {typeof children === 'string' ? (
+              <Title h6 {...titleProps} className={titleClasses}>
+                {children}
+              </Title>
+            ) : (
+              children
+            )}
+          </div>
+        )}
+      </div>
+    )
+  },
+)

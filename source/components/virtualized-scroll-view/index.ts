@@ -1,4 +1,4 @@
-import { ScrollViewNS } from '../scroll-view'
+import { type ScrollViewNS } from '../scroll-view'
 
 export namespace VirtualizedScrollViewNS {
   export interface Props {

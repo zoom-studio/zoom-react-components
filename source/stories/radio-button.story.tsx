@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { RadioButton, RadioButtonNS } from '..'
+import { RadioButton, type RadioButtonNS } from '..'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -12,7 +12,7 @@ export default {
   args: {
     label: 'Some label for the radio button',
   },
-} as ComponentMeta<typeof RadioButton>
+} as Meta<typeof RadioButton>
 
 export const Sizes = () => {
   const { t } = useI18n('radio')

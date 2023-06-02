@@ -1,6 +1,6 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
-import { Emoji, EmojiNS, Text } from '../../..'
+import { Emoji, type EmojiNS, Text } from '../../..'
 
 export namespace BannerStoryNS {
   export interface Props {

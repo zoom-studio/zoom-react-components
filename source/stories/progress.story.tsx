@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Progress, ProgressNS } from '..'
+import { Progress, type ProgressNS } from '..'
 import { color } from '../utils'
 import { CommonStory, StoryPlayground, WithNumberStory } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -20,7 +20,7 @@ export default {
       { percentage: 10, color: 'red' },
     ],
   },
-} as ComponentMeta<typeof Progress>
+} as Meta<typeof Progress>
 
 export const Types: FC = () => {
   return (

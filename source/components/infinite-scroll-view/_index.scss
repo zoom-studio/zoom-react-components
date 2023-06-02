@@ -1,6 +1,12 @@
 .zoomrc-infinite-scroll-view {
   > .zoomrc-scroll-view {
     > .os-viewport {
+      &.native-scrollbar {
+        @include scrollbar;
+
+        overflow: auto;
+      }
+
       > .zoomrc-infinite-scroll-view-content {
         display: flex;
         flex-direction: column;

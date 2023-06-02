@@ -1,16 +1,16 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
+import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Button, ImageViewer, ImageViewerNS, useMessage } from '../components'
+import { Button, ImageViewer, type ImageViewerNS, useMessage } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
-import { image } from '../fixtures'
 
 const generateImage = (length = 10): ImageViewerNS.Image[] => {
   return Array.from(Array(length)).map((_, index) => ({
     name: `sample-image-name-which-is-at-index-${index}-of-${length}-images-in-total.jpeg`,
-    source: image(),
+    source: randomImage(undefined, undefined, 'cats'),
   }))
 }
 
@@ -29,7 +29,7 @@ export default {
     confirmBeforeDelete: true,
     defaultActiveImageIndex: 0,
   },
-} as ComponentMeta<typeof ImageViewer>
+} as Meta<typeof ImageViewer>
 
 const useImageViewerStory = () => {
   const { toast } = useMessage()

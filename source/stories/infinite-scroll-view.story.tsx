@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Emoji, InfiniteScrollView, InfiniteScrollViewNS } from '../components'
+import { Emoji, InfiniteScrollView, type InfiniteScrollViewNS } from '../components'
 import { CommonStory, StoryPlayground, WithButtonsStory } from './components'
 import { useFetch } from './hooks/use-fetch'
 import { useI18n } from './hooks/use-i18n'
@@ -36,7 +36,7 @@ export default {
     autoHide: true,
     maxDatasetLength: Number.MAX_SAFE_INTEGER,
   },
-} as ComponentMeta<typeof InfiniteScrollView>
+} as Meta<typeof InfiniteScrollView>
 
 export const Endless = () => {
   const { data, isLoading, sendQuery } = useFetch()
@@ -79,9 +79,21 @@ export const ReversedEndless = () => {
                 endMessage,
                 dataset: data,
                 handleOnLoadMore: sendQuery,
-                maxHeight: 'calc(100vh - 100px)',
+                maxHeight: 300,
                 children: renderData,
                 reverseScroll: true,
+              },
+            },
+            {
+              props: {
+                isLoading,
+                endMessage,
+                dataset: data,
+                handleOnLoadMore: sendQuery,
+                maxHeight: 300,
+                children: renderData,
+                reverseScroll: true,
+                useScrollViewComponent: false,
               },
             },
           ],
@@ -266,6 +278,45 @@ export const CustomizedScrollView = () => {
                 maxHeight: 'calc(100vh - 100px)',
                 children: renderData,
                 autoHide: true,
+              },
+            },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
+export const ParentComponent: FC = () => {
+  const { data, isLoading, sendQuery } = useFetch({ maxItems: 50 })
+  return (
+    <CommonStory
+      component={InfiniteScrollView}
+      stories={[
+        {
+          group: [
+            {
+              name: 'ScrollView component (Default)',
+              props: {
+                isLoading,
+                dataset: data,
+                handleOnLoadMore: sendQuery,
+                maxHeight: '36vh',
+                children: renderData,
+                maxDatasetLength: 50,
+                useScrollViewComponent: true,
+              },
+            },
+            {
+              name: 'Native scrollbar',
+              props: {
+                isLoading,
+                dataset: data,
+                handleOnLoadMore: sendQuery,
+                maxHeight: '36vh',
+                children: renderData,
+                maxDatasetLength: 50,
+                useScrollViewComponent: false,
               },
             },
           ],

@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { Link as RouterLink, LinkProps } from 'react-router-dom'
+import { Link as RouterLink, type LinkProps } from 'react-router-dom'
 
-import { HTMLLink, HTMLLinkNS } from './html-link'
+import { HTMLLink, type HTMLLinkNS } from './html-link'
 
 export namespace CustomLinkNS {
   export interface Props extends Omit<LinkProps, 'to'>, HTMLLinkNS.Props {

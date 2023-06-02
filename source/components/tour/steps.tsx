@@ -1,8 +1,10 @@
-import React, { FC, MutableRefObject, useContext, useEffect, useState } from 'react'
+import React, { type FC, type MutableRefObject, useContext, useEffect, useState } from 'react'
 
-import { TourNS } from '.'
-import { Button, Container, Emoji, Icon, Spin, Text, Title, zoomLogContext } from '..'
+import { type TourNS } from '.'
+import { Button, Container, Emoji, Icon, Spin, Text, Title, zoomGlobalConfigContext } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'
+
+import { useTourI18n } from './use-i18n'
 
 export namespace StepsNS {
   export interface Props extends Omit<TourNS.Props, 'children'> {
@@ -13,6 +15,7 @@ export namespace StepsNS {
 }
 
 export const Steps: FC<StepsNS.Props> = ({
+  i18n: componentI18n,
   fluidContainer = true,
   defaultActiveStep = 0,
   scrollableContainer = window,
@@ -31,7 +34,7 @@ export const Steps: FC<StepsNS.Props> = ({
   const [activeStep, setActiveStep] = useState(defaultActiveStep)
   const { createClassName } = useZoomComponent('tour')
   const { isRTL } = useZoomContext()
-  const { globalI18ns: i18n } = useContext(zoomLogContext)
+  const { globalI18ns } = useContext(zoomGlobalConfigContext)
 
   const step = steps[activeStep]
   const {
@@ -46,11 +49,7 @@ export const Steps: FC<StepsNS.Props> = ({
     title,
   } = step
 
-  const nextButtonText = i18n?.tour?.nextButton ?? 'Next'
-  const backButtonText = i18n?.tour?.backButton ?? 'Back'
-  const skipButtonText = i18n?.tour?.skipButton ?? 'Skip'
-  const finishButtonText = i18n?.tour?.finishButton ?? 'Finish'
-
+  const i18n = useTourI18n(globalI18ns, componentI18n)
   const classes = createClassName(className)
 
   const containerClasses = createClassName('', 'steps-container', {
@@ -139,10 +138,11 @@ export const Steps: FC<StepsNS.Props> = ({
 
     switch (key) {
       case 'ArrowRight': {
-        return handleNavigateTo('next')
+        handleNavigateTo('next')
+        return
       }
       case 'ArrowLeft': {
-        return handleNavigateTo('prev')
+        handleNavigateTo('prev')
       }
     }
   }
@@ -218,7 +218,7 @@ export const Steps: FC<StepsNS.Props> = ({
                     <div className="skip-button">
                       {activeStep < steps.length && closable && (
                         <Button onClick={handleStopTour} type="text">
-                          {skipButtonText}
+                          {i18n.skipButton}
                         </Button>
                       )}
                     </div>
@@ -226,21 +226,28 @@ export const Steps: FC<StepsNS.Props> = ({
                     <div className="navigate-buttons">
                       {activeStep > 0 && (
                         <Button
-                          onClick={() => handleNavigateTo('prev')}
+                          onClick={() => {
+                            handleNavigateTo('prev')
+                          }}
                           type="link"
                           variant="success"
                         >
-                          {backButtonText}
+                          {i18n.backButton}
                         </Button>
                       )}
 
                       {activeStep >= steps.length - 1 ? (
                         <Button onClick={handleStopTour} variant="success">
-                          {finishButtonText}
+                          {i18n.finishButton}
                         </Button>
                       ) : (
-                        <Button onClick={() => handleNavigateTo('next')} variant="success">
-                          {nextButtonText} ({activeStep + 1}/{steps.length})
+                        <Button
+                          onClick={() => {
+                            handleNavigateTo('next')
+                          }}
+                          variant="success"
+                        >
+                          {i18n.nextButton} ({activeStep + 1}/{steps.length})
                         </Button>
                       )}
                     </div>

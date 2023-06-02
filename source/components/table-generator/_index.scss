@@ -1,0 +1,207 @@
+.zoomrc-table-generator {
+  max-width: 100%;
+  width: 100%;
+  border: 1px solid color(border, 2);
+  border-radius: 4px;
+  background-color: color(layer, 2);
+
+  > .table-scroll-view {
+    > .os-viewport {
+      margin: 0 14px 14px 0 !important;
+
+      > table {
+        width: 100%;
+        padding: 0 10px 20px 0;
+        background-color: color(layer, 2);
+
+        > thead {
+          position: sticky;
+          top: 0;
+          z-index: 1;
+          background-color: color(layer, 2);
+        }
+
+        tr {
+          > td {
+            padding: 0;
+
+            &.action-cell {
+              width: fit-content;
+              height: fit-content;
+
+              &.col-action-cell {
+                height: 30px;
+
+                &:nth-child(1) {
+                  background-color: color(layer, 2);
+                  pointer-events: none;
+                }
+
+                > .col-actions-container {
+                  position: relative;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  height: inherit;
+
+                  > .col-actions {
+                    display: none;
+                    gap: 2px;
+                    position: absolute;
+                  }
+
+                  &.active {
+                    > .col-actions {
+                      display: flex;
+                    }
+                  }
+                }
+              }
+
+              &.row-action-cell {
+                width: 30px;
+                position: sticky;
+                left: 0;
+                background-color: color(layer, 2);
+                z-index: 1;
+
+                > .row-actions-container {
+                  position: relative;
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
+                  width: inherit;
+                  height: inherit;
+
+                  > .row-actions {
+                    display: none;
+                    flex-direction: column;
+                    gap: 2px;
+                    transform: translateY(-4px);
+                    position: absolute;
+                  }
+                }
+
+                &.active {
+                  z-index: 2;
+
+                  > .row-actions-container {
+                    > .row-actions {
+                      display: flex;
+                    }
+                  }
+                }
+              }
+            }
+
+            &.input-cell {
+              height: 30px;
+              background-color: color(layer, 1);
+
+              > .cell-input-container {
+                position: relative;
+                width: 100%;
+                min-width: 50px;
+                height: 30px;
+                border: 1px solid color(border, 2);
+
+                > .width-calibration {
+                  visibility: hidden;
+                  white-space: pre;
+                  width: 100%;
+                  height: 100%;
+                  display: block;
+                  opacity: 0;
+                }
+
+                > .cell-input {
+                  position: absolute;
+                  width: 100%;
+                  height: 100%;
+                  left: 0;
+                  right: 0;
+                  top: 0;
+                  bottom: 0;
+                  border: 0;
+                  border-radius: 0;
+                  outline: none;
+                  background-color: transparent;
+
+                  &:focus {
+                    box-shadow: 0 0 0 1px color(accent);
+                    z-index: 2;
+                  }
+                }
+
+                > .width-calibration,
+                > .cell-input {
+                  @include text(common, normal);
+
+                  padding: 4px 8px;
+                }
+              }
+
+              &.removal {
+                > .cell-input-container {
+                  background-color: color(error, glassy, 1);
+                }
+              }
+
+              &.append-to-left {
+                > .cell-input-container {
+                  border-left-color: color(accent);
+                }
+              }
+
+              &.append-to-right {
+                > .cell-input-container {
+                  border-right-color: color(accent);
+                }
+              }
+
+              &.append-to-top {
+                > .cell-input-container {
+                  border-top-color: color(accent);
+                }
+              }
+
+              &.append-to-bottom {
+                > .cell-input-container {
+                  border-bottom-color: color(accent);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include rtl {
+  .zoomrc-table-generator {
+    > .table-scroll-view {
+      > .os-viewport {
+        margin: 0 0 14px 14px !important;
+
+        > table {
+          padding: 0 0 20px 10px;
+
+          tr {
+            > td {
+              &.action-cell {
+                &.col-action-cell {
+                  > .col-actions-container {
+                    > .col-actions {
+                      flex-direction: row-reverse;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

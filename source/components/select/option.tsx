@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
 import { useZoomComponent } from '../../hooks'
 import { Icon, Text } from '..'
@@ -7,16 +7,14 @@ import { filterLabel } from './utils'
 export namespace SelectOptionNS {
   export type Value = string | number
 
-  export interface Props {
+  export interface Props<Values extends SelectOptionNS.Value> {
     label: string
-    value: Value
+    value: Values
     disabled?: boolean
     selected?: boolean
   }
 
-  export interface GroupedOptions {
-    [value: Value]: Props
-  }
+  export type GroupedOptions = Record<Value, Props<SelectOptionNS.Value>>
 
   export interface InnerProps {
     onSelect: (option: Value) => void
@@ -25,15 +23,9 @@ export namespace SelectOptionNS {
   }
 }
 
-export const SelectOption: FC<SelectOptionNS.Props & SelectOptionNS.InnerProps> = ({
-  label,
-  value,
-  disabled,
-  onSelect,
-  selected,
-  searchQuery,
-  isGroupOption,
-}) => {
+export const SelectOption: FC<
+  SelectOptionNS.Props<SelectOptionNS.Value> & SelectOptionNS.InnerProps
+> = ({ label, value, disabled, onSelect, selected, searchQuery, isGroupOption }) => {
   const { createClassName } = useZoomComponent('select-option')
   const classes = createClassName('', '', {
     'disabled': !!disabled,

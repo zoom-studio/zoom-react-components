@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { ListView, ListViewNS, ReactionRate, Text, Title, useMessage } from '../components'
+import { ListView, type ListViewNS, ReactionRate, Text, Title, useMessage } from '../components'
 import { color } from '../utils'
 import { CommonStory, StoryPlayground } from './components'
 import { useFaker } from './hooks/use-faker'
@@ -35,7 +35,7 @@ export default {
     reference: undefined,
     style: undefined,
   },
-} as ComponentMeta<typeof ListView>
+} as Meta<typeof ListView>
 
 const useListViewStory = () => {
   const faker = useFaker()

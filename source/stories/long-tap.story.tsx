@@ -1,8 +1,8 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Button, LongTap, LongTapNS } from '..'
+import { Button, LongTap, type LongTapNS } from '..'
 import { BannerStory } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -10,17 +10,21 @@ export default {
   title: 'Call To Action/Long tap',
   component: LongTap,
   args: {
-    // eslint-disable-next-line no-console
-    callback: () => console.log('long tap'),
+    callback: () => {
+      // eslint-disable-next-line no-console
+      console.log('long tap')
+    },
     style: { display: 'initial' },
     timeout: 2000,
   },
-} as ComponentMeta<typeof LongTap>
+} as Meta<typeof LongTap>
 
 export const WithCallback: FC = () => {
   const { t } = useI18n('longTap')
   const [number, setNumber] = useState(0)
-  const handleLongTapCallback = () => setNumber(number => number + 1)
+  const handleLongTapCallback = () => {
+    setNumber(number => number + 1)
+  }
   return (
     <LongTap callback={handleLongTapCallback} timeout={2000}>
       <BannerStory title={t('title')} description={number} emoji="thumbs up" />

@@ -23,6 +23,7 @@ div.zoomrc-select {
   width: 100%;
   height: auto;
   position: relative;
+  z-index: 1;
 
   @each $variant in $common-variants {
     @include generate-select-variants($variant);
@@ -33,7 +34,7 @@ div.zoomrc-select {
   }
 
   &-open {
-    z-index: 1;
+    z-index: 2;
   }
 
   &-disabled {

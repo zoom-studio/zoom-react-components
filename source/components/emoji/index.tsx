@@ -1,8 +1,8 @@
-import React, { FC, useCallback, useMemo } from 'react'
+import React, { forwardRef, useCallback, useMemo } from 'react'
 
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 import { EMOJIS, EMOJI_GROUP_NAMES, EMOJI_NAMES, EMOJI_SUBGROUP_NAMES } from './constants'
 
 export namespace EmojiNS {
@@ -15,12 +15,13 @@ export namespace EmojiNS {
 
   export interface Props extends BaseComponent<HTMLImageElement> {
     name: Emojis.Names
+    asSpan?: boolean
   }
 
   export namespace Emojis {
-    export type GroupNames = typeof EMOJI_GROUP_NAMES[number]
-    export type SubgroupNames = typeof EMOJI_SUBGROUP_NAMES[number]
-    export type Names = typeof EMOJI_NAMES[number]
+    export type GroupNames = (typeof EMOJI_GROUP_NAMES)[number]
+    export type SubgroupNames = (typeof EMOJI_SUBGROUP_NAMES)[number]
+    export type Names = (typeof EMOJI_NAMES)[number]
     export interface Emoji {
       collection: GroupNames
       group: SubgroupNames
@@ -30,32 +31,39 @@ export namespace EmojiNS {
   }
 }
 
-export const Emoji: FC<EmojiNS.Props> = ({
-  name,
-  className,
-  containerProps,
-  reference,
-  ...rest
-}) => {
-  const classes = classNames('zoomrc-emoji', {
-    [className ?? '']: true,
-  })
+export const Emoji = forwardRef<HTMLImageElement, EmojiNS.Props>(
+  ({ name, className, containerProps, asSpan, style, ...rest }, reference) => {
+    const classes = classNames('zoomrc-emoji', {
+      [className ?? '']: true,
+      'as-span': !!asSpan,
+    })
 
-  const findEmoji = useCallback(
-    (name: EmojiNS.Emojis.Names) => EMOJIS.find(emoji => emoji.name === name),
-    [],
-  )
+    const findEmoji = useCallback(
+      (name: EmojiNS.Emojis.Names) => EMOJIS.find(emoji => emoji.name === name),
+      [],
+    )
 
-  const emoji = useMemo<string>(() => findEmoji(name)?.data ?? '', [name])
+    const emoji = useMemo<string>(() => findEmoji(name)?.data ?? '', [name])
 
-  return (
-    <img
-      {...rest}
-      {...containerProps}
-      draggable={false}
-      ref={reference}
-      src={emoji}
-      className={classes}
-    />
-  )
-}
+    return asSpan ? (
+      <span
+        {...rest}
+        {...containerProps}
+        draggable={false}
+        ref={reference}
+        className={classes}
+        style={{ ...style, backgroundImage: `url(${emoji})` }}
+      />
+    ) : (
+      <img
+        {...rest}
+        {...containerProps}
+        draggable={false}
+        ref={reference}
+        src={emoji}
+        className={classes}
+        style={style}
+      />
+    )
+  },
+)

@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Title, TypographyNS } from '../components'
+import { Title, type TypographyNS } from '../components'
 import { color } from '../utils'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -14,7 +14,7 @@ export default {
     children: 'Some text here...',
     style: { color: color({ source: 'text' }) },
   },
-} as ComponentMeta<typeof Title>
+} as Meta<typeof Title>
 
 export const HeadingVariants: FC = () => {
   const { t } = useI18n('title')

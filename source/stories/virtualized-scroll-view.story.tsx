@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
 import { Spin, VirtualizedScrollView } from '../components'
 import { color } from '../utils'
@@ -10,7 +10,7 @@ export default {
   title: 'Layout/Virtualized Scroll view',
   component: VirtualizedScrollView.FixedList,
   args: {},
-} as ComponentMeta<typeof VirtualizedScrollView.FixedList>
+} as Meta<typeof VirtualizedScrollView.FixedList>
 
 const listChild = ({ index }: VirtualizedScrollView.FixedListNS.Child) => (
   <div
@@ -75,7 +75,11 @@ export const FixedList: FC = () => {
                 itemCount: 500,
                 itemSize: 30,
                 children: listChild,
-                scrollViewProps: { autoHide: true, className: 'my-custom-scroll-view-component' },
+                scrollViewProps: {
+                  autoHide: true,
+                  className: 'my-custom-scroll-view-component',
+                  maxHeight: 'unset',
+                },
               },
             },
             {
@@ -184,7 +188,11 @@ export const VariableList: FC = () => {
                 itemCount: 500,
                 itemSize: index => (index % 2 ? 60 : 30),
                 children: listChild,
-                scrollViewProps: { autoHide: true, className: 'my-custom-scroll-view-component' },
+                scrollViewProps: {
+                  autoHide: true,
+                  className: 'my-custom-scroll-view-component',
+                  maxHeight: 'unset',
+                },
                 estimatedItemSize: 45,
               },
             },
@@ -300,7 +308,11 @@ export const FixedGrid: FC = () => {
                 rowHeight: 100,
                 height: 500,
                 width: 500,
-                scrollViewProps: { autoHide: true, className: 'my-custom-scroll-view-component' },
+                scrollViewProps: {
+                  autoHide: true,
+                  maxHeight: 'unset',
+                  className: 'my-custom-scroll-view-component',
+                },
               },
             },
             {
@@ -399,7 +411,11 @@ export const VariableGrid: FC = () => {
                 estimatedRowHeight: 95,
                 height: 500,
                 width: 500,
-                scrollViewProps: { autoHide: true, className: 'my-custom-scroll-view-component' },
+                scrollViewProps: {
+                  autoHide: true,
+                  className: 'my-custom-scroll-view-component',
+                  maxHeight: 'unset',
+                },
               },
             },
             {

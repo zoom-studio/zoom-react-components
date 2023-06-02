@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Badge, BadgeNS, Button } from '../components'
+import { Badge, type BadgeNS, Button } from '../components'
 import { color } from '../utils'
 import { CommonStory, StoryPlayground, WithNumberStory } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -27,7 +27,9 @@ export default {
     children: <Button>Some badge over this button</Button>,
     size: 'normal',
     dot: false,
-    onClick: () => alert("You've clicked on the badge"),
+    onClick: () => {
+      alert("You've clicked on the badge")
+    },
     overflowCount: 999,
     showZero: false,
     text: undefined,
@@ -37,7 +39,7 @@ export default {
     containerProps: undefined,
     color: undefined,
   },
-} as ComponentMeta<typeof Badge>
+} as Meta<typeof Badge>
 
 export const Direction = () => {
   return (

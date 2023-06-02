@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Button, CopyToClipboard, CopyToClipboardNS, useMessage } from '..'
+import { Button, CopyToClipboard, type CopyToClipboardNS, useMessage } from '..'
 import { lorem } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -20,7 +20,7 @@ export default {
     toastOnSuccess: true,
     toastOnError: true,
   },
-} as ComponentMeta<typeof CopyToClipboard>
+} as Meta<typeof CopyToClipboard>
 
 const useCopyToClipboardStory = () => {
   const { t } = useI18n('copyToClipboard')

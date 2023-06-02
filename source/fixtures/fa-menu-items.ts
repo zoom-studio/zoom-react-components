@@ -1,4 +1,4 @@
-import { MenuNS } from '../components'
+import { type MenuNS } from '../components'
 
 export const faMenuItems: MenuNS.Item[] = [
   {

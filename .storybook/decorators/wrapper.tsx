@@ -1,14 +1,14 @@
 import React from 'react'
 
 import { PartialStoryFn, Args, StoryContext } from '@storybook/csf'
-import { ReactFramework } from '@storybook/react'
+import { ReactRenderer } from '@storybook/react'
 import { I18nextProvider } from 'react-i18next'
 
 import i18nConfig from '../../source/i18n'
 
 export const WrapperDecorator = (
-  Story: PartialStoryFn<ReactFramework, Args>,
-  context: StoryContext<ReactFramework, Args>,
+  Story: PartialStoryFn<ReactRenderer, Args>,
+  context: StoryContext<ReactRenderer, Args>,
 ) => {
   const { title, story } = context
 

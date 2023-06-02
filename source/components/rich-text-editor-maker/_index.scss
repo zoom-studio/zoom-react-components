@@ -1,0 +1,5 @@
+@import 'content-styles';
+
+.zoomrc-rich-text-editor-maker {
+  @include zoomrc-rich-text-editor-content-styles;
+}

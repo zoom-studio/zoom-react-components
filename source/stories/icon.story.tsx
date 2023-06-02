@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Icon, IconNS } from '..'
+import { Icon, type IconNS } from '..'
 import { ListStory, StoryPlayground } from './components'
 import { color } from '../utils'
 import { ICON_NAMES } from '../components/icon/constants/icon-names'
@@ -13,7 +13,7 @@ export default {
   args: {
     name: 'lunch_dining',
   },
-} as ComponentMeta<typeof Icon>
+} as Meta<typeof Icon>
 
 export const AllIcons: FC = () => {
   return (

@@ -35,6 +35,27 @@ export const FATranslations = {
       deletePopConfirmSubmitButton: 'بله، حذف',
       deletePopConfirmDescription: 'از حذف عکس اطمینان دارید؟',
     },
+    richTextEditor: {
+      normalText: 'متن معمولی',
+      heading1: 'تیتر 1',
+      heading2: 'تیتر 2',
+      heading3: 'تیتر 3',
+      heading4: 'تیتر 4',
+      bold: 'ضخیم',
+      strikethrough: 'رو خط دار',
+      italic: 'مورب',
+      link: 'لینک',
+      ol: 'لیست عددی',
+      ul: 'لیست عادی',
+      emoji: 'ایموجی',
+      icon: 'آیکن',
+      image: 'اضافه کردن عکس',
+      file: 'اضافه کردن فایل',
+      copy: 'کپی',
+      cut: 'برش',
+      paste: 'الصاق',
+      images: 'تصاویر',
+    },
   },
 
   dialog: {
@@ -320,5 +341,23 @@ export const FATranslations = {
 
   rangeSlider: {
     label: 'عنوان رینج اسلایدر',
+  },
+
+  tab: {
+    everythingTogether: 'همه چیز با هم',
+    withoutChild: 'بدون چیلدرن',
+    noneClosable: 'غیر قابل بسته‌شدن',
+    disabled: 'غیر فعال',
+    loading: 'لودینگ',
+    emoji: 'ایموجی',
+    icon: 'آیکن',
+    iconOnly: 'فقط آیکن',
+    emojiOnly: 'فقط ایموجی',
+    withoutLink: 'بدون لینک',
+  },
+
+  uploader: {
+    title: 'بارگذاری فایل‌ها',
+    description: 'فایل‌هایی را که میخواهید با هم‌تیمی‌های خود به اشتراک بگذارید، بارگذاری کنید',
   },
 }

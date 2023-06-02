@@ -1,13 +1,17 @@
-import React, { FC, useMemo } from 'react'
+import React, { type FC, useMemo } from 'react'
 
-import { InputNS, Text } from '..'
+import { type InputNS, Text } from '..'
 import { useZoomComponent } from '../../hooks'
 import { getSelectedOptions } from './utils'
-import { SelectNS } from '.'
+import { type SelectNS } from '.'
+import { type SelectOptionNS } from './option'
 
 export namespace SelectValueNS {
   export interface Props
-    extends Pick<SelectNS.Props, 'placeholder' | 'size' | 'multiSelect' | 'onChange'> {
+    extends Pick<
+      SelectNS.Props<SelectOptionNS.Value>,
+      'placeholder' | 'size' | 'multiSelect' | 'onChange'
+    > {
     options: SelectNS.GroupedOptions
   }
 }

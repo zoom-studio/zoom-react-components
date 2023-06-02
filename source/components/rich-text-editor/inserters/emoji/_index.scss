@@ -1,0 +1,19 @@
+.insert-emoji-popover {
+  > .zoomrc-popover-container {
+    max-width: 350px !important;
+
+    > .container-children {
+      padding: 0 !important;
+
+      > .zoomrc-popover-content {
+        margin: 0 !important;
+
+        > .emoji-inserter {
+          > .zoomrc-emoji-picker {
+            border: 0;
+          }
+        }
+      }
+    }
+  }
+}

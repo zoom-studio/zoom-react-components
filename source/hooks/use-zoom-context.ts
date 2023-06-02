@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { zoomContext, ZoomProviderNS } from '../components'
+import { zoomContext, type ZoomProviderNS } from '../components'
 
 export namespace UseZoomContextNS {
   export type ReturnType = Required<Omit<ZoomProviderNS.ProviderValue, 'children'>>

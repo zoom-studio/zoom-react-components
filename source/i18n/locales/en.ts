@@ -1,4 +1,4 @@
-import { FATranslations } from './fa'
+import { type FATranslations } from './fa'
 
 export const ENTranslations: typeof FATranslations = {
   global: {
@@ -36,6 +36,27 @@ export const ENTranslations: typeof FATranslations = {
       deletePopConfirmCancelButton: 'Discard',
       deletePopConfirmSubmitButton: 'Yes, delete',
       deletePopConfirmDescription: 'Are you sure to delete this image?',
+    },
+    richTextEditor: {
+      normalText: 'Normal text',
+      heading1: 'Heading 1',
+      heading2: 'Heading 2',
+      heading3: 'Heading 3',
+      heading4: 'Heading 4',
+      bold: 'Bold',
+      strikethrough: 'Strikethrough',
+      italic: 'Italic',
+      link: 'Link',
+      ol: 'Numbered list',
+      ul: 'Bulleted list',
+      emoji: 'Emoji',
+      icon: 'Icon',
+      image: 'Attache image',
+      file: 'Attache file',
+      copy: 'Copy',
+      cut: 'Cut',
+      paste: 'Paste',
+      images: 'Images',
     },
   },
 
@@ -325,5 +346,23 @@ export const ENTranslations: typeof FATranslations = {
 
   rangeSlider: {
     label: 'Range slider title',
+  },
+
+  tab: {
+    everythingTogether: 'Everything together',
+    withoutChild: 'Without child',
+    noneClosable: 'None closable',
+    disabled: 'Disabled',
+    loading: 'Loading',
+    emoji: 'Emoji',
+    icon: 'Icon',
+    iconOnly: 'Icon only',
+    emojiOnly: 'Emoji only',
+    withoutLink: 'Without link',
+  },
+
+  uploader: {
+    title: 'Upload files',
+    description: 'Upload files you want to share with your friends',
   },
 }

@@ -1,9 +1,9 @@
-import React, { FC, useState } from 'react'
+import React, { type FC, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Checkbox, ReactionRate, ReactionRateNS } from '..'
+import { Checkbox, ReactionRate, type ReactionRateNS } from '..'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -13,7 +13,7 @@ export default {
   args: {
     type: 'quintuple',
   },
-} as ComponentMeta<typeof ReactionRate>
+} as Meta<typeof ReactionRate>
 
 export const Types: FC = () => {
   return (
@@ -153,7 +153,9 @@ export const RealWorldExample: FC = () => {
                   label={t('dispatch')}
                   checked={failToDispatch}
                   size="large"
-                  onChange={evt => setFailToDispatch(evt.currentTarget.checked)}
+                  onChange={evt => {
+                    setFailToDispatch(evt.currentTarget.checked)
+                  }}
                   style={{ marginBottom: 0 }}
                 />
               ),

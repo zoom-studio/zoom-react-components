@@ -1,0 +1,11 @@
+.story-json-result {
+  direction: ltr;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  > .react-json-view {
+    border-radius: 6px;
+    padding: 10px;
+  }
+}

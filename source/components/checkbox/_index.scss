@@ -1,10 +1,20 @@
 @import 'mixins';
 
-$zoomrc-checkbox-label-text-right-margin: 8px;
-
 @keyframes check-zoomrc-checkbox-animation {
   from {
     transform: scale(0.5) rotate(-50deg);
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes check-zoomrc-indeterminate-checkbox-animation {
+  from {
+    transform: scale(0.5);
     opacity: 0;
   }
 
@@ -36,6 +46,8 @@ div.zoomrc-checkbox {
     height: auto;
     display: flex;
     cursor: pointer;
+    gap: 8px;
+    align-items: center;
 
     > .native-checkbox {
       width: 0;
@@ -47,10 +59,12 @@ div.zoomrc-checkbox {
       z-index: -1000;
       visibility: hidden;
 
+      &:indeterminate,
       &:checked {
         & + .custom-checkbox {
-          > .checked-icon {
-            display: initial;
+          > .checked-icon,
+          > .indeterminate-icon {
+            display: inline-flex;
           }
         }
       }
@@ -66,12 +80,30 @@ div.zoomrc-checkbox {
       border-radius: 4px;
       overflow: hidden;
       transition: box-shadow 150ms linear;
+      position: relative;
 
       > .checked-icon {
+        animation: check-zoomrc-checkbox-animation 76ms ease-in;
+      }
+
+      > .indeterminate-icon {
+        animation: check-zoomrc-indeterminate-checkbox-animation 76ms ease-in;
+        font-size: to-rem(30px);
+        padding-bottom: 16px;
+      }
+
+      > .checked-icon,
+      > .indeterminate-icon {
         display: none;
-        animation: check-zoomrc-checkbox-animation 200ms ease-in;
-        color: color(text, 2);
         user-select: none;
+        color: color(text, 2);
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        align-items: center;
+        justify-content: center;
       }
 
       > .zoomrc-spin {
@@ -89,7 +121,6 @@ div.zoomrc-checkbox {
     > .label-text {
       margin: 0;
       user-select: none;
-      margin-right: $zoomrc-checkbox-label-text-right-margin;
       direction: rtl;
       text-align: right;
     }
@@ -109,7 +140,6 @@ div.zoomrc-checkbox {
     > .zoomrc-checkbox-label {
       > .label-text {
         margin-right: 0;
-        margin-left: $zoomrc-checkbox-label-text-right-margin;
         direction: ltr;
         text-align: left;
       }

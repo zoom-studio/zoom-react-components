@@ -1,18 +1,35 @@
-import React, { FC, HTMLAttributes, ReactNode } from 'react'
+import React, { forwardRef, type HTMLAttributes, type MouseEvent, type ReactNode } from 'react'
 
-import { Button, ButtonNS, Emoji, EmojiNS, Icon, IconNS, Popover, PopoverNS, Text, Title } from '..'
-import { UseStatedIcon, useStatedIcon, useZoomComponent } from '../../hooks'
-import { CommonVariants } from '../../types'
+import {
+  Button,
+  type ButtonNS,
+  Emoji,
+  type EmojiNS,
+  Icon,
+  type IconNS,
+  Popover,
+  type PopoverNS,
+  Text,
+  Title,
+} from '..'
+import { type UseStatedIcon, useStatedIcon, useZoomComponent } from '../../hooks'
+import { type CommonVariants } from '../../types'
 import { ConditionalWrapper } from '../conditional-wrapper'
 
 export namespace PopConfirmNS {
-  export type Action = ButtonNS.Props
+  export type Action = ButtonNS.Props | ((handlers: PopoverNS.Handlers) => ButtonNS.Props)
 
   export interface Props
     extends Omit<UseStatedIcon.Params, 'variant'>,
       Pick<
         PopoverNS.Props,
-        'onOpen' | 'onClose' | 'defaultIsOpen' | 'placement' | 'autoCloseDelay' | 'hoverDelay'
+        | 'onOpen'
+        | 'onClose'
+        | 'defaultIsOpen'
+        | 'placement'
+        | 'autoCloseDelay'
+        | 'hoverDelay'
+        | 'width'
       > {
     title: string
     buttonProps?: Omit<ButtonNS.Props, 'onClick'>
@@ -22,37 +39,51 @@ export namespace PopConfirmNS {
     cancel?: Action
     containerProps?: HTMLAttributes<HTMLDivElement>
     description?: string
-    trigger?: Exclude<PopoverNS.Trigger, 'focus'>
   }
 }
 
-export const PopConfirm: FC<PopConfirmNS.Props> = ({
-  trigger = 'click',
-  variant = 'neutral',
-  cancel = { text: 'Cancel' },
-  confirm = { text: 'Confirm' },
-  title,
-  children,
-  buttonProps,
-  emoji,
-  icon,
-  noIconAndEmoji,
-  containerProps,
-  description,
-  ...popoverProps
-}) => {
-  const { createClassName } = useZoomComponent('pop-confirm')
-  const [iconName, iconType] = useStatedIcon({ emoji, variant, icon, noIconAndEmoji })
+export const PopConfirm = forwardRef<HTMLDivElement, PopConfirmNS.Props>(
+  (
+    {
+      cancel: providedCancel = { children: 'Cancel' },
+      confirm: providedConfirm = { children: 'Confirm' },
+      variant = 'neutral',
+      title,
+      children,
+      buttonProps,
+      emoji,
+      icon,
+      noIconAndEmoji,
+      containerProps,
+      description,
+      ...popoverProps
+    },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('pop-confirm')
+    const [iconName, iconType] = useStatedIcon({ emoji, variant, icon, noIconAndEmoji })
 
-  const contentClasses = createClassName(containerProps?.className, '', {
-    [createClassName('', variant)]: true,
-  })
+    const contentClasses = createClassName(containerProps?.className, '', {
+      [createClassName('', variant)]: true,
+    })
 
-  return (
-    <Popover
-      {...popoverProps}
-      trigger={trigger}
-      content={
+    const renderContent = (handlers: PopoverNS.Handlers) => {
+      const cancel =
+        typeof providedCancel === 'function' ? providedCancel(handlers) : providedCancel
+      const confirm =
+        typeof providedConfirm === 'function' ? providedConfirm(handlers) : providedConfirm
+
+      const handleOnCancel = (evt: MouseEvent<HTMLButtonElement>) => {
+        evt.stopPropagation()
+        cancel.onClick?.(evt)
+      }
+
+      const handleOnConfirm = (evt: MouseEvent<HTMLButtonElement>) => {
+        evt.stopPropagation()
+        confirm.onClick?.(evt)
+      }
+
+      return (
         <div {...containerProps} className={contentClasses}>
           <div className="title">
             <ConditionalWrapper
@@ -72,18 +103,22 @@ export const PopConfirm: FC<PopConfirmNS.Props> = ({
           {description && <Text className="description">{description}</Text>}
 
           <div className="actions">
-            <Button size="small" type="primary" {...confirm}>
+            <Button size="small" type="primary" {...confirm} onClick={handleOnConfirm}>
               {confirm.children}
             </Button>
 
-            <Button size="small" type="secondary" {...cancel}>
+            <Button size="small" type="secondary" {...cancel} onClick={handleOnCancel}>
               {cancel.children}
             </Button>
           </div>
         </div>
-      }
-    >
-      <Button {...buttonProps}>{children}</Button>
-    </Popover>
-  )
-}
+      )
+    }
+
+    return (
+      <Popover {...popoverProps} ref={reference} trigger="click" content={renderContent}>
+        <Button {...buttonProps}>{children}</Button>
+      </Popover>
+    )
+  },
+)

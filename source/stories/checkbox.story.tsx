@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Checkbox, CheckboxNS } from '..'
+import { Checkbox, type CheckboxNS } from '..'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
@@ -12,7 +12,7 @@ export default {
   args: {
     label: 'Some label for the checkbox',
   },
-} as ComponentMeta<typeof Checkbox>
+} as Meta<typeof Checkbox>
 
 export const Sizes = () => {
   const { t } = useI18n('checkbox')
@@ -25,6 +25,27 @@ export const Sizes = () => {
             { props: { size: 'small', label: t('sizingTitle') }, name: 'Small' },
             { props: { size: 'normal', label: t('sizingTitle') }, name: 'Normal' },
             { props: { size: 'large', label: t('sizingTitle') }, name: 'Large' },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
+export const Modes = () => {
+  const { t } = useI18n('checkbox')
+  return (
+    <CommonStory
+      component={Checkbox}
+      stories={[
+        {
+          group: [
+            { props: { label: t('sampleTitle'), checked: true }, name: 'Checked' },
+            {
+              props: { label: t('sampleTitle'), indeterminate: true, checked: true },
+              name: 'Indeterminate',
+            },
+            { props: { label: t('sampleTitle'), checked: false }, name: 'Unchecked' },
           ],
         },
       ]}

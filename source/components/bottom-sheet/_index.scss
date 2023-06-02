@@ -33,7 +33,7 @@ $zoomrc-bottom-sheet-gutter: 12px;
   left: 0;
   right: 0;
   bottom: math.div($zoomrc-bottom-sheet-gutter, 2);
-  z-index: 5;
+  z-index: 100;
   border: 1px solid color(border, 2);
   margin: auto;
   animation: zoomrc-dialog-animation(open-zoomrc-bottom-sheet-animation);
@@ -64,7 +64,7 @@ $zoomrc-bottom-sheet-gutter: 12px;
     left: 0;
     right: 0;
     background-color: color(backdrop);
-    z-index: 4;
+    z-index: 100;
     animation: zoomrc-dialog-animation(open-zoomrc-bottom-sheet-backdrop-animation);
   }
 

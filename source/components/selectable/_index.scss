@@ -1,0 +1,9 @@
+.zoomrc-selectable {
+  user-select: none;
+}
+
+.selection-area {
+  border: 1px solid color(accent, 1, glassy, 5);
+  border-radius: 4px;
+  background-color: color(accent, 1, glassy, 1);
+}

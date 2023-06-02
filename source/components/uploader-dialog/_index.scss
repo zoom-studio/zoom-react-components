@@ -1,0 +1,11 @@
+.zoomrc-uploader-dialog {
+  > .zoomrc-dialog-body {
+    padding: 0;
+
+    > .zoomrc-uploader {
+      width: 100%;
+      border-radius: 0;
+      border-width: 0;
+    }
+  }
+}

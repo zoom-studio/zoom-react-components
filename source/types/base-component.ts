@@ -1,11 +1,11 @@
 import {
-  HTMLAttributes,
-  ReactNode,
-  RefObject,
-  MouseEvent,
-  CSSProperties,
-  InputHTMLAttributes,
-  TextareaHTMLAttributes,
+  type HTMLAttributes,
+  type ReactNode,
+  type RefObject,
+  type MouseEvent,
+  type CSSProperties,
+  type InputHTMLAttributes,
+  type TextareaHTMLAttributes,
 } from 'react'
 
 export interface BaseComponent<Container extends HTMLElement = HTMLDivElement> {
@@ -13,7 +13,6 @@ export interface BaseComponent<Container extends HTMLElement = HTMLDivElement> {
   children?: ReactNode
   className?: string
   id?: string
-  reference?: RefObject<Container>
   onClick?: (evt: MouseEvent<Container>) => void
   style?: CSSProperties
 }
@@ -32,7 +31,7 @@ const VitalInputPropsObject = [
   'placeholder',
   'autoFocus',
 ] as const
-type VitalInputProps = typeof VitalInputPropsObject[number]
+type VitalInputProps = (typeof VitalInputPropsObject)[number]
 
 type InputProps = Pick<InputHTMLAttributes<HTMLInputElement>, VitalInputProps>
 
@@ -54,7 +53,7 @@ const VitalTextareaPropsObject = [
   'onKeyDown',
   'autoFocus',
 ] as const
-type VitalTextareaProps = typeof VitalTextareaPropsObject[number]
+type VitalTextareaProps = (typeof VitalTextareaPropsObject)[number]
 
 type TextareaProps = Pick<TextareaHTMLAttributes<HTMLTextAreaElement>, VitalTextareaProps>
 
@@ -63,8 +62,7 @@ export interface BaseTextareaComponent extends TextareaProps {
   textareaRef?: RefObject<HTMLTextAreaElement>
 }
 
-export interface BaseCustomComponent<ContainerProps, RefType>
+export interface BaseCustomComponent<ContainerProps>
   extends Omit<BaseComponent, 'containerProps' | 'reference'> {
   containerProps?: ContainerProps
-  reference?: RefObject<RefType>
 }

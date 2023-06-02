@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Alert, AlertNS, ReactionRate, useAlert, useMessage } from '../components'
+import { Alert, type AlertNS, ReactionRate, useAlert, useMessage } from '../components'
 import { lorem } from '../fixtures'
 import { CommonStory, StoryPlayground, WithButtonsStory } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -39,7 +39,7 @@ export default {
     icon: undefined,
     emoji: undefined,
   },
-} as ComponentMeta<typeof Alert>
+} as Meta<typeof Alert>
 
 const useAlertStory = () => {
   const { t } = useI18n('alert')
@@ -407,7 +407,9 @@ export const Playground: FC<AlertNS.Props> = props => {
       buttons={[
         {
           children: 'Reshow alert',
-          onClick: () => alert.show(props.identifier),
+          onClick: () => {
+            alert.show(props.identifier)
+          },
           type: 'dashed',
           disabled: alert.isOpen(props.identifier),
         },

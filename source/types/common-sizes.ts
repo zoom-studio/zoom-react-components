@@ -1,3 +1,3 @@
-import { COMMON_SIZES } from '../constants'
+import { type COMMON_SIZES } from '../constants'
 
-export type CommonSize = typeof COMMON_SIZES[number]
+export type CommonSize = (typeof COMMON_SIZES)[number]

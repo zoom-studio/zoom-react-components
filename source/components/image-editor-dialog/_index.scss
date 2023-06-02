@@ -1,0 +1,14 @@
+.zoomrc-image-editor-dialog {
+  > .zoomrc-dialog-body {
+    padding: 0;
+
+    > .zoomrc-image-editor {
+      border-radius: 0;
+      border: none;
+
+      > .editor-actions {
+        background-color: color(layer, 1);
+      }
+    }
+  }
+}

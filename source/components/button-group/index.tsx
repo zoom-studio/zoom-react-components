@@ -1,7 +1,8 @@
-import React, { FC } from 'react'
+import React, { forwardRef } from 'react'
+
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
-import { Button, ButtonNS } from '../button'
+import { type BaseComponent } from '../../types'
+import { Button, type ButtonNS } from '..'
 
 export namespace ButtonGroupNS {
   export interface Props extends BaseComponent {
@@ -11,34 +12,30 @@ export namespace ButtonGroupNS {
   }
 }
 
-export const ButtonGroup: FC<ButtonGroupNS.Props> = ({
-  direction = 'row',
-  buttons,
-  containerProps,
-  buttonsProps,
-  className,
-  reference,
-  children,
-  ...rest
-}) => {
-  const { createClassName } = useZoomComponent('button-group')
+export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupNS.Props>(
+  (
+    { direction = 'row', buttons, containerProps, buttonsProps, className, children, ...rest },
+    reference,
+  ) => {
+    const { createClassName } = useZoomComponent('button-group')
 
-  const classes = createClassName(className, '', {
-    [createClassName('', 'column')]: direction === 'column',
-    [createClassName('', 'row')]: direction === 'row',
-  })
+    const classes = createClassName(className, '', {
+      [createClassName('', 'column')]: direction === 'column',
+      [createClassName('', 'row')]: direction === 'row',
+    })
 
-  return (
-    <div {...containerProps} {...rest} ref={reference} className={classes}>
-      {buttons.map((props, index) => (
-        <Button
-          key={index}
-          full={direction === 'column'}
-          children={props.children ?? children}
-          {...buttonsProps}
-          {...props}
-        />
-      ))}
-    </div>
-  )
-}
+    return (
+      <div {...containerProps} {...rest} ref={reference} className={classes}>
+        {buttons.map((props, index) => (
+          <Button
+            key={index}
+            full={direction === 'column'}
+            children={props.children ?? children}
+            {...buttonsProps}
+            {...props}
+          />
+        ))}
+      </div>
+    )
+  },
+)

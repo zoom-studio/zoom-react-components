@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { type FC, type ReactNode, useState } from 'react'
 
 export namespace ToggleStoryNS {
   export interface Props {
@@ -13,6 +13,8 @@ export namespace ToggleStoryNS {
 
 export const ToggleStory: FC<ToggleStoryNS.Props> = ({ children, defaultStatus }) => {
   const [status, setStatus] = useState(!!defaultStatus)
-  const toggleStatus = () => setStatus(status => !status)
+  const toggleStatus = () => {
+    setStatus(status => !status)
+  }
   return <>{children?.(status, toggleStatus, setStatus)}</>
 }

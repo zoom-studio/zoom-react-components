@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Emoji, EmojiNS } from '../components'
+import { Emoji, type EmojiNS } from '../components'
 import { StoryPlayground, ListStory } from './components'
 import { EMOJI_NAMES } from '../components/emoji/constants'
 
@@ -12,7 +12,7 @@ export default {
   args: {
     name: 'ZZZ',
   },
-} as ComponentMeta<typeof Emoji>
+} as Meta<typeof Emoji>
 
 export const AllEmojis: FC = () => {
   return (

@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { type FC, useEffect, useState } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
-import { faker } from '@faker-js/faker'
+import { type Meta } from '@storybook/react'
+import { Faker, fa, en } from '@faker-js/faker'
 
-import { Mention, MentionNS } from '../components'
+import { Mention, type MentionNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { useSettings } from './hooks/use-settings'
 import { useI18n } from './hooks/use-i18n'
@@ -13,13 +13,14 @@ const useUsers = (count = 10): MentionNS.User[] => {
   const [users, setUsers] = useState<MentionNS.User[]>([])
 
   useEffect(() => {
-    faker.locale = language
+    const customFaker = new Faker({ locale: [language === 'fa' ? fa : en] })
     const users: Partial<MentionNS.User>[] = Array.from(Array(count)).map(() => ({
-      name: faker.name.fullName(),
-      avatar: faker.image.avatar(),
+      name: customFaker.person.fullName(),
+      avatar: customFaker.image.avatar(),
     }))
-    faker.locale = 'en'
-    users.forEach(user => (user.username = faker.internet.userName().toLowerCase()))
+
+    const enFaker = new Faker({ locale: [en] })
+    users.forEach(user => (user.username = enFaker.internet.userName().toLowerCase()))
     setUsers(users as MentionNS.User[])
   }, [language])
   return users
@@ -38,7 +39,7 @@ export default {
     label: 'Broadcast',
     mentionContainerProps: {},
   },
-} as ComponentMeta<typeof Mention>
+} as Meta<typeof Mention>
 
 export const Basic: FC = () => {
   const users = useUsers()

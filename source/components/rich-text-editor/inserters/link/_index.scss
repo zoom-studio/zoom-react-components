@@ -1,0 +1,82 @@
+.link-element-popover {
+  display: inline-block;
+
+  > a {
+    cursor: pointer;
+  }
+
+  > .zoomrc-popover-container {
+    > .container-children {
+      background-color: color(layer, 2) !important;
+
+      > svg {
+        fill: color(layer, 2) !important;
+
+        > path {
+          &:nth-child(2) {
+            stroke: color(border, 2) !important;
+          }
+        }
+      }
+
+      > .zoomrc-popover-content {
+        margin: 0 !important;
+
+        > .link-element-popover-content {
+          .link-url {
+            @include truncate;
+            @include text(small);
+
+            max-width: 150px;
+          }
+
+          .action-button {
+            > .zoomrc-button-inner-child {
+              font-size: to-rem(20px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.insert-link-popover {
+  .container-children {
+    background-color: color(layer, 2) !important;
+    padding: 0 6px !important;
+
+    > svg {
+      fill: color(layer, 2) !important;
+
+      > path {
+        &:nth-child(2) {
+          stroke: color(border, 2) !important;
+        }
+      }
+    }
+
+    > .zoomrc-popover-content {
+      margin: 4px 0 !important;
+
+      .get-link-form {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .zoomrc-input {
+          direction: ltr !important;
+          text-align: left !important;
+        }
+
+        > .confirm-link-button {
+          max-width: unset;
+          min-width: unset;
+          width: 32px;
+          height: 32px;
+          font-size: to-rem(28px) !important;
+        }
+      }
+    }
+  }
+}

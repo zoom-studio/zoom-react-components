@@ -33,10 +33,7 @@
   }
 
   > .story-container {
-    background-color: color(layer, 2);
-    border: 1px solid color(border, 2);
-    border-radius: 6px;
-    padding: 6px;
+    background-color: color(layer, 1);
     width: 100%;
     max-width: 992px;
     animation: startup 150ms ease-in;

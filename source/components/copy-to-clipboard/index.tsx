@@ -1,10 +1,10 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react'
+import React, { type FC, type ReactNode, useEffect, useState } from 'react'
 
 import { sleep } from '@zoom-studio/zoom-js-ts-utils'
 import { useMessage } from '../message/use-message'
 import { useZoomComponent } from '../../hooks'
 import { logs } from '../../constants'
-import { CommonVariants } from '../../types'
+import { type CommonVariants } from '../../types'
 
 export namespace CopyToClipboardNS {
   export type State = 'copying' | 'copied' | 'errored' | 'initial'

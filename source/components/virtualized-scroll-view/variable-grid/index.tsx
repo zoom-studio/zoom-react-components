@@ -1,16 +1,20 @@
 import React, {
   cloneElement,
-  ComponentProps,
-  PropsWithChildren,
-  RefObject,
+  type ComponentProps,
+  type PropsWithChildren,
+  type RefObject,
   useCallback,
 } from 'react'
 
-import AutoSizer, { AutoSizerProps } from 'react-virtualized-auto-sizer'
-import { GridChildComponentProps, VariableSizeGrid, VariableSizeGridProps } from 'react-window'
+import AutoSizer, { type Props as AutoSizerProps, type Size } from 'react-virtualized-auto-sizer'
+import {
+  type GridChildComponentProps,
+  VariableSizeGrid,
+  type VariableSizeGridProps,
+} from 'react-window'
 
-import { VirtualizedScrollViewNS } from '..'
-import { ScrollView, ScrollViewNS } from '../..'
+import { type VirtualizedScrollViewNS } from '..'
+import { ScrollView, type ScrollViewNS } from '../..'
 import { useZoomComponent, useZoomContext } from '../../../hooks'
 
 export namespace VariableGridVirtualizedScrollViewNS {
@@ -100,7 +104,7 @@ export function VariableGridVirtualizedScrollView<DataType extends unknown[][] =
 
   return width === 'auto' || height === 'auto' ? (
     <AutoSizer {...autoSizerProps}>
-      {({ width, height }) => (
+      {({ width, height }: Size) => (
         <VariableSizeGrid {...getProps(width, height)} key={height + width} />
       )}
     </AutoSizer>

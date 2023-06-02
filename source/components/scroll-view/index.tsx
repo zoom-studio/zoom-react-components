@@ -1,13 +1,13 @@
-import React, { FC, RefObject } from 'react'
+import React, { forwardRef } from 'react'
 
 import {
   OverlayScrollbarsComponent,
-  OverlayScrollbarsComponentRef,
-  UseOverlayScrollbarsParams,
+  type OverlayScrollbarsComponentRef,
+  type UseOverlayScrollbarsParams,
 } from 'overlayscrollbars-react'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 export namespace ScrollViewNS {
   export type ContainerNode = OverlayScrollbarsComponentRef
@@ -17,56 +17,63 @@ export namespace ScrollViewNS {
     autoHide?: boolean
     maxWidth?: string | number
     maxHeight: string | number
+    minHeight?: string | number
+    minWidth?: string | number
     scrollbarSettings?: UseOverlayScrollbarsParams
-    reference?: RefObject<ContainerNode>
   }
 }
 
-export const ScrollView: FC<ScrollViewNS.Props> = ({
-  scrollbarSettings,
-  autoHide,
-  className,
-  onScroll,
-  maxWidth,
-  maxHeight,
-  containerProps,
-  reference,
-  style,
-  ...rest
-}) => {
-  const scrollbarOptions =
-    typeof scrollbarSettings?.options === 'object' ? scrollbarSettings?.options : {}
+export const ScrollView = forwardRef<ScrollViewNS.ContainerNode, ScrollViewNS.Props>(
+  (
+    {
+      scrollbarSettings,
+      autoHide,
+      className,
+      onScroll,
+      maxWidth,
+      maxHeight,
+      minHeight,
+      minWidth,
+      containerProps,
+      style,
+      ...rest
+    },
+    reference,
+  ) => {
+    const scrollbarOptions =
+      typeof scrollbarSettings?.options === 'object' ? scrollbarSettings?.options : {}
 
-  const { createClassName } = useZoomComponent('scroll-view')
-  const classes = createClassName(className)
+    const { createClassName } = useZoomComponent('scroll-view')
+    const classes = createClassName(className)
 
-  return (
-    <OverlayScrollbarsComponent
-      {...containerProps}
-      {...scrollbarSettings}
-      {...rest}
-      className={classes}
-      ref={reference}
-      style={{ ...style, maxHeight, maxWidth }}
-      defer={scrollbarSettings?.defer ?? true}
-      events={{ scroll: (_, evt) => onScroll?.(evt), ...scrollbarSettings?.events }}
-      options={{
-        scrollbars: {
-          autoHide: autoHide ? 'leave' : 'never',
-          autoHideDelay: 100,
-          clickScroll: true,
-          dragScroll: true,
-          pointers: ['mouse', 'touch', 'pen'],
-          ...scrollbarOptions?.scrollbars,
-        },
-        overflow: {
-          x: 'scroll',
-          y: 'scroll',
-          ...scrollbarOptions?.overflow,
-        },
-        paddingAbsolute: scrollbarOptions?.paddingAbsolute ?? false,
-        showNativeOverlaidScrollbars: scrollbarOptions?.showNativeOverlaidScrollbars ?? false,
-      }}
-    />
-  )
-}
+    return (
+      <OverlayScrollbarsComponent
+        {...containerProps}
+        {...scrollbarSettings}
+        {...rest}
+        className={classes}
+        ref={reference}
+        style={{ ...style, maxHeight, maxWidth, minHeight, minWidth }}
+        defer={scrollbarSettings?.defer ?? true}
+        events={{ scroll: (_, evt) => onScroll?.(evt), ...scrollbarSettings?.events }}
+        options={{
+          scrollbars: {
+            autoHide: autoHide ? 'leave' : 'never',
+            autoHideDelay: 100,
+            clickScroll: true,
+            dragScroll: true,
+            pointers: ['mouse', 'touch', 'pen'],
+            ...scrollbarOptions?.scrollbars,
+          },
+          overflow: {
+            x: 'scroll',
+            y: 'scroll',
+            ...scrollbarOptions?.overflow,
+          },
+          paddingAbsolute: scrollbarOptions?.paddingAbsolute ?? false,
+          showNativeOverlaidScrollbars: scrollbarOptions?.showNativeOverlaidScrollbars ?? false,
+        }}
+      />
+    )
+  },
+)

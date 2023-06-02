@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { type FC, type ReactNode } from 'react'
 
 export namespace ConditionalWrapperNS {
   export type Wrapper = (children?: ReactNode) => JSX.Element

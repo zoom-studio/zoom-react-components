@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ZoomProviderNS } from '../../components'
+import { type ZoomProviderNS } from '../../components'
 
 export const useSettings = () => {
   const { i18n } = useTranslation()

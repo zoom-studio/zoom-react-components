@@ -1,0 +1,380 @@
+@mixin zoomrc-rich-text-editor-content-styles {
+  [data-slate-placeholder] {
+    display: inline !important;
+    width: fit-content !important;
+  }
+
+  .table-editor-container,
+  .editor-image-container,
+  .editor-video-container,
+  .editor-file-container,
+  .editor-emoji,
+  .editor-mention,
+  .editor-hashtag,
+  .editor-horizontal-row {
+    position: relative;
+    text-align: center;
+
+    > span,
+    > span span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100% !important;
+      pointer-events: none;
+    }
+  }
+
+  .editor-horizontal-row {
+    padding: 14px 0;
+
+    > hr {
+      margin: 0;
+      border-color: color(border, 2);
+    }
+  }
+
+  .zoomrc-image,
+  .video-player {
+    margin: 0 auto;
+  }
+
+  .editor-file-container {
+    width: fit-content;
+  }
+
+  address {
+    color: white;
+    background-color: color(accent);
+    display: inline;
+
+    mark {
+      background-color: transparent;
+    }
+  }
+
+  .editor-emoji {
+    display: inline-block;
+    text-align: start;
+
+    &.focused {
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: color(accent);
+        height: 2px;
+        width: 100%;
+      }
+    }
+
+    > .zoomrc-emoji {
+      user-select: none;
+      transform: translateY(4px);
+    }
+  }
+
+  .editor-hashtag,
+  .editor-mention {
+    display: inline-block;
+    color: color(accent);
+    position: relative;
+    cursor: default;
+
+    &.focused {
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: color(accent);
+        height: 2px;
+        width: 100%;
+      }
+    }
+  }
+
+  @for $i from 1 to 5 {
+    $emoji-container-size: if($i == 1, 35px, if($i == 2, 33px, if($i == 3, 30px, 29px)));
+    $emoji-size: if($i == 1, 24px, if($i == 2, 22px, if($i == 3, 20px, 20px)));
+    $emoji-letter-spacing: if($i == 1, 19px, if($i == 2, 17px, if($i == 3, 15px, 16px)));
+
+    h#{$i} {
+      @include text('heading', $i);
+
+      margin: 0 0 10px;
+
+      .editor-emoji {
+        height: $emoji-container-size;
+
+        > .zoomrc-emoji {
+          width: $emoji-size;
+          height: $emoji-size;
+        }
+
+        > span {
+          letter-spacing: $emoji-letter-spacing;
+          line-height: $emoji-container-size;
+        }
+      }
+    }
+  }
+
+  p,
+  a,
+  blockquote {
+    margin: 0 0 10px;
+    text-align: start;
+  }
+
+  p,
+  a,
+  li,
+  blockquote {
+    @include text(common, normal);
+
+    .editor-emoji {
+      height: 26px;
+
+      > .zoomrc-emoji {
+        width: 18px;
+        height: 18px;
+      }
+
+      > span {
+        letter-spacing: 15px;
+        line-height: 26px;
+      }
+    }
+  }
+
+  blockquote {
+    padding: 10px;
+    margin: 10px 0;
+    border-inline-start: 10px solid color(border, 2);
+    border-radius: 10px;
+  }
+
+  .editor-table-container {
+    width: 100%;
+    position: relative;
+
+    &:hover {
+      > .delete-table-button,
+      > .change-style-button {
+        display: inline-flex;
+      }
+    }
+
+    &.with-header {
+      > .table-scroll-view > .os-viewport > table > tbody {
+        > tr:first-child > td:not(:first-child) {
+          background-color: color(layer, 2);
+        }
+      }
+    }
+
+    &.with-sidebar {
+      > .table-scroll-view > .os-viewport > table > tbody {
+        > tr > td:nth-child(2) {
+          background-color: color(layer, 2);
+        }
+      }
+    }
+
+    &.with-header-and-sidebar {
+      > .table-scroll-view > .os-viewport > table > tbody {
+        > tr > td:nth-child(2),
+        > tr:first-child > td:not(:first-child) {
+          background-color: color(layer, 2);
+        }
+      }
+    }
+
+    > .delete-table-button,
+    > .change-style-button {
+      position: absolute;
+      right: 30px;
+      z-index: 2;
+      display: none;
+
+      .zoomrc-button-prefix {
+        font-size: to-rem(26px);
+      }
+    }
+
+    > .change-style-button {
+      top: 20px;
+    }
+
+    > .delete-table-button {
+      bottom: 10px;
+
+      &:hover {
+        & + .table-scroll-view > .os-viewport > table > tbody > tr > td:not(:first-child) {
+          background-color: color(error, glassy, 1);
+          border-color: color(error, glassy, 1);
+        }
+      }
+    }
+
+    > .table-scroll-view {
+      margin: 0 auto;
+
+      > .os-viewport {
+        > table {
+          width: 100%;
+          padding: 0 10px 20px 0;
+
+          > thead,
+          > tfoot {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+          }
+
+          tr {
+            > td {
+              border: 1px solid color(border, 2);
+              padding: 0;
+              color: color(text, 2);
+
+              &.action-cell {
+                border: 0;
+                width: fit-content;
+                height: fit-content;
+
+                &.col-action-cell {
+                  height: 30px;
+
+                  &:nth-child(1) {
+                    pointer-events: none;
+                  }
+
+                  > .col-actions-container {
+                    position: relative;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: inherit;
+
+                    > .col-actions {
+                      display: none;
+                      gap: 2px;
+                      position: absolute;
+                    }
+
+                    &.active {
+                      > .col-actions {
+                        display: flex;
+                      }
+                    }
+                  }
+                }
+
+                &.row-action-cell {
+                  width: 30px;
+                  position: sticky;
+                  left: 0;
+                  z-index: 1;
+
+                  > .row-actions-container {
+                    position: relative;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: inherit;
+                    height: inherit;
+
+                    > .row-actions {
+                      display: none;
+                      flex-direction: column;
+                      gap: 2px;
+                      transform: translateY(-4px);
+                      position: absolute;
+                    }
+                  }
+
+                  &.active {
+                    z-index: 2;
+
+                    > .row-actions-container {
+                      > .row-actions {
+                        display: flex;
+                      }
+                    }
+                  }
+                }
+              }
+
+              &.input-cell {
+                height: 30px;
+                padding: 4px 10px;
+                min-width: 70px;
+
+                &.removal {
+                  background-color: color(error, glassy, 1);
+                  border-color: color(error, glassy, 1);
+                }
+
+                &.append-to-left {
+                  border-left-color: color(accent);
+                }
+
+                &.append-to-right {
+                  border-right-color: color(accent);
+                }
+
+                &.append-to-top {
+                  border-top-color: color(accent);
+                }
+
+                &.append-to-bottom {
+                  border-bottom-color: color(accent);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include rtl {
+  .editor-table-container {
+    > .delete-table-button,
+    > .change-style-button {
+      right: unset;
+      left: 30px;
+    }
+
+    > .table-scroll-view {
+      > .os-viewport {
+        > table {
+          padding: 0 0 20px 10px;
+
+          tr {
+            > td {
+              &.action-cell {
+                &.col-action-cell {
+                  > .col-actions-container {
+                    > .col-actions {
+                      flex-direction: row-reverse;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

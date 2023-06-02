@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { PopConfirm, PopConfirmNS, useMessage } from '..'
+import { PopConfirm, type PopConfirmNS, useMessage } from '..'
 import { COMMON_VARIANTS } from '../constants'
-import { CommonStory, CommonStoryNS, PlacementsStory, StoryPlayground } from './components'
+import { CommonStory, type CommonStoryNS, PlacementsStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
 
 export default {
@@ -15,14 +15,13 @@ export default {
     children: 'Trigger me to show popConfirm',
     variant: 'warning',
     description: 'Some sample description to be shown as the pop confirm description',
-    trigger: 'click',
     placement: 'top',
     defaultIsOpen: true,
     noIconAndEmoji: false,
     emoji: undefined,
     icon: undefined,
   },
-} as ComponentMeta<typeof PopConfirm>
+} as Meta<typeof PopConfirm>
 
 const usePopConfirmStory = () => {
   const message = useMessage()
@@ -65,23 +64,9 @@ export const Placements: FC = () => {
       component={PopConfirm}
       props={{
         ...commonProps,
-        trigger: 'hover',
         variant: 'warning',
         buttonProps: { size: 'small' },
       }}
-    />
-  )
-}
-
-export const Triggers: FC = () => {
-  const { commonProps } = usePopConfirmStory()
-  return (
-    <CommonStory
-      component={PopConfirm}
-      stories={[
-        { title: 'Click', custom: <PopConfirm {...commonProps} trigger="click" /> },
-        { title: 'Hover', custom: <PopConfirm {...commonProps} trigger="hover" /> },
-      ]}
     />
   )
 }
@@ -155,32 +140,7 @@ export const AutoClose: FC = () => {
   return (
     <CommonStory
       component={PopConfirm}
-      stories={[
-        {
-          title: 'Click',
-          custom: <PopConfirm {...commonProps} trigger="click" autoCloseDelay={1000} />,
-        },
-        {
-          title: 'Hover',
-          custom: <PopConfirm {...commonProps} trigger="hover" autoCloseDelay={1000} />,
-        },
-      ]}
-    />
-  )
-}
-
-export const HoverDelay: FC = () => {
-  const { commonProps } = usePopConfirmStory()
-  return (
-    <CommonStory
-      component={PopConfirm}
-      stories={[
-        { title: 'Immediate (default)', custom: <PopConfirm {...commonProps} trigger="hover" /> },
-        {
-          title: 'Two seconds',
-          custom: <PopConfirm {...commonProps} trigger="hover" hoverDelay={2000} />,
-        },
-      ]}
+      stories={[{ custom: <PopConfirm {...commonProps} autoCloseDelay={1000} /> }]}
     />
   )
 }

@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, HTMLAttributes, ReactNode } from 'react'
+import React, { type CSSProperties, type FC, type HTMLAttributes, type ReactNode } from 'react'
 
 import { Title } from '../../..'
 
@@ -22,7 +22,7 @@ export namespace CommonStoryNS {
   }
 }
 
-export function CommonStory<Props = {}>({
+export function CommonStory<Props = object>({
   component: Component,
   stories,
   containerStyles,

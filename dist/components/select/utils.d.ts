@@ -1,0 +1,10 @@
+import { type RefObject } from 'react';
+import { type SelectNS } from '.';
+import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider';
+import { type SelectOptionNS } from './option';
+export declare const groupOptions: (options?: SelectNS.Option<SelectOptionNS.Value>[], defaultValue?: SelectNS.Props<SelectOptionNS.Value>['defaultValue']) => SelectNS.GroupedOptions;
+export declare const getSelectedOptions: (currentOptions?: SelectNS.GroupedOptions) => SelectNS.SingleOption[];
+export declare const scrollToTop: (containerRef: RefObject<HTMLDivElement>, scrollOnOpen: boolean, sendLog: ZoomGlobalConfigProviderNS.Log) => void;
+export declare const focusSearchBox: (inputRef: RefObject<HTMLInputElement>, sendLog: ZoomGlobalConfigProviderNS.Log) => Promise<void>;
+export declare const defaultEmpty: (options?: SelectNS.Option<SelectOptionNS.Value>[]) => false | "empty-list";
+export declare const filterLabel: (label: string, searchQuery: string) => boolean;

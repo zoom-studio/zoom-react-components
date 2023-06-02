@@ -1,28 +1,28 @@
-import React, { MouseEvent, ReactNode } from 'react'
+import React, { type MouseEvent, type ReactNode, type RefObject } from 'react'
 
 import { useZoomComponent } from '../../hooks'
-import { BaseComponent } from '../../types'
+import { type BaseComponent } from '../../types'
 
 import {
-  AvatarNS,
-  BadgeNS,
-  ButtonGroupNS,
-  ButtonNS,
-  CheckboxNS,
-  ContextMenuNS,
-  EmojiNS,
-  IconNS,
-  ImageNS,
+  type AvatarNS,
+  type BadgeNS,
+  type ButtonGroupNS,
+  type ButtonNS,
+  type CheckboxNS,
+  type ContextMenuNS,
+  type EmojiNS,
+  type IconNS,
+  type ImageNS,
   InfiniteScrollView,
-  InfiniteScrollViewNS,
-  RadioButtonNS,
+  type InfiniteScrollViewNS,
+  type RadioButtonNS,
   ScrollView,
-  ScrollViewNS,
-  SwitchNS,
+  type ScrollViewNS,
+  type SwitchNS,
 } from '..'
 
 import { ListViewItem } from './list-item'
-import { CustomLinkNS } from '../custom-link'
+import { type CustomLinkNS } from '../custom-link'
 
 export namespace ListViewNS {
   export type ImageProps = Pick<
@@ -62,7 +62,7 @@ export namespace ListViewNS {
 
   export type DataSwitch = Pick<
     SwitchNS.Props,
-    'disabled' | 'loading' | 'label' | 'state' | 'onWrite'
+    'disabled' | 'loading' | 'label' | 'state' | 'onWrite' | 'checked' | 'onChange'
   >
 
   export interface ListData<ContentType = unknown> {
@@ -97,6 +97,7 @@ export namespace ListViewNS {
     badgeHolderGutterReversed?: boolean
     badgeProps?: BadgeProps
     actionsProps?: ButtonProps
+    reference?: RefObject<HTMLDivElement>
     infiniteScroll?: Omit<
       InfiniteScrollViewNS.Props,
       'children' | 'dataset' | 'maxHeight' | 'itemsContainerProps'
@@ -104,13 +105,15 @@ export namespace ListViewNS {
     scrollViewProps?: Omit<ScrollViewNS.Props, 'children' | 'maxHeight'>
     maxHeight: ScrollViewNS.Props['maxHeight']
     itemsContainerProps?: Omit<BaseComponent, 'children'>
-    itemsProps?: Omit<BaseComponent, 'children' | 'onClick'>
+    itemsProps?: Omit<BaseComponent, 'children' | 'onClick'> & {
+      reference?: RefObject<HTMLDivElement>
+    }
     linkComponent?: CustomLinkNS.Props['userLink']
     hover?: boolean
   }
 }
 
-export const ListView = <ContentType extends unknown = unknown>({
+export const ListView = <ContentType = unknown,>({
   itemsContainerProps: providedItemsContainerProps,
   dataset,
   className,

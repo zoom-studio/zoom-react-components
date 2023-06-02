@@ -1,8 +1,8 @@
-import React, { FC } from 'react'
+import React, { type FC } from 'react'
 
-import { ComponentMeta } from '@storybook/react'
+import { type Meta } from '@storybook/react'
 
-import { Menu, MenuNS } from '../components'
+import { Menu, type MenuNS } from '../components'
 import { enMenuItems, faMenuItems } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -10,13 +10,13 @@ import { useSettings } from './hooks/use-settings'
 import { useZoomContext } from '../hooks'
 
 export default {
-  title: 'Menu/Menu',
+  title: 'Navigation/Menu',
   component: Menu,
   args: {
     items: enMenuItems,
     children: 'Click me',
   },
-} as ComponentMeta<typeof Menu>
+} as Meta<typeof Menu>
 
 const useMenuStory = () => {
   const { t } = useI18n('menu')
@@ -68,7 +68,18 @@ export const CallbackFunction: FC = () => {
       component={Menu}
       stories={[
         {
-          group: [{ props: { items: simpleItems({ onClick: () => alert('Click') }), children } }],
+          group: [
+            {
+              props: {
+                items: simpleItems({
+                  onClick: () => {
+                    alert('Click')
+                  },
+                }),
+                children,
+              },
+            },
+          ],
         },
       ]}
     />
@@ -164,7 +175,9 @@ export const Accelerator: FC = () => {
                   index => index === 2 || index === 4,
                 ),
                 children,
-                onOpen: () => setIsDarwin(true),
+                onOpen: () => {
+                  setIsDarwin(true)
+                },
               },
             },
             {
@@ -176,7 +189,9 @@ export const Accelerator: FC = () => {
                   index => index === 2 || index === 4,
                 ),
                 children,
-                onOpen: () => setIsDarwin(false),
+                onOpen: () => {
+                  setIsDarwin(false)
+                },
               },
             },
           ],

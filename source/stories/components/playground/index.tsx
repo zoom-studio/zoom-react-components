@@ -1,4 +1,4 @@
-import React, { FC, HTMLAttributes, ReactNode } from 'react'
+import React, { type FC, type HTMLAttributes, type ReactNode } from 'react'
 
 export namespace StoryPlaygroundNS {
   export interface Props<Props> {
@@ -9,7 +9,7 @@ export namespace StoryPlaygroundNS {
   }
 }
 
-export function StoryPlayground<Props = {}>({
+export function StoryPlayground<Props = object>({
   component: Component,
   children,
   props,

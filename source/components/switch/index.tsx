@@ -1,8 +1,13 @@
-import React, { ChangeEvent, FC, FormEvent, HTMLAttributes } from 'react'
+import React, { type ChangeEvent, type FormEvent, forwardRef, type HTMLAttributes } from 'react'
 
-import { InputNS, Spin, Text, TypographyNS } from '..'
+import { type InputNS, Spin, Text, type TypographyNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { BaseComponent, BaseInputComponent, CommonSize, DataEntriesState } from '../../types'
+import {
+  type BaseComponent,
+  type BaseInputComponent,
+  type CommonSize,
+  type DataEntriesState,
+} from '../../types'
 
 export namespace SwitchNS {
   export interface Props extends BaseInputComponent, BaseComponent {
@@ -18,98 +23,102 @@ export namespace SwitchNS {
   }
 }
 
-export const Switch: FC<SwitchNS.Props> = ({
-  size: providedSize,
-  state = ['neutral'],
-  disabledOnLoading = true,
-  containerProps,
-  stateMessageProps,
-  className,
-  disabled,
-  loading,
-  label,
-  labelProps,
-  onWrite,
-  onChange,
-  onInput,
-  reference,
-  id,
-  onClick,
-  style,
-  inputProps,
-  inputRef,
-  ...otherInputProps
-}) => {
-  const size = useComponentSize(providedSize)
-  const { createClassName } = useZoomComponent('switch')
-  const isDisabled = disabledOnLoading ? loading || disabled : disabled
+export const Switch = forwardRef<HTMLDivElement, SwitchNS.Props>(
+  (
+    {
+      size: providedSize,
+      state = ['neutral'],
+      disabledOnLoading = true,
+      containerProps,
+      stateMessageProps,
+      className,
+      disabled,
+      loading,
+      label,
+      labelProps,
+      onWrite,
+      onChange,
+      onInput,
+      id,
+      onClick,
+      style,
+      inputProps,
+      inputRef,
+      ...otherInputProps
+    },
+    reference,
+  ) => {
+    const size = useComponentSize(providedSize)
+    const { createClassName } = useZoomComponent('switch')
+    const isDisabled = disabledOnLoading ? loading || disabled : disabled
 
-  const labelClasses = createClassName(labelProps?.className, 'label')
+    const labelClasses = createClassName(labelProps?.className, 'label')
 
-  const containerClasses = createClassName(className, '', {
-    [createClassName('', size)]: true,
-    [createClassName('', state[0])]: true,
-    [createClassName('', loading ? 'loading' : '')]: !!loading,
-    [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
-  })
+    const containerClasses = createClassName(className, '', {
+      [createClassName('', size)]: true,
+      [createClassName('', state[0])]: true,
+      [createClassName('', loading ? 'loading' : '')]: !!loading,
+      [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
+    })
 
-  const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
+    const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
 
-  const textSizeProps: InputNS.TextSize = {
-    small: size === 'small',
-    normal: size === 'normal',
-    large: size === 'large',
-  }
+    const textSizeProps: InputNS.TextSize = {
+      small: size === 'small',
+      normal: size === 'normal',
+      large: size === 'large',
+    }
 
-  const handleOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
-    onWrite?.(evt.currentTarget.checked)
-    onChange?.(evt)
-  }
+    const handleOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
+      onWrite?.(evt.currentTarget.checked)
+      onChange?.(evt)
+    }
 
-  const handleOnInput = (evt: FormEvent<HTMLInputElement>) => {
-    onWrite?.(evt.currentTarget.checked)
-    onInput?.(evt)
-  }
+    const handleOnInput = (evt: FormEvent<HTMLInputElement>) => {
+      onWrite?.(evt.currentTarget.checked)
+      onInput?.(evt)
+    }
 
-  return (
-    <div
-      {...containerProps}
-      id={id}
-      onClick={onClick}
-      style={style}
-      ref={reference}
-      className={containerClasses}
-    >
-      <label {...labelProps} className={labelClasses}>
-        <input
-          {...otherInputProps}
-          {...inputProps}
-          type="checkbox"
-          className="native-switch"
-          disabled={isDisabled}
-          onInput={handleOnInput}
-          onChange={handleOnChange}
-          ref={inputRef}
-        />
+    return (
+      <div
+        {...containerProps}
+        id={id}
+        onClick={onClick}
+        style={style}
+        ref={reference}
+        className={containerClasses}
+      >
+        <label {...labelProps} className={labelClasses}>
+          <input
+            {...otherInputProps}
+            {...inputProps}
+            type="checkbox"
+            className="native-switch"
+            disabled={isDisabled}
+            onInput={handleOnInput}
+            onChange={handleOnChange}
+            ref={inputRef}
+          />
 
-        <div className="custom-switch">
-          <span className="inner-circle">
-            {loading && <Spin size="large" color="white" className="loading-spin" />}
-          </span>
-        </div>
+          <div className="custom-switch">
+            <span className="inner-circle">
+              {loading && <Spin size="large" color="white" className="loading-spin" />}
+            </span>
+          </div>
 
-        {label && (
-          <Text {...textSizeProps} className="label-text">
-            {label}
+          {label && (
+            <Text {...textSizeProps} className="label-text">
+              {label}
+            </Text>
+          )}
+        </label>
+
+        {state[1] && (
+          <Text {...textSizeProps} {...stateMessageProps} className={stateMessageClasses}>
+            {state[1]}
           </Text>
         )}
-      </label>
-
-      {state[1] && (
-        <Text {...textSizeProps} {...stateMessageProps} className={stateMessageClasses}>
-          {state[1]}
-        </Text>
-      )}
-    </div>
-  )
-}
+      </div>
+    )
+  },
+)

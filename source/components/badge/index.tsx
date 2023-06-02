@@ -150,7 +150,12 @@ export const Badge = forwardRef<HTMLDivElement, BadgeNS.Props>(
         style={containerStyles}
       >
         {shouldInfoBeRendered && (
-          <span className={badgeCountClasses} onClick={onClick} style={getBadgeStyles()}>
+          <span
+            key={providedCount}
+            className={badgeCountClasses}
+            onClick={onClick}
+            style={getBadgeStyles()}
+          >
             {renderInfo()}
           </span>
         )}

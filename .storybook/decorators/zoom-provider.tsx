@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { PartialStoryFn, Args, StoryContext } from '@storybook/csf'
-import { ReactFramework } from '@storybook/react'
+import { ReactRenderer } from '@storybook/react'
 
 import i18n from '../../source/i18n'
 import { useI18n } from '../../source/stories/hooks/use-i18n'
@@ -12,8 +12,8 @@ import {
 } from '../../source/components'
 
 export const ZoomProvider = (
-  Story: PartialStoryFn<ReactFramework, Args>,
-  context: StoryContext<ReactFramework, Args>,
+  Story: PartialStoryFn<ReactRenderer, Args>,
+  context: StoryContext<ReactRenderer, Args>,
 ) => {
   const { t: te } = useI18n('globalErrors')
   const { t: ti } = useI18n('globalI18ns')

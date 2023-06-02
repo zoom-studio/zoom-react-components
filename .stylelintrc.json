@@ -6,7 +6,8 @@
     "property-no-vendor-prefix": null,
     "value-keyword-case": null,
     "alpha-value-notation": null,
-    "selector-class-pattern": null
+    "selector-class-pattern": null,
+    "declaration-block-no-redundant-longhand-properties": null
   },
   "ignoreFiles": ["dist"]
 }

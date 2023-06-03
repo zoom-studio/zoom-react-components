@@ -11,6 +11,7 @@ import {
   type ExplorerNS,
   type UploaderNS,
   type TableNS,
+  type ChatBubbleNS,
 } from '..'
 
 export namespace ZoomGlobalConfigProviderNS {
@@ -37,6 +38,7 @@ export namespace ZoomGlobalConfigProviderNS {
       explorer?: ExplorerNS.I18n
       uploader?: UploaderNS.I18n
       table?: TableNS.I18n
+      chatBubble?: ChatBubbleNS.I18n
     }
   }
 }

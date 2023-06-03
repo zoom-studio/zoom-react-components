@@ -17,7 +17,7 @@ export const TableCellElement: FC<TableCellElementNS.Props> = ({
   attributes,
   element,
 }) => {
-  const { editor } = useEditorContext()
+  const { editor, readonly } = useEditorContext()
 
   const richUtils = new RichUtils({ editor })
 
@@ -46,7 +46,7 @@ export const TableCellElement: FC<TableCellElementNS.Props> = ({
 
   return (
     <>
-      {tableColIndex === 0 && (
+      {tableColIndex === 0 && !readonly && (
         <td className={rowActionCellClasses} data-row-index={tableRowIndex} contentEditable={false}>
           <div className="row-actions-container">
             <RowActions

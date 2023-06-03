@@ -14,20 +14,17 @@ import { type NodeEntry, type Range, Text } from 'slate'
 type CB = RichTextEditorMakerNS.ChildrenCallback
 
 export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMakerNS.Props>(
-  (
-    {
-      collapseOnEscape = true,
-      searchQuery = '',
-      children,
-      placeholder,
-      renderLinkElement,
-      className,
-      containerProps,
-      onClick,
-      style,
-    },
-    reference,
-  ) => {
+  ({
+    collapseOnEscape = true,
+    searchQuery = '',
+    children,
+    placeholder,
+    renderLinkElement,
+    className,
+    containerProps,
+    onClick,
+    style,
+  }) => {
     const { createClassName } = useZoomComponent('rich-text-editor-maker')
     const editorContext = useEditorContext()
 
@@ -78,6 +75,7 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
       return (
         <Editable
           {...containerProps}
+          readOnly={editorContext.readonly}
           onClick={onClick}
           style={style}
           id={editorContext.id}

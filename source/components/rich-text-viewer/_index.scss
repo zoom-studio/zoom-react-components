@@ -1,0 +1,7 @@
+@import '../rich-text-editor-maker/content-styles';
+
+.zoomrc-rich-text-viewer {
+  > .rich-text-editable {
+    @include zoomrc-rich-text-editor-content-styles;
+  }
+}

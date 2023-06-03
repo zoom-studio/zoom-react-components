@@ -8,6 +8,6 @@ export namespace ListItemElementNS {
   }
 }
 
-export const ListItemElement: FC<ListItemElementNS.Props> = ({ children, attributes, element }) => {
+export const ListItemElement: FC<ListItemElementNS.Props> = ({ children, attributes }) => {
   return <li {...attributes}>{children}</li>
 }

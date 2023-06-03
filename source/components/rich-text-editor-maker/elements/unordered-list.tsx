@@ -11,7 +11,6 @@ export namespace UnorderedListElementNS {
 export const UnorderedListElement: FC<UnorderedListElementNS.Props> = ({
   children,
   attributes,
-  element,
 }) => {
   return <ul {...attributes}>{children}</ul>
 }

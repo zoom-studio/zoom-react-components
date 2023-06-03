@@ -8,10 +8,6 @@ export namespace OrderedListElementNS {
   }
 }
 
-export const OrderedListElement: FC<OrderedListElementNS.Props> = ({
-  children,
-  attributes,
-  element,
-}) => {
+export const OrderedListElement: FC<OrderedListElementNS.Props> = ({ children, attributes }) => {
   return <ol {...attributes}>{children}</ol>
 }

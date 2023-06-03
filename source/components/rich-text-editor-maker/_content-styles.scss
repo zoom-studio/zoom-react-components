@@ -1,4 +1,6 @@
 @mixin zoomrc-rich-text-editor-content-styles {
+  color: color(text, 1);
+
   [data-slate-placeholder] {
     display: inline !important;
     width: fit-content !important;
@@ -180,19 +182,40 @@
       }
     }
 
-    &.with-sidebar {
-      > .table-scroll-view > .os-viewport > table > tbody {
-        > tr > td:nth-child(2) {
-          background-color: color(layer, 2);
+    &:not(.readonly) {
+      &.with-sidebar {
+        > .table-scroll-view > .os-viewport > table > tbody {
+          > tr > td:nth-child(2) {
+            background-color: color(layer, 2);
+          }
+        }
+      }
+
+      &.with-header-and-sidebar {
+        > .table-scroll-view > .os-viewport > table > tbody {
+          > tr > td:nth-child(2),
+          > tr:first-child > td:not(:first-child) {
+            background-color: color(layer, 2);
+          }
         }
       }
     }
 
-    &.with-header-and-sidebar {
-      > .table-scroll-view > .os-viewport > table > tbody {
-        > tr > td:nth-child(2),
-        > tr:first-child > td:not(:first-child) {
-          background-color: color(layer, 2);
+    &.readonly {
+      &.with-sidebar {
+        > .table-scroll-view > .os-viewport > table > tbody {
+          > tr > td:nth-child(1) {
+            background-color: color(layer, 2);
+          }
+        }
+      }
+
+      &.with-header-and-sidebar {
+        > .table-scroll-view > .os-viewport > table > tbody {
+          > tr > td:nth-child(1),
+          > tr:first-child > td:not(:first-child) {
+            background-color: color(layer, 2);
+          }
         }
       }
     }

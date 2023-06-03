@@ -74,9 +74,11 @@ export namespace RichTextEditorMakerProviderNS {
     enableHashtag?: HashtagSettings
     saveDraft?: boolean
     id: string
+    readonly?: boolean
   }
 
-  export interface ProviderValue extends Pick<Props, 'enableMention' | 'enableHashtag'> {
+  export interface ProviderValue
+    extends Pick<Props, 'enableMention' | 'enableHashtag' | 'readonly'> {
     mention?: ReturnType<typeof useMention>
     hashtag?: ReturnType<typeof useHashtag>
     editorValue?: Descendant[]
@@ -97,6 +99,7 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
   defaultValue,
   children,
   enableMention,
+  readonly,
   enableHashtag,
 }) => {
   const [editorValue, setEditorValue] = useState<Descendant[]>(
@@ -186,6 +189,7 @@ export const RichTextEditorMakerProvider: FC<RichTextEditorMakerProviderNS.Props
           handleListsOnKeyDown,
           redo,
           undo,
+          readonly,
           editor: providerEditor,
         }}
       >

@@ -11,7 +11,6 @@ export namespace HorizontalRuleElementNS {
 export const HorizontalRuleElement: FC<HorizontalRuleElementNS.Props> = ({
   attributes,
   children,
-  element,
 }) => {
   return (
     <div {...attributes} contentEditable={false} className="editor-horizontal-row">

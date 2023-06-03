@@ -8,6 +8,6 @@ export namespace DefaultElementNS {
   }
 }
 
-export const DefaultElement: FC<DefaultElementNS.Props> = ({ children, attributes, element }) => {
+export const DefaultElement: FC<DefaultElementNS.Props> = ({ children, attributes }) => {
   return <p {...attributes}>{children}</p>
 }

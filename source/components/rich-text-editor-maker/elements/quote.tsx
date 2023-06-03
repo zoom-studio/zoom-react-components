@@ -8,6 +8,6 @@ export namespace QuoteElementNS {
   }
 }
 
-export const QuoteElement: FC<QuoteElementNS.Props> = ({ children, attributes, element }) => {
+export const QuoteElement: FC<QuoteElementNS.Props> = ({ children, attributes }) => {
   return <blockquote {...attributes}>{children}</blockquote>
 }

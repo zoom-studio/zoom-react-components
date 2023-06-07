@@ -43,6 +43,7 @@ const useChatBubbleStory = () => {
     time,
     message: message(),
     userId: userId(),
+    datetime: '2023-06-04T14:51:51.960Z',
   }
 
   return { avatar, time, userId, message, commonProps }

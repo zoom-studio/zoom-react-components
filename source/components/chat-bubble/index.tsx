@@ -12,18 +12,22 @@ import { useChatBubbleI18n, type UseChatBubbleI18nNS } from './use-i18n'
 export namespace ChatBubbleNS {
   export type I18n = UseChatBubbleI18nNS.I18n
 
-  export interface Props extends Omit<BaseComponent, 'children'> {
+  export interface Message {
     time: string
     message: Descendant[]
     avatar: string
     userId: number | string
+    datetime: string
     isMe?: boolean
     isImportant?: boolean
-    showAvatar?: boolean
-    showArrow?: boolean
     seen?: boolean
+  }
+
+  export interface Props extends Omit<BaseComponent, 'children'>, Message {
     i18n?: I18n
     isSending?: boolean
+    showAvatar?: boolean
+    showArrow?: boolean
   }
 }
 
@@ -43,7 +47,9 @@ export const ChatBubble = forwardRef<HTMLDivElement, ChatBubbleNS.Props>(
       seen,
       userId,
       isSending,
-      ...rest
+      id,
+      onClick,
+      style,
     },
     reference,
   ) => {
@@ -58,7 +64,14 @@ export const ChatBubble = forwardRef<HTMLDivElement, ChatBubbleNS.Props>(
     })
 
     return (
-      <div {...rest} {...containerProps} className={classes} ref={reference}>
+      <div
+        id={id}
+        style={style}
+        onClick={onClick}
+        {...containerProps}
+        className={classes}
+        ref={reference}
+      >
         <div className="avatar">{showAvatar && <Image src={avatar} shape="semi-circle" />}</div>
 
         <div className="message">

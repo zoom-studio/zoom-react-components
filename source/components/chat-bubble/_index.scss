@@ -44,7 +44,7 @@ div.zoomrc-chat-bubble {
     border-radius: 8px 8px 8px 20px;
     padding: 10px;
     width: fit-content;
-    max-width: 85%;
+    max-width: 40%;
     min-width: 200px;
     position: relative;
 
@@ -120,7 +120,7 @@ div.zoomrc-chat-bubble {
 
   &:not(.show-arrow) {
     > .message {
-      border-radius: 8px;
+      border-radius: 8px !important;
 
       &::after,
       &::before {
@@ -141,6 +141,8 @@ div.zoomrc-chat-bubble {
   div.zoomrc-chat-bubble {
     &.is-them {
       > .message {
+        border-radius: 8px 8px 20px;
+
         &::before {
           left: unset;
           right: -7px;
@@ -160,10 +162,12 @@ div.zoomrc-chat-bubble {
 
     &.is-me {
       > .message {
+        border-radius: 8px 8px 8px 20px;
+
         &::before {
           right: unset;
           left: -7px;
-          border-left: 20px solid color(layer, 2);
+          border-left: -20px solid color(layer, 2);
           border-bottom-left-radius: unset;
           border-bottom-right-radius: 16px 14px;
           transform: translate(0, -2px);

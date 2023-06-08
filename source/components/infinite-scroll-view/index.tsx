@@ -1,31 +1,43 @@
 import React, {
-  type ReactNode,
-  type RefObject,
+  Fragment,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type MutableRefObject,
+  type ReactNode,
+  type RefObject,
 } from 'react'
 
 import { type Nullish } from '@zoom-studio/zoom-js-ts-utils'
+import { type Dictionary, isArray } from 'lodash'
 
-import { ScrollView, type ScrollViewNS, Spin, type SpinNS, Title, ConditionalWrapper } from '..'
+import { ConditionalWrapper, ScrollView, Spin, Title, type ScrollViewNS, type SpinNS } from '..'
 import { logs } from '../../constants'
 import { useZoomComponent } from '../../hooks'
 import { type BaseComponent } from '../../types'
 
 export namespace InfiniteScrollViewNS {
+  export const INDEX_IDENTIFIER = '__ZOOMRC_INFINITE_SCROLL_VIEW_MUTATED_DATASET_INDEX_IDENTIFIER__'
+
   export type PickedScrollViewProps = 'maxWidth' | 'maxHeight' | 'autoHide'
 
   export interface ChildrenCallbackParams {
     index: number
   }
 
+  export interface BetwixtRenderParams<DataType extends unknown[] = unknown[]> {
+    datasetKey: string
+    datasetKeyIndex: number
+    dataset: DataType
+  }
+
   export interface Props<DataType extends unknown[] = unknown[]>
     extends Omit<BaseComponent, 'children'>,
       Pick<ScrollViewNS.Props, PickedScrollViewProps> {
     dataset: DataType
+    groupBy?: keyof DataType[0]
     isLoading: boolean
     handleOnLoadMore: () => void | Promise<void>
     children: (data: DataType[0], params: ChildrenCallbackParams) => JSX.Element
@@ -42,6 +54,8 @@ export namespace InfiniteScrollViewNS {
     itemsReferenceKey?: string
     handleSetProps?: (index: number, reference: null | undefined) => Record<string, any>
     useScrollViewComponent?: boolean
+    renderBetwixtBeforeDataset?: (params: BetwixtRenderParams) => ReactNode
+    renderBetwixtAfterDataset?: (params: BetwixtRenderParams) => ReactNode
   }
 }
 
@@ -68,6 +82,9 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
   autoHide,
   itemsContainerProps,
   itemContainerProps,
+  groupBy,
+  renderBetwixtAfterDataset,
+  renderBetwixtBeforeDataset,
   ...rest
 }: InfiniteScrollViewNS.Props<DataType>): JSX.Element => {
   const nativeViewportRef = useRef<HTMLDivElement>(null)
@@ -133,6 +150,38 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
     return nativeViewportRef.current
   }
 
+  const mutatedDataset = useMemo(() => {
+    if (groupBy) {
+      const groups: Dictionary<any> = {}
+      dataset.forEach((data: any, index) => {
+        if (groups[data[groupBy]]) {
+          groups[data[groupBy]].push({ ...data, [InfiniteScrollViewNS.INDEX_IDENTIFIER]: index })
+        } else {
+          groups[data[groupBy]] = [{ ...data, [InfiniteScrollViewNS.INDEX_IDENTIFIER]: index }]
+        }
+      })
+      return groups
+    }
+    return dataset
+  }, [dataset, groupBy])
+
+  const renderData = useCallback(
+    (data: DataType[0], index: number): JSX.Element => {
+      return (
+        <div
+          {...itemContainerProps}
+          key={index}
+          data-is-observer={dataset.length === index + threshold ? 'true' : undefined}
+          ref={node => (dataset.length === index + threshold ? lastDataRef(node) : undefined)}
+          className={itemContainerClasses}
+        >
+          {children(data, { index })}
+        </div>
+      )
+    },
+    [lastDataRef],
+  )
+
   useEffect(() => {
     if (loadOnMount) {
       handleLoadMoreData()
@@ -185,16 +234,27 @@ export const InfiniteScrollView = <DataType extends unknown[] = unknown[]>({
         )}
       >
         <div {...itemsContainerProps} className={contentContainerClasses}>
-          {dataset.map((data, index) => (
-            <div
-              {...itemContainerProps}
-              key={index}
-              ref={node => (dataset.length === index + threshold ? lastDataRef(node) : undefined)}
-              className={itemContainerClasses}
-            >
-              {children(data, { index })}
-            </div>
-          ))}
+          {isArray(mutatedDataset)
+            ? mutatedDataset.map(renderData)
+            : Object.keys(mutatedDataset).map((datasetKey, datasetKeyIndex) => (
+                <Fragment key={datasetKeyIndex}>
+                  {renderBetwixtBeforeDataset?.({
+                    dataset: mutatedDataset[datasetKey],
+                    datasetKey,
+                    datasetKeyIndex,
+                  })}
+
+                  {mutatedDataset[datasetKey].map((data: any) =>
+                    renderData(data, data[InfiniteScrollViewNS.INDEX_IDENTIFIER]),
+                  )}
+
+                  {renderBetwixtAfterDataset?.({
+                    dataset: mutatedDataset[datasetKey],
+                    datasetKey,
+                    datasetKeyIndex,
+                  })}
+                </Fragment>
+              ))}
 
           {isMoreDataRemaining ? (
             <div className="loading-message">{isLoading && <Spin {...spinProps} />}</div>

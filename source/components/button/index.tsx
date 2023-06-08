@@ -42,6 +42,8 @@ export namespace ButtonNS {
     suffixEmojiIcon?: EmojiIcon
     useSpan?: boolean
     showSpinOnLoading?: boolean
+    materialIconProps?: Omit<IconNS.Props, 'className' | 'name'>
+    emojiIconProps?: Omit<EmojiNS.Props, 'className' | 'name'>
   }
 }
 
@@ -72,6 +74,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonNS.Props>(
       suffixMaterialIcon,
       useSpan,
       containerProps,
+      materialIconProps,
+      emojiIconProps,
       ...rest
     },
     reference,
@@ -106,9 +110,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonNS.Props>(
         type,
       )
       if (materialIcon) {
-        return <Icon name={materialIcon} className={classNames} />
+        return <Icon {...materialIconProps} name={materialIcon} className={classNames} />
       } else if (emojiIcon) {
-        return <Emoji name={emojiIcon} className={classNames} />
+        return <Emoji {...emojiIconProps} name={emojiIcon} className={classNames} />
       } else {
         return <></>
       }

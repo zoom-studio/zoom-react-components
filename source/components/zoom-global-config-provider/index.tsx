@@ -3,14 +3,16 @@ import React, { createContext, type FC, type ReactNode } from 'react'
 import { type logs } from '../../constants'
 
 import {
-  type ImageViewerNS,
+  type ChatBubbleNS,
+  type ChatInputNS,
   type EmojiPickerNS,
-  type TourNS,
-  type RichTextEditorNS,
-  type ImageEditorNS,
   type ExplorerNS,
-  type UploaderNS,
+  type ImageEditorNS,
+  type ImageViewerNS,
+  type RichTextEditorNS,
   type TableNS,
+  type TourNS,
+  type UploaderNS,
 } from '..'
 
 export namespace ZoomGlobalConfigProviderNS {
@@ -37,6 +39,8 @@ export namespace ZoomGlobalConfigProviderNS {
       explorer?: ExplorerNS.I18n
       uploader?: UploaderNS.I18n
       table?: TableNS.I18n
+      chatBubble?: ChatBubbleNS.I18n
+      chatInput?: ChatInputNS.I18n
     }
   }
 }

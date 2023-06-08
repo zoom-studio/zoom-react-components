@@ -1,0 +1,32 @@
+.zoomrc-chat-bubbles-group {
+  > .zoomrc-infinite-scroll-view {
+    > .zoomrc-scroll-view {
+      > .os-viewport {
+        padding: 20px !important;
+
+        > .zoomrc-infinite-scroll-view-content {
+          > .message-date {
+            width: 100%;
+            z-index: 2;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: color(text, 3);
+            padding: 6px 0;
+            border-top: 1px solid color(border, 2, glassy, 5);
+            user-select: none;
+
+            > .zoomrc-typography {
+              margin: 0;
+            }
+          }
+
+          > .zoomrc-infinite-scroll-view-item {
+            margin: 2px 0;
+          }
+        }
+      }
+    }
+  }
+}

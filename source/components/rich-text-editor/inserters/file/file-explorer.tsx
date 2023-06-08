@@ -1,4 +1,4 @@
-import React, { type FC, useState } from 'react'
+import React, { useState, type FC } from 'react'
 
 import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
@@ -9,11 +9,8 @@ import {
   type RichTextEditorNS,
 } from '../../..'
 
-import { type useRichTextEditorI18n } from '../../use-i18n'
-
 export namespace FileExplorerNS {
   export interface Props extends Pick<RichTextEditorNS.Props, 'fileExplorerProps'> {
-    i18n: ReturnType<typeof useRichTextEditorI18n>
     isFileDialogOpen: UseObjectedStateNS.ReturnType<boolean>
     handleCreateFile: (fileInfo: RichTextEditorMakerNS.FileInfo) => void
   }
@@ -21,7 +18,6 @@ export namespace FileExplorerNS {
 
 export const FileExplorer: FC<FileExplorerNS.Props> = ({
   fileExplorerProps,
-  i18n,
   handleCreateFile,
   isFileDialogOpen,
 }) => {

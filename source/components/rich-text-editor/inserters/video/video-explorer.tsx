@@ -1,4 +1,4 @@
-import React, { type FC, useState } from 'react'
+import React, { useState, type FC } from 'react'
 
 import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
@@ -9,21 +9,19 @@ import {
   type RichTextEditorNS,
 } from '../../..'
 
-import { type useRichTextEditorI18n } from '../../use-i18n'
-
 export namespace VideoExplorerNS {
   export interface Props extends Pick<RichTextEditorNS.Props, 'videoExplorerProps'> {
-    i18n: ReturnType<typeof useRichTextEditorI18n>
     isVideoDialogOpen: UseObjectedStateNS.ReturnType<boolean>
     handleCreateVideo: (videoInfo: RichTextEditorMakerNS.VideoInfo) => void
+    defaultTypeQuery: string
   }
 }
 
 export const VideoExplorer: FC<VideoExplorerNS.Props> = ({
   videoExplorerProps,
-  i18n,
   handleCreateVideo,
   isVideoDialogOpen,
+  defaultTypeQuery,
 }) => {
   const [selectedFileIndexes, setSelectedFileIndexes] = useState<number[]>([])
 
@@ -53,7 +51,7 @@ export const VideoExplorer: FC<VideoExplorerNS.Props> = ({
       isOpen={!!isVideoDialogOpen.val}
       onClose={closeDialog}
       filterTypes={[...ExplorerNS.VideoType]}
-      defaultTypeQuery={i18n.videos}
+      defaultTypeQuery={defaultTypeQuery}
       onSelectItems={setSelectedFileIndexes}
       selectButtonProps={{
         onClick: handleInsertVideos,

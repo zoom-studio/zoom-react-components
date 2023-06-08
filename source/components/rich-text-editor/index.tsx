@@ -185,7 +185,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
                 <div className="editor-container">
                   {isEnabled(['image']) && (
                     <ImageExplorer
-                      i18n={i18n}
+                      defaultTypeQuery={i18n.images}
                       imageExplorerProps={imageExplorerProps}
                       handleCreateImage={handlers.insertImage}
                       isImageDialogOpen={isImageDialogOpen}
@@ -194,7 +194,7 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
 
                   {isEnabled(['video']) && (
                     <VideoExplorer
-                      i18n={i18n}
+                      defaultTypeQuery={i18n.videos}
                       videoExplorerProps={videoExplorerProps}
                       handleCreateVideo={handlers.insertVideo}
                       isVideoDialogOpen={isVideoDialogOpen}
@@ -203,7 +203,6 @@ export const RichTextEditor = forwardRef<HTMLDivElement, RichTextEditorNS.Props>
 
                   {isEnabled(['file']) && (
                     <FileExplorer
-                      i18n={i18n}
                       fileExplorerProps={fileExplorerProps}
                       handleCreateFile={handlers.insertFile}
                       isFileDialogOpen={isFileDialogOpen}

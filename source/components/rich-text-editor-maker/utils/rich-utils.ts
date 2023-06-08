@@ -829,4 +829,21 @@ export class RichUtils {
       }
     }
   }
+
+  isValid = (): boolean => {
+    const acceptableVoids: RichTextEditorMakerNS.ElementTypes[] = [
+      'file',
+      'image',
+      'video',
+      'table',
+    ]
+
+    return this.editor.children
+      .slice(0, 10)
+      .some(
+        element =>
+          Element.isElement(element) &&
+          (!this.editor.isEmpty(element) || acceptableVoids.includes(element.type)),
+      )
+  }
 }

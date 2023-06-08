@@ -1,4 +1,5 @@
 import {
+  type KeyboardEvent,
   type Dispatch,
   type ForwardRefExoticComponent,
   type ReactNode,
@@ -9,10 +10,10 @@ import {
 import { type BaseEditor } from 'slate'
 import { type ReactEditor } from 'slate-react'
 
-import { type RichTextEditorMakerProvider } from './provider'
-import { type LinkUtils, type RichUtils } from './utils'
 import { type BaseComponent } from '../../types'
 import { type ExplorerNS } from '../explorer'
+import { type RichTextEditorMakerProvider } from './provider'
+import { type LinkUtils, type RichUtils } from './utils'
 
 export namespace RichTextEditorMakerNS {
   export type Editor = BaseEditor & ReactEditor
@@ -129,6 +130,7 @@ export namespace RichTextEditorMakerNS {
         | 'insertEmoji'
         | 'insertMention'
         | 'insertHashtag'
+        | 'isValid'
       >,
       Pick<LinkUtils, 'resetLinkInfo'> {
     renderEditor: () => JSX.Element
@@ -147,6 +149,7 @@ export namespace RichTextEditorMakerNS {
     renderLinkElement?: (params: RenderLinkInfoCallbackParams) => ReactNode
     collapseOnEscape?: boolean
     searchQuery?: string
+    onKeyDown?: (evt: KeyboardEvent<HTMLDivElement>) => void
   }
 
   export type ComponentType = ForwardRefExoticComponent<Props & RefAttributes<HTMLDivElement>> & {

@@ -1,0 +1,67 @@
+.zoomrc-chat-input {
+  background-color: color(layer, 1);
+  border: 1px solid color(border, 2);
+  border-radius: 4px;
+  width: 100%;
+
+  > .sections-container {
+    padding: 6px 10px;
+
+    > .zoomrc-stack-item {
+      &.editor {
+        padding: 0 6px;
+        transform: translateY(6px);
+      }
+
+      > .emoji-picker-popover {
+        display: flex;
+      }
+
+      > .editor-scroll-view {
+        > .os-viewport {
+          > .rich-text-editable {
+            height: calc(100% - 10px);
+          }
+        }
+      }
+    }
+
+    .action-button {
+      > .zoomrc-button-inner-child {
+        font-size: to-rem(26px);
+      }
+    }
+  }
+}
+
+.emoji-picker-popover {
+  &.zoomrc-popover-top-start {
+    transform: translateX(-10px) translateY(-6px);
+  }
+
+  > .zoomrc-popover-container {
+    max-width: 350px !important;
+
+    > .container-children {
+      padding: 0 !important;
+
+      > .zoomrc-popover-content {
+        margin: 0 !important;
+
+        > .emoji-inserter {
+          > .zoomrc-emoji-picker {
+            border: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include rtl {
+  .emoji-picker-popover {
+    &.zoomrc-popover-top-start {
+      transform: translateX(10px) translateY(-6px);
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import React, { type FC, useState } from 'react'
+import React, { useState, type FC } from 'react'
 
 import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
 
@@ -9,21 +9,19 @@ import {
   type RichTextEditorNS,
 } from '../../..'
 
-import { type useRichTextEditorI18n } from '../../use-i18n'
-
 export namespace ImageExplorerNS {
   export interface Props extends Pick<RichTextEditorNS.Props, 'imageExplorerProps'> {
-    i18n: ReturnType<typeof useRichTextEditorI18n>
     isImageDialogOpen: UseObjectedStateNS.ReturnType<boolean>
     handleCreateImage: (imageInfo: RichTextEditorMakerNS.ImageInfo) => void
+    defaultTypeQuery: string
   }
 }
 
 export const ImageExplorer: FC<ImageExplorerNS.Props> = ({
   imageExplorerProps,
-  i18n,
   handleCreateImage,
   isImageDialogOpen,
+  defaultTypeQuery,
 }) => {
   const [selectedFileIndexes, setSelectedFileIndexes] = useState<number[]>([])
 
@@ -53,7 +51,7 @@ export const ImageExplorer: FC<ImageExplorerNS.Props> = ({
       isOpen={!!isImageDialogOpen.val}
       onClose={closeDialog}
       filterTypes={[...ExplorerNS.ImageType]}
-      defaultTypeQuery={i18n.images}
+      defaultTypeQuery={defaultTypeQuery}
       onSelectItems={setSelectedFileIndexes}
       selectButtonProps={{
         onClick: handleInsertImages,

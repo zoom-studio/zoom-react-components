@@ -24,6 +24,7 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
     containerProps,
     onClick,
     style,
+    onKeyDown,
   }) => {
     const { createClassName } = useZoomComponent('rich-text-editor-maker')
     const editorContext = useEditorContext()
@@ -85,6 +86,7 @@ export const RichTextEditorMaker = forwardRef<HTMLDivElement, RichTextEditorMake
           decorate={decorate}
           renderLeaf={renderLeaf}
           onKeyDown={evt => {
+            onKeyDown?.(evt)
             editorContext.handleListsOnKeyDown(evt)
             handleAccelerators(evt)
           }}

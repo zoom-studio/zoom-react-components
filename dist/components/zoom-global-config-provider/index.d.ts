@@ -1,6 +1,6 @@
 import React, { type FC, type ReactNode } from 'react';
 import { type logs } from '../../constants';
-import { type ImageViewerNS, type EmojiPickerNS, type TourNS, type RichTextEditorNS, type ImageEditorNS, type ExplorerNS, type UploaderNS, type TableNS } from '..';
+import { type ChatBubbleNS, type ChatInputNS, type EmojiPickerNS, type ExplorerNS, type ImageEditorNS, type ImageViewerNS, type RichTextEditorNS, type TableNS, type TourNS, type UploaderNS } from '..';
 export declare namespace ZoomGlobalConfigProviderNS {
     type Error = string | object;
     type Log = (description: logs, error?: Error | undefined) => undefined;
@@ -23,6 +23,8 @@ export declare namespace ZoomGlobalConfigProviderNS {
             explorer?: ExplorerNS.I18n;
             uploader?: UploaderNS.I18n;
             table?: TableNS.I18n;
+            chatBubble?: ChatBubbleNS.I18n;
+            chatInput?: ChatInputNS.I18n;
         };
     }
 }

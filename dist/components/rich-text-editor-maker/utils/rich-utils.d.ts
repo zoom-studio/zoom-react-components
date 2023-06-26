@@ -74,4 +74,5 @@ export declare class RichUtils {
     insertEmoji: (emojiName: EmojiNS.Emojis.Names) => void;
     insertMention: (mentionInfo: RichTextEditorMakerNS.MentionInfo) => void;
     insertHashtag: (hashtagInfo: RichTextEditorMakerNS.HashtagInfo) => void;
+    isValid: () => boolean;
 }

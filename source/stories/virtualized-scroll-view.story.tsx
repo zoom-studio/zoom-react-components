@@ -78,7 +78,6 @@ export const FixedList: FC = () => {
                 scrollViewProps: {
                   autoHide: true,
                   className: 'my-custom-scroll-view-component',
-                  maxHeight: 'unset',
                 },
               },
             },
@@ -191,7 +190,6 @@ export const VariableList: FC = () => {
                 scrollViewProps: {
                   autoHide: true,
                   className: 'my-custom-scroll-view-component',
-                  maxHeight: 'unset',
                 },
                 estimatedItemSize: 45,
               },
@@ -310,7 +308,6 @@ export const FixedGrid: FC = () => {
                 width: 500,
                 scrollViewProps: {
                   autoHide: true,
-                  maxHeight: 'unset',
                   className: 'my-custom-scroll-view-component',
                 },
               },
@@ -414,7 +411,6 @@ export const VariableGrid: FC = () => {
                 scrollViewProps: {
                   autoHide: true,
                   className: 'my-custom-scroll-view-component',
-                  maxHeight: 'unset',
                 },
               },
             },

@@ -9296,6 +9296,11 @@ objectorarray@^1.0.5:
   resolved "https://registry.yarnpkg.com/objectorarray/-/objectorarray-1.0.5.tgz#2c05248bbefabd8f43ad13b41085951aac5e68a5"
   integrity sha512-eJJDYkhJFFbBBAxeh8xW+weHlkI28n2ZdQV/J/DNfWfSKlGEf2xcfAbZTv3riEXHAhL9SVOTs2pRmXiSTf78xg==
 
+omar-khayyam@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/omar-khayyam/-/omar-khayyam-1.0.0.tgz#25fcbf097d5ee24a0c05bb8d43d1b64b31d9ce8b"
+  integrity sha512-528UXoThuUd/0LJci302LysRNvh3mLjAkaX4g65ggvEE+C2yZDLVroU2VJErM5g3Qw/0S/8GNCvkGJSy9MOjag==
+
 on-finished@2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.4.1.tgz#58c8c44116e54845ad57f14ab10b03533184ac3f"

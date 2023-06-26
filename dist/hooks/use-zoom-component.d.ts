@@ -17,5 +17,7 @@ export declare const useZoomComponent: (componentName: string) => {
         explorer?: import("../components/explorer/use-i18n").UseExplorerI18nNS.I18n | undefined;
         uploader?: import("../components/uploader/use-i18n").UseUploaderI18nNS.I18n | undefined;
         table?: import("../components/table/use-i18n").UseTableI18nNS.I18n | undefined;
+        chatBubble?: import("../components/chat-bubble/use-i18n").UseChatBubbleI18nNS.I18n | undefined;
+        chatInput?: import("../components/chat-input/use-i18n").UseChatInputI18nNS.I18n | undefined;
     } | undefined;
 };

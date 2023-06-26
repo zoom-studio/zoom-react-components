@@ -32,6 +32,8 @@ export declare namespace ButtonNS {
         suffixEmojiIcon?: EmojiIcon;
         useSpan?: boolean;
         showSpinOnLoading?: boolean;
+        materialIconProps?: Omit<IconNS.Props, 'className' | 'name'>;
+        emojiIconProps?: Omit<EmojiNS.Props, 'className' | 'name'>;
     }
 }
 export declare const Button: React.ForwardRefExoticComponent<ButtonNS.Props & React.RefAttributes<HTMLButtonElement>>;

@@ -22,21 +22,21 @@
       border: 1px solid color(border, 2);
       border-radius: 4px;
 
-      > .selector-button {
-        .zoomrc-icon {
-          font-size: to-rem(28px);
-        }
-      }
+      // > .selector-button {
+      //   .zoomrc-icon {
+      //     font-size: to-rem(28px);
+      //   }
+      // }
 
-      > .selector-value {
-        color: color(text, 1);
-        margin: 0;
+      // > .selector-value {
+      //   color: color(text, 1);
+      //   margin: 0;
 
-        &.month {
-          min-width: 94px;
-          text-align: center;
-        }
-      }
+      //   &.month {
+      //     min-width: 94px;
+      //     text-align: center;
+      //   }
+      // }
     }
   }
 

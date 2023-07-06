@@ -3,7 +3,7 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import { Dated, type DatedNS, type Range } from '@zoom-studio/zoom-js-ts-utils'
 import { type KhayyamNS } from 'omar-khayyam'
 
-import { Button, Text, type ButtonNS } from '..'
+import { Select, type SelectNS } from '..'
 import { useZoomComponent } from '../../hooks'
 import { type BaseComponent } from '../../types'
 import { DayPicker } from './day-picker'
@@ -39,27 +39,27 @@ export namespace DatePickerNS {
     // year
     minimumSelectableYear?: (currentYear: number) => number
     maximumSelectableYear?: (currentYear: number) => number
-    disabledYear?: (year: number) => boolean
+    disabledYear?: (dated: DatedNS.DateNS.Dated) => boolean
     // month
     maximumSelectableMonth?: ((currentMonth: number) => number) | number
     minimumSelectableMonth?: ((currentMonth: number) => number) | number
-    disabledMonth?: (year: number, month: number) => boolean
+    disabledMonth?: (dated: DatedNS.DateNS.Dated) => boolean
     // day
-    disabledDay?: (year: number, month: number, day: number) => boolean
     startingDayOfWeek?: Record<KhayyamNS.Calendars, Range<1, 8>>
     weekends: Partial<Record<KhayyamNS.Calendars, number[]>>
+    disabledDay?: (dated: DatedNS.DateNS.Dated) => boolean
     // hour
     maximumSelectableHour?: ((currentHour: number) => number) | number
     minimumSelectableHour?: ((currentHour: number) => number) | number
-    disabledHour?: (hour: number) => boolean
+    disabledHour?: (dated: DatedNS.DateNS.Dated) => boolean
     // minute
     maximumSelectableMinute?: ((currentMinute: number) => number) | number
     minimumSelectableMinute?: ((currentMinute: number) => number) | number
-    disabledMinute?: (minute: number) => boolean
+    disabledMinute?: (dated: DatedNS.DateNS.Dated) => boolean
     // second
     maximumSelectableSecond?: ((currentSecond: number) => number) | number
     minimumSelectableSecond?: ((currentSecond: number) => number) | number
-    disabledSecond?: (second: number) => boolean
+    disabledSecond?: (dated: DatedNS.DateNS.Dated) => boolean
   }
 }
 
@@ -104,48 +104,48 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerNS.Props>(
       new Dated(Dated.now(), 'gregorian').to(calendar).setLocale(locale),
     )
 
-    const handleNavigateYear = (direction: 'forward' | 'backward') => () => {
-      setDated(currentDated => {
-        const newDated = new Dated(currentDated.dated, calendar, locale)
+    // const handleNavigateYear = (direction: 'forward' | 'backward') => () => {
+    //   setDated(currentDated => {
+    //     const newDated = new Dated(currentDated.dated, calendar, locale)
 
-        if (direction === 'forward') {
-          newDated.add(1, 'years')
-        } else {
-          newDated.subtract(1, 'years')
-        }
+    //     if (direction === 'forward') {
+    //       newDated.add(1, 'years')
+    //     } else {
+    //       newDated.subtract(1, 'years')
+    //     }
 
-        const curYear = new Dated().to(calendar).setLocale(locale).dated.year
-        const newYear = newDated.dated.year
-        const maxYear = maximumSelectableYear(curYear)
-        const minYear = minimumSelectableYear(curYear)
+    //     const curYear = new Dated().to(calendar).setLocale(locale).dated.year
+    //     const newYear = newDated.dated.year
+    //     const maxYear = maximumSelectableYear(curYear)
+    //     const minYear = minimumSelectableYear(curYear)
 
-        return newYear <= maxYear && newYear >= minYear ? newDated : currentDated
-      })
-    }
+    //     return newYear <= maxYear && newYear >= minYear ? newDated : currentDated
+    //   })
+    // }
 
-    const handleNavigateMonth = (direction: 'forward' | 'backward') => () => {
-      setDated(currentDated => {
-        const newDated = new Dated(currentDated.dated, calendar, locale)
-        if (direction === 'forward') {
-          newDated.add(1, 'months')
-        } else {
-          newDated.subtract(1, 'months')
-        }
+    // const handleNavigateMonth = (direction: 'forward' | 'backward') => () => {
+    //   setDated(currentDated => {
+    //     const newDated = new Dated(currentDated.dated, calendar, locale)
+    //     if (direction === 'forward') {
+    //       newDated.add(1, 'months')
+    //     } else {
+    //       newDated.subtract(1, 'months')
+    //     }
 
-        const curMonth = new Dated().to(calendar).setLocale(locale).dated.month
-        const newMonth = newDated.dated.month
-        const maxMonth =
-          typeof maximumSelectableMonth === 'number'
-            ? maximumSelectableMonth
-            : maximumSelectableMonth(curMonth)
-        const minMonth =
-          typeof minimumSelectableMonth === 'number'
-            ? minimumSelectableMonth
-            : minimumSelectableMonth(curMonth)
+    //     const curMonth = new Dated().to(calendar).setLocale(locale).dated.month
+    //     const newMonth = newDated.dated.month
+    //     const maxMonth =
+    //       typeof maximumSelectableMonth === 'number'
+    //         ? maximumSelectableMonth
+    //         : maximumSelectableMonth(curMonth)
+    //     const minMonth =
+    //       typeof minimumSelectableMonth === 'number'
+    //         ? minimumSelectableMonth
+    //         : minimumSelectableMonth(curMonth)
 
-        return newMonth <= maxMonth && newMonth >= minMonth ? newDated : currentDated
-      })
-    }
+    //     return newMonth <= maxMonth && newMonth >= minMonth ? newDated : currentDated
+    //   })
+    // }
 
     const handleNavigateHour = (mode: 'increase' | 'decrease') => () => {
       setDated(currentDated => {
@@ -183,11 +183,29 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerNS.Props>(
       })
     }
 
-    const selectorButtonProps: ButtonNS.Props = {
-      type: 'link',
-      shape: 'circle',
-      className: 'selector-button',
-      materialIconProps: { flipOn: 'rtl' },
+    // const selectorButtonProps: ButtonNS.Props = {
+    //   type: 'link',
+    //   shape: 'circle',
+    //   className: 'selector-button',
+    //   materialIconProps: { flipOn: 'rtl' },
+    // }
+
+    const getYears = (): SelectNS.Option<number>[] => {
+      const currentYear = new Dated().to(calendar).setLocale(locale).dated.year
+      const minYear = minimumSelectableYear(currentYear)
+      const maxYear = maximumSelectableYear(currentYear)
+
+      const years: SelectNS.Option<number>[] = []
+
+      Array.from(Array(maxYear - minYear + 1)).forEach((_, index) => {
+        const year = index + minYear
+        years.push({
+          label: year.toString(),
+          value: year,
+        })
+      })
+
+      return years
     }
 
     useEffect(() => {
@@ -198,7 +216,9 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerNS.Props>(
       <div {...containerProps} ref={reference} className={classes}>
         <div className="header">
           <div className="selector">
-            <Button
+            <Select options={getYears()} />
+
+            {/* <Button
               {...selectorButtonProps}
               prefixMaterialIcon="chevron_left"
               onClick={handleNavigateMonth('backward')}
@@ -208,11 +228,11 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerNS.Props>(
               {...selectorButtonProps}
               prefixMaterialIcon="chevron_right"
               onClick={handleNavigateMonth('forward')}
-            />
+            /> */}
           </div>
 
           <div className="selector">
-            <Button
+            {/* <Button
               {...selectorButtonProps}
               prefixMaterialIcon="chevron_left"
               onClick={handleNavigateYear('backward')}
@@ -222,7 +242,7 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerNS.Props>(
               {...selectorButtonProps}
               prefixMaterialIcon="chevron_right"
               onClick={handleNavigateYear('forward')}
-            />
+            /> */}
           </div>
         </div>
 

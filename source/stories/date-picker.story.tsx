@@ -13,7 +13,7 @@ export default {
   args: {
     secondaryCalendar: 'gregorian',
     userEvents: [{ date: [2023, 6, 26], name: 'User event 1' }],
-    disabledYear: year => [2024, 2028, 2020, 2017].includes(year),
+    disabledYear: ({ year }) => [2024, 2028, 2020, 2017].includes(year),
   },
 } as Meta<typeof DatePicker>
 

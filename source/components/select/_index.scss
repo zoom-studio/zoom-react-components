@@ -1,25 +1,6 @@
-@use 'sass:math';
 @import 'mixins';
 
-$zoomrc-select-group-right-padding: 26px;
-$zoomrc-select-guide-line-color: color(border, 2, lighter, 1);
-$zoomrc-select-guide-line-transition: all 100ms linear;
-$zoomrc-select-guide-line-color-hover: color(border, 2, lighter, 2);
-$zoomrc-select-option-height: 34px;
-
-@keyframes zoomrc-select-open-dropdown-animation {
-  from {
-    transform: translateY(-10px);
-    opacity: 0;
-  }
-
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-
-div.zoomrc-select {
+.zoomrc-select {
   width: 100%;
   height: auto;
   position: relative;
@@ -33,16 +14,12 @@ div.zoomrc-select {
     @include generate-select-sizes($size);
   }
 
-  &-open {
-    z-index: 2;
-  }
-
   &-disabled {
     pointer-events: none;
     opacity: 0.5;
   }
 
-  > .info-container {
+  > .content {
     width: 100%;
     height: auto;
     display: flex;
@@ -57,8 +34,8 @@ div.zoomrc-select {
     column-gap: 6px;
 
     > .select-label,
-    > .zoomrc-select-value,
-    > .zoomrc-select-placeholder {
+    > .select-value,
+    > .select-placeholder {
       @include truncate;
 
       margin: 0;
@@ -66,20 +43,22 @@ div.zoomrc-select {
       text-align: right;
     }
 
-    > .zoomrc-select-value,
-    > .zoomrc-select-placeholder {
+    > .select-value,
+    > .select-placeholder {
       color: inherit;
       flex: 1;
+      position: relative;
     }
 
-    > .zoomrc-select-placeholder {
+    > .select-placeholder {
       color: color(placeholder);
     }
 
-    > .zoomrc-select-value {
+    > .select-value {
       color: color(text, 1);
       text-align: right;
       direction: rtl;
+      padding: 0 9px;
 
       > .label {
         display: inline-block;
@@ -102,186 +81,127 @@ div.zoomrc-select {
     direction: rtl;
     text-align: right;
   }
+}
 
-  > .zoomrc-select-dropdown {
-    position: absolute;
-    width: 100%;
-    height: auto;
-    background-color: color(layer, 2);
-    border: 1px solid color(border, 2);
+.zoomrc-select-portal {
+  @each $size in $common-sizes {
+    @include generate-select-portal-sizes($size);
+  }
+
+  .options-container {
+    @include hover-scrollbar;
+
+    background: color(layer, 2);
+    box-shadow: 0 0 0 1px color(border, 2);
     border-radius: 4px;
-    animation: zoomrc-select-open-dropdown-animation 70ms linear;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    user-select: none;
+    padding: 10px 6px;
 
-    > .search-box {
-      padding: 6px;
+    > .option {
+      color: color(text, 2);
+      display: flex;
+      align-items: center;
+      padding: 0 4px;
 
-      .search-input-container {
-        background-color: color(layer, 1);
-
-        &.focus {
-          border-color: transparent;
-          box-shadow: none;
-        }
+      &:hover {
+        background-color: color(accent, 1, glassy, 1);
+        color: white;
       }
-    }
 
-    > .options-list {
-      @include hover-scrollbar;
-
-      padding: 6px;
-      overflow: auto;
-
-      > .zoomrc-select-group {
-        display: flex;
-        user-select: none;
-        flex-direction: column;
-
-        &:not(:first-child) {
-          border-top: 1px solid $zoomrc-select-guide-line-color;
-          margin-top: 4px;
-        }
+      &.active {
+        background-color: color(accent, 1, glassy, 3);
+        color: white;
 
         &:hover {
-          > .options {
-            &::before {
-              background-color: $zoomrc-select-guide-line-color-hover;
-            }
-
-            > .zoomrc-select-option {
-              &.group-option {
-                &::before {
-                  background-color: $zoomrc-select-guide-line-color-hover;
-                }
-              }
-            }
-          }
-        }
-
-        > .group-info {
-          display: flex;
-          align-items: center;
-          height: $zoomrc-select-option-height;
-          padding: 0 6px;
-
-          > .label {
-            @include truncate;
-
-            margin: 0;
-            color: color(text, 1, glassy, 8);
-            flex: 1;
-            text-align: right;
-            direction: ltr;
-          }
-        }
-
-        > .options {
-          padding-right: $zoomrc-select-group-right-padding;
-          position: relative;
-
-          &::before {
-            content: '';
-            position: absolute;
-            background-color: $zoomrc-select-guide-line-color;
-            transition: $zoomrc-select-guide-line-transition;
-            width: 1px;
-            top: 0;
-            right: math.div($zoomrc-select-group-right-padding, 2);
-            height: calc(100% - (math.div($zoomrc-select-option-height, 2) - 2px));
-          }
-        }
-      }
-
-      .zoomrc-select-option {
-        display: flex;
-        color: color(text, 2);
-        user-select: none;
-        height: $zoomrc-select-option-height;
-        align-items: center;
-        padding: 0 6px;
-        cursor: pointer;
-        transition: all 75ms linear;
-        position: relative;
-
-        &.group-option {
-          &::before {
-            content: '';
-            position: absolute;
-            right: math.div($zoomrc-select-group-right-padding, 2) * -1;
-            top: 0;
-            bottom: 0;
-            width: math.div($zoomrc-select-group-right-padding, 2);
-            height: 1px;
-            background-color: $zoomrc-select-guide-line-color;
-            transition: $zoomrc-select-guide-line-transition;
-            margin: auto;
-          }
-        }
-
-        &.disabled {
-          pointer-events: none;
-          opacity: 0.5;
-        }
-
-        &.selected {
           background-color: color(accent, 1, glassy, 2);
         }
-
-        &:hover {
-          background-color: color(placeholder, glassy, 1);
-
-          &.selected {
-            background-color: color(accent, 1, glassy, 3);
-          }
-        }
-
-        > .label {
-          @include truncate;
-
-          margin: 0;
-          color: inherit;
-          flex: 1;
-          text-align: right;
-          direction: ltr;
-        }
-
-        > .selected-icon {
-          color: inherit;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 100%;
-          width: $zoomrc-select-option-height;
-        }
       }
     }
 
-    > .empty-list {
-      display: flex;
-      color: color(text, 2);
-      flex-direction: column;
-      justify-content: center;
-      animation: zoomrc-select-open-dropdown-animation 70ms linear;
-      align-items: center;
+    > .search-box {
+      position: sticky;
+      top: -6px;
+      z-index: 2;
+    }
+  }
 
-      > .empty-list-icon {
-        margin: 10px 0 0;
+  .scroll-handler {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    cursor: default;
+    font-size: 12px;
+    line-height: 1;
+    height: 25px;
+    user-select: none;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 35px;
+      position: absolute;
+      left: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    &[data-dir='up']::before {
+      background: linear-gradient(to bottom, color(layer, 2) 50%, transparent);
+      border-radius: 8px 8px 0 0;
+      top: 0;
+    }
+
+    &[data-dir='down']::before {
+      background: linear-gradient(to top, color(layer, 2) 50%, transparent);
+      border-radius: 0 0 8px 8px;
+      top: -10px;
+    }
+
+    &[data-dir='up'] {
+      top: 0;
+    }
+
+    &[data-dir='down'] {
+      bottom: 0;
+    }
+
+    > .chevron-icon {
+      color: color(text, 1);
+      font-size: to-rem(26px);
+    }
+  }
+
+  &-with-search-box {
+    .options-container {
+      padding-top: 10px;
+    }
+
+    .scroll-handler {
+      &[data-dir='up'] {
+        height: 14px;
+        top: -8px;
       }
 
-      > .empty-list-message {
-        color: inherit;
-        margin: 10px 0 0;
-        user-select: none;
+      &[data-dir='up']::before {
+        height: 28px;
       }
     }
   }
 }
 
 @include ltr {
-  div.zoomrc-select {
-    > .info-container {
+  .zoomrc-select {
+    > .content {
       > .select-label,
-      > .zoomrc-select-value,
-      > .zoomrc-select-placeholder {
+      > .select-value,
+      > .select-placeholder {
         direction: ltr;
         text-align: left;
       }
@@ -290,26 +210,6 @@ div.zoomrc-select {
     > .zoomrc-select-state-message {
       direction: ltr;
       text-align: left;
-    }
-
-    > .zoomrc-select-dropdown {
-      > .options-list {
-        > .zoomrc-select-group {
-          > .group-info {
-            > .label {
-              direction: ltr;
-              text-align: left;
-            }
-          }
-        }
-
-        .zoomrc-select-option {
-          > .label {
-            direction: ltr;
-            text-align: left;
-          }
-        }
-      }
     }
   }
 }

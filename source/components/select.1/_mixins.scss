@@ -13,7 +13,7 @@
   &-#{$variant} {
     color: $color;
 
-    > .content {
+    > .info-container {
       border-color: $border-color;
 
       > .select-label {
@@ -38,7 +38,7 @@
   $select-height: if($size == small, 29px, if($size == normal, 36px, 47px));
 
   &-#{$size} {
-    > .content {
+    > .info-container {
       padding: $top-bottom-padding 6px;
 
       > .select-spin {
@@ -48,18 +48,6 @@
 
     > .zoomrc-select-dropdown {
       top: $select-height + 4px;
-    }
-  }
-}
-
-@mixin generate-select-portal-sizes($size) {
-  $height: if($size == small, 29px, if($size == normal, 36px, 47px)) - 2px;
-
-  &-#{$size} {
-    .options-container {
-      > .option {
-        height: $height;
-      }
     }
   }
 }

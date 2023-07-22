@@ -21,7 +21,8 @@
 
       &.focus {
         border-color: $focused-border-color;
-        box-shadow: $box-shadow;
+
+        // box-shadow: $box-shadow;
       }
     }
 

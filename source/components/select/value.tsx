@@ -1,54 +1,54 @@
-import React, { type FC, useMemo } from 'react'
+import React from 'react'
 
-import { type InputNS, Text } from '..'
-import { useZoomComponent } from '../../hooks'
-import { getSelectedOptions } from './utils'
-import { type SelectNS } from '.'
-import { type SelectOptionNS } from './option'
+import { Text, type InputNS, type SelectNS } from '..'
+
+import { type useMacOSSelect } from './use-mac-os-select'
 
 export namespace SelectValueNS {
-  export interface Props
-    extends Pick<
-      SelectNS.Props<SelectOptionNS.Value>,
-      'placeholder' | 'size' | 'multiSelect' | 'onChange'
-    > {
-    options: SelectNS.GroupedOptions
+  export interface Props<
+    MultiSelect extends boolean = false,
+    Value extends SelectNS.PossibleValues = number,
+    Data = unknown,
+  > extends Pick<SelectNS.Props<MultiSelect, Value, Data>, 'placeholder' | 'options'>,
+      Required<Pick<SelectNS.Props<MultiSelect, Value, Data>, 'renderSelectedOption'>> {
+    textSizeProps: InputNS.TextSize
+    multiSelect: boolean
+    select: ReturnType<typeof useMacOSSelect>
   }
 }
 
-export const SelectValue: FC<SelectValueNS.Props> = ({
-  placeholder,
-  options,
-  size,
+export const SelectValue = <
+  MultiSelect extends boolean = false,
+  Value extends SelectNS.PossibleValues = number,
+  Data = unknown,
+>({
+  textSizeProps,
   multiSelect,
-  onChange,
-}) => {
-  const { createClassName } = useZoomComponent('select')
-
-  const selectedOptions = useMemo<string[]>(() => {
-    const selectedOptions = getSelectedOptions(options)
-    onChange?.(selectedOptions)
-    return selectedOptions.map(option => option.label)
-  }, [options])
-
-  const classes = createClassName('', selectedOptions.length > 0 ? 'value' : 'placeholder')
-
-  const textSizeProps: InputNS.TextSize = {
-    small: size === 'small',
-    normal: size === 'normal',
-    large: size === 'large',
-  }
+  placeholder,
+  select,
+  renderSelectedOption,
+  options,
+}: SelectValueNS.Props<MultiSelect, Value, Data>) => {
+  const { selectedIndexes, valuesContainerRef } = select
 
   return (
-    <Text common normal className={classes} {...textSizeProps}>
-      {selectedOptions.length > 0
+    <Text
+      ref={valuesContainerRef}
+      common
+      normal
+      className={`select-${selectedIndexes.length > 0 ? 'value' : 'placeholder'}`}
+      {...textSizeProps}
+    >
+      <span className="options-calibrator" />
+
+      {selectedIndexes.length > 0
         ? multiSelect
-          ? selectedOptions.map((option, index) => (
+          ? selectedIndexes.map((option, index) => (
               <span className="label" key={index}>
                 {option}
               </span>
             ))
-          : selectedOptions[0]
+          : renderSelectedOption(options[selectedIndexes[0]])
         : placeholder}
     </Text>
   )

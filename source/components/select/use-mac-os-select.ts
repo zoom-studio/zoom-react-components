@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties, useMemo } from 'react'
 import { flushSync } from 'react-dom'
 
 import {
@@ -16,16 +16,49 @@ import {
   useRole,
   type SideObject,
 } from '@floating-ui/react'
-import { doByRef } from '@zoom-studio/zoom-js-ts-utils'
+import { doByRef, sleep, useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
 import { without } from 'lodash'
 
+import { type SelectNS } from '.'
+import { logs } from '../../constants'
+import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
+import { defaultEmpty, findDefaultValue } from './utils'
+
 export namespace UseMacOSSelectNS {
-  export interface Params {
-    multiSelect: boolean
+  export interface Params<
+    MultiSelect extends boolean = false,
+    Value extends SelectNS.PossibleValues = number,
+    Data = unknown,
+  > extends Pick<
+      SelectNS.Props<MultiSelect, Value, Data>,
+      | 'onWillOpen'
+      | 'onWillClose'
+      | 'onChange'
+      | 'onWrite'
+      | 'multiSelect'
+      | 'options'
+      | 'showSearch'
+      | 'defaultValue'
+    > {
+    sendLog: ZoomGlobalConfigProviderNS.Log
   }
 }
 
-export const useMacOSSelect = ({ multiSelect }: UseMacOSSelectNS.Params) => {
+export const useMacOSSelect = <
+  MultiSelect extends boolean = false,
+  Value extends SelectNS.PossibleValues = number,
+  Data = unknown,
+>({
+  multiSelect,
+  options,
+  showSearch,
+  onWillClose,
+  onWillOpen,
+  onChange,
+  onWrite,
+  sendLog,
+  defaultValue,
+}: UseMacOSSelectNS.Params<MultiSelect, Value, Data>) => {
   const listRef = useRef<Array<HTMLElement | null>>([])
   const listContentRef = useRef<Array<string | null>>([])
   const overflowRef = useRef<SideObject>(null)
@@ -39,12 +72,58 @@ export const useMacOSSelect = ({ multiSelect }: UseMacOSSelectNS.Params) => {
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   const [open, setOpen] = useState(false)
-  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([])
+
+  const handleSetEmptyList = async () => {
+    await sleep(20)
+    const { current: scrollSection } = scrollRef
+    if (!scrollSection) {
+      if (open && showSearch) {
+        sendLog(logs.selectNotFoundScrollRef, 'handleSetEmptyList function')
+        return
+      }
+      return
+    }
+
+    const optionElements = scrollSection.querySelector('.option')
+    const groupOptionElements = scrollSection.querySelector('.group-option')
+
+    setEmptyState(
+      optionElements || groupOptionElements
+        ? false
+        : options.length > 0
+        ? 'nothing-found'
+        : 'empty-list',
+    )
+  }
+
+  const customizedOptions = useMemo<SelectNS.CustomizedOption<Value, Data>[]>(() => {
+    const opts: SelectNS.CustomizedOption<Value, Data>[] = []
+
+    options.forEach(option => {
+      if (option.groupOptions && option.groupTitle) {
+        opts.push(option)
+        option.groupOptions.forEach(childOption => {
+          opts.push({ ...childOption, isChildOption: true })
+        })
+      } else {
+        opts.push(option)
+      }
+    })
+
+    void handleSetEmptyList()
+    return opts
+  }, [options])
+
+  const [selectedIndexes, setSelectedIndexes] = useState<number[]>(
+    findDefaultValue(customizedOptions, defaultValue),
+  )
+
   const [fallback, setFallback] = useState(false)
   const [innerOffset, setInnerOffset] = useState(0)
   const [touch, setTouch] = useState(false)
   const [scrollTop, setScrollTop] = useState(0)
   const [blockSelection, setBlockSelection] = useState(false)
+  const [emptyState, setEmptyState] = useState<SelectNS.EmptyState>(defaultEmpty(options))
 
   if (!open) {
     if (innerOffset !== 0) setInnerOffset(0)
@@ -55,7 +134,15 @@ export const useMacOSSelect = ({ multiSelect }: UseMacOSSelectNS.Params) => {
   const { refs, floatingStyles, context, isPositioned } = useFloating({
     placement: 'bottom-start',
     open,
-    onOpenChange: setOpen,
+    onOpenChange: isOpen => {
+      if (isOpen) {
+        onWillOpen?.()
+      } else {
+        onWillClose?.()
+      }
+
+      setOpen(isOpen)
+    },
     whileElementsMounted: autoUpdate,
     transform: false,
     middleware: fallback
@@ -127,6 +214,7 @@ export const useMacOSSelect = ({ multiSelect }: UseMacOSSelectNS.Params) => {
   const selectOption = (index: number) => {
     if (!multiSelect) {
       setSelectedIndexes([index])
+      onWillClose?.()
       setOpen(false)
     } else {
       setSelectedIndexes(indexes => {
@@ -141,7 +229,7 @@ export const useMacOSSelect = ({ multiSelect }: UseMacOSSelectNS.Params) => {
     }
   }
 
-  const createItemProps = (index: number) => {
+  const createItemProps = (index: number, selectable = true) => {
     return getItemProps({
       onTouchStart: () => {
         allowSelectRef.current = true
@@ -155,7 +243,7 @@ export const useMacOSSelect = ({ multiSelect }: UseMacOSSelectNS.Params) => {
           return
         }
 
-        if (allowSelectRef.current) {
+        if (allowSelectRef.current && selectable) {
           selectOption(index)
         }
 
@@ -241,6 +329,24 @@ export const useMacOSSelect = ({ multiSelect }: UseMacOSSelectNS.Params) => {
     }
   }, [open])
 
+  useFutureEffect(() => {
+    if (onWrite || onChange) {
+      const selectedOptions = selectedIndexes.map(index => customizedOptions[index])
+
+      if (multiSelect) {
+        // @ts-expect-error
+        onWrite?.(selectedOptions.map(opt => opt.value))
+        // @ts-expect-error
+        onChange?.(selectedOptions)
+      } else {
+        // @ts-expect-error
+        onWrite?.(selectedOptions[0].value)
+        // @ts-expect-error
+        onChange?.(selectedOptions[0])
+      }
+    }
+  }, [selectedIndexes])
+
   return {
     listRef,
     listContentRef,
@@ -265,5 +371,8 @@ export const useMacOSSelect = ({ multiSelect }: UseMacOSSelectNS.Params) => {
     labelRef,
     floatingOverlayRef,
     searchInputRef,
+    handleSetEmptyList,
+    customizedOptions,
+    emptyState,
   }
 }

@@ -99,7 +99,37 @@
     user-select: none;
     padding: 10px 6px;
 
-    > .option {
+    > .empty-list {
+      display: flex;
+      color: color(text, 2);
+      flex-direction: column;
+      justify-content: center;
+      animation: zoomrc-select-open-dropdown-animation 70ms linear;
+      align-items: center;
+
+      > .empty-list-icon {
+        margin: 10px 0 0;
+      }
+
+      > .empty-list-message {
+        color: inherit;
+        margin: 10px 0 0;
+        user-select: none;
+      }
+    }
+
+    > .group-option {
+      > .group-title {
+        margin: 0;
+        color: color(text, 3);
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-inline-start: 4px;
+      }
+    }
+
+    .option {
       color: color(text, 2);
       display: flex;
       align-items: center;
@@ -117,6 +147,15 @@
         &:hover {
           background-color: color(accent, 1, glassy, 2);
         }
+      }
+
+      &.child-option {
+        padding-inline-start: 30px;
+      }
+
+      &.disabled {
+        pointer-events: none;
+        opacity: 0.5;
       }
     }
 

@@ -43,9 +43,9 @@ export const SelectValue = <
 
       {selectedIndexes.length > 0
         ? multiSelect
-          ? selectedIndexes.map((option, index) => (
+          ? selectedIndexes.map(index => (
               <span className="label" key={index}>
-                {option}
+                {renderSelectedOption(options[index])}
               </span>
             ))
           : renderSelectedOption(options[selectedIndexes[0]])

@@ -57,7 +57,8 @@
 
   &-#{$size} {
     .options-container {
-      > .option {
+      .option,
+      .group-title {
         height: $height;
       }
     }

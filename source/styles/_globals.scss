@@ -167,6 +167,7 @@
 *[class^='zoomrc-'],
 *[class^='zoomrc-'] * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 [data-digits='farsi'] {

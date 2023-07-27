@@ -7,6 +7,7 @@ export enum logs {
   inputNotFoundLabelRef = 'ZOOMRC/INPUT/NOT_FOUND_LABEL_REF',
 
   selectNotFoundOptionsListRef = 'ZOOMRC/SELECT/NOT_FOUND_OPTIONS_LIST_REF',
+  selectNotFoundScrollRef = 'ZOOMRC/SELECT/NOT_FOUND_SCROLL_REF',
   selectNotFoundContainerRef = 'ZOOMRC/SELECT/NOT_FOUND_CONTAINER_REF',
   selectNotFoundInputRef = 'ZOOMRC/SELECT/NOT_FOUND_INPUT_REF',
 

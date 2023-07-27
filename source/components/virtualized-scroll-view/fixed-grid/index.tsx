@@ -1,9 +1,10 @@
 import React, {
   cloneElement,
+  useCallback,
   type ComponentProps,
   type PropsWithChildren,
+  type Ref,
   type RefObject,
-  useCallback,
 } from 'react'
 
 import AutoSizer, { type Props as AutoSizerProps, type Size } from 'react-virtualized-auto-sizer'
@@ -58,6 +59,7 @@ export function FixedGridVirtualizedScrollView<DataType extends unknown[][] = un
   width,
   height,
   autoSizerProps,
+  scrollViewRef,
   ...rest
 }: FixedGridVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element {
   const { createClassName } = useZoomComponent('fixed-grid-virtualized-scroll-view')
@@ -94,7 +96,13 @@ export function FixedGridVirtualizedScrollView<DataType extends unknown[][] = un
     outerRef: reference,
     children: renderChildren,
     outerElementType: (props: ScrollViewNS.Props) => (
-      <ScrollView {...props} {...scrollViewProps} maxHeight={height} maxWidth={width} />
+      <ScrollView
+        {...props}
+        {...scrollViewProps}
+        maxHeight={height}
+        maxWidth={width}
+        ref={scrollViewRef as Ref<ScrollViewNS.ContainerNode>}
+      />
     ),
   })
 

@@ -1,15 +1,16 @@
 import React, {
   cloneElement,
+  useCallback,
   type ComponentProps,
   type PropsWithChildren,
+  type Ref,
   type RefObject,
-  useCallback,
 } from 'react'
 
 import AutoSizer, { type Props as AutoSizerProps, type Size } from 'react-virtualized-auto-sizer'
 import {
-  type GridChildComponentProps,
   VariableSizeGrid,
+  type GridChildComponentProps,
   type VariableSizeGridProps,
 } from 'react-window'
 
@@ -62,6 +63,7 @@ export function VariableGridVirtualizedScrollView<DataType extends unknown[][] =
   width,
   height,
   autoSizerProps,
+  scrollViewRef,
   ...rest
 }: VariableGridVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element {
   const { createClassName } = useZoomComponent('variable-grid-virtualized-scroll-view')
@@ -98,7 +100,13 @@ export function VariableGridVirtualizedScrollView<DataType extends unknown[][] =
     outerRef: reference,
     children: renderChildren,
     outerElementType: (props: ScrollViewNS.Props) => (
-      <ScrollView {...props} {...scrollViewProps} maxHeight={height} maxWidth={width} />
+      <ScrollView
+        {...props}
+        {...scrollViewProps}
+        maxHeight={height}
+        maxWidth={width}
+        ref={scrollViewRef as Ref<ScrollViewNS.ContainerNode>}
+      />
     ),
   })
 

@@ -129,6 +129,7 @@ export const FATranslations = {
   select: {
     label: 'لیبل سلکت',
     placeholder: 'آپشن(ها) را انتخاب کنید',
+    searchPlaceholder: 'جستجو بین آیتم‌های سلکت...',
   },
 
   input: {

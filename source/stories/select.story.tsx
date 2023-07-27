@@ -3,6 +3,7 @@ import React, { type FC } from 'react'
 import { type Meta } from '@storybook/react'
 
 import { Select, type SelectNS } from '..'
+
 import { DYNAMIC_SIMPLE_SELECT, SELECT_OPTIONS, SIMPLE_SELECT_OPTIONS } from '../fixtures'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
@@ -11,10 +12,35 @@ export default {
   title: 'Data Entry/Select',
   component: Select,
   args: {
-    label: 'لیبل',
-    multiSelect: true,
-    placeholder: 'پلیس هولدر',
     options: SIMPLE_SELECT_OPTIONS,
+    label: 'لیبل',
+    placeholder: 'پلیس هولدر',
+    searchPlaceholder: 'جستجوی موارد...',
+    multiSelect: true,
+    showSearch: true,
+    loading: false,
+    disabled: false,
+    disabledOnLoading: true,
+    labelColon: true,
+    defaultValue: 'value 3',
+    children: ({ label, value }) => label ?? value,
+    optionSearchModel: ({ label }) => label,
+    renderSelectedOption: ({ label }) => label,
+    emptyListText: 'هیچی نداریم',
+    nothingFoundText: 'هیجی پیدا نشد',
+    size: 'normal',
+    searchQuery: '',
+    state: ['neutral', 'خنثی'],
+    className: 'my-select-component',
+    id: 'my-select-component',
+    onWrite: undefined,
+    onChange: undefined,
+    onWillClose: undefined,
+    onWillOpen: undefined,
+    onClick: undefined,
+    stateMessageProps: undefined,
+    containerProps: undefined,
+    style: undefined,
   },
 } as Meta<typeof Select>
 
@@ -23,10 +49,11 @@ const useSelectStory = () => {
   return {
     label: t('label'),
     placeholder: t('placeholder'),
+    searchPlaceholder: t('searchPlaceholder'),
   }
 }
 
-export const Basic: FC = () => {
+export const Basic = () => {
   const { label, placeholder } = useSelectStory()
   return (
     <CommonStory
@@ -47,7 +74,9 @@ export const Grouped: FC = () => {
   return (
     <CommonStory
       component={Select}
-      stories={[{ group: [{ props: { options: SELECT_OPTIONS, label, placeholder } }] }]}
+      stories={[
+        { group: [{ props: { options: SELECT_OPTIONS, label, placeholder, showSearch: false } }] },
+      ]}
     />
   )
 }
@@ -61,15 +90,33 @@ export const Sizes: FC = () => {
         {
           group: [
             {
-              props: { options: SELECT_OPTIONS, label, placeholder, size: 'small' },
+              props: {
+                options: SELECT_OPTIONS,
+                label,
+                placeholder,
+                size: 'small',
+                showSearch: false,
+              },
               name: 'Small',
             },
             {
-              props: { options: SELECT_OPTIONS, label, placeholder, size: 'normal' },
+              props: {
+                options: SELECT_OPTIONS,
+                label,
+                placeholder,
+                size: 'normal',
+                showSearch: false,
+              },
               name: 'Normal',
             },
             {
-              props: { options: SELECT_OPTIONS, label, placeholder, size: 'large' },
+              props: {
+                options: SELECT_OPTIONS,
+                label,
+                placeholder,
+                size: 'large',
+                showSearch: false,
+              },
               name: 'Large',
             },
           ],
@@ -88,11 +135,23 @@ export const MultiSelection: FC = () => {
         {
           group: [
             {
-              props: { options: SIMPLE_SELECT_OPTIONS, label, placeholder, multiSelect: true },
+              props: {
+                options: SIMPLE_SELECT_OPTIONS,
+                label,
+                placeholder,
+                multiSelect: true,
+                showSearch: false,
+              },
               name: 'Simple',
             },
             {
-              props: { options: SELECT_OPTIONS, label, placeholder, multiSelect: true },
+              props: {
+                options: SELECT_OPTIONS,
+                label,
+                placeholder,
+                multiSelect: true,
+                showSearch: false,
+              },
               name: 'Grouped',
             },
           ],
@@ -117,6 +176,7 @@ export const States: FC = () => {
                 label,
                 placeholder,
                 state: ['neutral', t('states.neutral')],
+                showSearch: false,
               },
               name: 'Neutral',
             },
@@ -126,6 +186,7 @@ export const States: FC = () => {
                 label,
                 placeholder,
                 state: ['success', t('states.success')],
+                showSearch: false,
               },
               name: 'Success',
             },
@@ -135,6 +196,7 @@ export const States: FC = () => {
                 label,
                 placeholder,
                 state: ['info', t('states.info')],
+                showSearch: false,
               },
               name: 'Info',
             },
@@ -144,6 +206,7 @@ export const States: FC = () => {
                 label,
                 placeholder,
                 state: ['warning', t('states.warning')],
+                showSearch: false,
               },
               name: 'Warning',
             },
@@ -153,6 +216,7 @@ export const States: FC = () => {
                 label,
                 placeholder,
                 state: ['error', t('states.error')],
+                showSearch: false,
               },
               name: 'Error',
             },
@@ -177,30 +241,7 @@ export const DisabledOptions: FC = () => {
                 label,
                 placeholder,
                 multiSelect: true,
-              },
-            },
-          ],
-        },
-      ]}
-    />
-  )
-}
-
-export const OptionsPerScroll: FC = () => {
-  const { label, placeholder } = useSelectStory()
-  return (
-    <CommonStory
-      component={Select}
-      stories={[
-        {
-          group: [
-            {
-              name: '20 options at first scroll view',
-              props: {
-                options: DYNAMIC_SIMPLE_SELECT(50),
-                label,
-                placeholder,
-                optionsPerScroll: 20,
+                showSearch: false,
               },
             },
           ],
@@ -213,7 +254,10 @@ export const OptionsPerScroll: FC = () => {
 export const EmptyList: FC = () => {
   const { label, placeholder } = useSelectStory()
   return (
-    <CommonStory component={Select} stories={[{ group: [{ props: { label, placeholder } }] }]} />
+    <CommonStory
+      component={Select}
+      stories={[{ group: [{ props: { label, placeholder, options: [] } }] }]}
+    />
   )
 }
 
@@ -225,8 +269,14 @@ export const LoadingAndDisabled: FC = () => {
       stories={[
         {
           group: [
-            { name: 'Normal', props: { label, placeholder, options: SIMPLE_SELECT_OPTIONS } },
-            { name: 'Loading', props: { label, placeholder, loading: true } },
+            {
+              name: 'Normal',
+              props: { label, placeholder, options: SIMPLE_SELECT_OPTIONS, showSearch: false },
+            },
+            {
+              name: 'Loading',
+              props: { label, placeholder, loading: true, options: [], showSearch: false },
+            },
             {
               name: 'Loading but not disabled',
               props: {
@@ -234,10 +284,14 @@ export const LoadingAndDisabled: FC = () => {
                 placeholder,
                 options: SIMPLE_SELECT_OPTIONS,
                 loading: true,
+                showSearch: false,
                 disabledOnLoading: false,
               },
             },
-            { name: 'Disabled', props: { label, placeholder, disabled: true } },
+            {
+              name: 'Disabled',
+              props: { label, placeholder, disabled: true, options: [], showSearch: false },
+            },
           ],
         },
       ]}
@@ -246,7 +300,7 @@ export const LoadingAndDisabled: FC = () => {
 }
 
 export const SearchBox: FC = () => {
-  const { label, placeholder } = useSelectStory()
+  const { label, placeholder, searchPlaceholder } = useSelectStory()
   return (
     <CommonStory
       component={Select}
@@ -254,7 +308,7 @@ export const SearchBox: FC = () => {
         {
           group: [
             {
-              props: { label, placeholder, options: SELECT_OPTIONS },
+              props: { label, placeholder, options: SELECT_OPTIONS, searchPlaceholder },
               name: 'With search box (Default)',
             },
             {
@@ -262,7 +316,13 @@ export const SearchBox: FC = () => {
               name: 'Without search box',
             },
             {
-              props: { label, placeholder, options: SELECT_OPTIONS, searchQuery: 'React' },
+              props: {
+                label,
+                placeholder,
+                options: SELECT_OPTIONS,
+                searchQuery: 'React',
+                searchPlaceholder,
+              },
               name: 'With custom search query',
             },
           ],
@@ -301,6 +361,6 @@ export const DefaultValue: FC = () => {
   )
 }
 
-export const Playground: FC<SelectNS.Props<any>> = props => {
+export const Playground: FC<SelectNS.Props<any, any, any>> = props => {
   return <StoryPlayground component={Select} props={props} />
 }

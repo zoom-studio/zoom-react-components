@@ -3,7 +3,7 @@ import React, { type ReactNode } from 'react'
 import { classNames } from '@zoom-studio/zoom-js-ts-utils'
 
 import { type SelectNS } from '.'
-import { Text, Title } from '..'
+import { type InputNS, Text, Title } from '..'
 import { type useMacOSSelect } from './use-mac-os-select'
 
 export namespace SingleOptionNS {
@@ -13,6 +13,7 @@ export namespace SingleOptionNS {
     select: ReturnType<typeof useMacOSSelect>
     index: number
     isChildOption?: boolean
+    textSizeProps: InputNS.TextSize
   }
 }
 
@@ -22,6 +23,7 @@ export const SingleOption = <Value extends SelectNS.PossibleValues = number, Dat
   index,
   children,
   isChildOption,
+  textSizeProps,
 }: SingleOptionNS.Props<Value, Data>) => {
   const isGroupTitle = !!option.groupOptions && !!option.groupTitle
 
@@ -34,7 +36,7 @@ export const SingleOption = <Value extends SelectNS.PossibleValues = number, Dat
   const renderOptionContent = (option: SelectNS.Option<Value, Data>): ReactNode => {
     const content = children(option)
     if (typeof content === 'string') {
-      return <Text>{content}</Text>
+      return <Text {...textSizeProps}>{content}</Text>
     }
     return content
   }

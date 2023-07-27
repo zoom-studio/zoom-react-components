@@ -23,6 +23,7 @@ import { type SelectNS } from '.'
 import { logs } from '../../constants'
 import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
 import { defaultEmpty, findDefaultValue } from './utils'
+import { useZoomContext } from '../../hooks'
 
 export namespace UseMacOSSelectNS {
   export interface Params<
@@ -59,6 +60,8 @@ export const useMacOSSelect = <
   sendLog,
   defaultValue,
 }: UseMacOSSelectNS.Params<MultiSelect, Value, Data>) => {
+  const { isRTL } = useZoomContext()
+
   const listRef = useRef<Array<HTMLElement | null>>([])
   const listContentRef = useRef<Array<string | null>>([])
   const overflowRef = useRef<SideObject>(null)
@@ -293,7 +296,9 @@ export const useMacOSSelect = <
       if (optionsParent) {
         doByRef(labelRef, label => {
           const labelWidth = (parseFloat(getComputedStyle(label).width) ?? 0) + 16
-          optionsParent.style.transform = `translateX(-${`${labelWidth}px` ?? '0px'})`
+          optionsParent.style.transform = `translateX(${isRTL ? '-' : ''}${
+            `${labelWidth}px` ?? '0px'
+          })`
         })
       }
     })

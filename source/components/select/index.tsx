@@ -1,6 +1,6 @@
 import React, { useState, type ReactNode } from 'react'
 
-import { type MaybeArray, classNames, useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, useFutureEffect, type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
 
 import { Icon, Input, SVGIcon, Spin, Text, type InputNS, type TypographyNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
@@ -53,7 +53,7 @@ export namespace SelectNS {
     nothingFoundText?: string
     emptyListText?: string
     defaultValue?: MaybeArray<Value | Option<Value, Data>>
-    children: (option: Option<Value, Data>) => ReactNode
+    children?: (option: Option<Value, Data>) => ReactNode
     renderSelectedOption?: (option: Option<Value, Data>) => ReactNode
     optionSearchModel?: (option: Option<Value, Data>) => string
     onWillOpen?: () => void
@@ -78,7 +78,7 @@ export const Select = <
   state = ['neutral'],
   nothingFoundText = 'موردی مطابق با جستجو پیدا نشد',
   emptyListText = 'موردی وجود ندارد',
-  children = ({ value, label }) => <Text>{label ?? value}</Text>,
+  children = ({ value, label }) => label ?? value,
   renderSelectedOption = ({ value, label }) => <>{label ?? value}</>,
   optionSearchModel,
   searchPlaceholder,
@@ -137,7 +137,10 @@ export const Select = <
         ? optionSearchModel(option).toLowerCase()
         : `${option.label} ${option.value} ${option.groupTitle}`.toLowerCase()
 
-    return searchModel.includes(searchQuery.toLowerCase())
+    return (
+      searchModel.includes(searchQuery.toLowerCase()) ||
+      (!!option.groupTitle && !!option.groupOptions)
+    )
   }
 
   useFutureEffect(() => {
@@ -221,6 +224,7 @@ export const Select = <
                   index={index}
                   select={select}
                   isChildOption={option.isChildOption}
+                  textSizeProps={textSizeProps}
                 />
               ) : (
                 <></>

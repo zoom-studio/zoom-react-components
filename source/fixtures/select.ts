@@ -15,10 +15,9 @@ export const SIMPLE_SELECT_OPTIONS: SelectNS.Option<string>[] = DYNAMIC_SIMPLE_S
 
 export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
   {
-    label: 'Turning a React app',
-    disabled: true,
     value: Math.random(),
-    options: [
+    groupTitle: 'Turning a React app',
+    groupOptions: [
       { label: 'into an', value: 1 },
       { label: 'installable PWA', value: Math.random() },
       { label: 'with offline', value: Math.random() },
@@ -27,12 +26,12 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   { label: 'and theming', value: Math.random() },
-  { label: 'Recently I decided', value: 3, selected: false },
+  { label: 'Recently I decided', value: 3 },
   {
-    label: 'to take the dive into',
+    groupTitle: 'to take the dive into',
     disabled: true,
     value: Math.random(),
-    options: [
+    groupOptions: [
       { label: 'making my web app', value: Math.random() },
       { label: 'progressive', value: Math.random() },
       { label: 'Some of the benefits', value: Math.random() },
@@ -41,11 +40,10 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   {
-    label: 'times and the',
+    groupTitle: 'times and the',
     disabled: true,
-    selected: false,
     value: 4,
-    options: [
+    groupOptions: [
       { label: 'ability for a', value: Math.random() },
       { label: 'user to install it "natively"', value: Math.random() },
       { label: 'There are definitely some', value: Math.random() },
@@ -54,10 +52,9 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   {
-    label: 'also be covering below',
-    selected: false,
+    groupTitle: 'also be covering below',
     value: Math.random(),
-    options: [
+    groupOptions: [
       { label: "I'm using React", value: Math.random() },
       { label: "so I'll assume you are too", value: Math.random() },
       { label: 'If you want to jump in to the code', value: Math.random() },
@@ -82,7 +79,6 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     label: 'a couple of excellent service worker',
     value: Math.random(),
     disabled: true,
-    selected: false,
   },
   { label: 'files to help us  ', value: Math.random(), disabled: true },
   { label: 'get started', value: Math.random(), disabled: true },
@@ -90,14 +86,13 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     label: 'They automatically configure',
     value: Math.random(),
     disabled: true,
-    selected: false,
   },
   { label: 'lots of useful things', value: Math.random(), disabled: true },
   {
-    label: 'like caching your webpack output',
+    groupTitle: 'like caching your webpack output',
     disabled: true,
     value: Math.random(),
-    options: [
+    groupOptions: [
       { label: "They'll pretty much contain", value: Math.random() },
       { label: 'everything we need for our PWA', value: Math.random() },
       { label: 'You can get these', value: Math.random() },
@@ -106,9 +101,9 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   {
-    label: 'my-app --template',
+    groupTitle: 'my-app --template',
     value: Math.random(),
-    options: [
+    groupOptions: [
       { label: 'cra-template-pwa', value: Math.random() },
       { label: 'This will give you two files', value: Math.random() },
       { label: 'you can move into your project', value: Math.random() },
@@ -117,10 +112,10 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   {
-    label: 'service-worker.js',
+    groupTitle: 'service-worker.js',
     value: Math.random(),
     disabled: true,
-    options: [
+    groupOptions: [
       { label: 'Add these into /src', value: Math.random() },
       { label: 'of your project', value: Math.random() },
       {
@@ -135,9 +130,9 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   {
-    label: 'well documented via comments',
+    groupTitle: 'well documented via comments',
     value: Math.random(),
-    options: [
+    groupOptions: [
       { label: 'Now we actually', value: Math.random() },
       { label: 'need to register our service', value: Math.random() },
       { label: 'worker on launch', value: Math.random() },
@@ -146,9 +141,9 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   {
-    label: 'Now simply run the',
+    groupTitle: 'Now simply run the',
     value: Math.random(),
-    options: [
+    groupOptions: [
       { label: 'function with', value: Math.random() },
       { label: 'registerServiceWorker();', value: Math.random() },
       { label: 'A finished index file', value: Math.random() },
@@ -157,9 +152,9 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   {
-    label: 'Service workers will only',
+    groupTitle: 'Service workers will only',
     value: Math.random(),
-    options: [
+    groupOptions: [
       { label: 'register/run in a production build', value: Math.random() },
       { label: 'unless specifically enabled', value: Math.random() },
       { label: 'see create-react-app documentation', value: Math.random() },
@@ -168,9 +163,9 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   {
-    label: 'and service worker caching',
+    groupTitle: 'and service worker caching',
     value: Math.random(),
-    options: [
+    groupOptions: [
       { label: "don't mix very well!", value: Math.random() },
       { label: "This means you won't", value: Math.random() },
       { label: 'see the service worker', value: Math.random() },
@@ -182,9 +177,9 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     ],
   },
   {
-    label: 'Offline Detection & UI/UX',
+    groupTitle: 'Offline Detection & UI/UX',
     value: Math.random(),
-    options: [
+    groupOptions: [
       { label: 'Offline detection is not', value: Math.random() },
       {
         label: 'specifically a service worker/PWA feature',
@@ -203,7 +198,7 @@ export const SELECT_OPTIONS: SelectNS.Option<number>[] = [
     value: Math.random(),
     disabled: true,
   },
-  { label: 'that comes down from', value: Math.random(), selected: false },
+  { label: 'that comes down from', value: Math.random() },
   { label: 'the top of the screen', value: Math.random() },
   { label: 'and block the page', value: Math.random() },
 ]

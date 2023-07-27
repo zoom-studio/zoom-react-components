@@ -58,7 +58,7 @@ export namespace SelectNS {
     optionSearchModel?: (option: Option<Value, Data>) => string
     onWillOpen?: () => void
     onWillClose?: () => void
-    onWrite?: (values: MultiSelect extends true ? PossibleValues[] : PossibleValues) => void
+    onWrite?: (values: MultiSelect extends true ? Value[] : Value) => void
     onChange?: (
       options: MultiSelect extends true ? Option<Value, Data>[] : Option<Value, Data>,
     ) => void

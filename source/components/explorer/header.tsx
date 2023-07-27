@@ -39,9 +39,7 @@ export const ExplorerHeader: FC<ExplorerHeaderNS.Props> = ({
           size="small"
           className="file-type-select"
           defaultValue={typeQuery.val}
-          onWrite={values => {
-            typeQuery.set(values[0])
-          }}
+          onWrite={typeQuery.set}
           disabled={isTypeSelectDisabled || disabled}
         />
 

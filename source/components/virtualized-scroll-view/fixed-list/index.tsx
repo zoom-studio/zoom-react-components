@@ -1,14 +1,15 @@
 import React, {
   cloneElement,
+  useCallback,
   type ComponentProps,
   type PropsWithChildren,
+  type Ref,
   type RefObject,
-  useCallback,
 } from 'react'
 
+import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
 import AutoSizer, { type Props as AutoSizerProps, type Size } from 'react-virtualized-auto-sizer'
 import { FixedSizeList, type FixedSizeListProps, type ListChildComponentProps } from 'react-window'
-import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
 
 import { type VirtualizedScrollViewNS } from '..'
 import { ScrollView, type ScrollViewNS } from '../..'
@@ -58,6 +59,7 @@ export function FixedListVirtualizedScrollView<DataType extends unknown[] = unkn
   width,
   height,
   autoSizerProps,
+  scrollViewRef,
   ...rest
 }: FixedListVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element {
   const { createClassName } = useZoomComponent('fixed-list-virtualized-scroll-view')
@@ -86,7 +88,13 @@ export function FixedListVirtualizedScrollView<DataType extends unknown[] = unkn
     outerRef: reference,
     children: renderChildren,
     outerElementType: (props: ScrollViewNS.Props) => (
-      <ScrollView {...props} {...scrollViewProps} maxHeight={height} maxWidth={width} />
+      <ScrollView
+        {...props}
+        {...scrollViewProps}
+        maxHeight={height}
+        maxWidth={width}
+        ref={scrollViewRef as Ref<ScrollViewNS.ContainerNode>}
+      />
     ),
   })
 

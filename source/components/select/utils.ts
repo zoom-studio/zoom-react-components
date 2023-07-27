@@ -1,117 +1,60 @@
-import { type RefObject } from 'react'
-
-import { sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { type MutableRefObject } from 'react'
 
 import { type SelectNS } from '.'
-import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'
-import { logs } from '../../constants'
-import { type SelectOptionNS } from './option'
+import { type ScrollArrowNS } from './scroll-arrow'
+import { findIndex, isArray } from 'lodash'
 
-export const groupOptions = (
-  options?: SelectNS.Option<SelectOptionNS.Value>[],
-  defaultValue?: SelectNS.Props<SelectOptionNS.Value>['defaultValue'],
-): SelectNS.GroupedOptions => {
-  const groupedOptions: SelectNS.GroupedOptions = {}
+export const SCROLL_ARROW_PADDING = 10
 
+export const shouldShowArrow = (
+  scrollRef: MutableRefObject<HTMLDivElement | null>,
+  dir: ScrollArrowNS.ArrowDir,
+) => {
+  if (scrollRef.current) {
+    const { scrollTop, scrollHeight, clientHeight } = scrollRef.current
+
+    if (dir === 'up') {
+      return scrollTop >= SCROLL_ARROW_PADDING
+    }
+
+    if (dir === 'down') {
+      return scrollTop <= scrollHeight - clientHeight - SCROLL_ARROW_PADDING
+    }
+  }
+
+  return false
+}
+
+export const defaultEmpty = <Value extends SelectNS.PossibleValues = number, Data = unknown>(
+  options: SelectNS.Option<Value, Data>[] = [],
+): SelectNS.EmptyState => {
+  return options.length === 0 ? 'empty-list' : false
+}
+
+export const findDefaultValue = <
+  MultiSelect extends boolean = false,
+  Value extends SelectNS.PossibleValues = number,
+  Data = unknown,
+>(
+  options: SelectNS.CustomizedOption<Value, Data>[],
+  defaultValue?: SelectNS.Props<MultiSelect, Value, Data>['defaultValue'],
+): number[] => {
   if (!defaultValue) {
-    defaultValue = []
-  }
-  if (typeof defaultValue === 'string' || typeof defaultValue === 'number') {
-    defaultValue = [defaultValue]
+    return []
   }
 
-  const defaultSelections = [...defaultValue]
+  defaultValue = isArray(defaultValue) ? defaultValue : [defaultValue]
 
-  options?.forEach(option => {
-    if (option.options) {
-      const groupedChild: SelectNS.GroupedOptions = {}
-      option.options.forEach(childOption => {
-        groupedChild[childOption.value] = {
-          ...childOption,
-          selected: defaultSelections.includes(childOption.value),
-        }
-      })
-      groupedOptions[option.value] = { ...option, options: groupedChild }
-    } else {
-      groupedOptions[option.value] = {
-        ...option,
-        options: undefined,
-        selected: defaultSelections.includes(option.value),
-      }
+  const values: number[] = []
+
+  defaultValue.forEach(item => {
+    const value = typeof item === 'object' ? item.value : item
+    const index = findIndex(options, option => option.value === value)
+
+    if (index >= 0) {
+      values.push(index)
     }
   })
-  return groupedOptions
-}
 
-export const getSelectedOptions = (
-  currentOptions?: SelectNS.GroupedOptions,
-): SelectNS.SingleOption[] => {
-  const selectedOptions: SelectNS.SingleOption[] = []
-  if (!currentOptions) {
-    return selectedOptions
-  }
-
-  const options = Object.values(currentOptions)
-
-  for (const option of options) {
-    if (option.selected) {
-      selectedOptions.push({
-        label: option.label,
-        value: option.value,
-      })
-    }
-
-    if (option.options) {
-      const childOptions = Object.values(option.options)
-      for (const childOption of childOptions) {
-        if (childOption.selected) {
-          selectedOptions.push({
-            label: childOption.label,
-            value: childOption.value,
-          })
-        }
-      }
-    }
-  }
-
-  return selectedOptions
-}
-
-export const scrollToTop = (
-  containerRef: RefObject<HTMLDivElement>,
-  scrollOnOpen: boolean,
-  sendLog: ZoomGlobalConfigProviderNS.Log,
-) => {
-  const { current: container } = containerRef
-  if (!container) {
-    sendLog(logs.selectNotFoundContainerRef, 'scrollToTop function')
-    return
-  }
-  if (!scrollOnOpen) {
-    return
-  }
-  window.scrollTo({ top: container.offsetTop - 20 })
-}
-
-export const focusSearchBox = async (
-  inputRef: RefObject<HTMLInputElement>,
-  sendLog: ZoomGlobalConfigProviderNS.Log,
-) => {
-  await sleep(2)
-  const { current: searchBox } = inputRef
-  if (!searchBox) {
-    sendLog(logs.selectNotFoundInputRef, 'focusSearchBox function')
-    return
-  }
-  searchBox.focus()
-}
-
-export const defaultEmpty = (options?: SelectNS.Option<SelectOptionNS.Value>[]) => {
-  return (options || []).length === 0 ? 'empty-list' : false
-}
-
-export const filterLabel = (label: string, searchQuery: string): boolean => {
-  label = label.toLowerCase().trim()
-  searchQuery = searchQuery.toLowerCase().trim()
-  return label.includes(searchQuery)
+  return values
 }

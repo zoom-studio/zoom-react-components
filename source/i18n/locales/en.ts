@@ -131,6 +131,7 @@ export const ENTranslations: typeof FATranslations = {
   select: {
     label: 'Label of select',
     placeholder: 'Pick option(s)',
+    searchPlaceholder: 'Search through select items...',
   },
 
   input: {

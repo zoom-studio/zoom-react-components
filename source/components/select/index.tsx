@@ -1,366 +1,241 @@
-import React, {
-  type CSSProperties,
-  type FormEvent,
-  type HTMLAttributes,
-  type RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { useState, type ReactNode } from 'react'
 
-import { classNames, sleep, useOutsideClick } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, useFutureEffect, type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Icon, Input, type InputNS, Spin, SVGIcon, Text, type TypographyNS } from '..'
-import { BREAKPOINTS, logs } from '../../constants'
+import { Icon, Input, SVGIcon, Spin, Text, type InputNS, type TypographyNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
-import { type BaseComponent, type CommonSize, type DataEntriesState } from '../../types'
+import type { BaseComponent, CommonSize, DataEntriesState } from '../../types'
 import { color } from '../../utils'
-import { SelectGroup, type SelectGroupNS } from './group'
-import { SelectOption, type SelectOptionNS } from './option'
-import { defaultEmpty, focusSearchBox, groupOptions, scrollToTop } from './utils'
+
+import { OptionsPortal } from './options-portal'
+import { ScrollArrow } from './scroll-arrow'
+import { SingleOption } from './single-option'
+import { useMacOSSelect } from './use-mac-os-select'
 import { SelectValue } from './value'
 
 export namespace SelectNS {
+  export type PossibleValues = string | number
   export type EmptyState = 'nothing-found' | 'empty-list' | false
 
-  export type Option<Values extends SelectOptionNS.Value> = SelectGroupNS.Props<Values> &
-    SelectOptionNS.Props<Values>
+  export interface Option<Value extends PossibleValues = number, Data = unknown> {
+    value: Value
+    label?: string | number
+    disabled?: boolean
+    data?: Data
+    groupTitle?: string
+    groupOptions?: Omit<Option<Value, Data>, 'groupTitle' | 'groupOptions'>[]
+  }
 
-  export type SingleOption = Pick<SelectOptionNS.Props<SelectOptionNS.Value>, 'value' | 'label'>
+  export interface CustomizedOption<Value extends PossibleValues = number, Data = unknown>
+    extends Option<Value, Data> {
+    isChildOption?: boolean
+  }
 
-  export type SelectedOption = SelectOptionNS.Value | SelectGroupNS.GroupedSelectedOptions
-
-  export type SingleSelectedOption<Values extends SelectOptionNS.Value> = [Values, Values?]
-
-  export type SelectValue = Pick<Option<SelectOptionNS.Value>, 'label' | 'value'>
-
-  export type SelectOptions = (
-    currentOptions: SelectNS.GroupedOptions,
-    selectedOptions: SelectNS.SelectedOption,
-  ) => SelectNS.GroupedOptions
-
-  export type GroupedOptions = Record<SelectOptionNS.Value, SelectGroupNS.GroupedProps>
-
-  export interface Props<Values extends SelectOptionNS.Value> extends BaseComponent {
-    options?: Option<Values>[]
-    multiSelect?: boolean
-    reference?: RefObject<HTMLDivElement>
+  export interface Props<
+    MultiSelect extends boolean = false,
+    Value extends PossibleValues = number,
+    Data = unknown,
+  > extends Omit<BaseComponent, 'children'> {
+    options: Option<Value, Data>[]
+    size?: CommonSize
     label?: string
+    multiSelect?: MultiSelect
     placeholder?: string
     stateMessageProps?: TypographyNS.TextNS.Props
-    dropdownProps?: HTMLAttributes<HTMLDivElement>
-    size?: CommonSize
     state?: DataEntriesState
     disabled?: boolean
     loading?: boolean
     labelColon?: boolean
     disabledOnLoading?: boolean
-    optionsPerScroll?: number
     showSearch?: boolean
-    childRef?: RefObject<HTMLDivElement>
-    dropdownRef?: RefObject<HTMLDivElement>
-    defaultIsOpen?: boolean
-    searchInputProps?: InputNS.Props
-    searchInputRef?: RefObject<HTMLInputElement>
-    selectAllText?: string
-    deselectAllText?: string
     searchQuery?: string
+    searchPlaceholder?: string
     nothingFoundText?: string
     emptyListText?: string
-    scrollOnOpen?: boolean
-    onChange?: (options: SingleOption[]) => void
-    defaultValue?: Values | Values[]
+    defaultValue?: MaybeArray<Value | Option<Value, Data>>
+    children?: (option: Option<Value, Data>) => ReactNode
+    renderSelectedOption?: (option: Option<Value, Data>) => ReactNode
+    optionSearchModel?: (option: Option<Value, Data>) => string
     onWillOpen?: () => void
     onWillClose?: () => void
-    onWrite?: (values: Values[]) => void
+    onWrite?: (values: MultiSelect extends true ? Value[] : Value) => void
+    onChange?: (
+      options: MultiSelect extends true ? Option<Value, Data>[] : Option<Value, Data>,
+    ) => void
   }
 }
 
-export const Select = <Values extends SelectOptionNS.Value>({
+export const Select = <
+  MultiSelect extends boolean = false,
+  Value extends SelectNS.PossibleValues = number,
+  Data = unknown,
+>({
   size: providedSize,
-  options: providedOptions,
-  childRef: providedChildRef,
-  dropdownRef: providedDropdownRef,
-  searchQuery: providedSearchQuery,
+  searchQuery: providedSearchQuery = '',
   labelColon = true,
   disabledOnLoading = true,
   showSearch = true,
   state = ['neutral'],
-  optionsPerScroll = 6,
-  selectAllText = 'انتخاب همه',
-  deselectAllText = 'غیرفعال کردن همه',
   nothingFoundText = 'موردی مطابق با جستجو پیدا نشد',
   emptyListText = 'موردی وجود ندارد',
-  scrollOnOpen = window.innerWidth <= BREAKPOINTS.md,
+  children = ({ value, label }) => label ?? value,
+  renderSelectedOption = ({ value, label }) => <>{label ?? value}</>,
+  optionSearchModel,
+  searchPlaceholder,
   className,
-  searchInputRef,
-  reference,
-  containerProps,
-  defaultIsOpen,
   defaultValue,
-  disabled,
-  dropdownProps,
+  containerProps,
   label,
+  disabled,
   loading,
   multiSelect,
+  placeholder,
+  stateMessageProps,
+  options,
   onChange,
   onWillClose,
   onWillOpen,
   onWrite,
-  placeholder,
-  searchInputProps,
-  stateMessageProps,
   ...rest
-}: SelectNS.Props<Values>) => {
-  const size = useComponentSize(providedSize)
+}: SelectNS.Props<MultiSelect, Value, Data>) => {
+  const [searchQuery, setSearchQuery] = useState(providedSearchQuery)
+
   const { createClassName, sendLog } = useZoomComponent('select')
-
-  const dropdownRef = providedDropdownRef ?? useRef<HTMLDivElement>(null)
-  const inputRef = searchInputRef ?? useRef<HTMLInputElement>(null)
-  const containerRef = reference ?? useRef<HTMLInputElement>(null)
-  const optionsListRef = useRef<HTMLDivElement>(null)
-  const childRef = providedChildRef ?? useRef<HTMLDivElement>(null)
-  const selectedOptionRef = useRef<SelectNS.SingleSelectedOption<SelectOptionNS.Value> | null>(
-    defaultValue ? ([defaultValue] as SelectNS.SingleSelectedOption<SelectOptionNS.Value>) : null,
-  )
-
-  const [searchQuery, setSearchQuery] = useState(providedSearchQuery || '')
-  const [isOpen, setIsOpen] = useState(defaultIsOpen)
-  const [emptyState, setEmptyState] = useState<SelectNS.EmptyState>(defaultEmpty(providedOptions))
-  const [options, setOptions] = useState<SelectNS.GroupedOptions>(
-    groupOptions(providedOptions, defaultValue),
-  )
+  const size = useComponentSize(providedSize)
+  const select = useMacOSSelect({
+    onWillClose,
+    onWillOpen,
+    onChange,
+    onWrite,
+    sendLog,
+    multiSelect,
+    options,
+    showSearch,
+    defaultValue,
+  })
 
   const isDisabled = disabledOnLoading ? loading || disabled : disabled
   const spinColor = state[0] === 'neutral' ? undefined : color({ source: state[0] })
+  const contentClasses = classNames('content', { focus: select.open })
+  const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
+  const classes = createClassName(className, '', {
+    [createClassName('', size)]: true,
+    [createClassName('', state[0])]: true,
+    [createClassName('', 'loading')]: !!loading,
+    [createClassName('', 'disabled')]: !!isDisabled,
+    [createClassName('', 'open')]: select.open,
+  })
   const textSizeProps: InputNS.TextSize = {
     small: size === 'small',
     normal: size === 'normal',
     large: size === 'large',
   }
-  const listStyles: CSSProperties = {
-    maxHeight: optionsPerScroll * 34 + 12,
-  }
 
-  const infoContainerClasses = classNames('info-container', { focus: isOpen })
-  const dropdownClasses = createClassName(dropdownProps?.className, 'dropdown')
-  const stateMessageClasses = createClassName(stateMessageProps?.className, 'state-message')
-  const classes = createClassName(className, '', {
-    [createClassName('', size)]: true,
-    [createClassName('', 'open')]: !!isOpen,
-    [createClassName('', state[0])]: true,
-    [createClassName('', loading ? 'loading' : '')]: !!loading,
-    [createClassName('', isDisabled ? 'disabled' : '')]: !!isDisabled,
-  })
+  const doesMatchQuery = (option: SelectNS.Option<Value, Data>): boolean => {
+    const searchModel =
+      typeof optionSearchModel === 'function'
+        ? optionSearchModel(option).toLowerCase()
+        : `${option.label} ${option.value} ${option.groupTitle}`.toLowerCase()
 
-  const selectOptions: SelectNS.SelectOptions = (currentOptions, selectedOptions) => {
-    const options = { ...currentOptions }
-    const { current: prevSelectedOptions } = selectedOptionRef
-
-    if (!multiSelect) {
-      if (prevSelectedOptions) {
-        if (prevSelectedOptions[1]) {
-          options[prevSelectedOptions[0]].options![prevSelectedOptions[1]].selected = false
-        } else {
-          options[prevSelectedOptions[0]].selected = false
-        }
-      }
-      close()
-    }
-
-    if (typeof selectedOptions === 'number' || typeof selectedOptions === 'string') {
-      const newSelection = !options[selectedOptions].selected
-
-      options[selectedOptions].selected = newSelection
-      selectedOptionRef.current = [selectedOptions]
-    } else {
-      const parentValue = Object.keys(selectedOptions)[0]
-      const childValues = selectedOptions[parentValue]
-      const newSelection = !childValues.some(
-        value => options[parentValue].options?.[value].selected,
-      )
-
-      selectedOptionRef.current = [parentValue, childValues[0]]
-      childValues.forEach(childValue => {
-        options[parentValue].options![childValue].selected = newSelection
-      })
-    }
-
-    if (showSearch || emptyState !== false) {
-      void focusSearchBox(inputRef, sendLog)
-    }
-    return options
-  }
-
-  const handleSelectOptions = (selectedOptions: SelectNS.SelectedOption) => {
-    setOptions(options => selectOptions(options, selectedOptions))
-  }
-
-  const handleSetEmptyList = async () => {
-    await sleep(20)
-    const { current: optionsList } = optionsListRef
-    if (!optionsList) {
-      if (isOpen) {
-        sendLog(logs.selectNotFoundOptionsListRef, 'handleSetEmptyList function')
-        return
-      }
-      return
-    }
-
-    setEmptyState(
-      optionsList.innerHTML
-        ? false
-        : (providedOptions || []).length > 0
-        ? 'nothing-found'
-        : 'empty-list',
+    return (
+      searchModel.includes(searchQuery.toLowerCase()) ||
+      (!!option.groupTitle && !!option.groupOptions)
     )
   }
 
-  const onClose = () => {
-    onWillClose?.()
-  }
-
-  const onOpen = () => {
-    onWillOpen?.()
-    scrollToTop(containerRef, scrollOnOpen, sendLog)
-
-    if (showSearch || emptyState !== false) {
-      void focusSearchBox(inputRef, sendLog)
-    }
-
-    void handleSetEmptyList()
-  }
-
-  const close = () => {
-    setIsOpen(currentIsOpen => {
-      if (currentIsOpen) {
-        onClose()
-      }
-      return false
-    })
-  }
-
-  const open = () => {
-    if (isDisabled) {
-      return
-    }
-    setIsOpen(currentIsOpen => {
-      if (currentIsOpen) {
-        onClose()
-        return false
-      }
-      onOpen()
-      return true
-    })
-  }
-
-  const handleOnFilter = (evt: FormEvent<HTMLInputElement>) => {
-    setSearchQuery(evt.currentTarget.value)
-    void handleSetEmptyList()
-  }
-
-  const handleOnChange = (options: SelectNS.SingleOption[]) => {
-    onChange?.(options)
-    onWrite?.(options.map(option => option.value as Values))
-  }
-
-  useOutsideClick(close, childRef, dropdownRef)
-  useEffect(() => {
-    setIsOpen(defaultIsOpen)
-  }, [defaultIsOpen])
-  useEffect(() => {
-    setSearchQuery(searchQuery || '')
-  }, [searchQuery])
-  useEffect(() => {
-    setOptions(groupOptions(providedOptions, defaultValue))
-    void handleSetEmptyList()
-  }, [providedOptions, defaultValue])
+  useFutureEffect(() => {
+    void select.handleSetEmptyList()
+  }, [searchQuery, providedSearchQuery])
 
   return (
-    <div {...rest} {...containerProps} className={classes} ref={containerRef}>
-      <div className={infoContainerClasses} ref={childRef} onClick={open}>
-        {loading && <Spin size="small" className="select-spin" color={spinColor} />}
+    <>
+      <div {...rest} {...containerProps} className={classes}>
+        <div
+          className={contentClasses}
+          ref={select.refs.setReference}
+          {...select.createReferenceProps()}
+        >
+          {loading && <Spin size="small" className="select-spin" color={spinColor} />}
 
-        <Text common normal {...textSizeProps} className="select-label">
-          {label && `${label}${labelColon ? ':' : ''}`}
-        </Text>
+          <Text common normal ref={select.labelRef} {...textSizeProps} className="select-label">
+            {label && `${label}${labelColon ? ':' : ''}`}
+          </Text>
 
-        <SelectValue
-          options={options}
-          placeholder={placeholder}
-          size={size}
-          multiSelect={multiSelect}
-          onChange={handleOnChange}
-        />
+          <SelectValue
+            textSizeProps={textSizeProps}
+            multiSelect={!!multiSelect}
+            placeholder={placeholder}
+            select={select}
+            renderSelectedOption={renderSelectedOption}
+            options={select.customizedOptions}
+          />
 
-        <Icon name="expand_more" className="expand-icon" />
+          <Icon name="expand_more" className="expand-icon" />
+        </div>
+
+        {state[1] && (
+          <Text {...textSizeProps} {...stateMessageProps} className={stateMessageClasses}>
+            {state[1]}
+          </Text>
+        )}
       </div>
 
-      {state[1] && (
-        <Text {...textSizeProps} {...stateMessageProps} className={stateMessageClasses}>
-          {state[1]}
-        </Text>
-      )}
+      <OptionsPortal select={select} size={size} showSearch={showSearch}>
+        <div ref={select.refs.setFloating} style={{ ...select.floatingStyles, outline: '0' }}>
+          <div
+            className="options-container"
+            ref={select.scrollRef}
+            {...select.createFloatingProps()}
+          >
+            {showSearch && select.emptyState !== 'empty-list' && (
+              <div className="search-box">
+                <Input
+                  size="small"
+                  changeStyleOnFocus={false}
+                  placeholder={searchPlaceholder}
+                  inputRef={select.searchInputRef}
+                  value={searchQuery}
+                  onWrite={setSearchQuery}
+                />
+              </div>
+            )}
 
-      {isOpen && (
-        <div {...dropdownProps} className={dropdownClasses} ref={dropdownRef}>
-          {showSearch && emptyState !== 'empty-list' && (
-            <div className="search-box">
-              <Input
-                placeholder="جستجو بین موارد..."
-                {...searchInputProps}
-                labelContainerProps={{ className: 'search-input-container' }}
-                onInput={handleOnFilter}
-                inputRef={inputRef}
-                defaultValue={searchQuery}
-              />
-            </div>
-          )}
+            {select.emptyState && (
+              <div className="empty-list">
+                <SVGIcon
+                  name="empty-box"
+                  className="empty-list-icon"
+                  color={color => color({ source: 'text', tone: 3 })}
+                  size={40}
+                />
 
-          {emptyState && (
-            <div className="empty-list">
-              <SVGIcon
-                name="empty-box"
-                className="empty-list-icon"
-                color={color => color({ source: 'text', tone: 3 })}
-                size={40}
-              />
+                <Text common normal className="empty-list-message">
+                  {select.emptyState === 'empty-list' ? emptyListText : nothingFoundText}
+                </Text>
+              </div>
+            )}
 
-              <Text common normal className="empty-list-message">
-                {emptyState === 'empty-list' ? emptyListText : nothingFoundText}
-              </Text>
-            </div>
-          )}
-
-          <div className="options-list" style={listStyles} ref={optionsListRef}>
-            {Object.values(options).map((option, index) =>
-              option.options ? (
-                <SelectGroup
-                  {...option}
-                  onSelect={value => {
-                    handleSelectOptions(value)
-                  }}
-                  onSelectAll={values => {
-                    handleSelectOptions(values)
-                  }}
-                  multiSelect={!!multiSelect}
-                  selectAllText={selectAllText}
-                  deselectAllText={deselectAllText}
-                  searchQuery={searchQuery}
+            {select.customizedOptions.map((option, index) =>
+              doesMatchQuery(option) ? (
+                <SingleOption
+                  option={option}
                   key={index}
+                  children={children}
+                  index={index}
+                  select={select}
+                  isChildOption={option.isChildOption}
+                  textSizeProps={textSizeProps}
                 />
               ) : (
-                <SelectOption
-                  {...option}
-                  onSelect={handleSelectOptions}
-                  searchQuery={searchQuery}
-                  key={index}
-                />
+                <></>
               ),
             )}
           </div>
+
+          <ScrollArrow {...select.createScrollArrowProps('up')} />
+          <ScrollArrow {...select.createScrollArrowProps('down')} />
         </div>
-      )}
-    </div>
+      </OptionsPortal>
+    </>
   )
 }

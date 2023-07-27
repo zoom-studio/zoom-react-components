@@ -102,7 +102,7 @@ export function FixedGridVirtualizedScrollView<DataType extends unknown[][] = un
         {...scrollViewProps}
         maxHeight={height}
         maxWidth={width}
-        ref={scrollViewRef}
+        ref={scrollViewRef as ReactRef<ScrollViewNS.ContainerNode>}
       />
     ),
   })

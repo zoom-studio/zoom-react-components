@@ -49,6 +49,7 @@ export namespace InputNS {
     searchClearButton?: boolean
     numberButtonHandlers?: boolean
     autoDirection?: boolean
+    changeStyleOnFocus?: boolean
   }
 }
 
@@ -65,6 +66,7 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
       labelColon = true,
       disabledOnLoading = true,
       autoDirection = true,
+      changeStyleOnFocus = true,
       state = ['neutral'],
       onWrite,
       onTogglePasswordVisibility,
@@ -216,7 +218,7 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
       const isFocused = type === focus
 
       if (label) {
-        if (isFocused) {
+        if (isFocused && changeStyleOnFocus) {
           label.classList.add(focus)
         } else {
           label.classList.remove(focus)

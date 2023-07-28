@@ -12,6 +12,7 @@ export namespace OptionsPortalNS {
     children: JSX.Element
     size: CommonSize
     showSearch: boolean
+    portalClassName?: string
   }
 }
 
@@ -20,12 +21,14 @@ export const OptionsPortal: FC<OptionsPortalNS.Props> = ({
   children,
   size,
   showSearch,
+  portalClassName,
 }) => {
   const { createClassName } = useZoomComponent('select-portal')
 
   const classes = createClassName('', '', {
     [createClassName('', size)]: true,
     [createClassName('', 'with-search-box')]: showSearch,
+    [portalClassName ?? '']: !!portalClassName,
   })
 
   return (

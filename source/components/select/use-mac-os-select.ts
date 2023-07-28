@@ -40,6 +40,7 @@ export namespace UseMacOSSelectNS {
       | 'options'
       | 'showSearch'
       | 'defaultValue'
+      | 'optionsWidth'
     > {
     sendLog: ZoomGlobalConfigProviderNS.Log
   }
@@ -59,6 +60,7 @@ export const useMacOSSelect = <
   onWrite,
   sendLog,
   defaultValue,
+  optionsWidth,
 }: UseMacOSSelectNS.Params<MultiSelect, Value, Data>) => {
   const { isRTL } = useZoomContext()
 
@@ -288,7 +290,7 @@ export const useMacOSSelect = <
     }
 
     doByRef(valuesContainerRef, valuesContainer => {
-      style.width = getComputedStyle(valuesContainer).width ?? '160px'
+      style.width = optionsWidth ?? getComputedStyle(valuesContainer).width ?? '160px'
     })
 
     doByRef(floatingOverlayRef, floatingOverlay => {

@@ -12,31 +12,38 @@
 
   > .header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
 
-    > .selector {
+    > .selectors {
       display: flex;
       gap: 6px;
-      align-items: center;
-      border: 1px solid color(border, 2);
-      border-radius: 4px;
 
-      // > .selector-button {
-      //   .zoomrc-icon {
-      //     font-size: to-rem(28px);
-      //   }
-      // }
+      > .zoomrc-select {
+        width: fit-content;
+      }
+    }
 
-      // > .selector-value {
-      //   color: color(text, 1);
-      //   margin: 0;
+    > .navigate-button {
+      > .zoomrc-button-inner-child {
+        width: 34px;
+        height: 34px;
 
-      //   &.month {
-      //     min-width: 94px;
-      //     text-align: center;
-      //   }
-      // }
+        > .zoomrc-icon {
+          font-size: to-rem(34px);
+        }
+      }
+    }
+  }
+
+  > .secondary-header {
+    margin-top: -12px;
+
+    > .secondary-date {
+      margin: 0;
+      color: color(text, 3);
+      width: 100%;
+      text-align: center;
     }
   }
 
@@ -178,5 +185,11 @@
         margin: 0;
       }
     }
+  }
+}
+
+.date-picker-month-selector-portal {
+  .options-container {
+    min-width: 100px;
   }
 }

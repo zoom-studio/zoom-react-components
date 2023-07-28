@@ -53,6 +53,8 @@ export namespace SelectNS {
     nothingFoundText?: string
     emptyListText?: string
     defaultValue?: MaybeArray<Value | Option<Value, Data>>
+    optionsWidth?: string | number
+    portalClassName?: string
     children?: (option: Option<Value, Data>) => ReactNode
     renderSelectedOption?: (option: Option<Value, Data>) => ReactNode
     optionSearchModel?: (option: Option<Value, Data>) => string
@@ -83,6 +85,7 @@ export const Select = <
   optionSearchModel,
   searchPlaceholder,
   className,
+  portalClassName,
   defaultValue,
   containerProps,
   label,
@@ -92,6 +95,7 @@ export const Select = <
   placeholder,
   stateMessageProps,
   options,
+  optionsWidth,
   onChange,
   onWillClose,
   onWillOpen,
@@ -112,6 +116,7 @@ export const Select = <
     options,
     showSearch,
     defaultValue,
+    optionsWidth,
   })
 
   const isDisabled = disabledOnLoading ? loading || disabled : disabled
@@ -180,7 +185,12 @@ export const Select = <
         )}
       </div>
 
-      <OptionsPortal select={select} size={size} showSearch={showSearch}>
+      <OptionsPortal
+        select={select}
+        size={size}
+        showSearch={showSearch}
+        portalClassName={portalClassName}
+      >
         <div ref={select.refs.setFloating} style={{ ...select.floatingStyles, outline: '0' }}>
           <div
             className="options-container"

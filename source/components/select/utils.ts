@@ -39,7 +39,7 @@ export const findDefaultValue = <
   options: SelectNS.CustomizedOption<Value, Data>[],
   defaultValue?: SelectNS.Props<MultiSelect, Value, Data>['defaultValue'],
 ): number[] => {
-  if (!defaultValue) {
+  if (!defaultValue && defaultValue !== 0) {
     return []
   }
 

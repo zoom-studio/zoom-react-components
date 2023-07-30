@@ -15,13 +15,21 @@ export namespace DayPickerNS {
           | 'calendar'
           | 'showEventPointers'
           | 'locale'
-          | 'userEvents'
-          | 'calendarEvents'
           | 'weekends'
+          | 'disabledDay'
         >
       >,
       Pick<DatePickerNS.Props, 'secondaryCalendar'> {
     dated: Dated
+    onDayItemClick: (dated: Dated) => void
+    handleOnDayItemHover: (dated: Dated) => void
+    handleOnDayItemHoverOut: (dated: Dated) => void
+    selectedRange: DatePickerNS.SelectedRange
+    selectedSingle: Dated | undefined
+    selectedMultiple: Dated[]
+    hoveredSingle: Dated | undefined
+    findEvents: DatePickerNS.FindEvents
+    selectedReadonly: Dated | undefined
   }
 }
 
@@ -32,9 +40,17 @@ export const DayPicker: FC<DayPickerNS.Props> = ({
   secondaryCalendar,
   showEventPointers,
   locale,
-  userEvents,
-  calendarEvents,
   weekends,
+  disabledDay,
+  onDayItemClick,
+  handleOnDayItemHover,
+  handleOnDayItemHoverOut,
+  findEvents,
+  selectedReadonly,
+  selectedRange,
+  selectedSingle,
+  selectedMultiple,
+  hoveredSingle,
 }) => {
   const getWeeks = (dated: Dated): DatedNS.LocaleNS.Name[] => {
     const weeks = dated.calendarInfo.weeks
@@ -67,17 +83,25 @@ export const DayPicker: FC<DayPickerNS.Props> = ({
                 calendar={calendar}
                 locale={locale}
                 year={dated.dated.year}
+                onClick={onDayItemClick}
+                onHover={handleOnDayItemHover}
                 month={dated.dated.month}
                 key={index}
+                selectedReadonly={selectedReadonly}
                 index={index}
                 showEventPointers={showEventPointers}
                 firstDayOfMonth={firstDayOfMonth}
                 secondaryCalendar={secondaryCalendar}
                 day={day}
-                userEvents={userEvents}
-                calendarEvents={calendarEvents}
                 weekends={weekends}
                 getWeeks={getWeeks}
+                disabledDay={disabledDay}
+                selectedRange={selectedRange}
+                selectedSingle={selectedSingle}
+                selectedMultiple={selectedMultiple}
+                onHoverOut={handleOnDayItemHoverOut}
+                hoveredSingle={hoveredSingle}
+                findEvents={findEvents}
               />
             )
           })}

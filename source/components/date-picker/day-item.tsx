@@ -2,7 +2,6 @@ import React, { type FC } from 'react'
 
 import { Dated, classNames, useVariable, type DatedNS } from '@zoom-studio/zoom-js-ts-utils'
 import { findIndex } from 'lodash'
-import { type KhayyamNS } from 'omar-khayyam'
 
 import { Text, type DatePickerNS } from '..'
 
@@ -12,7 +11,7 @@ export namespace DayItemNS {
       Required<
         Pick<
           DatePickerNS.Props,
-          'showEventPointers' | 'calendar' | 'locale' | 'userEvents' | 'calendarEvents' | 'weekends'
+          'showEventPointers' | 'calendar' | 'locale' | 'weekends' | 'disabledDay'
         >
       > {
     day: number
@@ -21,6 +20,15 @@ export namespace DayItemNS {
     year: number
     month: number
     getWeeks: (dated: Dated) => DatedNS.LocaleNS.Name[]
+    onClick: (dated: Dated) => void
+    onHover: (dated: Dated) => void
+    onHoverOut: (dated: Dated) => void
+    selectedRange: DatePickerNS.SelectedRange
+    selectedSingle: Dated | undefined
+    selectedReadonly: Dated | undefined
+    selectedMultiple: Dated[]
+    hoveredSingle: Dated | undefined
+    findEvents: DatePickerNS.FindEvents
   }
 }
 
@@ -34,56 +42,131 @@ export const DayItem: FC<DayItemNS.Props> = ({
   year,
   calendar,
   locale,
-  userEvents,
-  calendarEvents,
   weekends,
+  disabledDay,
   getWeeks,
+  onClick,
+  onHover,
+  onHoverOut,
+  selectedRange,
+  selectedSingle,
+  selectedMultiple,
+  selectedReadonly,
+  hoveredSingle,
+  findEvents,
 }) => {
   const dated = new Dated({ year, month, day }, calendar, locale)
   const weekDay = findIndex(getWeeks(dated), week => week.index === dated.dated.weekDay + 1)
 
-  const events = useVariable(() => {
-    const eventsInCalendar: DatedNS.EventsNS.Type[] = []
-    const eventsByUser: DatedNS.EventsNS.Type[] = []
-
-    Object.keys(calendarEvents).forEach(calendar => {
-      if (calendarEvents[calendar as KhayyamNS.Calendars]) {
-        eventsInCalendar.push(...dated.events[calendar as KhayyamNS.Calendars])
-      }
-    })
-
-    userEvents.forEach(({ date, name }) => {
-      const eventDated = new Dated(date, 'gregorian')
-      const gregorianDated = dated.toGregorian()
-      if (eventDated.isEqual(gregorianDated.dated)) {
-        eventsByUser.push({
-          ar: name,
-          en: name,
-          fa: name,
-          day: dated.dated.day,
-          month: dated.dated.month,
-          isHoliday: false,
-          ref: undefined,
-        })
-      }
-    })
-
-    return {
-      calendar: eventsInCalendar,
-      user: eventsByUser,
-      all: [...eventsByUser, ...eventsInCalendar],
+  const isEqual = (targetDated?: Dated): boolean => {
+    if (!targetDated) {
+      return false
     }
+    return targetDated.isEqual(dated.dated, {
+      year: true,
+      month: true,
+      day: true,
+      hour: false,
+      minute: false,
+      second: false,
+      millisecond: false,
+    })
+  }
+
+  const isBetween = (date1?: Dated, date2?: Dated): boolean => {
+    if (!date1 || !date2) {
+      return false
+    }
+    return dated.isBetween([date1.dated, date2.dated], 'date')
+  }
+
+  const events = findEvents(dated)
+
+  const isDisabled = useVariable<boolean>(() => {
+    return disabledDay(dated.dated)
   })
 
-  const classes = classNames('day-item-child', {
-    today: dated.toGregorian().isEqual(Dated.now()),
-    holiday:
+  const isToday = useVariable<boolean>(() => {
+    return dated.toGregorian().isEqual(Dated.now())
+  })
+
+  const isActive = useVariable<boolean>(() => {
+    return (
+      isEqual(selectedRange.start) ||
+      isEqual(selectedRange.end) ||
+      isEqual(selectedSingle) ||
+      isEqual(selectedReadonly) ||
+      selectedMultiple.some(selected => isEqual(selected))
+    )
+  })
+
+  const isHoliday = useVariable<boolean>(() => {
+    return !!(
       (calendar === 'jalali' && events.calendar.some(event => event.isHoliday)) ||
-      weekends[calendar]?.map(holidayWeekDay => holidayWeekDay - 1).includes(weekDay),
+      weekends[calendar]?.map(holidayWeekDay => holidayWeekDay - 1).includes(weekDay)
+    )
+  })
+
+  const isInPreviewRange = useVariable<boolean>(() => {
+    return (
+      isBetween(selectedRange.start, hoveredSingle) &&
+      !isBetween(selectedRange.start, selectedRange.end)
+    )
+  })
+
+  const isPreviewEnd = useVariable<boolean>(() => {
+    return !!selectedRange.start && !selectedRange.end && isEqual(hoveredSingle)
+  })
+
+  const isInRange = useVariable<boolean>(() => {
+    return isBetween(selectedRange.start, selectedRange.end)
+  })
+
+  const isRangeStart = useVariable<boolean>(() => {
+    return isEqual(selectedRange.start)
+  })
+
+  const isRangeEnd = useVariable<boolean>(() => {
+    return isEqual(selectedRange.end)
+  })
+
+  const handleOnClick = () => {
+    if (!isDisabled) {
+      onClick(dated)
+    }
+  }
+
+  const handleOnHover = () => {
+    if (!isDisabled) {
+      onHover(dated)
+    }
+  }
+
+  const handleOnHoverOut = () => {
+    if (!isDisabled) {
+      onHoverOut(dated)
+    }
+  }
+
+  const classes = classNames('day-item-child', {
+    'disabled': isDisabled,
+    'today': isToday,
+    'active': isActive,
+    'holiday': isHoliday,
+    'in-preview-range': isInPreviewRange,
+    'preview-end': isPreviewEnd,
+    'in-range': isInRange,
+    'range-start': isRangeStart,
+    'range-end': isRangeEnd,
   })
 
   return (
-    <div className="day-item">
+    <div
+      className="day-item"
+      onMouseEnter={handleOnHover}
+      onMouseLeave={handleOnHoverOut}
+      onClick={handleOnClick}
+    >
       {index >= firstDayOfMonth ? (
         <Text large className={classes}>
           {secondaryCalendar && (

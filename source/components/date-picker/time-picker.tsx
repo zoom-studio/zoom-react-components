@@ -1,33 +1,48 @@
 import React, { type FC } from 'react'
 
-import { Button, Text, type ButtonNS, LongPress } from '..'
+import { Select, Text, type SelectNS } from '..'
 
 export namespace TimePickerNS {
   export interface Props {
-    value: string | number
-    onIncrease: () => void
-    onDecrease: () => void
+    options: SelectNS.Option<number>[]
+    value: number
+    title: string
+    onWrite: (value: number) => void
+    colon?: boolean
+    onWillOpen?: () => void
   }
 }
 
-export const TimePicker: FC<TimePickerNS.Props> = ({ value, onDecrease, onIncrease }) => {
-  const buttonProps: ButtonNS.Props = {
-    shape: 'circle',
-    type: 'link',
-    className: 'time-picker-button',
-  }
-
+export const TimePicker: FC<TimePickerNS.Props> = ({
+  colon = true,
+  options,
+  value,
+  title,
+  onWrite,
+  onWillOpen,
+}) => {
   return (
-    <div className="time-picker">
-      <LongPress callback={onIncrease}>
-        <Button {...buttonProps} prefixMaterialIcon="expand_less" />
-      </LongPress>
+    <>
+      {colon && <span className="time-picker-colon">:</span>}
 
-      <Text className="time-picker-value">{value}</Text>
+      <div className="time-picker">
+        <Text small className="title">
+          {title}
+        </Text>
 
-      <LongPress callback={onDecrease}>
-        <Button {...buttonProps} prefixMaterialIcon="expand_more" onClick={onDecrease} />
-      </LongPress>
-    </div>
+        <Select
+          options={options}
+          defaultValue={value}
+          showSearch={false}
+          onWillOpen={onWillOpen}
+          key={value}
+          optionsWidth="50px"
+          onWrite={onWrite}
+          renderSelectedOption={option => option.value.toString().padStart(2, '0')}
+        >
+          {({ value }) => <Text normal>{value.toString().padStart(2, '0')}</Text>}
+        </Select>
+      </div>
+    </>
   )
 }

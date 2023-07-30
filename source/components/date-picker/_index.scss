@@ -82,7 +82,7 @@
         color: color(text, 2);
         position: relative;
 
-        > .zoomrc-typography {
+        > .day-item-child {
           @include text(bold, large);
 
           margin: 0;
@@ -96,29 +96,6 @@
           cursor: pointer;
           background-color: color(layer, 2, glassy, 5);
           border: 1px solid transparent;
-
-          &.today {
-            border-color: color(accent, 1, glassy, 5);
-            color: color(accent);
-            background-color: color(accent, 1, glassy, 1);
-          }
-
-          &.holiday {
-            color: color(error);
-          }
-
-          &.active {
-            background-color: color(accent);
-            color: white;
-          }
-
-          &:hover {
-            background-color: color(border, 2);
-
-            &.active {
-              background-color: color(accent, 2);
-            }
-          }
 
           > .secondary-day {
             @include text(italic, small);
@@ -153,8 +130,73 @@
               }
             }
           }
+
+          &.today {
+            border-color: color(accent, 1, glassy, 5);
+            color: color(accent);
+            background-color: color(accent, 1, glassy, 1);
+          }
+
+          &.holiday {
+            color: color(error);
+          }
+
+          &.in-range,
+          &.preview-end,
+          &.active {
+            background-color: color(accent, 1, glassy, 6);
+            color: white;
+
+            > .events,
+            > .secondary-day {
+              color: white;
+            }
+
+            > .events > .event {
+              background-color: white;
+            }
+          }
+
+          &.in-preview-range {
+            background-color: color(accent, 1, glassy, 2);
+          }
+
+          &:hover {
+            background-color: color(border, 2);
+
+            &.today {
+              background-color: color(accent, 1, glassy, 2);
+            }
+
+            &.in-range,
+            &.preview-end,
+            &.active {
+              background-color: color(accent, 1, glassy, 7);
+            }
+          }
+
+          &.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+          }
         }
       }
+    }
+  }
+
+  > .current-time {
+    width: 100%;
+    color: color(text, 2);
+    gap: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+
+    > .time,
+    > .colon {
+      margin: 0;
     }
   }
 
@@ -163,26 +205,64 @@
     justify-content: center;
     align-items: center;
     color: color(text, 1);
-    gap: 20px;
-    direction: ltr;
+    gap: 4px;
+    width: 80%;
+    margin: 0 auto;
+    flex-direction: row-reverse;
+
+    > .time-picker-colon {
+      margin-bottom: -20px;
+    }
 
     > .time-picker {
       display: flex;
       flex-direction: column;
       align-items: center;
 
-      > .zoomrc-long-press {
-        > .time-picker-button {
-          .zoomrc-icon {
-            font-size: to-rem(28px);
-          }
+      > .title {
+        margin: 0 0 2px;
+        color: color(text, 2);
+      }
+    }
+  }
+
+  > .events {
+    width: 100%;
+    background-color: color(layer, 2);
+    border-radius: 6px;
+    padding: 0 10px;
+
+    > .event {
+      color: color(text, 2);
+      position: relative;
+      padding-inline-start: 8px;
+
+      &::before {
+        content: '';
+        width: 4px;
+        height: 100%;
+        border-radius: 2px;
+        display: inline-block;
+        position: absolute;
+        margin-inline-start: -8px;
+      }
+
+      &.user-event {
+        &::before {
+          background-color: color(accent, 1, glassy, 5);
         }
       }
 
-      > .time-picker-value {
-        @include text(large, bold);
+      &.calendar-event {
+        &::before {
+          background-color: color(text, 3, glassy, 5);
+        }
+      }
 
-        margin: 0;
+      &.no-event {
+        &::before {
+          content: unset;
+        }
       }
     }
   }

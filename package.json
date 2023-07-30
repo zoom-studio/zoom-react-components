@@ -74,6 +74,7 @@
     "@viselect/react": "^3.2.7",
     "@zoom-studio/zoom-js-ts-utils": "file:../utils/dist",
     "lodash": "^4.17.21",
+    "omar-khayyam": "^1.0.0",
     "overlayscrollbars": "2.1.1",
     "overlayscrollbars-react": "^0.5.0",
     "react-advanced-cropper": "0.19.3",

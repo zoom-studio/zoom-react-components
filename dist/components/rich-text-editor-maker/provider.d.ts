@@ -45,8 +45,9 @@ export declare namespace RichTextEditorMakerProviderNS {
         enableHashtag?: HashtagSettings;
         saveDraft?: boolean;
         id: string;
+        readonly?: boolean;
     }
-    interface ProviderValue extends Pick<Props, 'enableMention' | 'enableHashtag'> {
+    interface ProviderValue extends Pick<Props, 'enableMention' | 'enableHashtag' | 'readonly'> {
         mention?: ReturnType<typeof useMention>;
         hashtag?: ReturnType<typeof useHashtag>;
         editorValue?: Descendant[];

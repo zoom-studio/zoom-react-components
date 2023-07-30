@@ -3,7 +3,7 @@ import React, {
   useCallback,
   type ComponentProps,
   type PropsWithChildren,
-  type Ref,
+  type Ref as ReactRef,
   type RefObject,
 } from 'react'
 
@@ -39,6 +39,7 @@ export namespace FixedGridVirtualizedScrollViewNS {
     width: 'auto' | number
     height: 'auto' | number
     autoSizerProps?: Omit<AutoSizerProps, 'children'>
+    scrollViewRef?: ReactRef<ScrollViewNS.ContainerNode>
   }
 
   export interface PropsObject<DataType extends unknown[][] = unknown[][]>
@@ -101,7 +102,7 @@ export function FixedGridVirtualizedScrollView<DataType extends unknown[][] = un
         {...scrollViewProps}
         maxHeight={height}
         maxWidth={width}
-        ref={scrollViewRef as Ref<ScrollViewNS.ContainerNode>}
+        ref={scrollViewRef as ReactRef<ScrollViewNS.ContainerNode>}
       />
     ),
   })

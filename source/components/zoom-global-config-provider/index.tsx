@@ -13,6 +13,7 @@ import {
   type TableNS,
   type TourNS,
   type UploaderNS,
+  type DatePickerNS,
 } from '..'
 
 export namespace ZoomGlobalConfigProviderNS {
@@ -41,6 +42,7 @@ export namespace ZoomGlobalConfigProviderNS {
       table?: TableNS.I18n
       chatBubble?: ChatBubbleNS.I18n
       chatInput?: ChatInputNS.I18n
+      datePicker?: DatePickerNS.I18n
     }
   }
 }

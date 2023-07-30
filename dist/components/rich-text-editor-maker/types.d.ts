@@ -1,10 +1,10 @@
-import { type Dispatch, type ForwardRefExoticComponent, type ReactNode, type RefAttributes, type SetStateAction } from 'react';
+import { type KeyboardEvent, type Dispatch, type ForwardRefExoticComponent, type ReactNode, type RefAttributes, type SetStateAction } from 'react';
 import { type BaseEditor } from 'slate';
 import { type ReactEditor } from 'slate-react';
-import { type RichTextEditorMakerProvider } from './provider';
-import { type LinkUtils, type RichUtils } from './utils';
 import { type BaseComponent } from '../../types';
 import { type ExplorerNS } from '../explorer';
+import { type RichTextEditorMakerProvider } from './provider';
+import { type LinkUtils, type RichUtils } from './utils';
 export declare namespace RichTextEditorMakerNS {
     type Editor = BaseEditor & ReactEditor;
     type ListTypes = Extract<BlockTypes, 'ordered-list' | 'unordered-list'>;
@@ -50,7 +50,7 @@ export declare namespace RichTextEditorMakerNS {
         children: ReactNode;
         handlers: ChildrenCallback;
     }
-    interface ChildrenCallback extends Pick<RichUtils, 'toggleHeading' | 'toggleBold' | 'isActive' | 'focusEditor' | 'toggleItalic' | 'toggleUnderline' | 'toggleStrikethrough' | 'toggleQuote' | 'insertLink' | 'removeLink' | 'toggleHighlight' | 'toggleList' | 'isRangeSelected' | 'insertRule' | 'insertParagraph' | 'insertTable' | 'insertImage' | 'insertVideo' | 'insertFile' | 'insertEmoji' | 'insertMention' | 'insertHashtag'>, Pick<LinkUtils, 'resetLinkInfo'> {
+    interface ChildrenCallback extends Pick<RichUtils, 'toggleHeading' | 'toggleBold' | 'isActive' | 'focusEditor' | 'toggleItalic' | 'toggleUnderline' | 'toggleStrikethrough' | 'toggleQuote' | 'insertLink' | 'removeLink' | 'toggleHighlight' | 'toggleList' | 'isRangeSelected' | 'insertRule' | 'insertParagraph' | 'insertTable' | 'insertImage' | 'insertVideo' | 'insertFile' | 'insertEmoji' | 'insertMention' | 'insertHashtag' | 'isValid'>, Pick<LinkUtils, 'resetLinkInfo'> {
         renderEditor: () => JSX.Element;
         setIsBlankedLink: Dispatch<SetStateAction<boolean | undefined>>;
         setIsNoFollowLink: Dispatch<SetStateAction<boolean | undefined>>;
@@ -66,6 +66,7 @@ export declare namespace RichTextEditorMakerNS {
         renderLinkElement?: (params: RenderLinkInfoCallbackParams) => ReactNode;
         collapseOnEscape?: boolean;
         searchQuery?: string;
+        onKeyDown?: (evt: KeyboardEvent<HTMLDivElement>) => void;
     }
     type ComponentType = ForwardRefExoticComponent<Props & RefAttributes<HTMLDivElement>> & {
         provider: typeof RichTextEditorMakerProvider;

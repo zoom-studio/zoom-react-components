@@ -142,7 +142,7 @@ export const EmojiPicker = forwardRef<HTMLDivElement, EmojiPickerNS.Props>(
             rowCount={emojis.length}
             columnWidth={338 / emojisPerRow}
             rowHeight={338 / emojisPerRow}
-            scrollViewProps={{ autoHide: true, maxHeight: 'unset' }}
+            scrollViewProps={{ autoHide: true }}
             key={collection}
           >
             {({ data: emoji }) => {

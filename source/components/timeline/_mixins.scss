@@ -1,0 +1,43 @@
+@mixin zoomrc-generate-timeline-item-variant($variant) {
+  $is-neutral: $variant == neutral;
+  $color: if($is-neutral, color(accent), color($variant));
+  $text-color: if($variant == warning, black, white);
+  $body-border-color: if($is-neutral, color(border, 2), color($variant, glassy, 3));
+
+  &.#{$variant}.done {
+    > .content,
+    > .item-sign {
+      &::before {
+        background-color: $color !important;
+      }
+    }
+  }
+
+  &.#{$variant}.touched {
+    > .item-sign {
+      > .sign {
+        border-color: $color !important;
+        color: $color !important;
+      }
+    }
+
+    > .content {
+      > .datetime {
+        background-color: $color !important;
+        color: $text-color !important;
+
+        > .datetime-children {
+          color: $text-color !important;
+        }
+      }
+
+      > .body {
+        border-color: $body-border-color !important;
+      }
+
+      > .state-message {
+        color: $color !important;
+      }
+    }
+  }
+}

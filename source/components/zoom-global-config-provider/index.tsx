@@ -5,15 +5,16 @@ import { type logs } from '../../constants'
 import {
   type ChatBubbleNS,
   type ChatInputNS,
+  type DatePickerNS,
   type EmojiPickerNS,
   type ExplorerNS,
   type ImageEditorNS,
   type ImageViewerNS,
+  type QRCodePopoverNS,
   type RichTextEditorNS,
   type TableNS,
   type TourNS,
   type UploaderNS,
-  type DatePickerNS,
 } from '..'
 
 export namespace ZoomGlobalConfigProviderNS {
@@ -43,6 +44,7 @@ export namespace ZoomGlobalConfigProviderNS {
       chatBubble?: ChatBubbleNS.I18n
       chatInput?: ChatInputNS.I18n
       datePicker?: DatePickerNS.I18n
+      qrCodePopover?: QRCodePopoverNS.I18n
     }
   }
 }

@@ -13,7 +13,11 @@ import {
 } from '..'
 import { useZoomComponent } from '../../hooks'
 
+import { useQRCodePopoverI18n, type UseQRCodePopoverI18nNS } from './use-i18n'
+
 export namespace QRCodePopoverNS {
+  export type I18n = UseQRCodePopoverI18nNS.I18n
+
   export interface Props extends Omit<QRCodeNS.Props, 'children'> {
     buttonProps?: ButtonNS.Props
     popoverProps?: Omit<PopoverNS.Props, 'content' | 'trigger'>
@@ -39,8 +43,9 @@ export const QRCodePopover = forwardRef<HTMLButtonElement, QRCodePopoverNS.Props
     },
     reference,
   ) => {
-    const { createClassName } = useZoomComponent('qr-code-popover')
+    const { createClassName, globalI18ns } = useZoomComponent('qr-code-popover')
     const popoverClasses = createClassName()
+    const i18n = useQRCodePopoverI18n(globalI18ns)
 
     const QRCodeSize = QRCodeProps.size ?? 230
 
@@ -49,8 +54,7 @@ export const QRCodePopover = forwardRef<HTMLButtonElement, QRCodePopoverNS.Props
 
       if (showDownloadAction) {
         allActions.push({
-          prefixMaterialIcon: 'download',
-          children: 'Download',
+          children: i18n.download,
           onClick: () => {
             void download()
           },

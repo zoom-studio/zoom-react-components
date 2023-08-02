@@ -1,0 +1,56 @@
+.zoomrc-pagination {
+  width: fit-content;
+  display: inline-flex;
+  gap: 6px;
+
+  &,
+  & * {
+    direction: ltr !important;
+    text-align: left !important;
+  }
+
+  > .pages {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+
+    > .pagination-button {
+      width: 40px;
+      height: 40px;
+
+      > .zoomrc-button-inner-child {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    > .dots-icon {
+      color: color(text, 3);
+      width: 36px;
+    }
+  }
+
+  > .custom-page {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    > .custom-page-input {
+      width: 70px;
+      height: 40px;
+    }
+
+    > .custom-page-submit {
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      height: calc(100% - 4px);
+
+      > .zoomrc-button-inner-child {
+        padding: 5px 2px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

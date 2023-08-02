@@ -1,0 +1,31 @@
+.zoomrc-qr-code-popover {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  > .qr-code-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  > .qr-code-title {
+    color: color(text, 1);
+    padding: 6px 0 10px;
+    border-bottom: 1px solid color(border, 2);
+
+    > .zoomrc-typography {
+      margin: 0;
+    }
+  }
+
+  > .qr-code-action {
+    border-top: 1px solid color(border, 2);
+    padding: 10px 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

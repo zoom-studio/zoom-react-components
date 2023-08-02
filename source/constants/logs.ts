@@ -46,4 +46,7 @@ export enum logs {
   tableTableElementTableRefNotFound = 'ZOOMRC/TABLE_TABLE_ELEMENT_TABLE_REF_NOT_FOUND',
 
   avatarEditorContainerRefNotFound = 'ZOOMRC/AVATAR_EDITOR/CONTAINER_REF_NOT_FOUND',
+
+  qrCodeQrCodeContainerRefNotFound = 'ZOOMRC/QR_CODE/QR_CODE_CONTAINER_REF_NOT_FOUND',
+  qrCodeQrCodeRefNotFound = 'ZOOMRC/QR_CODE/QR_CODE_REF_NOT_FOUND',
 }

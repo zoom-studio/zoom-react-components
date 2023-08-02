@@ -82,11 +82,11 @@ export const usePopover = ({
   }
 
   const open = () => {
-    onOpen?.()
     setIsOpen(true)
     if (autoCloseDelay) {
       setTimeout(close, autoCloseDelay)
     }
+    onOpen?.()
   }
 
   const close = () => {

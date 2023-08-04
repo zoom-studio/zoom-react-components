@@ -1,16 +1,16 @@
 import React, {
+  forwardRef,
+  useRef,
+  useState,
   type ChangeEvent,
   type FocusEvent,
-  type FormEvent,
-  forwardRef,
   type HTMLAttributes,
   type HTMLInputTypeAttribute,
   type InputHTMLAttributes,
   type RefObject,
-  useRef,
 } from 'react'
 
-import { Button, Icon, LongPress, Spin, type SpinNS, Text, type TypographyNS } from '..'
+import { Button, Icon, LongPress, Spin, Text, type SpinNS, type TypographyNS } from '..'
 import { logs } from '../../constants'
 import { useComponentSize, useInputDirectionHandler, useZoomComponent } from '../../hooks'
 import {
@@ -21,6 +21,8 @@ import {
 } from '../../types'
 
 import { color } from '../../utils/color'
+import { ComboBoxPortal } from './combo-box-portal'
+import { useComboBox } from './use-combobox'
 
 export namespace InputNS {
   export type TextSize = Pick<TypographyNS.TextNS.Props, 'small' | 'normal' | 'large'>
@@ -28,9 +30,15 @@ export namespace InputNS {
     | Exclude<HTMLInputTypeAttribute, 'button' | 'checkbox' | 'radio' | object>
     | 'numeral-keypad-text'
 
-  export interface Props extends BaseInputComponent, BaseComponent {
+  export interface ComboBoxPartedItem {
+    value: string
+    matched: boolean
+  }
+
+  export interface Props extends Omit<BaseInputComponent, 'inputRef' | 'value'>, BaseComponent {
     onWrite?: (value: string) => void
     onTogglePasswordVisibility?: (isVisible: boolean) => void
+    comboBox?: string[]
     labelProps?: HTMLAttributes<HTMLSpanElement>
     labelContainerProps?: HTMLAttributes<HTMLLabelElement>
     labelTextProps?: TypographyNS.TextNS.Props
@@ -50,13 +58,13 @@ export namespace InputNS {
     numberButtonHandlers?: boolean
     autoDirection?: boolean
     changeStyleOnFocus?: boolean
+    value?: string
   }
 }
 
 export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
   (
     {
-      inputRef: providedInputRef,
       labelRef: providedLabelRef,
       size: providedSize,
       type = 'text',
@@ -68,11 +76,13 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
       autoDirection = true,
       changeStyleOnFocus = true,
       state = ['neutral'],
+      comboBox: comboBoxData,
       onWrite,
       onTogglePasswordVisibility,
       containerProps,
       labelTextProps,
       stateMessageProps,
+      value = '',
       spinProps,
       label,
       labelContainerProps,
@@ -81,7 +91,6 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
       disabled,
       loading,
       required,
-      onInput,
       onChange,
       onBlur,
       onFocus,
@@ -94,12 +103,13 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
     reference,
   ) => {
     const size = useComponentSize(providedSize)
-    const inputRef = providedInputRef ?? useRef<HTMLInputElement>(null)
     const labelRef = providedLabelRef ?? useRef<HTMLLabelElement>(null)
     const { createClassName, sendLog } = useZoomComponent('input')
     const isDisabled = disabledOnLoading ? loading || disabled : disabled
     const inputClasses = createClassName(className)
     const labelClasses = createClassName(labelProps?.className, 'label')
+
+    const [inputValue, setInputValue] = useState<string>(value)
 
     const isPassword = type === 'password'
     const isNumber = type === 'number'
@@ -107,9 +117,18 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
     const isNumeralKeypad = type === 'numeral-keypad-text'
     const isText = type === 'text' || !type
     const isRequired = required || (isSearch && searchClearButton)
+    const isComboBox =
+      !!comboBoxData && comboBoxData.length > 0 && !isPassword && !isNumber && !isNumeralKeypad
+
+    const setValue = (newValue: string) => {
+      onWrite?.(newValue)
+      setInputValue(newValue)
+    }
+
+    const comboBox = useComboBox({ comboBoxData, setValue, inputValue, isComboBox })
 
     const handleDirection = useInputDirectionHandler(
-      inputRef,
+      comboBox.refs.reference as RefObject<HTMLInputElement | HTMLTextAreaElement | null>,
       () => {
         sendLog(logs.inputNotFoundInputRef, 'useInputDirectionHandler hook')
       },
@@ -136,7 +155,8 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
     }
 
     const handleOnPasswordButtonClick = () => {
-      const { current: input } = inputRef
+      const { current: input } = comboBox.refs.reference as RefObject<HTMLInputElement>
+
       if (!input) {
         sendLog(logs.inputNotFoundInputRef, 'handleOnPasswordButtonClick fn')
         return
@@ -155,7 +175,7 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
     }
 
     const handleClearSearchButtonClick = () => {
-      const { current: input } = inputRef
+      const { current: input } = comboBox.refs.reference as RefObject<HTMLInputElement>
       if (!input) {
         sendLog(logs.inputNotFoundInputRef, 'handleClearSearchButtonClick fn')
         return
@@ -164,13 +184,12 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
       if (!isSearch || !searchClearButton) {
         return null
       }
-      input.value = ''
-      onWrite?.('')
+      setValue('')
       input.focus()
     }
 
     const handleNumberButtonHandlers = (handler: 'increase' | 'decrease') => () => {
-      const { current: input } = inputRef
+      const { current: input } = comboBox.refs.reference as RefObject<HTMLInputElement>
       if (!input) {
         sendLog(logs.inputNotFoundInputRef, 'handleNumberButtonHandlers fn')
         return
@@ -182,25 +201,38 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
 
       const currentValue = parseInt(input.value || '0')
       const newValue = (handler === 'increase' ? currentValue + 1 : currentValue - 1).toString()
-      input.value = newValue
-      onWrite?.(newValue)
+      setValue(newValue)
     }
 
     const handleOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
       const { value } = evt.currentTarget
-      onWrite?.(value)
+      setValue(value)
       onChange?.(evt)
       handleDirection(value)
-    }
-
-    const handleOnInput = (evt: FormEvent<HTMLInputElement>) => {
-      const { value } = evt.currentTarget
-      onWrite?.(value)
-      onInput?.(evt)
-      handleDirection(value)
+      comboBox.handleComboBoxOnWrite(value)
     }
 
     const isAutoFocusedRef = useRef(false)
+
+    const getNumeralKeyPadProps = (): InputHTMLAttributes<HTMLInputElement> => {
+      if (!isNumeralKeypad) {
+        return {}
+      }
+      return {
+        pattern: '[0-9]*',
+        inputMode: 'numeric',
+      }
+    }
+
+    const getInputType = (): HTMLInputTypeAttribute => {
+      switch (type) {
+        case 'numeral-keypad-text':
+        case undefined:
+          return 'text'
+        default:
+          return type
+      }
+    }
 
     const isAutoFocused = (): boolean => {
       if (!otherInputProps.autoFocus && !isAutoFocusedRef.current) {
@@ -236,26 +268,6 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
       }
     }
 
-    const getNumeralKeyPadProps = (): InputHTMLAttributes<HTMLInputElement> => {
-      if (!isNumeralKeypad) {
-        return {}
-      }
-      return {
-        pattern: '[0-9]*',
-        inputMode: 'numeric',
-      }
-    }
-
-    const getInputType = (): HTMLInputTypeAttribute => {
-      switch (type) {
-        case 'numeral-keypad-text':
-        case undefined:
-          return 'text'
-        default:
-          return type
-      }
-    }
-
     return (
       <div
         {...containerProps}
@@ -278,19 +290,27 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
           )}
 
           <input
-            {...inputProps}
-            {...otherInputProps}
-            {...getNumeralKeyPadProps()}
-            className={inputClasses}
-            ref={inputRef}
-            type={getInputType()}
-            required={isRequired}
-            onChange={handleOnChange}
-            onInput={handleOnInput}
-            onBlur={handleOnToggleFocus}
-            disabled={disabled}
-            onFocus={handleOnToggleFocus}
+            {...comboBox.getReferenceProps({
+              ...inputProps,
+              ...otherInputProps,
+              ...getNumeralKeyPadProps(),
+              'className': inputClasses,
+              'type': getInputType(),
+              'required': isRequired,
+              'onChange': handleOnChange,
+              'onFocus': handleOnToggleFocus,
+              'onBlur': handleOnToggleFocus,
+              'ref': comboBox.refs.setReference,
+              'onKeyDown': comboBox.handleComboBoxOnKeyDown,
+              'aria-autocomplete': isComboBox ? 'list' : undefined,
+              'value': inputValue,
+              disabled,
+            })}
           />
+
+          {isComboBox && comboBox.items.length > 0 && (
+            <ComboBoxPortal inputValue={inputValue} setValue={setInputValue} comboBox={comboBox} />
+          )}
 
           {isPassword && passwordToggleButton && (
             <Button

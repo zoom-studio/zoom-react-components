@@ -31,7 +31,7 @@ const VitalInputPropsObject = [
   'placeholder',
   'autoFocus',
 ] as const
-type VitalInputProps = (typeof VitalInputPropsObject)[number]
+export type VitalInputProps = (typeof VitalInputPropsObject)[number]
 
 type InputProps = Pick<InputHTMLAttributes<HTMLInputElement>, VitalInputProps>
 

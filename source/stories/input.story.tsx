@@ -5,6 +5,7 @@ import { type Meta } from '@storybook/react'
 import { Input, type InputNS } from '..'
 import { CommonStory, StoryPlayground } from './components'
 import { useI18n } from './hooks/use-i18n'
+import { FRUITS } from '../fixtures'
 
 export default {
   title: 'Data Entry/Input',
@@ -45,6 +46,23 @@ export const LoadingAndDisabled: FC = () => {
               },
             },
             { name: 'Disabled', props: { label, placeholder, disabled: true } },
+          ],
+        },
+      ]}
+    />
+  )
+}
+
+export const ComboBox: FC = () => {
+  const { label, placeholder } = useInputStory()
+  return (
+    <CommonStory
+      component={Input}
+      stories={[
+        {
+          group: [
+            { name: 'Simple input', props: { label, placeholder } },
+            { name: 'ComboBox (AutoComplete)', props: { label, placeholder, comboBox: FRUITS } },
           ],
         },
       ]}

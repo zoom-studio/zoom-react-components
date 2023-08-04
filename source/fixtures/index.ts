@@ -1,6 +1,7 @@
 export * from './en-menu-items'
 export * from './explorer-files'
 export * from './fa-menu-items'
+export * from './fruits'
 export * from './lorem'
 export * from './lorem-section'
 export * from './make-table-data'

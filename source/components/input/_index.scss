@@ -224,3 +224,30 @@ div.zoomrc-input-container {
     }
   }
 }
+
+.zoomrc-combo-box-portal {
+  @include scrollbar;
+
+  overflow: auto;
+  background-color: color(layer, 2);
+  box-shadow: 0 0 0 1px color(border, 2);
+  border-radius: 4px;
+  user-select: none;
+  padding: 10px 6px;
+
+  > .combo-box-item {
+    color: color(text, 2);
+    padding: 4px;
+    display: flex;
+    align-items: center;
+
+    &.active {
+      background-color: color(accent, 1, glassy, 3);
+      color: white;
+    }
+
+    > .zoomrc-typography {
+      margin: 0;
+    }
+  }
+}

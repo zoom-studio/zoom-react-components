@@ -49,4 +49,6 @@ export enum logs {
 
   qrCodeQrCodeContainerRefNotFound = 'ZOOMRC/QR_CODE/QR_CODE_CONTAINER_REF_NOT_FOUND',
   qrCodeQrCodeRefNotFound = 'ZOOMRC/QR_CODE/QR_CODE_REF_NOT_FOUND',
+
+  carouselSlidesRefNotFound = 'ZOOMRC/CAROUSEL/SLIDES_REF_NOT_FOUND',
 }

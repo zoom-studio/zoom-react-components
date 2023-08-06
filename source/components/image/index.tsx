@@ -36,6 +36,7 @@ export namespace ImageNS {
     imageViewerProps?: Omit<ImageViewerNS.Props, 'images' | 'children'>
     erroredStateIconFontSize?: string
     onOpenImageViewerClick?: (evt: MouseEvent<HTMLPictureElement>) => void
+    imageProps?: HTMLAttributes<HTMLImageElement>
   }
 }
 
@@ -59,6 +60,7 @@ export const Image = forwardRef<HTMLImageElement, ImageNS.Props>(
       onClick,
       children,
       onOpenImageViewerClick,
+      imageProps,
       ...rest
     },
     reference,
@@ -140,13 +142,14 @@ export const Image = forwardRef<HTMLImageElement, ImageNS.Props>(
         )}
       >
         <img
+          {...imageProps}
+          {...rest}
           loading={lazy ? 'lazy' : 'eager'}
           alt={alt}
           onLoad={handleOnLoad}
           onError={handleOnError}
           onClick={handleOnClick}
           src={src}
-          {...rest}
         />
 
         {children}

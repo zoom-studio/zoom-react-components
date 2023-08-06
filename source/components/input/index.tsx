@@ -7,6 +7,7 @@ import React, {
   type HTMLAttributes,
   type HTMLInputTypeAttribute,
   type InputHTMLAttributes,
+  type KeyboardEvent,
   type RefObject,
 } from 'react'
 
@@ -301,7 +302,10 @@ export const Input = forwardRef<HTMLDivElement, InputNS.Props>(
               'onFocus': handleOnToggleFocus,
               'onBlur': handleOnToggleFocus,
               'ref': comboBox.refs.setReference,
-              'onKeyDown': comboBox.handleComboBoxOnKeyDown,
+              'onKeyDown': (evt: KeyboardEvent<HTMLInputElement>) => {
+                comboBox.handleComboBoxOnKeyDown(evt)
+                inputProps?.onKeyDown?.(evt)
+              },
               'aria-autocomplete': isComboBox ? 'list' : undefined,
               'value': inputValue,
               disabled,

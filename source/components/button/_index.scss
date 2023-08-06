@@ -79,7 +79,7 @@ span[class^='zoomrc-button-']:not(.zoomrc-button-inner-child) {
   }
 }
 
-.zoomrc-button-inner-child {
+.zoomrc-button-inner-child:not(a) {
   &,
   & * {
     pointer-events: none;

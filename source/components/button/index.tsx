@@ -1,11 +1,10 @@
 import React, { forwardRef, type ReactNode } from 'react'
 
-import { Link } from 'react-router-dom'
-
-import { Emoji, type EmojiNS, Icon, type IconNS, Spin } from '..'
-import { useComponentSize, useZoomComponent } from '../../hooks'
+import { Emoji, Icon, Spin, type EmojiNS, type IconNS } from '..'
+import { useComponentSize, useZoomComponent, useZoomContext } from '../../hooks'
 import { type BaseComponent, type CommonSize, type CommonVariants } from '../../types'
 import { ConditionalWrapper } from '../conditional-wrapper'
+import { CustomLink } from '../custom-link'
 
 export namespace ButtonNS {
   export type HtmlType = 'submit' | 'reset' | 'button'
@@ -81,6 +80,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonNS.Props>(
     reference,
   ) => {
     const { createClassName } = useZoomComponent('button')
+    const { linkComponent } = useZoomContext()
     const size = useComponentSize(providedSize)
     const isDisabled = disabledOnLoading ? loading || disabled : disabled
 
@@ -142,7 +142,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonNS.Props>(
 
     return (
       <ConditionalWrapper
-        condition={useSpan}
+        condition={useSpan || !!href}
         trueWrapper={children => (
           <span
             {...rest}
@@ -167,13 +167,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonNS.Props>(
           </button>
         )}
       >
-        {href ? (
-          <Link to={href} target={target} className={innerChildClassnames}>
-            {createChildren()}
-          </Link>
-        ) : (
-          <span className={innerChildClassnames}>{createChildren()}</span>
-        )}
+        <ConditionalWrapper
+          condition={!!href}
+          falseWrapper={children => <span className={innerChildClassnames}>{children}</span>}
+          trueWrapper={children => (
+            <CustomLink
+              userLink={linkComponent}
+              target={target}
+              href={href}
+              className={innerChildClassnames}
+            >
+              {children}
+            </CustomLink>
+          )}
+        >
+          {createChildren()}
+        </ConditionalWrapper>
       </ConditionalWrapper>
     )
   },

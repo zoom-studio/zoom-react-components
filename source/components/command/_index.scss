@@ -142,8 +142,8 @@
               left: 0;
               top: 0;
               bottom: 0;
-              width: 2px;
-              background-color: color(text, 3);
+              width: 4px;
+              background-color: color(accent);
               border-radius: 0 10px 10px 0;
               opacity: 0;
             }
@@ -209,7 +209,7 @@
             }
 
             &.active {
-              background-color: color(skeleton);
+              background-color: color(accent, 1, glassy, 1);
 
               &::before,
               > .type {

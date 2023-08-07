@@ -7,20 +7,25 @@ import React, {
   type HTMLAttributeAnchorTarget,
   type HTMLAttributes,
   type KeyboardEvent,
-  type MouseEvent,
   type ReactNode,
   type RefObject,
 } from 'react'
 
 import { doByRef, sleep } from '@zoom-studio/zoom-js-ts-utils'
 
-import { Button, Portal, ScrollView, type EmojiNS, type IconNS } from '..'
+import { Button, Portal, ScrollView, Text, type EmojiNS, type IconNS } from '..'
 import { logs } from '../../constants'
 import { useZoomComponent, useZoomContext } from '../../hooks'
 import { type BaseComponent } from '../../types'
 import { ActionItem } from './action-item'
 import { SectionItem } from './section-item'
-import { isSection, makeActionItemId, shouldRenderAction, unmakeActionItemId } from './utils'
+import {
+  extractActions,
+  isSection,
+  makeActionItemId,
+  shouldRenderAction,
+  unmakeActionItemId,
+} from './utils'
 
 export namespace CommandNS {
   export const SECTION_TITLE_HEIGHT = 32
@@ -64,23 +69,29 @@ export namespace CommandNS {
     toggle: () => void
   }
 
-  export interface Props extends Omit<BaseComponent, 'children'> {
-    children?: ReactNode | ((params: ChildrenCallbackParams) => ReactNode)
+  export interface Path {
+    name: string
+    id: string
     items: Item[]
+  }
+
+  export interface Props extends Omit<BaseComponent, 'children'> {
+    items: Item[]
+    children?: ReactNode | ((params: ChildrenCallbackParams) => ReactNode)
     defaultIsOpen?: boolean
     backdropRef?: RefObject<HTMLDivElement>
     backdropProps?: HTMLAttributes<HTMLDivElement>
     placeholder?: string
-    enabledDynamicPlaceholder?: boolean
+    onWillOpen?: () => void
+    onWillClose?: () => void
   }
 }
 
 export const Command = forwardRef<HTMLDivElement, CommandNS.Props>(
   (
     {
-      placeholder: providedPlaceholder = 'Search for commands...',
+      placeholder = 'Search for commands...',
       items = [],
-      enabledDynamicPlaceholder = true,
       className,
       containerProps,
       defaultIsOpen,
@@ -88,60 +99,39 @@ export const Command = forwardRef<HTMLDivElement, CommandNS.Props>(
       backdropProps,
       style,
       children,
+      onWillClose,
+      onWillOpen,
+      ...rest
     },
     reference,
   ) => {
     const { createClassName, sendLog } = useZoomComponent('command')
-    const { linkComponent } = useZoomContext()
+    const { linkComponent, isRTL } = useZoomContext()
 
     const [isOpen, setIsOpen] = useState(!!defaultIsOpen)
-    const [placeholder, setPlaceholder] = useState(providedPlaceholder)
     const [query, setQuery] = useState('')
-    const [currentItems, setCurrentItems] = useState(items)
-    const [prevItems, setPrevItems] = useState(items)
+    const [path, setPath] = useState<CommandNS.Path[]>([])
     const [commandBoxHeight, setCommandBoxHeight] = useState(500)
     const [activeItem, setActiveItem] = useState<string | null>(null)
 
     const bodyRef = useRef<HTMLDivElement>(null)
     const searchInputRef = useRef<HTMLInputElement>(null)
+    const pathsRef = useRef<HTMLDivElement>(null)
 
     const classes = createClassName(className, '')
     const backdropClasses = createClassName(className, 'backdrop')
 
-    const close = () => {
-      setIsOpen(false)
+    const currentItems = path[path.length - 1]?.items ?? items
+
+    const resetStates = () => {
+      setQuery('')
+      setPath([])
+      setCommandBoxHeight(500)
+      setActiveItem(null)
     }
 
-    const open = () => {
-      setIsOpen(true)
-    }
-
-    const toggle = () => {
-      setIsOpen(isOpen => {
-        if (isOpen) {
-          close()
-          return false
-        }
-        open()
-        return true
-      })
-    }
-
-    const handleOnMouseEnterAction =
-      (action: CommandNS.Action) =>
-      (evt: MouseEvent<HTMLDivElement> | MouseEvent<HTMLAnchorElement>) => {
-        if (enabledDynamicPlaceholder) {
-          setPlaceholder(action.name)
-          setActiveItem(makeActionItemId(action.id))
-        }
-      }
-
-    const handleOnMouseLeaveBody = (evt: MouseEvent<HTMLDivElement>) => {
-      setPlaceholder(providedPlaceholder)
-    }
-
-    const handleOnMouseEnterSection = (evt: MouseEvent<HTMLDivElement>) => {
-      setPlaceholder(providedPlaceholder)
+    const handleOnMouseEnterAction = (action: CommandNS.Action) => () => {
+      setActiveItem(makeActionItemId(action.id))
     }
 
     const doByBodyRef = (functionName: string, callback: (body: HTMLDivElement) => void) => {
@@ -188,48 +178,99 @@ export const Command = forwardRef<HTMLDivElement, CommandNS.Props>(
       return action
     }
 
-    const handleOnKeyDownInput = (evt: KeyboardEvent<HTMLInputElement>) => {
-      if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape', 'Backspace'].includes(evt.key)) {
+    const scrollPathsContainerToEnd = () => {
+      setTimeout(() => {
+        doByRef(pathsRef, pathsContainer => {
+          pathsContainer.scrollLeft = isRTL
+            ? pathsContainer.scrollWidth * -1
+            : pathsContainer.scrollWidth
+        })
+      }, 10)
+    }
+
+    const backToPrevPath = () => {
+      const prevPath = path[path.length - 1]
+
+      if (prevPath) {
+        setPath(path.slice(0, path.length - 1))
+        setActiveItem(prevPath.id)
+      } else {
+        setPath([])
+      }
+
+      scrollPathsContainerToEnd()
+    }
+
+    const goToPath = (index: number) => () => {
+      const targetPath = path[index]
+
+      if (targetPath) {
+        setPath(path.slice(0, index))
+        setActiveItem(targetPath.id)
+      }
+
+      scrollPathsContainerToEnd()
+    }
+
+    const addNewPath = (pathItems: CommandNS.Item[], pathName: string, id: string) => {
+      setPath(paths => [...paths, { items: pathItems, name: pathName, id }])
+      const firstPathAction = extractActions(pathItems)[0]
+      setActiveItem(firstPathAction ? makeActionItemId(firstPathAction.id) : null)
+
+      scrollPathsContainerToEnd()
+    }
+
+    const performAction = (action?: CommandNS.Item) => {
+      if (!activeItem) {
+        return
+      }
+      action = action ?? findActionById(currentItems, activeItem)
+      if (!action || isSection(action)) {
         return
       }
 
-      evt.preventDefault()
+      // container action
+      if (action.subItems && action.subItems.length > 0) {
+        addNewPath(action.subItems, action.name, makeActionItemId(action.id))
+      } else if (action.performs) {
+        if (typeof action.performs === 'function') {
+          action.performs(action)
+        } else {
+          const { id } = action
+          doByBodyRef('performAction', body => {
+            const actionElement = body.querySelector(
+              `a[data-action="true"]#${makeActionItemId(id)}`,
+            ) as HTMLAnchorElement | undefined
+
+            actionElement?.click()
+          })
+        }
+      }
+    }
+
+    const handleOnKeyDownInput = (evt: KeyboardEvent<HTMLInputElement>) => {
+      if (!['ArrowDown', 'ArrowUp', 'Enter', 'Backspace'].includes(evt.key)) {
+        return
+      }
 
       switch (evt.key) {
         case 'Backspace': {
           if (!query) {
-            setCurrentItems(prevItems)
+            evt.preventDefault()
+
+            backToPrevPath()
           }
-          break
-        }
-        case 'Escape': {
-          close()
           break
         }
         case 'Enter': {
-          if (!activeItem) {
-            break
-          }
-          const action = findActionById(currentItems, activeItem)
-          if (!action || isSection(action)) {
-            break
-          }
-
-          // container action
-          if (action.subItems && action.subItems.length > 0) {
-            setPrevItems(currentItems)
-            setCurrentItems(action.subItems)
-            setActiveItem(null)
-          } else if (action.performs) {
-            if (typeof action.performs === 'function') {
-              action.performs(action)
-            }
-          }
-
+          evt.preventDefault()
+          performAction()
           break
         }
         case 'ArrowDown':
         case 'ArrowUp': {
+          evt.preventDefault()
+
           doByBodyRef('handleOnKeyDown [Arrows]', body => {
             const findElement = (
               direction: 'next' | 'prev',
@@ -293,6 +334,54 @@ export const Command = forwardRef<HTMLDivElement, CommandNS.Props>(
       }
     }
 
+    const handleOnDocumentKeyDown = (evt: globalThis.KeyboardEvent) => {
+      if (!['Escape'].includes(evt.key)) {
+        return
+      }
+
+      switch (evt.key) {
+        case 'Escape': {
+          evt.preventDefault()
+
+          resetStates()
+          close()
+          break
+        }
+      }
+    }
+
+    const close = () => {
+      onWillClose?.()
+      document.removeEventListener('keydown', handleOnDocumentKeyDown)
+      setIsOpen(false)
+    }
+
+    const open = () => {
+      onWillOpen?.()
+      document.addEventListener('keydown', handleOnDocumentKeyDown)
+      setIsOpen(true)
+    }
+
+    const toggle = () => {
+      setIsOpen(isOpen => {
+        if (isOpen) {
+          close()
+          return false
+        }
+        open()
+        return true
+      })
+    }
+
+    const registerCommandShortcut = (evt: globalThis.KeyboardEvent) => {
+      if (evt.keyCode !== 75 || !evt.ctrlKey) {
+        return
+      }
+
+      evt.preventDefault()
+      toggle()
+    }
+
     useEffect(() => {
       void sleep(10).then(() => {
         const { current: body } = bodyRef
@@ -324,12 +413,25 @@ export const Command = forwardRef<HTMLDivElement, CommandNS.Props>(
       focusActiveItem()
     }, [activeItem])
 
+    useEffect(() => {
+      document.addEventListener('keydown', registerCommandShortcut)
+      if (isOpen) {
+        document.addEventListener('keydown', handleOnDocumentKeyDown)
+      }
+
+      return () => {
+        document.removeEventListener('keydown', registerCommandShortcut)
+        document.removeEventListener('keydown', handleOnDocumentKeyDown)
+      }
+    }, [])
+
     return (
       <>
         <Portal>
           {isOpen && (
             <>
               <div
+                {...rest}
                 {...backdropProps}
                 onClick={close}
                 className={backdropClasses}
@@ -343,6 +445,15 @@ export const Command = forwardRef<HTMLDivElement, CommandNS.Props>(
                 ref={reference}
               >
                 <div className="header" style={{ height: CommandNS.HEADER_HEIGHT }}>
+                  <div ref={pathsRef} className="paths">
+                    {path.map((item, index) => (
+                      <Fragment key={index}>
+                        <Text onClick={goToPath(index)}>{item.name}</Text>
+                        <Text className="splitter">/</Text>
+                      </Fragment>
+                    ))}
+                  </div>
+
                   <input
                     className="search-input"
                     autoFocus
@@ -365,7 +476,7 @@ export const Command = forwardRef<HTMLDivElement, CommandNS.Props>(
                   />
                 </div>
 
-                <div className="body" ref={bodyRef} onMouseLeave={handleOnMouseLeaveBody}>
+                <div className="body" ref={bodyRef}>
                   <ScrollView maxHeight={commandBoxHeight - CommandNS.HEADER_HEIGHT}>
                     {currentItems.map((item, index) =>
                       isSection(item) ? (
@@ -374,15 +485,16 @@ export const Command = forwardRef<HTMLDivElement, CommandNS.Props>(
                           key={index}
                           section={item}
                           query={query}
+                          performAction={performAction}
                           activeItem={activeItem}
                           handleOnMouseEnterAction={handleOnMouseEnterAction}
-                          handleOnMouseEnterSection={handleOnMouseEnterSection}
                         />
                       ) : shouldRenderAction(item, query) ? (
                         <ActionItem
                           key={index}
                           action={item}
                           activeItem={activeItem}
+                          performAction={performAction}
                           linkComponent={linkComponent}
                           handleOnMouseEnterAction={handleOnMouseEnterAction}
                         />

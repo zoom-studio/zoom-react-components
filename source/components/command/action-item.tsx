@@ -12,6 +12,7 @@ export namespace ActionItemNS {
     action: CommandNS.Action
     isLastActionInSection?: boolean
     linkComponent: CustomLinkNS.Props['userLink']
+    performAction: (action?: CommandNS.Item) => void
     activeItem: CommandNS.ActionID | null
     handleOnMouseEnterAction: (
       action: CommandNS.Action,
@@ -25,6 +26,7 @@ export const ActionItem: FC<ActionItemNS.Props> = ({
   handleOnMouseEnterAction,
   linkComponent,
   activeItem,
+  performAction,
 }) => {
   const { type: providedType, name, description, emoji, icon, performs, subItems, id } = action
 
@@ -63,7 +65,16 @@ export const ActionItem: FC<ActionItemNS.Props> = ({
   return (
     <ConditionalWrapper
       condition={typeof performs === 'object' && 'url' in performs}
-      falseWrapper={children => <div {...containerProps}>{children}</div>}
+      falseWrapper={children => (
+        <div
+          {...containerProps}
+          onClick={() => {
+            performAction(action)
+          }}
+        >
+          {children}
+        </div>
+      )}
       trueWrapper={children => (
         <CustomLink
           userLink={linkComponent}

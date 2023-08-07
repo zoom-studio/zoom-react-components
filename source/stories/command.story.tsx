@@ -10,7 +10,18 @@ export default {
   component: Command,
   args: {
     items: COMMAND_ITEMS,
+    placeholder: 'What are you looking for?',
     defaultIsOpen: true,
+    children: undefined,
+    onWillOpen: undefined,
+    onWillClose: undefined,
+    className: 'my-command',
+    id: 'my-command',
+    backdropProps: {},
+    backdropRef: undefined,
+    containerProps: {},
+    onClick: undefined,
+    style: {},
   },
 } as Meta<typeof Command>
 

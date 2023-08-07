@@ -12,7 +12,7 @@ export namespace SectionItemNS {
     query: string
     linkComponent: CustomLinkNS.Props['userLink']
     activeItem: CommandNS.ActionID | null
-    handleOnMouseEnterSection: (evt: MouseEvent<HTMLDivElement>) => void
+    performAction: (action?: CommandNS.Item) => void
     handleOnMouseEnterAction: (
       action: CommandNS.Action,
     ) => (evt: MouseEvent<HTMLDivElement> | MouseEvent<HTMLAnchorElement>) => void
@@ -25,7 +25,7 @@ export const SectionItem: FC<SectionItemNS.Props> = ({
   query,
   linkComponent,
   handleOnMouseEnterAction,
-  handleOnMouseEnterSection,
+  performAction,
 }) => {
   const filteredActions = actions.filter(action => shouldRenderAction(action, query))
 
@@ -37,7 +37,6 @@ export const SectionItem: FC<SectionItemNS.Props> = ({
           data-section={true}
           className="command-item section-item"
           style={{ height: CommandNS.SECTION_TITLE_HEIGHT }}
-          onMouseEnter={handleOnMouseEnterSection}
         >
           <Title h6 className="section-name">
             {sectionName}
@@ -48,6 +47,7 @@ export const SectionItem: FC<SectionItemNS.Props> = ({
       {filteredActions.map((action, index) => (
         <ActionItem
           activeItem={activeItem}
+          performAction={performAction}
           linkComponent={linkComponent}
           handleOnMouseEnterAction={handleOnMouseEnterAction}
           isLastActionInSection={index === filteredActions.length - 1}

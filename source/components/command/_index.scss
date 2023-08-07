@@ -28,8 +28,8 @@
   left: 0;
   right: 0;
   background-color: color(layer, 1);
-  width: 100%;
-  max-width: 600px;
+  width: 90%;
+  max-width: 800px;
   margin: auto;
   box-shadow: 0 0 0 1px color(border, 2);
   border-radius: 4px;
@@ -54,6 +54,38 @@
     align-items: center;
     padding: 0 6px;
 
+    > .paths {
+      @include no-scrollbar;
+
+      display: flex;
+      color: color(text, 2);
+      max-width: 200px;
+      overflow: auto;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      scroll-behavior: smooth;
+
+      > .zoomrc-typography {
+        padding: 2px;
+        margin: 0;
+        display: inline;
+
+        &:not(.splitter) {
+          cursor: pointer;
+          border-radius: 4px;
+          padding: 2px 4px;
+
+          &:hover {
+            background-color: color(skeleton);
+          }
+        }
+
+        &.splitter {
+          color: color(text, 3);
+        }
+      }
+    }
+
     > .close-button {
       > .zoomrc-button-inner-child {
         > .zoomrc-icon {
@@ -66,7 +98,7 @@
     > .search-input {
       @include text(common, large);
 
-      width: 100%;
+      flex: 1;
       height: 50px;
       border-radius: 0;
       box-shadow: none !important;
@@ -188,6 +220,25 @@
             &:not(:last-child) {
               &.last-section-action {
                 box-shadow: inset 0 -1px 0 1px color(border, 2, glassy, 5);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include rtl {
+  .zoomrc-command {
+    > .body {
+      > .zoomrc-scroll-view {
+        > .os-viewport {
+          > .command-item {
+            &.action-item {
+              &::before {
+                left: unset;
+                right: 0;
               }
             }
           }

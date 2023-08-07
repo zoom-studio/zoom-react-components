@@ -21,3 +21,17 @@ export const makeActionItemId = (actionId: CommandNS.ActionID): string => {
 export const unmakeActionItemId = (actionId: string): string => {
   return actionId.replace(ACTION_ID_PREFIX, '')
 }
+
+export const extractActions = (items: CommandNS.Item[]): CommandNS.Action[] => {
+  const actions: CommandNS.Action[] = []
+
+  for (const item of items) {
+    if (isSection(item)) {
+      actions.push(...item.actions)
+    } else {
+      actions.push(item)
+    }
+  }
+
+  return actions
+}

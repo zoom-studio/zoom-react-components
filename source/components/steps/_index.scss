@@ -1,0 +1,166 @@
+.zoomrc-steps {
+  > .zoomrc-scroll-view {
+    > .os-viewport {
+      display: block;
+      white-space: nowrap;
+      padding: 14px 6px !important;
+
+      > .connector {
+        height: 2px;
+        width: 100px;
+        display: inline-block;
+        background-color: color(text, 3);
+        border-radius: 2px;
+      }
+
+      > .step {
+        display: inline-flex;
+        border: 1px solid transparent;
+        user-select: none;
+        gap: 6px;
+        padding: 6px;
+
+        > .titles {
+          display: flex;
+          flex-direction: column;
+          max-width: 200px;
+          white-space: break-spaces;
+
+          > .title {
+            color: color(text, 1);
+            margin: 0;
+            transition: all 150ms linear;
+          }
+
+          > .description {
+            color: color(text, 2);
+            margin: 0;
+            transition: all 150ms linear;
+          }
+        }
+
+        > .sign {
+          width: fit-content;
+
+          > .sign-content {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: color(layer, 2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 150ms linear;
+            position: relative;
+
+            > .step-icon,
+            > .step-number {
+              margin: 0;
+              color: color(text, 1);
+              width: inherit;
+              height: inherit;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            > .step-icon {
+              margin: -10px 0 0;
+              transform: translateY(4px);
+            }
+
+            > .step-progress {
+              position: absolute;
+              pointer-events: none;
+            }
+          }
+        }
+
+        &.disabled {
+          filter: grayscale(1);
+          opacity: 0.5;
+          pointer-events: none;
+        }
+
+        &.passed {
+          > .sign {
+            > .sign-content {
+              background-color: color(accent, 1, glassy, 2);
+
+              > .step-icon {
+                color: color(accent);
+              }
+            }
+          }
+
+          & + .connector {
+            background-color: color(accent);
+          }
+        }
+
+        &.active {
+          > .sign {
+            > .sign-content {
+              background-color: color(accent);
+
+              > .step-number {
+                color: white;
+              }
+            }
+          }
+        }
+
+        &.loading {
+          > .sign {
+            > .sign-content {
+              background-color: transparent;
+            }
+          }
+        }
+
+        &.clickable {
+          cursor: pointer;
+          border-radius: 4px;
+
+          &:hover {
+            > .titles {
+              > .title {
+                color: color(accent);
+              }
+
+              > .description {
+                color: color(accent, 1);
+              }
+            }
+          }
+
+          &:not(.loading) {
+            &:hover {
+              > .sign {
+                > .sign-content {
+                  box-shadow: 0 0 0 4px color(accent, 1, glassy, 2);
+                }
+              }
+            }
+          }
+        }
+
+        &.single-title {
+          > .titles {
+            > .title {
+              padding-top: 8px;
+            }
+
+            > .description {
+              padding-top: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &-disabled {
+    filter: grayscale(1);
+  }
+}

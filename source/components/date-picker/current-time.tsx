@@ -1,6 +1,6 @@
 import React, { useEffect, useState, type FC } from 'react'
 
-import { Dated } from '@zoom-studio/zoom-js-ts-utils'
+import { Dated } from '@zoom-studio/js-ts-utils'
 
 import { Text } from '..'
 

@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useState } from 'react'
 
-import { isValidURL, useObjectedState } from '@zoom-studio/zoom-js-ts-utils'
+import { isValidURL, useObjectedState } from '@zoom-studio/js-ts-utils'
 
 import {
   Divider,

@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils';
+import { type UseObjectedStateNS } from '@zoom-studio/js-ts-utils';
 import { type ExplorerNS } from '..';
 export declare namespace ExplorerSidebarNS {
     interface Props extends Pick<ExplorerNS.Props, 'onEditImage' | 'onDeleteFiles' | 'isSavingEditedImage' | 'isDeletingFiles' | 'isRenamingFile'> {

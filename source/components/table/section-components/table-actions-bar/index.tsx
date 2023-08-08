@@ -1,7 +1,7 @@
 import React, { type FC } from 'react'
 
 import { type Table } from '@tanstack/react-table'
-import { useDebounce } from '@zoom-studio/zoom-js-ts-utils'
+import { useDebounce } from '@zoom-studio/js-ts-utils'
 
 import { type TableNS } from '../../types'
 import { Button, type ButtonNS, Input, Popover, Title, Tooltip } from '../../..'

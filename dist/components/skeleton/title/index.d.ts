@@ -1,5 +1,5 @@
 import React from 'react';
-import { type Range } from '@zoom-studio/zoom-js-ts-utils';
+import { type Range } from '@zoom-studio/js-ts-utils';
 import { type SkeletonNS } from '..';
 export declare namespace TitleSkeletonNS {
     interface Props extends SkeletonNS.BaseProps {

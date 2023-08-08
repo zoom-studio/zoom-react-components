@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
+import { useFutureEffect } from '@zoom-studio/js-ts-utils'
 
 import { useZoomComponent } from '../../hooks'
 

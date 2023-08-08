@@ -1,4 +1,4 @@
-import { randomNumber } from '@zoom-studio/zoom-js-ts-utils'
+import { randomNumber } from '@zoom-studio/js-ts-utils'
 
 import { ICON_NAMES } from '../components/icon/constants/icon-names'
 

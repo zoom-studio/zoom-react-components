@@ -1,10 +1,7 @@
-import { type RefObject } from 'react';
+import { type MutableRefObject } from 'react';
 import { type SelectNS } from '.';
-import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider';
-import { type SelectOptionNS } from './option';
-export declare const groupOptions: (options?: SelectNS.Option<SelectOptionNS.Value>[], defaultValue?: SelectNS.Props<SelectOptionNS.Value>['defaultValue']) => SelectNS.GroupedOptions;
-export declare const getSelectedOptions: (currentOptions?: SelectNS.GroupedOptions) => SelectNS.SingleOption[];
-export declare const scrollToTop: (containerRef: RefObject<HTMLDivElement>, scrollOnOpen: boolean, sendLog: ZoomGlobalConfigProviderNS.Log) => void;
-export declare const focusSearchBox: (inputRef: RefObject<HTMLInputElement>, sendLog: ZoomGlobalConfigProviderNS.Log) => Promise<void>;
-export declare const defaultEmpty: (options?: SelectNS.Option<SelectOptionNS.Value>[]) => false | "empty-list";
-export declare const filterLabel: (label: string, searchQuery: string) => boolean;
+import { type ScrollArrowNS } from './scroll-arrow';
+export declare const SCROLL_ARROW_PADDING = 10;
+export declare const shouldShowArrow: (scrollRef: MutableRefObject<HTMLDivElement | null>, dir: ScrollArrowNS.ArrowDir) => boolean;
+export declare const defaultEmpty: <Value extends SelectNS.PossibleValues = number, Data = unknown>(options?: SelectNS.Option<Value, Data>[]) => SelectNS.EmptyState;
+export declare const findDefaultValue: <MultiSelect extends boolean = false, Value extends SelectNS.PossibleValues = number, Data = unknown>(options: SelectNS.CustomizedOption<Value, Data>[], defaultValue?: import("@zoom-studio/js-ts-utils").MaybeArray<Value | SelectNS.Option<Value, Data>> | undefined) => number[];

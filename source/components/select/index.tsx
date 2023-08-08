@@ -1,6 +1,6 @@
 import React, { useState, type ReactNode } from 'react'
 
-import { classNames, useFutureEffect, type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, useFutureEffect, type MaybeArray } from '@zoom-studio/js-ts-utils'
 
 import { Icon, Input, SVGIcon, Spin, Text, type InputNS, type TypographyNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'
@@ -203,7 +203,6 @@ export const Select = <
                   size="small"
                   changeStyleOnFocus={false}
                   placeholder={searchPlaceholder}
-                  inputRef={select.searchInputRef}
                   value={searchQuery}
                   onWrite={setSearchQuery}
                 />

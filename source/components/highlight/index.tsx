@@ -1,10 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import {
-  fixNumberLocale,
-  reactChildrenToString,
-  type MaybeArray,
-} from '@zoom-studio/zoom-js-ts-utils'
+import { fixNumberLocale, reactChildrenToString, type MaybeArray } from '@zoom-studio/js-ts-utils'
 import Highlighter from 'react-highlight-words'
 
 import { useZoomComponent } from '../../hooks'

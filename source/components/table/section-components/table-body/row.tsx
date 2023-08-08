@@ -1,7 +1,7 @@
 import React, { type CSSProperties, type FC } from 'react'
 
 import { type Row, flexRender } from '@tanstack/react-table'
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 import { Collapse, type TableNS } from '../../..'
 

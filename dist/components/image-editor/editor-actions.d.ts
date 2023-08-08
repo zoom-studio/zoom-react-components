@@ -1,6 +1,6 @@
 import { type FC, type RefObject } from 'react';
 import { type CropperRef } from 'react-advanced-cropper';
-import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils';
+import { type UseObjectedStateNS } from '@zoom-studio/js-ts-utils';
 import { type IconNS, type ImageEditorNS, type ZoomGlobalConfigProviderNS } from '..';
 export declare namespace EditorActionsNS {
     interface Action {

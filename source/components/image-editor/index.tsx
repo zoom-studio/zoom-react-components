@@ -11,7 +11,7 @@ import {
   canvasToBlobURL,
   classNames,
   useObjectedState,
-} from '@zoom-studio/zoom-js-ts-utils'
+} from '@zoom-studio/js-ts-utils'
 import {
   CircleStencil,
   Cropper,

@@ -1,6 +1,6 @@
 import React, { type ReactNode } from 'react'
 
-import { type MaybeString, type DeepKeys, type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeString, type DeepKeys, type MaybeArray } from '@zoom-studio/js-ts-utils'
 
 import { type TableNS } from '../types'
 

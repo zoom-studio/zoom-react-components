@@ -1,6 +1,6 @@
 import React, { type CSSProperties, type FC, type ReactNode, useRef } from 'react'
 
-import { classNames, toKebabCase } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, toKebabCase } from '@zoom-studio/js-ts-utils'
 
 import { ResizableMaker, ResizableMakerNS } from '../resizable-maker'
 import { useZoomComponent } from '../../hooks'

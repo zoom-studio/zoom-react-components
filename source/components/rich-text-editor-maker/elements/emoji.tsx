@@ -3,7 +3,7 @@ import React, { type FC, type ReactNode } from 'react'
 import { type RenderElementProps, useFocused, useSelected } from 'slate-react'
 
 import { Emoji } from '../..'
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 import { useEditorContext } from '../utils'
 
 export namespace EmojiElementNS {

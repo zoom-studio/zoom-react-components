@@ -1,7 +1,7 @@
 import React, { type FC, type ReactNode } from 'react'
 
 import { SubMenuItem as SubMenuItemComponent, type SubMenuItemProps } from 'react-menu-list'
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 import { Icon } from '../icon'
 

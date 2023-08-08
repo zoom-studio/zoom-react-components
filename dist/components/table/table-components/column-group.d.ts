@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type MaybeArray } from '@zoom-studio/zoom-js-ts-utils';
+import { type MaybeArray } from '@zoom-studio/js-ts-utils';
 export declare namespace ColumnGroupNS {
     interface Props {
         width?: string | number;

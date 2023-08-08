@@ -1,6 +1,6 @@
 import React, { Fragment, forwardRef, useRef, useState } from 'react'
 
-import { classNames, useFutureEffect, useVariable } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, useFutureEffect, useVariable } from '@zoom-studio/js-ts-utils'
 
 import { ScrollView, type ScrollViewNS } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'

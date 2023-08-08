@@ -1,9 +1,6 @@
 import { useState } from 'react'
 
-import {
-  hashtagRegEx as hashtagRegularExpression,
-  useVariable,
-} from '@zoom-studio/zoom-js-ts-utils'
+import { hashtagRegEx as hashtagRegularExpression, useVariable } from '@zoom-studio/js-ts-utils'
 import { type BaseRange, Range } from 'slate'
 
 import { type RichTextEditorMakerProviderNS } from '../provider'

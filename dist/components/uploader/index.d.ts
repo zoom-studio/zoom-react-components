@@ -1,5 +1,5 @@
 import React from 'react';
-import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils';
+import { type MaybeString } from '@zoom-studio/js-ts-utils';
 import { ExplorerNS, type TypographyNS } from '..';
 import { type BaseComponent, type DataEntriesState } from '../../types';
 import { type UseUploaderI18nNS } from './use-i18n';

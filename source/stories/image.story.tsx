@@ -1,7 +1,7 @@
 import React, { type FC, useState } from 'react'
 
 import { type Meta } from '@storybook/react'
-import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
+import { randomImage } from '@zoom-studio/js-ts-utils'
 
 import { Button, Image, ImageNS } from '../components'
 import { CommonStory, type CommonStoryNS, StoryPlayground } from './components'

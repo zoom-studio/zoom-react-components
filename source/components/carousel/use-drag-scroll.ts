@@ -1,6 +1,6 @@
 import { useRef, type MouseEvent } from 'react'
 
-import { doByRef } from '@zoom-studio/zoom-js-ts-utils'
+import { doByRef } from '@zoom-studio/js-ts-utils'
 
 import { logs } from '../../constants'
 import { type ZoomGlobalConfigProviderNS } from '../zoom-global-config-provider'

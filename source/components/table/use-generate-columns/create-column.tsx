@@ -20,7 +20,7 @@ import {
   HeaderCell,
   type HeaderCellNS,
 } from '../table-components'
-import { randomString, toArray } from '@zoom-studio/zoom-js-ts-utils'
+import { randomString, toArray } from '@zoom-studio/js-ts-utils'
 
 export namespace CreateColumnNS {
   export interface Params {

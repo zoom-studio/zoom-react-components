@@ -1,6 +1,6 @@
 import React, { type FC } from 'react'
 
-import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+import { type UseObjectedStateNS } from '@zoom-studio/js-ts-utils'
 
 import { Button, Input, Select } from '..'
 

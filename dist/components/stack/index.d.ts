@@ -1,5 +1,5 @@
 import { type ForwardRefExoticComponent, type ReactNode, type RefAttributes } from 'react';
-import { type MaybeArray } from '@zoom-studio/zoom-js-ts-utils';
+import { type MaybeArray } from '@zoom-studio/js-ts-utils';
 import { type BaseComponent } from '../../types';
 import { StackItem } from './stack-item';
 export declare namespace StackNS {

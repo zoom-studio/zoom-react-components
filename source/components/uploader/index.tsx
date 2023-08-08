@@ -1,6 +1,6 @@
 import React, { type DragEvent, type FormEvent, forwardRef, useRef, useState } from 'react'
 
-import { classNames, fileListToArray, type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, fileListToArray, type MaybeString } from '@zoom-studio/js-ts-utils'
 
 import { AsyncWrapper, Button, ExplorerNS, Icon, Text, Title, type TypographyNS } from '..'
 import { useZoomComponent, useZoomContext } from '../../hooks'

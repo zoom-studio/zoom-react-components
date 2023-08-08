@@ -1,6 +1,6 @@
 import React, { type ReactNode } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 import { type SelectNS } from '.'
 import { type InputNS, Text, Title } from '..'

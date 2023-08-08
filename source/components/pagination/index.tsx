@@ -1,6 +1,6 @@
 import React, { type FormEvent, forwardRef, useMemo, useState } from 'react'
 
-import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
+import { useFutureEffect } from '@zoom-studio/js-ts-utils'
 
 import { Button, Icon, Input, type ButtonNS, type IconNS } from '..'
 import { useZoomComponent } from '../../hooks'
@@ -201,7 +201,7 @@ export const Pagination = forwardRef<HTMLDivElement, PaginationNS.Props>(
         {showCustomPageInput && (
           <form className="custom-page" onSubmit={handleSubmitCustomPage}>
             <Input
-              value={customActivePage}
+              value={customActivePage.toString()}
               type="number"
               disabled={disabled}
               state={[hasCustomActivePageError ? 'error' : 'neutral']}

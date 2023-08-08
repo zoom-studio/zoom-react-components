@@ -1,5 +1,5 @@
 import React, { type MouseEvent } from 'react';
-import { type Range } from '@zoom-studio/zoom-js-ts-utils';
+import { type Range } from '@zoom-studio/js-ts-utils';
 import { type EmojiNS } from '..';
 import { type BaseComponent, type CommonSize } from '../../types';
 export declare namespace ReactionRateNS {

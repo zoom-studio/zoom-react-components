@@ -1,6 +1,6 @@
 import React, { useState, type FC } from 'react'
 
-import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+import { type UseObjectedStateNS } from '@zoom-studio/js-ts-utils'
 
 import {
   ExplorerDialog,

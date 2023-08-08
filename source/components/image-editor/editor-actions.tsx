@@ -1,7 +1,7 @@
 import React, { type FC, type RefObject, useEffect } from 'react'
 
 import { type CropperRef } from 'react-advanced-cropper'
-import { classNames, type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, type UseObjectedStateNS } from '@zoom-studio/js-ts-utils'
 
 import {
   Divider,

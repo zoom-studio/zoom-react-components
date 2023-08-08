@@ -1,9 +1,6 @@
 import { useState } from 'react'
 
-import {
-  useVariable,
-  usernameRegEx as usernameRegularExpression,
-} from '@zoom-studio/zoom-js-ts-utils'
+import { useVariable, usernameRegEx as usernameRegularExpression } from '@zoom-studio/js-ts-utils'
 import { type BaseRange, Range } from 'slate'
 
 import { type RichTextEditorMakerProviderNS } from '../provider'

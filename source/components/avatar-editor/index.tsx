@@ -1,6 +1,6 @@
 import React, { forwardRef, type MutableRefObject, useEffect, useRef, useState } from 'react'
 
-import { useVariable, base64ToFile, canvasToBlobURL } from '@zoom-studio/zoom-js-ts-utils'
+import { useVariable, base64ToFile, canvasToBlobURL } from '@zoom-studio/js-ts-utils'
 import AvatarEditorComponent, {
   type ImageState as AvatarEditorAvatarState,
   type Position,

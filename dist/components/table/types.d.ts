@@ -1,6 +1,6 @@
 import { type FC, type MouseEvent, type RefObject } from 'react';
 import { type ColumnDef } from '@tanstack/react-table';
-import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils';
+import { type MaybeString } from '@zoom-studio/js-ts-utils';
 import { type CellNS, type ColumnGroupNS, type ColumnNS, type FooterCellNS, type HeaderCellNS } from './table-components';
 import { type UseTableI18nNS } from './use-i18n';
 import { type BaseComponent } from '../../types';

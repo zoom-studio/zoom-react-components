@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useMemo, useState } from 'react'
 
-import { Dated, useFutureEffect, type DatedNS, type Range } from '@zoom-studio/zoom-js-ts-utils'
-import { type IsEqualNS } from '@zoom-studio/zoom-js-ts-utils/utilities/dated/utilities'
+import { Dated, useFutureEffect, type DatedNS, type Range } from '@zoom-studio/js-ts-utils'
+import { type IsEqualNS } from '@zoom-studio/js-ts-utils/dist/utilities/dated/utilities'
 import { type KhayyamNS } from 'omar-khayyam'
 
 import { Button, Select, Text, type ButtonNS, type SelectNS } from '..'

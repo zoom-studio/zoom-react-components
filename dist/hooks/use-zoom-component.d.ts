@@ -19,5 +19,7 @@ export declare const useZoomComponent: (componentName: string) => {
         table?: import("../components/table/use-i18n").UseTableI18nNS.I18n | undefined;
         chatBubble?: import("../components/chat-bubble/use-i18n").UseChatBubbleI18nNS.I18n | undefined;
         chatInput?: import("../components/chat-input/use-i18n").UseChatInputI18nNS.I18n | undefined;
+        datePicker?: import("../components/date-picker/use-i18n").UseDatePickerI18nNS.I18n | undefined;
+        qrCodePopover?: import("../components/qr-code-popover/use-i18n").UseQRCodePopoverI18nNS.I18n | undefined;
     } | undefined;
 };

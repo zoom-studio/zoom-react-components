@@ -4,9 +4,14 @@ import { type BaseComponent, type BaseInputComponent, type CommonSize, type Data
 export declare namespace InputNS {
     type TextSize = Pick<TypographyNS.TextNS.Props, 'small' | 'normal' | 'large'>;
     type Type = Exclude<HTMLInputTypeAttribute, 'button' | 'checkbox' | 'radio' | object> | 'numeral-keypad-text';
-    interface Props extends BaseInputComponent, BaseComponent {
+    interface ComboBoxPartedItem {
+        value: string;
+        matched: boolean;
+    }
+    interface Props extends Omit<BaseInputComponent, 'inputRef' | 'value'>, BaseComponent {
         onWrite?: (value: string) => void;
         onTogglePasswordVisibility?: (isVisible: boolean) => void;
+        comboBox?: string[];
         labelProps?: HTMLAttributes<HTMLSpanElement>;
         labelContainerProps?: HTMLAttributes<HTMLLabelElement>;
         labelTextProps?: TypographyNS.TextNS.Props;
@@ -25,6 +30,8 @@ export declare namespace InputNS {
         searchClearButton?: boolean;
         numberButtonHandlers?: boolean;
         autoDirection?: boolean;
+        changeStyleOnFocus?: boolean;
+        value?: string;
     }
 }
 export declare const Input: React.ForwardRefExoticComponent<InputNS.Props & React.RefAttributes<HTMLDivElement>>;

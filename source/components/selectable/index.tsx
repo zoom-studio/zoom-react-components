@@ -1,7 +1,7 @@
 import React, { cloneElement, useState, type FC } from 'react'
 
 import SelectionArea, { type SelectionEvent } from '@viselect/react'
-import { classNames, useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, useFutureEffect } from '@zoom-studio/js-ts-utils'
 
 import { ConditionalWrapper } from '..'
 import { useZoomComponent } from '../../hooks'

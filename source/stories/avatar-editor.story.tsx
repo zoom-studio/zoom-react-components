@@ -1,7 +1,7 @@
 import React, { type FC } from 'react'
 
 import { type Meta } from '@storybook/react'
-import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
+import { randomImage } from '@zoom-studio/js-ts-utils'
 
 import { AvatarEditor, type AvatarEditorNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'

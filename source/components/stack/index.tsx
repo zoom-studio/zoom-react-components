@@ -5,7 +5,7 @@ import React, {
   type ReactNode,
   type RefAttributes,
 } from 'react'
-import { type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeArray } from '@zoom-studio/js-ts-utils'
 
 import { useZoomComponent } from '../../hooks'
 import { type BaseComponent } from '../../types'

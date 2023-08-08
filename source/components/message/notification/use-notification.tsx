@@ -1,7 +1,7 @@
 import React from 'react'
 
 import toaster from 'react-hot-toast'
-import { useAudio, type UseAudioNS } from '@zoom-studio/zoom-js-ts-utils'
+import { useAudio, type UseAudioNS } from '@zoom-studio/js-ts-utils'
 
 import { type CommonVariants } from '../../../types'
 

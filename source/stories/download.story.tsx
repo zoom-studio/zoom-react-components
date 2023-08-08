@@ -3,7 +3,7 @@ import React, { type FC } from 'react'
 import { type Meta } from '@storybook/react'
 
 import { Button, Download, type DownloadNS, Progress } from '../components'
-import { formatFileSize } from '@zoom-studio/zoom-js-ts-utils'
+import { formatFileSize } from '@zoom-studio/js-ts-utils'
 
 export default {
   title: 'Utility/Download',

@@ -1,6 +1,6 @@
 import React, { forwardRef, type MouseEvent } from 'react'
 
-import { type Range } from '@zoom-studio/zoom-js-ts-utils'
+import { type Range } from '@zoom-studio/js-ts-utils'
 
 import { Button, Emoji, type EmojiNS } from '..'
 import { useComponentSize, useZoomComponent } from '../../hooks'

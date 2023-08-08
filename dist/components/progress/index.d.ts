@@ -1,5 +1,5 @@
 import React from 'react';
-import { type MaybeArray } from '@zoom-studio/zoom-js-ts-utils';
+import { type MaybeArray } from '@zoom-studio/js-ts-utils';
 import { type PopoverNS } from '..';
 import { type BaseComponent, type Color as ColorType } from '../../types';
 export declare namespace ProgressNS {

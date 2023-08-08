@@ -6,7 +6,7 @@ import { ChatBubble, type ChatBubbleNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'
 import { MESSAGE } from '../fixtures'
 import { faker } from '@faker-js/faker'
-import { randomNumber } from '@zoom-studio/zoom-js-ts-utils'
+import { randomNumber } from '@zoom-studio/js-ts-utils'
 
 export default {
   title: 'Chat/Bubble',

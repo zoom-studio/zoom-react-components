@@ -1,7 +1,7 @@
 import { type FC, type MouseEvent, type RefObject } from 'react'
 
 import { type ColumnDef } from '@tanstack/react-table'
-import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeString } from '@zoom-studio/js-ts-utils'
 
 import {
   type CellNS,

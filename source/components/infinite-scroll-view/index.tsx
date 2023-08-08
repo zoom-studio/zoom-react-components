@@ -10,7 +10,7 @@ import React, {
   type RefObject,
 } from 'react'
 
-import { type Nullish } from '@zoom-studio/zoom-js-ts-utils'
+import { type Nullish } from '@zoom-studio/js-ts-utils'
 import { type Dictionary, isArray } from 'lodash'
 
 import { ConditionalWrapper, ScrollView, Spin, Title, type ScrollViewNS, type SpinNS } from '..'

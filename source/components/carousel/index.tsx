@@ -7,7 +7,7 @@ import React, {
   type RefObject,
 } from 'react'
 
-import { classNames, doByRef, waitForScrollEnd } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, doByRef, waitForScrollEnd } from '@zoom-studio/js-ts-utils'
 
 import { Button, Title, type ButtonNS } from '..'
 import { logs } from '../../constants'

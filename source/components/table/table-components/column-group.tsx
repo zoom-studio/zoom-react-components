@@ -1,6 +1,6 @@
 import React, { type FC } from 'react'
 
-import { type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeArray } from '@zoom-studio/js-ts-utils'
 
 export namespace ColumnGroupNS {
   export interface Props {

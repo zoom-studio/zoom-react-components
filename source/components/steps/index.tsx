@@ -1,6 +1,6 @@
 import React, { Fragment, forwardRef, type MouseEvent, type ReactNode } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 import { Icon, Progress, ScrollView, Spin, Text } from '..'
 import { useZoomComponent } from '../../hooks'

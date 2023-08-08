@@ -4,6 +4,7 @@ export declare enum logs {
   inputNotFoundInputRef = 'ZOOMRC/INPUT/NOT_FOUND_INPUT_REF',
   inputNotFoundLabelRef = 'ZOOMRC/INPUT/NOT_FOUND_LABEL_REF',
   selectNotFoundOptionsListRef = 'ZOOMRC/SELECT/NOT_FOUND_OPTIONS_LIST_REF',
+  selectNotFoundScrollRef = 'ZOOMRC/SELECT/NOT_FOUND_SCROLL_REF',
   selectNotFoundContainerRef = 'ZOOMRC/SELECT/NOT_FOUND_CONTAINER_REF',
   selectNotFoundInputRef = 'ZOOMRC/SELECT/NOT_FOUND_INPUT_REF',
   textareaNotFoundTextareaRef = 'ZOOMRC/TEXTAREA/NOT_FOUND_TEXTAREA_REF',
@@ -27,4 +28,9 @@ export declare enum logs {
   tableGeneratorTableRefNotFound = 'ZOOMRC/TABLE_GENERATOR/TABLE_REF_NOT_FOUND',
   tableTableElementTableRefNotFound = 'ZOOMRC/TABLE_TABLE_ELEMENT_TABLE_REF_NOT_FOUND',
   avatarEditorContainerRefNotFound = 'ZOOMRC/AVATAR_EDITOR/CONTAINER_REF_NOT_FOUND',
+  qrCodeQrCodeContainerRefNotFound = 'ZOOMRC/QR_CODE/QR_CODE_CONTAINER_REF_NOT_FOUND',
+  qrCodeQrCodeRefNotFound = 'ZOOMRC/QR_CODE/QR_CODE_REF_NOT_FOUND',
+  carouselSlidesRefNotFound = 'ZOOMRC/CAROUSEL/SLIDES_REF_NOT_FOUND',
+  commandBodyRefNotFound = 'ZOOMRC/COMMAND/BODY_REF_NOT_FOUND',
+  commandHeaderRefNotFound = 'ZOOMRC/COMMAND/HEADER_REF_NOT_FOUND',
 }

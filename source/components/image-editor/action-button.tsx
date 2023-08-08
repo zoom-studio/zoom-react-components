@@ -1,4 +1,4 @@
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 import React, { type FC } from 'react'
 
 import { Button, type IconNS, Tooltip } from '..'

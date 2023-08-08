@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils';
+import { type UseObjectedStateNS } from '@zoom-studio/js-ts-utils';
 import { type RichTextEditorMakerNS, type RichTextEditorNS } from '../../..';
 export declare namespace FileExplorerNS {
     interface Props extends Pick<RichTextEditorNS.Props, 'fileExplorerProps'> {

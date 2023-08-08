@@ -7,7 +7,7 @@ import React, {
   type RefObject,
 } from 'react'
 
-import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeString } from '@zoom-studio/js-ts-utils'
 import AutoSizer, { type Props as AutoSizerProps, type Size } from 'react-virtualized-auto-sizer'
 import { FixedSizeList, type FixedSizeListProps, type ListChildComponentProps } from 'react-window'
 

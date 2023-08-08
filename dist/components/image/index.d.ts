@@ -1,4 +1,4 @@
-import React, { type MouseEvent } from 'react';
+import React, { type HTMLAttributes, type MouseEvent } from 'react';
 import { type ImageViewerNS } from '..';
 import { type BaseComponent } from '../../types';
 export declare namespace ImageNS {
@@ -18,6 +18,7 @@ export declare namespace ImageNS {
         imageViewerProps?: Omit<ImageViewerNS.Props, 'images' | 'children'>;
         erroredStateIconFontSize?: string;
         onOpenImageViewerClick?: (evt: MouseEvent<HTMLPictureElement>) => void;
+        imageProps?: HTMLAttributes<HTMLImageElement>;
     }
 }
 export declare const Image: React.ForwardRefExoticComponent<ImageNS.Props & React.RefAttributes<HTMLImageElement>>;

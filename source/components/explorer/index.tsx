@@ -1,6 +1,6 @@
 import React, { forwardRef, useMemo, useState, type FormEvent } from 'react'
 
-import { useFutureEffect, useObjectedState, type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
+import { useFutureEffect, useObjectedState, type MaybeString } from '@zoom-studio/js-ts-utils'
 
 import {
   Dialog,

@@ -6,7 +6,7 @@ import { RichUtils, useEditorContext } from '../../utils'
 import { ColActions } from './col-actions'
 import { TableElementNS } from './types'
 import { useTableDOM } from './use-dom'
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 export const TableElement: FC<TableElementNS.Props> = ({ children, attributes, element }) => {
   const { editor, readonly } = useEditorContext()

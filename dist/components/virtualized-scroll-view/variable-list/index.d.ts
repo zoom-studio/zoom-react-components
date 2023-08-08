@@ -1,7 +1,7 @@
 import React, { type ComponentProps, type PropsWithChildren, type RefObject } from 'react';
+import { type MaybeString } from '@zoom-studio/js-ts-utils';
 import { type Props as AutoSizerProps } from 'react-virtualized-auto-sizer';
-import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils';
-import { type ListChildComponentProps, VariableSizeList, type VariableSizeListProps } from 'react-window';
+import { VariableSizeList, type ListChildComponentProps, type VariableSizeListProps } from 'react-window';
 import { type VirtualizedScrollViewNS } from '..';
 export declare namespace VariableListVirtualizedScrollViewNS {
     type Ref = VariableSizeList<any>;
@@ -23,4 +23,4 @@ export declare namespace VariableListVirtualizedScrollViewNS {
     }
     type ChildRenderer<DataType extends unknown[] = unknown[]> = (args: ListChildComponentProps<DataType>) => React.FunctionComponentElement<unknown>;
 }
-export declare function VariableListVirtualizedScrollView<DataType extends unknown[] = unknown[]>({ children, dataset, scrollViewProps, reference, width, height, autoSizerProps, ...rest }: VariableListVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element;
+export declare function VariableListVirtualizedScrollView<DataType extends unknown[] = unknown[]>({ children, dataset, scrollViewProps, reference, width, height, autoSizerProps, scrollViewRef, ...rest }: VariableListVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element;

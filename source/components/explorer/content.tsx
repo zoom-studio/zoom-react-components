@@ -1,6 +1,6 @@
 import React, { type FC } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 import { Alert, Selectable, type AlertNS, type ExplorerNS } from '..'
 

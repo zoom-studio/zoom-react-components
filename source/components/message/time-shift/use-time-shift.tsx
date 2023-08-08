@@ -1,7 +1,7 @@
 import React from 'react'
 
 import toaster from 'react-hot-toast'
-import { useAudio, type UseAudioNS } from '@zoom-studio/zoom-js-ts-utils'
+import { useAudio, type UseAudioNS } from '@zoom-studio/js-ts-utils'
 
 import { TimeShift, type TimeShiftNS } from '../time-shift'
 import { DEFAULT_TIME_SHIFT_DURATION, TOASTER_CLASS_NAME } from '../constants'

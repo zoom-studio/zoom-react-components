@@ -1,6 +1,6 @@
 import React, { type MouseEvent, forwardRef, useRef, type Ref } from 'react'
 
-import { formatFileSize } from '@zoom-studio/zoom-js-ts-utils'
+import { formatFileSize } from '@zoom-studio/js-ts-utils'
 
 import { ConditionalWrapper, ExplorerNS, Icon, Image, Progress, SVGIcon, Text, Title } from '../..'
 import { useComponentSize, useZoomComponent, useZoomContext } from '../../hooks'

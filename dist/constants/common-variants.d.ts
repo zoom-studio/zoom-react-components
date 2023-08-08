@@ -1,1 +1,1 @@
-export declare const COMMON_VARIANTS: readonly ['neutral', 'success', 'info', 'warning', 'error']
+export declare const COMMON_VARIANTS: readonly ["neutral", "success", "info", "warning", "error"];

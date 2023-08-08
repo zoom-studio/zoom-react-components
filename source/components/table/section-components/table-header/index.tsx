@@ -1,7 +1,7 @@
 import React, { type CSSProperties, type FC, type MouseEvent } from 'react'
 
 import { flexRender, type Header, type Table } from '@tanstack/react-table'
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 import { type TableNS } from '../../types'
 import { SVGIcon, type SVGIconNS } from '../../../'

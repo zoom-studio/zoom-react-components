@@ -8,7 +8,7 @@ export interface BaseComponent<Container extends HTMLElement = HTMLDivElement> {
     style?: CSSProperties;
 }
 declare const VitalInputPropsObject: readonly ["onChange", "onInput", "defaultChecked", "checked", "value", "defaultValue", "accept", "required", "onBlur", "onFocus", "placeholder", "autoFocus"];
-type VitalInputProps = (typeof VitalInputPropsObject)[number];
+export type VitalInputProps = (typeof VitalInputPropsObject)[number];
 type InputProps = Pick<InputHTMLAttributes<HTMLInputElement>, VitalInputProps>;
 export interface BaseInputComponent extends InputProps {
     inputProps?: Omit<InputHTMLAttributes<HTMLInputElement>, VitalInputProps>;

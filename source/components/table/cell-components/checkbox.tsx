@@ -1,7 +1,7 @@
 import React, { type FC, type MutableRefObject, useEffect } from 'react'
 
 import { type Row } from '@tanstack/react-table'
-import { useDragWithoutGhost } from '@zoom-studio/zoom-js-ts-utils'
+import { useDragWithoutGhost } from '@zoom-studio/js-ts-utils'
 
 import { Checkbox, type CheckboxNS } from '../..'
 

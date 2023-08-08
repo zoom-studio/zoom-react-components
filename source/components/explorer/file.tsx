@@ -1,6 +1,6 @@
 import React, { type FC, type MouseEvent } from 'react'
 
-import { classNames, useDownload } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, useDownload } from '@zoom-studio/js-ts-utils'
 
 import { ContextMenu, type SelectableNS, Text } from '..'
 import { type MenuItemNS } from '../menu/menu-item'

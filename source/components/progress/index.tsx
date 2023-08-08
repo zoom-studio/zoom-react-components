@@ -1,6 +1,6 @@
 import React, { type CSSProperties, forwardRef } from 'react'
 
-import { type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeArray } from '@zoom-studio/js-ts-utils'
 
 import { Popover, type PopoverNS } from '..'
 import { useZoomComponent } from '../../hooks'

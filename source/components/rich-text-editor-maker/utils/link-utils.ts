@@ -1,4 +1,4 @@
-import { type UseObjectedStateNS } from '@zoom-studio/zoom-js-ts-utils'
+import { type UseObjectedStateNS } from '@zoom-studio/js-ts-utils'
 import { type BaseRange } from 'slate'
 
 import { type RichTextEditorMakerNS } from '../..'

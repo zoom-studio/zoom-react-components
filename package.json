@@ -72,7 +72,7 @@
     "@tanstack/react-table": "8.9.1",
     "@tanstack/react-virtual": "^3.0.0-beta.54",
     "@viselect/react": "^3.2.7",
-    "@zoom-studio/zoom-js-ts-utils": "file:../utils/dist",
+    "@zoom-studio/js-ts-utils": "^0.0.0",
     "lodash": "^4.17.21",
     "omar-khayyam": "^1.0.0",
     "overlayscrollbars": "2.1.1",

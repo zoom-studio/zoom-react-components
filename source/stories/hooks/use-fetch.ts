@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 
 import { faker } from '@faker-js/faker'
-import { sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { sleep } from '@zoom-studio/js-ts-utils'
 
 export namespace UseFetchNS {
   export interface Prams {

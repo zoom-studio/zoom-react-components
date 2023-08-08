@@ -1,6 +1,6 @@
 import React, { forwardRef, useId, type HTMLAttributes } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 import { Text } from '..'
 

@@ -1,6 +1,6 @@
 import React, { type FC } from 'react'
 
-import { Dated, classNames, useVariable, type DatedNS } from '@zoom-studio/zoom-js-ts-utils'
+import { Dated, classNames, useVariable, type DatedNS } from '@zoom-studio/js-ts-utils'
 import { findIndex } from 'lodash'
 
 import { Text, type DatePickerNS } from '..'

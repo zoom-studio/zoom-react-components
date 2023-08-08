@@ -1,6 +1,6 @@
 import React, { type FC, type HTMLAttributes, type MouseEvent } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 import { CommandNS } from '.'
 import { ConditionalWrapper, Emoji, Icon, Text, Title, type IconNS } from '..'

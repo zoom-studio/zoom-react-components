@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useMemo } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 
 import { type BaseComponent } from '../../types'
 import { EMOJIS, EMOJI_GROUP_NAMES, EMOJI_NAMES, EMOJI_SUBGROUP_NAMES } from './constants'

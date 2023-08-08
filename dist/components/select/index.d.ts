@@ -1,49 +1,48 @@
-import React, { type HTMLAttributes, type RefObject } from 'react';
-import { type InputNS, type TypographyNS } from '..';
-import { type BaseComponent, type CommonSize, type DataEntriesState } from '../../types';
-import { type SelectGroupNS } from './group';
-import { type SelectOptionNS } from './option';
+import React, { type ReactNode } from 'react';
+import { type MaybeArray } from '@zoom-studio/js-ts-utils';
+import { type TypographyNS } from '..';
+import type { BaseComponent, CommonSize, DataEntriesState } from '../../types';
 export declare namespace SelectNS {
+    type PossibleValues = string | number;
     type EmptyState = 'nothing-found' | 'empty-list' | false;
-    type Option<Values extends SelectOptionNS.Value> = SelectGroupNS.Props<Values> & SelectOptionNS.Props<Values>;
-    type SingleOption = Pick<SelectOptionNS.Props<SelectOptionNS.Value>, 'value' | 'label'>;
-    type SelectedOption = SelectOptionNS.Value | SelectGroupNS.GroupedSelectedOptions;
-    type SingleSelectedOption<Values extends SelectOptionNS.Value> = [Values, Values?];
-    type SelectValue = Pick<Option<SelectOptionNS.Value>, 'label' | 'value'>;
-    type SelectOptions = (currentOptions: SelectNS.GroupedOptions, selectedOptions: SelectNS.SelectedOption) => SelectNS.GroupedOptions;
-    type GroupedOptions = Record<SelectOptionNS.Value, SelectGroupNS.GroupedProps>;
-    interface Props<Values extends SelectOptionNS.Value> extends BaseComponent {
-        options?: Option<Values>[];
-        multiSelect?: boolean;
-        reference?: RefObject<HTMLDivElement>;
+    interface Option<Value extends PossibleValues = number, Data = unknown> {
+        value: Value;
+        label?: string | number;
+        disabled?: boolean;
+        data?: Data;
+        groupTitle?: string;
+        groupOptions?: Omit<Option<Value, Data>, 'groupTitle' | 'groupOptions'>[];
+    }
+    interface CustomizedOption<Value extends PossibleValues = number, Data = unknown> extends Option<Value, Data> {
+        isChildOption?: boolean;
+    }
+    interface Props<MultiSelect extends boolean = false, Value extends PossibleValues = number, Data = unknown> extends Omit<BaseComponent, 'children'> {
+        options: Option<Value, Data>[];
+        size?: CommonSize;
         label?: string;
+        multiSelect?: MultiSelect;
         placeholder?: string;
         stateMessageProps?: TypographyNS.TextNS.Props;
-        dropdownProps?: HTMLAttributes<HTMLDivElement>;
-        size?: CommonSize;
         state?: DataEntriesState;
         disabled?: boolean;
         loading?: boolean;
         labelColon?: boolean;
         disabledOnLoading?: boolean;
-        optionsPerScroll?: number;
         showSearch?: boolean;
-        childRef?: RefObject<HTMLDivElement>;
-        dropdownRef?: RefObject<HTMLDivElement>;
-        defaultIsOpen?: boolean;
-        searchInputProps?: InputNS.Props;
-        searchInputRef?: RefObject<HTMLInputElement>;
-        selectAllText?: string;
-        deselectAllText?: string;
         searchQuery?: string;
+        searchPlaceholder?: string;
         nothingFoundText?: string;
         emptyListText?: string;
-        scrollOnOpen?: boolean;
-        onChange?: (options: SingleOption[]) => void;
-        defaultValue?: Values | Values[];
+        defaultValue?: MaybeArray<Value | Option<Value, Data>>;
+        optionsWidth?: string | number;
+        portalClassName?: string;
+        children?: (option: Option<Value, Data>) => ReactNode;
+        renderSelectedOption?: (option: Option<Value, Data>) => ReactNode;
+        optionSearchModel?: (option: Option<Value, Data>) => string;
         onWillOpen?: () => void;
         onWillClose?: () => void;
-        onWrite?: (values: Values[]) => void;
+        onWrite?: (values: MultiSelect extends true ? Value[] : Value) => void;
+        onChange?: (options: MultiSelect extends true ? Option<Value, Data>[] : Option<Value, Data>) => void;
     }
 }
-export declare const Select: <Values extends SelectOptionNS.Value>({ size: providedSize, options: providedOptions, childRef: providedChildRef, dropdownRef: providedDropdownRef, searchQuery: providedSearchQuery, labelColon, disabledOnLoading, showSearch, state, optionsPerScroll, selectAllText, deselectAllText, nothingFoundText, emptyListText, scrollOnOpen, className, searchInputRef, reference, containerProps, defaultIsOpen, defaultValue, disabled, dropdownProps, label, loading, multiSelect, onChange, onWillClose, onWillOpen, onWrite, placeholder, searchInputProps, stateMessageProps, ...rest }: SelectNS.Props<Values>) => React.JSX.Element;
+export declare const Select: <MultiSelect extends boolean = false, Value extends SelectNS.PossibleValues = number, Data = unknown>({ size: providedSize, searchQuery: providedSearchQuery, labelColon, disabledOnLoading, showSearch, state, nothingFoundText, emptyListText, children, renderSelectedOption, optionSearchModel, searchPlaceholder, className, portalClassName, defaultValue, containerProps, label, disabled, loading, multiSelect, placeholder, stateMessageProps, options, optionsWidth, onChange, onWillClose, onWillOpen, onWrite, ...rest }: SelectNS.Props<MultiSelect, Value, Data>) => React.JSX.Element;

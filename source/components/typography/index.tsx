@@ -1,6 +1,6 @@
 import React, { type ClassAttributes, forwardRef, type HTMLAttributes } from 'react'
 
-import { classNames, type Range } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames, type Range } from '@zoom-studio/js-ts-utils'
 
 import { type BaseComponent, type CommonSize } from '../../types'
 

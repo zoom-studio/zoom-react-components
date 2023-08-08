@@ -1,4 +1,4 @@
-import { fileToBase64 } from '@zoom-studio/zoom-js-ts-utils'
+import { fileToBase64 } from '@zoom-studio/js-ts-utils'
 
 import { isImage } from '../explorer/utils'
 

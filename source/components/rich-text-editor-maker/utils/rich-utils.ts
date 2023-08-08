@@ -1,4 +1,4 @@
-import { type Range, randomString } from '@zoom-studio/zoom-js-ts-utils'
+import { type Range, randomString } from '@zoom-studio/js-ts-utils'
 import {
   type BaseRange,
   type Descendant,

@@ -10,7 +10,7 @@ import {
   useListNavigation,
   useRole,
 } from '@floating-ui/react'
-import { useVariable } from '@zoom-studio/zoom-js-ts-utils'
+import { useVariable } from '@zoom-studio/js-ts-utils'
 
 export namespace UseComboBoxNS {
   export interface Params {

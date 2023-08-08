@@ -1,5 +1,5 @@
 import React, { type DependencyList } from 'react';
-import { type AsyncFunction } from '@zoom-studio/zoom-js-ts-utils';
+import { type AsyncFunction } from '@zoom-studio/js-ts-utils';
 export declare namespace AsyncWrapperNS {
     interface ChildrenCallbackParams<Processor extends AsyncFunction> {
         isProcessing: boolean;

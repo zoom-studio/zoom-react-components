@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { sleep } from '@zoom-studio/js-ts-utils'
 
 export namespace UseCustomFetchNS {
   export interface Prams<DataType> {

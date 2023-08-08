@@ -1,4 +1,4 @@
-import { URLRegEx } from '@zoom-studio/zoom-js-ts-utils'
+import { URLRegEx } from '@zoom-studio/js-ts-utils'
 
 import { type RichTextEditorMakerNS } from '../types'
 import { RichUtils } from '../utils'

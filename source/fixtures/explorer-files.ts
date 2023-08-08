@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { randomImage, randomNumber, randomPDF } from '@zoom-studio/zoom-js-ts-utils'
+import { randomImage, randomNumber, randomPDF } from '@zoom-studio/js-ts-utils'
 
 import { ExplorerNS } from '../components'
 

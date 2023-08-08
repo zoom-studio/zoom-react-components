@@ -1,7 +1,7 @@
 import React, { forwardRef, type ReactNode, useEffect, useState } from 'react'
 
 import Slider from 'react-rangeslider'
-import { useVariable } from '@zoom-studio/zoom-js-ts-utils'
+import { useVariable } from '@zoom-studio/js-ts-utils'
 
 import {
   Emoji,

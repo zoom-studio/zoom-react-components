@@ -2,7 +2,7 @@ import React, { type ReactNode, useRef } from 'react'
 
 import { type Row, type Table } from '@tanstack/react-table'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { useVariable } from '@zoom-studio/zoom-js-ts-utils'
+import { useVariable } from '@zoom-studio/js-ts-utils'
 
 import { type TableNS } from '../types'
 

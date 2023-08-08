@@ -1,4 +1,4 @@
-import { type AllRefType } from '@zoom-studio/zoom-js-ts-utils'
+import { type AllRefType } from '@zoom-studio/js-ts-utils'
 
 import { type ScrollViewNS } from '../scroll-view'
 

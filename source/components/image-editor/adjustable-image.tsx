@@ -1,6 +1,6 @@
 import React, { type CSSProperties, forwardRef, useLayoutEffect, useRef } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 import { CropperSource, mergeRefs } from 'react-advanced-cropper'
 
 export namespace AdjustableImageNS {

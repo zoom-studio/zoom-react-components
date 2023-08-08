@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, type FC, type MutableRefObject } from 'react'
 
-import { doByRef } from '@zoom-studio/zoom-js-ts-utils'
+import { doByRef } from '@zoom-studio/js-ts-utils'
 import type QRCodeStyling from 'qr-code-styling'
 
 import { type QRCodeNS } from '.'

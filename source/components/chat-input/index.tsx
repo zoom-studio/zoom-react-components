@@ -1,6 +1,6 @@
 import React, { forwardRef, type KeyboardEvent } from 'react'
 
-import { useObjectedState } from '@zoom-studio/zoom-js-ts-utils'
+import { useObjectedState } from '@zoom-studio/js-ts-utils'
 
 import {
   Button,

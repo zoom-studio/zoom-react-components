@@ -1,4 +1,4 @@
-import { type Range } from '@zoom-studio/zoom-js-ts-utils';
+import { type Range } from '@zoom-studio/js-ts-utils';
 import { type BaseRange, Node, Path } from 'slate';
 import { type EmojiNS, RichTextEditorMakerNS } from '../..';
 import { EditorCurrentWord } from '.';

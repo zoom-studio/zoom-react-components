@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react'
 
-import { makeElementDraggable } from '@zoom-studio/zoom-js-ts-utils'
+import { makeElementDraggable } from '@zoom-studio/js-ts-utils'
 
 import { useComponentSize, useZoomComponent } from '../../hooks'
 

@@ -1,7 +1,7 @@
 import React, { type FC } from 'react'
 
 import { type Meta } from '@storybook/react'
-import { sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { sleep } from '@zoom-studio/js-ts-utils'
 
 import { AsyncWrapper, Spin, Title } from '../components'
 import { color } from '../utils'

@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useEffect } from 'react'
 
-import { useObjectedState, useVariable } from '@zoom-studio/zoom-js-ts-utils'
+import { useObjectedState, useVariable } from '@zoom-studio/js-ts-utils'
 import { Editable, useSlate } from 'slate-react'
 
 import { useZoomComponent } from '../../hooks'

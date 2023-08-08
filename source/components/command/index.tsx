@@ -11,7 +11,7 @@ import React, {
   type RefObject,
 } from 'react'
 
-import { doByRef, sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { doByRef, sleep } from '@zoom-studio/js-ts-utils'
 
 import { Button, Portal, ScrollView, Text, type EmojiNS, type IconNS } from '..'
 import { logs } from '../../constants'

@@ -1,4 +1,4 @@
-import { randomNumber, randomString } from '@zoom-studio/zoom-js-ts-utils'
+import { randomNumber, randomString } from '@zoom-studio/js-ts-utils'
 
 import { CommandNS } from '../components'
 import { randomEmoji } from './random-emoji'

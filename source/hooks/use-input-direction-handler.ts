@@ -1,6 +1,6 @@
 import { type RefObject, useEffect } from 'react'
 
-import { isRTLLanguage } from '@zoom-studio/zoom-js-ts-utils'
+import { isRTLLanguage } from '@zoom-studio/js-ts-utils'
 
 import { useZoomContext } from './use-zoom-context'
 

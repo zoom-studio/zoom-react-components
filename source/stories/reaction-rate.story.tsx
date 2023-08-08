@@ -1,7 +1,7 @@
 import React, { type FC, useState } from 'react'
 
 import { type Meta } from '@storybook/react'
-import { sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { sleep } from '@zoom-studio/js-ts-utils'
 
 import { Checkbox, ReactionRate, type ReactionRateNS } from '..'
 import { CommonStory, StoryPlayground } from './components'

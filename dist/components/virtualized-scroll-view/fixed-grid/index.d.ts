@@ -1,7 +1,8 @@
-import React, { type ComponentProps, type PropsWithChildren, type RefObject } from 'react';
+import React, { type ComponentProps, type PropsWithChildren, type Ref as ReactRef, type RefObject } from 'react';
 import { type Props as AutoSizerProps } from 'react-virtualized-auto-sizer';
 import { FixedSizeGrid, type FixedSizeGridProps, type GridChildComponentProps } from 'react-window';
 import { type VirtualizedScrollViewNS } from '..';
+import { type ScrollViewNS } from '../..';
 export declare namespace FixedGridVirtualizedScrollViewNS {
     type Ref = FixedSizeGrid<any>;
     type PropsGetter<DataType extends unknown[][] = unknown[][]> = (width: number, height: number) => FixedSizeGridProps<DataType>;
@@ -17,10 +18,11 @@ export declare namespace FixedGridVirtualizedScrollViewNS {
         width: 'auto' | number;
         height: 'auto' | number;
         autoSizerProps?: Omit<AutoSizerProps, 'children'>;
+        scrollViewRef?: ReactRef<ScrollViewNS.ContainerNode>;
     }
     interface PropsObject<DataType extends unknown[][] = unknown[][]> extends Omit<PropsWithChildren<Props<DataType>>, 'children'> {
         children: JSX.Element | ((args: Child<DataType>) => JSX.Element);
     }
     type ChildRenderer<DataType extends unknown[][] = unknown[][]> = (args: GridChildComponentProps<DataType>) => React.FunctionComponentElement<unknown>;
 }
-export declare function FixedGridVirtualizedScrollView<DataType extends unknown[][] = unknown[][]>({ children, dataset, scrollViewProps, reference, width, height, autoSizerProps, ...rest }: FixedGridVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element;
+export declare function FixedGridVirtualizedScrollView<DataType extends unknown[][] = unknown[][]>({ children, dataset, scrollViewProps, reference, width, height, autoSizerProps, scrollViewRef, ...rest }: FixedGridVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element;

@@ -16,7 +16,7 @@ import {
   useRole,
   type SideObject,
 } from '@floating-ui/react'
-import { doByRef, sleep, useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
+import { doByRef, sleep, useFutureEffect } from '@zoom-studio/js-ts-utils'
 import { without } from 'lodash'
 
 import { type SelectNS } from '.'

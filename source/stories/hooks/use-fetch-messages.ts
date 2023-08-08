@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 
 import { faker } from '@faker-js/faker'
-import { randomNumber, sleep } from '@zoom-studio/zoom-js-ts-utils'
+import { randomNumber, sleep } from '@zoom-studio/js-ts-utils'
 
 import { type ChatBubbleNS } from '../..'
 import { MESSAGE } from '../../fixtures'

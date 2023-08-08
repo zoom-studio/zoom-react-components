@@ -10,7 +10,7 @@ import React, {
 } from 'react'
 
 import { onKeyDown } from '@prezly/slate-lists'
-import { useFutureEffect } from '@zoom-studio/zoom-js-ts-utils'
+import { useFutureEffect } from '@zoom-studio/js-ts-utils'
 import { type Descendant, createEditor } from 'slate'
 import { HistoryEditor, withHistory } from 'slate-history'
 import { Slate, withReact } from 'slate-react'

@@ -1,4 +1,4 @@
-import { type MaybeString } from '@zoom-studio/zoom-js-ts-utils'
+import { type MaybeString } from '@zoom-studio/js-ts-utils'
 
 export type TransitionTimingFunctions =
   | 'ease'

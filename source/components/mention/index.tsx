@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react'
 
-import { sleep, usernameRegEx as usernameRegularExpression } from '@zoom-studio/zoom-js-ts-utils'
+import { sleep, usernameRegEx as usernameRegularExpression } from '@zoom-studio/js-ts-utils'
 
 import { Avatar, ScrollView, Text, Textarea, type TextareaNS } from '..'
 import { logs } from '../../constants'

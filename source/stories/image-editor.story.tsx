@@ -2,7 +2,7 @@ import React, { type FC } from 'react'
 
 import { faker } from '@faker-js/faker'
 import { type Meta } from '@storybook/react'
-import { randomImage } from '@zoom-studio/zoom-js-ts-utils'
+import { randomImage } from '@zoom-studio/js-ts-utils'
 
 import { ImageEditor, type ImageEditorNS } from '../components'
 import { CommonStory, StoryPlayground } from './components'

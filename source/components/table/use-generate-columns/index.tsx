@@ -1,7 +1,7 @@
 import { Fragment, useMemo, useRef } from 'react'
 
 import { type ColumnDef, createColumnHelper } from '@tanstack/react-table'
-import { toArray, type MaybeArray } from '@zoom-studio/zoom-js-ts-utils'
+import { toArray, type MaybeArray } from '@zoom-studio/js-ts-utils'
 
 import { Cell, Column, ColumnGroup, FooterCell, HeaderCell } from '../table-components'
 import { type TableNS } from '../types'

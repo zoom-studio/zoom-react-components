@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
 } from 'react'
 
-import { classNames } from '@zoom-studio/zoom-js-ts-utils'
+import { classNames } from '@zoom-studio/js-ts-utils'
 import { renderToString } from 'react-dom/server'
 import { useReactToPrint, type IReactToPrintProps } from 'react-to-print'
 import {

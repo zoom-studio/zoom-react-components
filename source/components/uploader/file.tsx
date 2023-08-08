@@ -1,6 +1,6 @@
 import React, { type FC } from 'react'
 
-import { formatFileSize } from '@zoom-studio/zoom-js-ts-utils'
+import { formatFileSize } from '@zoom-studio/js-ts-utils'
 
 import {
   Button,

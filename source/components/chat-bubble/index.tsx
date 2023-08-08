@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 
 import { type Descendant } from 'slate'
-import { randomString } from '@zoom-studio/zoom-js-ts-utils'
+import { randomString } from '@zoom-studio/js-ts-utils'
 
 import type { BaseComponent } from '../../types'
 import { useZoomComponent } from '../../hooks'

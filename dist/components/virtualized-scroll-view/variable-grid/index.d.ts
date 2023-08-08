@@ -1,6 +1,6 @@
 import React, { type ComponentProps, type PropsWithChildren, type RefObject } from 'react';
 import { type Props as AutoSizerProps } from 'react-virtualized-auto-sizer';
-import { type GridChildComponentProps, VariableSizeGrid, type VariableSizeGridProps } from 'react-window';
+import { VariableSizeGrid, type GridChildComponentProps, type VariableSizeGridProps } from 'react-window';
 import { type VirtualizedScrollViewNS } from '..';
 export declare namespace VariableGridVirtualizedScrollViewNS {
     type Ref = VariableSizeGrid<any>;
@@ -23,4 +23,4 @@ export declare namespace VariableGridVirtualizedScrollViewNS {
     }
     type ChildRenderer<DataType extends unknown[][] = unknown[][]> = (args: GridChildComponentProps<DataType>) => React.FunctionComponentElement<unknown>;
 }
-export declare function VariableGridVirtualizedScrollView<DataType extends unknown[][] = unknown[][]>({ children, dataset, scrollViewProps, reference, width, height, autoSizerProps, ...rest }: VariableGridVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element;
+export declare function VariableGridVirtualizedScrollView<DataType extends unknown[][] = unknown[][]>({ children, dataset, scrollViewProps, reference, width, height, autoSizerProps, scrollViewRef, ...rest }: VariableGridVirtualizedScrollViewNS.PropsObject<DataType>): JSX.Element;

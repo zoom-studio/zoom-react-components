@@ -27,6 +27,7 @@ export default [
         output: true,
         failOnError: true,
         outputStyle: 'compressed',
+        fileName: 'index.css',
       }),
       babel({
         exclude: 'node_modules/**',
